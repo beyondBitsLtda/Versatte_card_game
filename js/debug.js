@@ -18,8 +18,9 @@ function fill(colId, target) {
 function allButOne(colId) {
   const col = COLLECTION_BY_ID[colId];
   const missing = col.cards.filter(c => ownedCount(c.uid) === 0);
-  // deixa de fora a carta mais rara que ainda falta
+  // deixa de fora a carta mais rara que ainda falta e devolve qual é
   missing.sort((a, b) => RARITIES[b.rarity].order - RARITIES[a.rarity].order).slice(1).forEach(c => addCard(c.uid));
+  return missing[0] || null;
 }
 
 export function openDebug(app) {
@@ -129,7 +130,7 @@ export function openDebug(app) {
       case 'f50': fill(debugCol, 0.5); return done('Coleção em 50%');
       case 'f75': fill(debugCol, 0.75); return done('Coleção em 75%');
       case 'f-1': allButOne(debugCol); return done('Falta só 1 carta');
-      case 'f100': fill(debugCol, 1); return done('Coleção completa!');
+      case 'f100': fill(debugCol, 1); save(); s.close(); toast('Coleção completa! Resgate os prêmios liberados.', { tone: 'ok' }); return app.go('prizes');
       case 'clear': removeCollection(debugCol); return done('Coleção limpa');
       case 'claims': state.claimed = {}; return done('Resgates resetados');
       case 'intro': s.close(); return app.intro();
@@ -143,10 +144,16 @@ export function openDebug(app) {
       case 'step-day': state.timeOffset = (state.timeOffset || 0) + DAY; save(); s.close(); return app.open(state.lastCollection, 'free');
       case 'step-shop': s.close(); return app.go('shop');
       case 'step-especial': state.premiumPacks += 1; state.forceNext = 'especial'; save(); s.close(); return app.open(state.lastCollection, 'premium');
-      case 'step-75': fill(debugCol, 0.75); save(); s.close(); return app.go('prizes');
-      case 'step-100': allButOne(debugCol); state.premiumPacks += 1; state.forceNext = null; save(); s.close();
-        toast('Falta só 1 carta! Abra o premium (ou use "Completar 100%")', { ms: 3500 });
-        return app.go('home');
+      case 'step-75': fill(debugCol, 0.75); state.lastCollection = debugCol; save(); s.close(); toast('Coleção em 75% — resgate a caneca.', { tone: 'ok' }); return app.go('prizes');
+      case 'step-100': {
+        // completa tudo menos 1 e garante a última carta no próximo premium, que já abre
+        const last = allButOne(debugCol);
+        s.close();
+        if (!last) { save(); toast('Coleção já está completa — resgate os prêmios.', { tone: 'ok' }); return app.go('prizes'); }
+        state.forceCard = last.uid; state.forceNext = null; state.premiumPacks += 1; state.lastCollection = debugCol; save();
+        toast(`Falta só ${last.name}! Ela vem neste pacote.`, { ms: 3000 });
+        return app.open(debugCol, 'premium');
+      }
     }
   });
 }

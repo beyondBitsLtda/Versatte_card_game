@@ -14,6 +14,7 @@ function fresh() {
     timeOffset: 0,             // ms — relógio simulado (debug)
     pity: 0,                   // pacotes premium seguidos sem Especial
     forceNext: null,           // raridade forçada no próximo pacote (debug)
+    forceCard: null,           // carta garantida no próximo pacote (debug)
     claimed: {},               // prizeId -> { code, at }
     stats: { opened: 0, free: 0, premium: 0, cards: 0, spent: 0 },
     settings: { sound: true, intro: true, debug: true, tilt: true },

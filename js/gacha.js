@@ -61,6 +61,9 @@ export function openPack(collectionId, type) {
     pityCount: state.pity,
   });
   state.forceNext = null;
+  const forced = state.forceCard && COLLECTION_BY_ID[collectionId].cards.find(c => c.uid === state.forceCard);
+  if (forced && !cards.some(c => c.uid === forced.uid)) cards[cards.length - 1] = forced;
+  state.forceCard = null;
 
   if (type === 'premium') {
     state.pity = cards.some(c => c.rarity === 'especial') ? 0 : state.pity + 1;
