@@ -16,6 +16,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800;1,900&family=Barlow:wght@400;500;600;700&display=swap">
+  <script>
+    /* Ajuste de tela: mede a área visível e, se o celular abrir a página com viewport de
+       desktop (ex.: "Site para computador"), aplica zoom para tudo voltar ao tamanho real. */
+    (function () {
+      var d = document.documentElement, z0 = 0;
+      function fit() {
+        var iw = window.innerWidth, ih = window.innerHeight, sw = screen.width, z = 1;
+        var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+        if (coarse && sw && sw < 760 && iw > sw * 1.2) z = iw / sw;
+        else if (coarse && !z0 && window.visualViewport && visualViewport.scale < 0.8) z = 1 / visualViewport.scale;
+        z0 = z;
+        d.style.zoom = z > 1 ? String(z) : '';
+        d.classList.toggle('zoomed', z > 1);
+        var w = iw / z, hh = ih / z;
+        d.style.setProperty('--vw', w / 100 + 'px');
+        d.style.setProperty('--vh', hh / 100 + 'px');
+        d.style.setProperty('--vmax', Math.max(w, hh) / 100 + 'px');
+        d.style.setProperty('--vmin', Math.min(w, hh) / 100 + 'px');
+      }
+      fit();
+      window.addEventListener('resize', fit);
+      window.addEventListener('orientationchange', function () { setTimeout(fit, 250); });
+      if (window.visualViewport) visualViewport.addEventListener('resize', function () { if (!z0 || z0 === 1) fit(); });
+    })();
+  </script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>

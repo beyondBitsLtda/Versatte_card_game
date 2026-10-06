@@ -88,7 +88,7 @@ export function startOpening(collectionId, type, { onDone } = {}) {
     if (phase !== 'tear' || lastX == null) return;
     const dx = Math.abs(e.clientX - lastX);
     lastX = e.clientX;
-    prog = Math.min(1, prog + dx / (pack.offsetWidth * 0.75)); // um deslize de ponta a ponta já rasga
+    prog = Math.min(1, prog + dx / (pack.getBoundingClientRect().width * 0.75)); // um deslize de ponta a ponta já rasga
     pack.style.setProperty('--cut', prog.toFixed(3));
     pack.classList.add('cutting');
     if (prog - lastTick > 0.08) {
