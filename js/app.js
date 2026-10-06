@@ -66,8 +66,8 @@ function renderChrome() {
   $('#chips').innerHTML = `
     <button class="chip-stat" data-go="shop" aria-label="Pontos">${icon.coin}<b>${state.points}</b></button>
     <button class="chip-stat premium" data-go="shop" aria-label="Pacotes premium">${icon.pack}<b>${state.premiumPacks}</b></button>
+    ${state.settings.debug ? `<button class="chip-icon" data-debug aria-label="Modo debug">${icon.bug}</button>` : ''}
     <button class="avatar" data-profile aria-label="Perfil">${esc((state.user?.name || '?')[0].toUpperCase())}</button>`;
-  $('#dbg-fab').hidden = !state.settings.debug;
 }
 
 // ---------- intro ----------
@@ -106,7 +106,6 @@ async function boot() {
   if (!state.user) {
     await playIntro();
     $('#tabbar').innerHTML = ''; $('#chips').innerHTML = '';
-    $('#dbg-fab').hidden = true;
     viewEl.replaceChildren(signupView(() => { document.body.classList.add('signed'); render(); }));
     return;
   }
@@ -124,8 +123,8 @@ document.addEventListener('click', e => {
   const g = e.target.closest('[data-go]');
   if (g && g.closest('#chips')) { sfx.tap(); app.go(g.dataset.go); }
   if (e.target.closest('[data-profile]')) { sfx.tap(); openProfile(app); }
+  if (e.target.closest('[data-debug]')) { sfx.tap(); openDebug(app); }
 });
-$('#dbg-fab').addEventListener('click', () => { sfx.tap(); openDebug(app); });
 $('.brand').addEventListener('click', () => app.go('home'));
 
 // ativa o modo debug pela URL (?debug=1) mesmo se estiver desligado

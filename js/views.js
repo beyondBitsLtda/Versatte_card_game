@@ -22,16 +22,15 @@ export function homeView(app) {
 
   const node = el(`
   <section class="view home">
-    <div class="hello">
-      <span class="muted">Olá, ${firstName}</span>
-      <h1>Qual pacote vamos <em>abrir</em> hoje?</h1>
-    </div>
-
-    <div class="free-banner ${free ? 'on' : ''}">
-      ${icon.clock}
-      <div>
-        <b>${free ? 'Seu pacote diário está disponível!' : 'Próximo pacote grátis em'}</b>
-        <span class="countdown">${free ? '3 cartas grátis, escolha a coleção abaixo' : fmtCountdown(msToNextFree())}</span>
+   <div class="hero">
+    <div class="hero-top">
+      <div class="hello">
+        <span class="muted">Olá, ${firstName}</span>
+        <h1>Abra seu <em>pacote</em></h1>
+      </div>
+      <div class="free-pill ${free ? 'on' : ''}">
+        ${icon.clock}
+        <span>${free ? 'Grátis hoje' : `<small>Grátis em</small> <b class="countdown">${fmtCountdown(msToNextFree())}</b>`}</span>
       </div>
     </div>
 
@@ -57,11 +56,14 @@ export function homeView(app) {
       </button>
       ${state.premiumPacks > 0
         ? `<button class="btn premium big" data-act="premium">${icon.sparkle} Premium <span class="pill">${state.premiumPacks}</span></button>`
-        : `<button class="btn premium big" data-act="shop">${icon.bag} Comprar pacotes</button>`}
+        : `<button class="btn premium big" data-act="shop">${icon.bag} Comprar</button>`}
     </div>
+   </div>
+
+   <div class="home-more">
 
     ${ready.length ? `
-      <button class="prize-unlock" data-act="prizes">
+      <button class="prize-unlock first" data-act="prizes">
         ${icon.gift}<div><b>Você tem ${ready.length} prêmio(s) para resgatar</b><span>${ready.map(p => esc(p.title)).join(' · ')}</span></div>${icon.arrow}
       </button>` : ''}
 
@@ -86,6 +88,7 @@ export function homeView(app) {
     <div class="upcoming">
       ${UPCOMING.map(u => `<div class="up-tile">${icon.lock}<b>${esc(u.name)}</b><span>${esc(u.when)}</span></div>`).join('')}
     </div>
+   </div>
   </section>`);
 
   // carrossel
@@ -122,7 +125,7 @@ export function homeView(app) {
 
   // contagem regressiva
   const timer = setInterval(() => {
-    if (freeAvailable() && !node.querySelector('.free-banner.on')) return app.refresh();
+    if (freeAvailable() && !node.querySelector('.free-pill.on')) return app.refresh();
     node.querySelectorAll('.countdown').forEach(c => { if (!freeAvailable()) c.textContent = fmtCountdown(msToNextFree()); });
   }, 1000);
   cleanups.push(() => clearInterval(timer));
@@ -203,7 +206,7 @@ export function cardsView(app) {
   list.sort(sorters[u.sort]);
 
   const node = el(`
-  <section class="view mycards">
+  <section class="view mycards ${list.length && u.mode === 'showcase' ? 'fit' : ''}">
     <div class="vh">
       <h2>Minhas cartas</h2>
       <div class="seg small">
@@ -227,7 +230,9 @@ export function cardsView(app) {
       <button class="btn primary" data-go="home">Ir para pacotes</button></div>`
     : u.mode === 'showcase' ? `
       <div class="showcase">
+        <div class="sc-spacer"></div>
         ${list.map(c => `<div class="sc-item" data-uid="${c.uid}">${cardHTML(c, { size: 'lg', count: ownedCount(c.uid) })}</div>`).join('')}
+        <div class="sc-spacer"></div>
       </div>
       <div class="sc-caption"></div>`
     : `<div class="album-grid">${list.map(c => `<button class="slot-owned" data-uid="${c.uid}">${cardHTML(c, { size: 'sm', count: ownedCount(c.uid) })}</button>`).join('')}</div>`}
