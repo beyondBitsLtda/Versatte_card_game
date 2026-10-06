@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#04070D">
+  <meta name="description" content="Versatte Cards — colecione cartas dos clubes e ídolos da Série A e troque por brindes. Protótipo por Beyond Bits.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Versatte Cards">
+  <title>Versatte Cards</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800;1,900&family=Barlow:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="bg-glow g1"></div>
+    <div class="bg-glow g2"></div>
+    <div class="bg-grid"></div>
+    <img class="bg-wm" src="assets/logo-versatte.png" alt="">
+  </div>
+
+  <div class="shell">
+    <header class="topbar">
+      <button class="brand" aria-label="Início">
+        <img src="assets/logo-versatte.png" alt="">
+        <span>VERSATTE <b>CARDS</b></span>
+      </button>
+      <div class="chips" id="chips"></div>
+    </header>
+    <main id="view" class="viewport"></main>
+    <nav id="tabbar" class="tabbar" aria-label="Navegação"></nav>
+    <button id="dbg-fab" class="dbg-fab" aria-label="Modo debug" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="8" width="10" height="12" rx="5"/><path d="M12 8v12M9 5l1.5 2M15 5l-1.5 2M3.5 12H7M17 12h3.5M4.5 17.5 7 16M19.5 17.5 17 16M4.5 7.5 7 9M19.5 7.5 17 9"/></svg>
+    </button>
+  </div>
+
+  <div id="overlay-root"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <div id="intro" class="intro" hidden>
+    <div class="in-beyond">
+      <div class="in-sweep"></div>
+      <img src="assets/logo-beyond.png" alt="Beyond Bits">
+      <span>apresenta</span>
+    </div>
+    <div class="in-vs">
+      <div class="in-ring"></div>
+      <div class="in-ring r2"></div>
+      <img src="assets/logo-versatte.png" alt="Versatte">
+      <h1>VERSATTE <b>CARDS</b></h1>
+      <p>Colecione · Complete · Ganhe</p>
+      <span class="in-tap">Toque para começar</span>
+    </div>
+    <button class="in-skip">Pular</button>
+  </div>
+
+  <noscript>Ative o JavaScript para jogar Versatte Cards.</noscript>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
