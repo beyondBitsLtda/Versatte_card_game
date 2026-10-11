@@ -1,10 +1,10 @@
 // Telas do app. Cada view recebe `app` = { go(route, params), refresh(), open(collectionId, type) }.
-import { COLLECTIONS, COLLECTION_BY_ID, CARD_BY_UID, RARITIES, RARITY_ORDER, PRIZES, SHOP, PACKS, UPCOMING, ALL_CARDS, POSITIONS, CREST_MORAL } from './data.js';
-import { state, save, progress, ownedCount, freeAvailable, msToNextFree, prizeStatus, claimPrize } from './state.js';
+import { COLLECTIONS, COLLECTION_BY_ID, CARD_BY_UID, RARITIES, RARITY_ORDER, PRIZES, SHOP, PACKS, UPCOMING, ALL_CARDS, POSITIONS, CREST_MORAL, PACK_TYPES, PACK_STYLE, COINS } from './data.js';
+import { state, save, progress, ownedCount, freeAvailable, msToNextFree, prizeStatus, claimPrize, packCount, addPacks, totalPacks } from './state.js';
 import { cardHTML, slotHTML, rarityTag, gem, abilityText } from './cards.js';
 import { packHTML } from './pack.js';
 import { packOdds } from './gacha.js';
-import { attachTilt, sfx, haptic, confetti, enableGyro } from './fx.js';
+import { attachTilt, sfx, haptic, confetti, enableGyro, centerOf, burst } from './fx.js';
 import { icon, esc, el, sheet, overlay, toast, fmtMoney, fmtPct, fmtDate, fmtCountdown, wait } from './ui.js';
 
 const ui = { album: { col: COLLECTIONS[0].id, filter: 'all', rarity: null }, cards: { mode: 'showcase', sort: 'rarity', col: 'all' } };
@@ -54,9 +54,9 @@ export function homeView(app) {
       <button class="btn primary big" data-act="free" ${free ? '' : 'disabled'}>
         ${free ? `${icon.pack} Abrir grátis` : `${icon.clock} <span class="countdown">${fmtCountdown(msToNextFree())}</span>`}
       </button>
-      ${state.premiumPacks > 0
-        ? `<button class="btn premium big" data-act="premium">${icon.sparkle} Premium <span class="pill">${state.premiumPacks}</span></button>`
-        : `<button class="btn premium big" data-act="shop">${icon.bag} Comprar</button>`}
+      ${totalPacks() > 0
+        ? `<button class="btn premium big" data-act="mypacks">${icon.pack} Meus pacotes <span class="pill">${totalPacks()}</span></button>`
+        : `<button class="btn premium big" data-act="shop">${icon.coin} Trocar moedas</button>`}
     </div>
    </div>
 
@@ -126,7 +126,7 @@ export function homeView(app) {
   car.querySelectorAll('.pack-slide').forEach(s => s.addEventListener('click', () => {
     enableGyro();
     if (freeAvailable() && !COLLECTION_BY_ID[s.dataset.col].premiumOnly) app.open(s.dataset.col, 'free');
-    else if (state.premiumPacks > 0) app.open(s.dataset.col, 'premium');
+    else if (totalPacks() > 0) openMyPacks(app, s.dataset.col);
     else app.go('shop');
   }));
 
@@ -137,7 +137,7 @@ export function homeView(app) {
     const act = b.dataset.act;
     if (b.dataset.colOpen) { ui.album.col = b.dataset.colOpen; return app.go('album'); }
     if (act === 'free') app.open(syncCurrent(), 'free');
-    else if (act === 'premium') app.open(syncCurrent(), 'premium');
+    else if (act === 'mypacks') openMyPacks(app, syncCurrent());
     else app.go(act);
   });
 
@@ -244,7 +244,7 @@ export function cardsView(app) {
       <div><b>${ALL_CARDS.filter(c => ownedCount(c.uid) > 0).length}</b><span>únicas</span></div>
       <div><b>${totalCopies}</b><span>no total</span></div>
       <div><b>${totalCopies - ALL_CARDS.filter(c => ownedCount(c.uid) > 0).length}</b><span>repetidas</span></div>
-      <div><b>${state.points}</b><span>pontos</span></div>
+      <div><b>${state.coins}</b><span>moedas</span></div>
     </div>
     <div class="filters">
       ${[['all', 'Todas'], ...COLLECTIONS.map(c => [c.id, c.short])].map(([k, l]) => `<button class="chip ${u.col === k ? 'on' : ''}" data-col="${k}">${esc(l)}</button>`).join('')}
@@ -471,8 +471,32 @@ export function shopView(app) {
   const oddsF = packOdds('free'), oddsP = packOdds('premium');
   const node = el(`
   <section class="view shop">
-    <div class="vh"><h2>Loja</h2><span class="pill">${icon.pack} ${state.premiumPacks} premium</span></div>
-    <p class="muted lead">Pacotes premium têm 4 cartas, a 4ª é sempre Rara ou melhor, e chances maiores de cartas novas.</p>
+    <div class="vh"><h2>Loja</h2><span class="pill">${icon.pack} ${totalPacks()} pacote(s)</span></div>
+
+    <div class="wallet">
+      <div class="wl-coin">${icon.coin}</div>
+      <div class="wl-txt"><span>Suas moedas</span><b>${state.coins.toLocaleString('pt-BR')}</b></div>
+      <button class="link-btn" data-earn>Como ganhar?</button>
+    </div>
+
+    <h3 class="shop-h">Trocar moedas por pacotes</h3>
+    <div class="coin-offers">
+      ${SHOP.coinOffers.map(o => {
+        const can = state.coins >= o.price;
+        return `
+        <div class="co t-${o.type} ${can ? 'can' : ''}">
+          <div class="co-pack"><i></i><i></i></div>
+          <div class="co-txt">
+            <b>Pacote ${PACK_STYLE[o.type].short.toLowerCase()}</b>
+            <span>${o.desc}</span>
+            ${can ? '' : `<div class="bar"><i style="--to:${Math.min(1, state.coins / o.price)}"></i></div><small>faltam ${o.price - state.coins} moedas</small>`}
+          </div>
+          <button class="btn ${can ? 'primary' : 'ghost'} sm co-btn" data-coinbuy="${o.type}" ${can ? '' : 'disabled'}>${icon.coin} ${o.price}</button>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <h3 class="shop-h">Pacotes premium</h3>
     <div class="offers">
       ${SHOP.offers.map(o => `
         <button class="offer ${o.tag ? 'tagged' : ''}" data-buy="${o.id}">
@@ -482,12 +506,6 @@ export function shopView(app) {
           ${o.bonus ? `<span class="o-bonus">+${o.bonus} de bônus</span>` : '<span class="o-bonus dim">&nbsp;</span>'}
           <span class="o-price">${fmtMoney(o.price)}</span>
         </button>`).join('')}
-    </div>
-
-    <div class="points-box">
-      <div class="pb-txt">${icon.coin}<div><b>${state.points} pontos</b><span>Cartas repetidas viram pontos. ${SHOP.pointsPerPack} pontos = 1 pacote premium.</span></div></div>
-      <div class="bar"><i style="--to:${Math.min(1, state.points / SHOP.pointsPerPack)}"></i></div>
-      <button class="btn ghost" data-redeem ${state.points >= SHOP.pointsPerPack ? '' : 'disabled'}>Trocar ${SHOP.pointsPerPack} pontos</button>
     </div>
 
     <div class="odds">
@@ -500,7 +518,9 @@ export function shopView(app) {
       </table>
       <ul class="fine-list">
         <li><b>Diário:</b> ${PACKS.free.cards} cartas; ${Math.round(PACKS.free.dupBias * 100)}% de tendência a repetir cartas que você já tem.</li>
+        <li><b>Básico:</b> ${PACKS.basico.cards} cartas; só ${Math.round(PACKS.basico.dupBias * 100)}% de tendência a repetir.</li>
         <li><b>Premium:</b> ${PACKS.premium.cards} cartas; ${Math.round(PACKS.premium.newBoost * 100)}% de tendência a trazer cartas que faltam.</li>
+        <li><b>Lendário:</b> ${PACKS.lendario.cards} cartas; a 4ª é Muito rara (80%) ou Especial (20%).</li>
         <li><b>Garantia:</b> a cada ${PACKS.premium.pity.after} pacotes premium sem Especial, o próximo traz uma.</li>
       </ul>
     </div>
@@ -511,12 +531,79 @@ export function shopView(app) {
     const b = e.target.closest('button');
     if (!b) return;
     if (b.dataset.buy) { sfx.tap(); checkout(SHOP.offers.find(o => o.id === b.dataset.buy), app); }
-    if (b.hasAttribute('data-redeem') && state.points >= SHOP.pointsPerPack) {
-      state.points -= SHOP.pointsPerPack; state.premiumPacks += 1; save();
-      sfx.coin(); haptic(20); toast('+1 pacote premium', { tone: 'ok' }); app.refresh();
+    if (b.hasAttribute('data-earn')) { sfx.tap(); openEarnInfo(); }
+    if (b.dataset.coinbuy) {
+      const o = SHOP.coinOffers.find(x => x.type === b.dataset.coinbuy);
+      if (state.coins < o.price) return;
+      state.coins -= o.price; addPacks(o.type, 1); save();
+      sfx.coin(); haptic([20, 30, 40]);
+      const c = centerOf(b);
+      burst(c.x, c.y, { colors: ['#FFC940', '#fff', '#FF8A1F'], count: 40, speed: 7, shape: 'star', size: 2.4 });
+      const s2 = sheet(`
+        <div class="claim">
+          <div class="claim-ico ok">${icon.pack}</div>
+          <h2>Pacote ${PACK_STYLE[o.type].short.toLowerCase()}!</h2>
+          <p class="muted">Trocado por ${o.price} moedas. Escolha a coleção na tela inicial.</p>
+          <button class="btn primary big" data-now>Abrir agora</button>
+          <button class="link-btn" data-close>Depois</button>
+        </div>`, { onClose: () => app.refresh() });
+      s2.node.querySelector('[data-now]').addEventListener('click', () => {
+        s2.close();
+        const po = COLLECTION_BY_ID[state.lastCollection]?.premiumOnly && o.type === 'basico';
+        app.open(po ? COLLECTIONS[0].id : state.lastCollection, o.type);
+      });
     }
   });
   return node;
+}
+
+/** Como ganhar moedas. */
+export function openEarnInfo() {
+  sheet(`
+    <div class="earn">
+      <h2>Como ganhar moedas</h2>
+      <div class="earn-list">
+        <div><span>⚽</span><b>Vitória no Modo Clube</b><em>+${COINS.win}</em></div>
+        <div><span>🤝</span><b>Empate</b><em>+${COINS.draw}</em></div>
+        <div><span>💪</span><b>Derrota (participação)</b><em>+${COINS.loss}</em></div>
+        <div><span>🥅</span><b>Cada gol marcado</b><em>+${COINS.goal}</em></div>
+        <div><span>🧤</span><b>Não sofrer gol</b><em>+${COINS.cleanSheet}</em></div>
+        <div><span>🔥</span><b>A cada 3 vitórias seguidas</b><em>+${COINS.streak3}</em></div>
+        <div><span>🎁</span><b>A cada 5 vitórias seguidas</b><em>+1 básico</em></div>
+        <div><span>🏆</span><b>Título da Liga</b><em>+${COINS.title} +1 premium</em></div>
+        <div><span>🃏</span><b>Carta repetida</b><em>+5 a +100</em></div>
+      </div>
+      <p class="fine">Amistosos rendem metade. Troque as moedas por pacotes na Loja.</p>
+    </div>`);
+}
+
+/** Escolher qual pacote do inventário abrir. */
+export function openMyPacks(app, collectionId) {
+  const col = COLLECTION_BY_ID[collectionId];
+  const s = sheet(`
+    <div class="mypacks">
+      <h2>Meus pacotes</h2>
+      <p class="muted">Abrir na coleção <b>${esc(col.name)}</b></p>
+      <div class="mp-list">
+        ${PACK_TYPES.map(t => {
+          const n = packCount(t);
+          const blocked = col.premiumOnly && t === 'basico';
+          return `
+          <button class="mp t-${t}" data-open="${t}" ${n > 0 && !blocked ? '' : 'disabled'}>
+            <div class="co-pack"><i></i><i></i></div>
+            <div class="co-txt"><b>Pacote ${PACK_STYLE[t].short.toLowerCase()}</b><span>${blocked ? 'não disponível nesta coleção' : PACK_STYLE[t].badge.split('· ')[1]}</span></div>
+            <span class="mp-n">×${n}</span>
+          </button>`;
+        }).join('')}
+      </div>
+      <button class="btn ghost wide" data-shop>${icon.coin} Trocar moedas por pacotes</button>
+    </div>`);
+  s.node.addEventListener('click', e => {
+    const b = e.target.closest('[data-open],[data-shop]'); if (!b) return;
+    s.close();
+    if (b.hasAttribute('data-shop')) return app.go('shop');
+    setTimeout(() => app.open(collectionId, b.dataset.open), 200);
+  });
 }
 
 function checkout(o, app) {
@@ -580,10 +667,11 @@ export function signupView(onDone) {
     const f = new FormData(e.target);
     state.user = { name: String(f.get('name')).trim(), email: String(f.get('email')).trim(), createdAt: Date.now() };
     state.premiumPacks += 1;
+    state.coins += COINS.welcome;
     save();
     sfx.win();
     onDone();
-    setTimeout(() => toast(`${icon.sparkle} Bônus de boas-vindas: 1 pacote premium!`, { tone: 'ok', ms: 3500 }), 400);
+    setTimeout(() => toast(`${icon.sparkle} Boas-vindas: 1 pacote premium + ${COINS.welcome} moedas!`, { tone: 'ok', ms: 3500 }), 400);
   });
   return node;
 }

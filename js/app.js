@@ -1,5 +1,6 @@
 // Ponto de entrada: intro, cadastro, roteamento por hash e barra de navegação.
-import { state, save, onChange, freeAvailable, readyPrizes } from './state.js';
+import { state, save, onChange, freeAvailable, readyPrizes, packCount, totalPacks } from './state.js';
+import { PACK_STYLE, COLLECTION_BY_ID } from './data.js';
 import { homeView, albumView, cardsView, prizesView, shopView, signupView, openProfile, cleanupView } from './views.js';
 import { startOpening } from './pack.js';
 import { openDebug } from './debug.js';
@@ -29,14 +30,16 @@ const app = {
   refresh: () => render(true),
   open(collectionId, type) {
     if (type === 'free' && !freeAvailable()) return toast('Pacote diário já aberto hoje. Volte amanhã!');
-    if (type === 'premium' && state.premiumPacks <= 0) { toast('Sem pacotes premium — que tal a loja?'); return app.go('shop'); }
+    if (type !== 'free' && packCount(type) <= 0) { toast(`Sem pacote ${PACK_STYLE[type].short.toLowerCase()} — troque moedas na Loja`); return app.go('shop'); }
+    if (type === 'free' && COLLECTION_BY_ID[collectionId]?.premiumOnly) return toast('Esta coleção só sai em pacotes premium ou lendários');
     startOpening(collectionId, type, {
       onDone(next) {
         render(true);
         if (!next) return;
         if (next.again) {
-          const t = freeAvailable() ? 'free' : 'premium';
-          setTimeout(() => app.open(next.collection, t), 250);
+          const po = COLLECTION_BY_ID[next.collection]?.premiumOnly;
+          const t = freeAvailable() && !po ? 'free' : (next.type && packCount(next.type) > 0 ? next.type : ['premium', 'lendario', 'basico'].find(x => packCount(x) > 0 && !(po && x === 'basico')));
+          if (t) setTimeout(() => app.open(next.collection, t), 250); else app.go('shop');
         } else app.go(next.route);
       },
     });
@@ -67,8 +70,8 @@ function renderChrome() {
       ${k === 'home' && freeAvailable() ? '<i class="dot"></i>' : ''}
     </a>`).join('');
   $('#chips').innerHTML = `
-    <button class="chip-stat" data-go="shop" aria-label="Pontos">${icon.coin}<b>${state.points}</b></button>
-    <button class="chip-stat premium" data-go="shop" aria-label="Pacotes premium">${icon.pack}<b>${state.premiumPacks}</b></button>
+    <button class="chip-stat" data-go="shop" data-coins aria-label="Moedas">${icon.coin}<b>${state.coins}</b></button>
+    <button class="chip-stat premium" data-go="shop" aria-label="Pacotes">${icon.pack}<b>${totalPacks()}</b></button>
     ${state.settings.debug ? `<button class="chip-icon" data-debug aria-label="Modo debug">${icon.bug}</button>` : ''}
     <button class="avatar" data-profile aria-label="Perfil">${esc((state.user?.name || '?')[0].toUpperCase())}</button>`;
 }

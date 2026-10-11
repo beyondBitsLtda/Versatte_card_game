@@ -9,7 +9,8 @@ function fresh() {
     user: null,                // { name, email, createdAt }
     owned: {},                 // uid -> { n, first, last }
     premiumPacks: 0,
-    points: 0,
+    inv: { basico: 0, lendario: 0 },  // outros pacotes (premium fica em premiumPacks)
+    coins: 0,                  // moedas Versatte
     lastFreeDay: null,         // 'YYYY-MM-DD' do último pacote grátis
     timeOffset: 0,             // ms — relógio simulado (debug)
     pity: 0,                   // pacotes premium seguidos sem Especial
@@ -31,7 +32,8 @@ function load() {
     if (!raw) return fresh();
     const s = JSON.parse(raw);
     const base = fresh();
-    return { ...base, ...s, stats: { ...base.stats, ...s.stats }, settings: { ...base.settings, ...s.settings }, game: { ...base.game, ...s.game } };
+    if (s.coins == null && s.points != null) s.coins = s.points;
+    return { ...base, ...s, inv: { ...base.inv, ...s.inv }, stats: { ...base.stats, ...s.stats }, settings: { ...base.settings, ...s.settings }, game: { ...base.game, ...s.game } };
   } catch {
     return fresh();
   }
@@ -52,6 +54,18 @@ export function resetAll() {
   Object.assign(state, fresh(), { settings: keepSettings });
   save();
 }
+
+// ---------- pacotes ----------
+export const packCount = type => (type === 'premium' ? state.premiumPacks : state.inv[type] || 0);
+export function addPacks(type, n = 1) {
+  if (type === 'premium') state.premiumPacks += n;
+  else state.inv[type] = (state.inv[type] || 0) + n;
+}
+export function usePack(type) {
+  if (type === 'premium') state.premiumPacks = Math.max(0, state.premiumPacks - 1);
+  else state.inv[type] = Math.max(0, (state.inv[type] || 0) - 1);
+}
+export const totalPacks = () => state.premiumPacks + Object.values(state.inv).reduce((a, b) => a + b, 0);
 
 // ---------- relógio ----------
 export const now = () => Date.now() + (state.timeOffset || 0);

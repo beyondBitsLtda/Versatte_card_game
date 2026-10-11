@@ -48,6 +48,42 @@ export const PACKS = {
     // garantia: após N pacotes premium sem Especial, o próximo traz uma
     pity: { rarity: 'especial', after: 15 },
   },
+  // ---- pacotes trocados por moedas
+  basico: {
+    id: 'basico',
+    label: 'Pacote básico',
+    cards: 3,
+    slots: [
+      { comum: 0.68, rara: 0.25, muito: 0.06, especial: 0.01 },
+      { comum: 0.68, rara: 0.25, muito: 0.06, especial: 0.01 },
+      { comum: 0.68, rara: 0.25, muito: 0.06, especial: 0.01 },
+    ],
+    dupBias: 0.25,
+    newBoost: 0,
+    pity: null,
+  },
+  lendario: {
+    id: 'lendario',
+    label: 'Pacote lendário',
+    cards: 4,
+    slots: [
+      { comum: 0.40, rara: 0.40, muito: 0.16, especial: 0.04 },
+      { comum: 0.40, rara: 0.40, muito: 0.16, especial: 0.04 },
+      { comum: 0,    rara: 0.70, muito: 0.24, especial: 0.06 },
+      // 4ª carta garantida Muito rara ou melhor
+      { comum: 0,    rara: 0,    muito: 0.80, especial: 0.20 },
+    ],
+    dupBias: 0,
+    newBoost: 0.30,
+    pity: null,
+  },
+};
+export const PACK_TYPES = ['premium', 'lendario', 'basico'];
+export const PACK_STYLE = {
+  free:     { badge: 'DIÁRIO · 3 CARTAS',   short: 'Diário' },
+  basico:   { badge: 'BÁSICO · 3 CARTAS',   short: 'Básico' },
+  premium:  { badge: 'PREMIUM · 4 CARTAS',  short: 'Premium' },
+  lendario: { badge: 'LENDÁRIO · 4 CARTAS', short: 'Lendário' },
 };
 
 export const SHOP = {
@@ -56,7 +92,40 @@ export const SHOP = {
     { id: 'p5',  packs: 5,  price: 19.90, label: '5 pacotes',  tag: 'Mais vendido', bonus: 1 },
     { id: 'p12', packs: 12, price: 39.90, label: '12 pacotes', tag: 'Melhor valor', bonus: 3 },
   ],
-  pointsPerPack: 250,
+  // troca de moedas por pacotes
+  coinOffers: [
+    { type: 'basico',   price: 120, desc: '3 cartas · menos repetidas que o diário' },
+    { type: 'premium',  price: 300, desc: '4 cartas · a 4ª é Rara ou melhor' },
+    { type: 'lendario', price: 900, desc: '4 cartas · a 4ª é Muito rara ou melhor' },
+  ],
+};
+
+// ------------------------------------------------------------
+//  Economia: moedas Versatte
+//  Ganhas nas partidas do Modo Clube e com cartas repetidas
+//  (RARITIES[x].points); trocadas por pacotes na Loja.
+// ------------------------------------------------------------
+export const COINS = {
+  win: 30, draw: 12, loss: 5,      // por resultado
+  goal: 4,                         // por gol marcado
+  cleanSheet: 6,                   // não sofrer gol
+  streak3: 40,                     // a cada 3 vitórias seguidas
+  streak5Pack: 'basico',           // a cada 5 vitórias seguidas
+  title: 200, titlePack: 'premium', vice: 80, third: 40, other: 15,
+  friendly: 0.5,                   // amistoso rende metade
+  welcome: 100,                    // bônus de cadastro
+};
+
+// ------------------------------------------------------------
+//  Empréstimo do baralho (Modo Clube): cartas que o jogador não
+//  tem podem ser usadas, sempre com desempenho reduzido.
+// ------------------------------------------------------------
+export const LOAN = {
+  player: 0.7,         // atributos ×0,70
+  crestMoral: -2,      // moral do escudo −2 (mínimo 0) e sem química
+  stadium: 0.5,        // mando ×0,5
+  mascot: 0.5,         // força da habilidade ×0,5
+  maxPlayers: 3,       // no máximo 3 jogadores emprestados no elenco
 };
 
 // ============================================================

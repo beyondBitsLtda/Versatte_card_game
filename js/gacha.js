@@ -1,6 +1,6 @@
 // Motor de sorteio. Funções puras (rollPack/simulate) + aplicação no estado (openPack).
 import { PACKS, RARITIES, RARITY_ORDER, COLLECTION_BY_ID, SHOP } from './data.js';
-import { state, save, addCard, ownedCount, dayKey } from './state.js';
+import { state, save, addCard, ownedCount, dayKey, usePack } from './state.js';
 
 function pickRarity(odds, rng) {
   let r = rng();
@@ -53,7 +53,7 @@ export function rollPack(collectionId, type, opts = {}) {
 /** Abre um pacote "de verdade": consome, sorteia, grava e devolve o resultado. */
 export function openPack(collectionId, type) {
   if (type === 'free') state.lastFreeDay = dayKey();
-  else state.premiumPacks = Math.max(0, state.premiumPacks - 1);
+  else usePack(type);
 
   const { cards } = rollPack(collectionId, type, {
     isOwned: uid => ownedCount(uid) > 0,
@@ -76,9 +76,9 @@ export function openPack(collectionId, type) {
     points += pts;
     return { card, isNew, points: pts, copies: ownedCount(card.uid) };
   });
-  state.points += points;
+  state.coins += points;
   state.stats.opened += 1;
-  state.stats[type] += 1;
+  state.stats[type] = (state.stats[type] || 0) + 1;
   state.lastCollection = collectionId;
   save();
 

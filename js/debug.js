@@ -1,6 +1,6 @@
 // Painel de debug — simula todo o fluxo da demonstração.
 import { COLLECTIONS, COLLECTION_BY_ID, RARITIES, RARITY_ORDER, PACKS } from './data.js';
-import { state, save, resetAll, addCard, ownedCount, progress, removeCollection, dayKey } from './state.js';
+import { state, save, resetAll, addCard, ownedCount, progress, removeCollection, dayKey, addPacks } from './state.js';
 import { simulate } from './gacha.js';
 import { icon, sheet, toast, esc, fmtMoney } from './ui.js';
 import { sfx } from './fx.js';
@@ -57,11 +57,12 @@ export function openDebug(app) {
 
       <div class="dbg-sec">
         <h4>Compras e pontos</h4>
-        <p class="dbg-info">Premium: <b>${state.premiumPacks}</b> · Pontos: <b>${state.points}</b> · Garantia Especial: <b>${state.pity}/${PACKS.premium.pity.after}</b> · Gasto simulado: <b>${fmtMoney(state.stats.spent)}</b></p>
+        <p class="dbg-info">Premium: <b>${state.premiumPacks}</b> · Lendário: <b>${state.inv.lendario}</b> · Básico: <b>${state.inv.basico}</b> · Moedas: <b>${state.coins}</b> · Garantia Especial: <b>${state.pity}/${PACKS.premium.pity.after}</b> · Gasto simulado: <b>${fmtMoney(state.stats.spent)}</b></p>
         <div class="dbg-btns">
           <button data-a="p+1">+1 premium</button>
           <button data-a="p+10">+10 premium</button>
-          <button data-a="pts">+500 pontos</button>
+          <button data-a="lend">+1 lendário</button>
+          <button data-a="pts">+500 moedas</button>
           <button data-a="shop">Abrir loja</button>
         </div>
       </div>
@@ -139,7 +140,8 @@ export function openDebug(app) {
       case 'clock0': state.timeOffset = 0; return done('Relógio real');
       case 'p+1': state.premiumPacks += 1; return done('+1 premium');
       case 'p+10': state.premiumPacks += 10; return done('+10 premium');
-      case 'pts': state.points += 500; return done('+500 pontos');
+      case 'pts': state.coins += 500; return done('+500 moedas');
+      case 'lend': addPacks('lendario', 1); return done('+1 pacote lendário');
       case 'shop': s.close(); return app.go('shop');
       case 'f25': fill(debugCol, 0.25); return done('Coleção em 25%');
       case 'f50': fill(debugCol, 0.5); return done('Coleção em 50%');

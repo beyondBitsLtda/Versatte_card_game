@@ -1,13 +1,13 @@
 // Pacote 3D (CSS 3D) + sequência de abertura estilo TCG.
-import { COLLECTION_BY_ID, RARITIES } from './data.js';
-import { state, progress, readyPrizes, freeAvailable } from './state.js';
+import { COLLECTION_BY_ID, RARITIES, PACK_STYLE } from './data.js';
+import { state, progress, readyPrizes, freeAvailable, totalPacks } from './state.js';
 import { openPack } from './gacha.js';
 import { cardHTML, rarityTag } from './cards.js';
-import { burst, confetti, centerOf, sfx, haptic, attachTilt, enableGyro } from './fx.js';
+import { burst, confetti, centerOf, sfx, haptic, attachTilt, enableGyro, coinFly } from './fx.js';
 import { overlay, el, esc, icon, wait } from './ui.js';
 
 function packArt(col, type) {
-  const premium = type === 'premium';
+  const premium = type === 'premium' || type === 'lendario';
   const [l1, l2] = col.packTitle;
   return `
     <div class="pk-art">
@@ -19,7 +19,7 @@ function packArt(col, type) {
       <div class="pk-emblem"><img src="assets/logo-versatte.png" alt="" draggable="false"></div>
       <div class="pk-title"><span>${l1}</span><strong>${l2}</strong></div>
       ${col.premiumOnly ? '<div class="pk-special">EDIÇÃO ESPECIAL</div>' : ''}
-      <div class="pk-badge">${premium ? `${icon.sparkle} PREMIUM · 4 CARTAS` : 'DIÁRIO · 3 CARTAS'}</div>
+      <div class="pk-badge">${premium ? icon.sparkle + ' ' : ''}${PACK_STYLE[type].badge}</div>
       <div class="pk-shine"></div>
     </div>`;
 }
@@ -57,7 +57,7 @@ export function startOpening(collectionId, type, { onDone } = {}) {
   const ov = overlay(`
     <div class="open-bg" style="--glow:${col.theme.glow}"></div>
     <div class="open-head">
-      <span class="open-kind">${type === 'premium' ? 'Pacote premium' : 'Pacote diário'} · ${esc(col.name)}</span>
+      <span class="open-kind">Pacote ${PACK_STYLE[type].short.toLowerCase()} · ${esc(col.name)}</span>
       <button class="link-btn open-skip">Pular</button>
     </div>
     <div class="open-stage">
@@ -178,7 +178,7 @@ export function startOpening(collectionId, type, { onDone } = {}) {
     it.stopTilt = attachTilt(it.node, { max: 14 });
     chip.innerHTML = it.isNew
       ? `<b class="new">NOVA!</b> ${rarityTag(r)}`
-      : `<span class="dupe">Repetida · ×${it.copies}</span> <b class="pts">+${it.points} pts</b>`;
+      : `<span class="dupe">Repetida · ×${it.copies}</span> <b class="pts">${icon.coin}+${it.points}</b>`;
     chip.className = `reveal-chip show ${it.isNew ? 'is-new' : ''}`;
     if (!it.isNew) setTimeout(() => sfx.coin(), 250);
     it.revealed = true;
@@ -226,7 +226,7 @@ export function startOpening(collectionId, type, { onDone } = {}) {
     node.classList.remove('rays', 'flash', 'dim-muito', 'dim-especial');
     const after = progress(collectionId);
     const newPrizes = readyPrizes().filter(p => !readyBefore.has(p.id));
-    const canAgain = state.premiumPacks > 0 || freeAvailable();
+    const canAgain = totalPacks() > 0 || freeAvailable();
     const sorted = items.slice().sort((a, b) => RARITIES[b.card.rarity].order - RARITIES[a.card.rarity].order);
     const panel = el(`
       <div class="summary">
@@ -236,10 +236,10 @@ export function startOpening(collectionId, type, { onDone } = {}) {
           ${sorted.map((it, i) => `
             <div class="sum-item" style="--i:${i}" data-uid="${it.card.uid}">
               ${cardHTML(it.card, { size: 'sm' })}
-              <span class="sum-chip ${it.isNew ? 'new' : ''}">${it.isNew ? 'NOVA' : `+${it.points} pts`}</span>
+              <span class="sum-chip ${it.isNew ? 'new' : ''}">${it.isNew ? 'NOVA' : `+${it.points} moedas`}</span>
             </div>`).join('')}
         </div>
-        ${result.points ? `<div class="sum-points">${icon.coin}<span>+${result.points} pontos por repetidas</span></div>` : ''}
+        ${result.points ? `<div class="sum-points">${icon.coin}<span>+${result.points} moedas por repetidas</span></div>` : ''}
         <div class="sum-prog">
           <div class="sp-head"><span>${esc(col.name)}</span><b>${after.have}/${after.total}</b></div>
           <div class="bar"><i style="--from:${before.pct};--to:${after.pct}"></i></div>
@@ -259,13 +259,17 @@ export function startOpening(collectionId, type, { onDone } = {}) {
     node.querySelector('.open-skip').remove();
     if (newPrizes.length) { sfx.win(); confetti(['#FF8A1F', '#33B5FF', '#FFC940', '#fff']); }
 
-    const finish = go => { ov.close(); onDone && onDone(go); };
+    const finish = go => {
+      ov.close(); onDone && onDone(go);
+      // moedas das repetidas "voam" até o contador do topo
+      if (result.points && !(go && go.again)) setTimeout(() => coinFly(innerWidth / 2, innerHeight * 0.5, result.points, { total: state.coins }), 380);
+    };
     panel.addEventListener('click', e => {
       const b = e.target.closest('button');
       if (!b) return;
       sfx.tap();
       if (b.dataset.go) finish({ route: b.dataset.go, collection: collectionId });
-      else if (b.hasAttribute('data-again')) finish({ again: true, collection: collectionId });
+      else if (b.hasAttribute('data-again')) finish({ again: true, collection: collectionId, type });
       else if (b.hasAttribute('data-close-open')) finish(null);
     });
   }

@@ -38,12 +38,27 @@ Arquivo editável: [js/imagens.js](js/imagens.js). Ele traz uma linha por carta 
 
 ## Modo Clube (aba "Jogar")
 
-1. **Criar o clube:** dê um nome e escolha um **escudo** (carta de Clubes), um **estádio** e um **mascote** entre as cartas que você já tem.
+1. **Criar o clube:** dê um nome e escolha um **escudo** (carta de Clubes), um **estádio** e um **mascote**.
 2. **Escalar o elenco:** **5 titulares** (goleiro + 4) e **5 reservas**, em três formações:
    - 2-1-1: defensiva;
    - 1-2-1: equilibrada;
    - 1-1-2: ofensiva.
 3. **Disputar a Liga Versatte:** temporada de 8 clubes em turno único, com 7 rodadas. A cada temporada os rivais ficam mais fortes. Também há amistosos rápidos.
+
+### Empréstimo do baralho
+
+Quem ainda não tem a carta pode **pegar emprestado do baralho** (qualquer carta do jogo), sempre com desempenho reduzido. As regras ficam em `LOAN`, em [js/data.js](js/data.js):
+
+| Carta emprestada | Efeito |
+|---|---|
+| Jogador | atributos e OVR a **70%** · no máximo **3** emprestados no elenco |
+| Escudo | moral **−2** (mínimo 0) e **sem química** |
+| Estádio | mando **pela metade** |
+| Mascote | força da habilidade **pela metade** |
+
+- "Escalar melhores" usa primeiro as suas cartas e só pega empréstimo para preencher vagas.
+- Quando o jogador conquista a carta num pacote, ela deixa de ser empréstimo automaticamente e passa a render 100%.
+- Cartas emprestadas aparecem com a marca **EMP** e borda tracejada.
 
 ### Como as cartas influem no jogo
 
@@ -56,33 +71,63 @@ Arquivo editável: [js/imagens.js](js/imagens.js). Ele traz uma linha por carta 
 
 ### Como a partida é simulada
 
-O motor ([js/game/engine.js](js/game/engine.js)) simula os 90 minutos:
+O motor ([js/game/engine.js](js/game/engine.js)) decide o jogo:
 
 - **Posse de bola:** decidida pela **criação** de cada time.
 - **Chances de gol:** dependem de **ataque × defesa**.
 - **Finalização:** acerto, defesa, trave ou fora dependem de **ataque × (defesa + goleiro)**.
-- **Outros lances:** faltas, cartões, expulsões (o time expulso fica mais fraco), cansaço depois dos 60' e substituições automáticas aos 65'.
+- **Outros lances:** faltas, cartões, expulsões, cansaço depois dos 60' e substituições aos 65'.
 
-A tela da partida ([js/game/match.js](js/game/match.js)) encena o resultado como **futebol de botão** em campo neon. Os efeitos de cada lance:
+A tela da partida ([js/game/match.js](js/game/match.js)) **encena** esse resultado com física, em estilo futebol de botão.
 
-- **Gol:** "GOOOL", a carta do artilheiro, explosão de partículas, tremor, rede balançando e torcida.
-- **Defesa, trave e cartões:** cada um tem seu efeito próprio.
-- **Fim de jogo:** tela de vitória ou derrota com o craque do jogo e as estatísticas.
-- **Título:** troféu e confete.
+**Cada jogador é um agente independente:**
 
-A partida tem velocidade 1x/2x/4x e um botão para pular até o fim.
+- **Posicionamento:** o bloco do time sobe, desce e corre de lado acompanhando a bola.
+- **Sem a bola:** cada um ainda se desloca por conta própria. Atacantes e meias **infiltram** no espaço; defensores **marcam** o atacante mais próximo entre ele e o gol.
+- **Pressão e cobertura:** o defensor mais perto **pressiona** o portador e o segundo **faz a cobertura**.
+- **Goleiro:** acompanha a bola na frente do gol e **voa** nas defesas.
+- **Portador:** conduz com toquinhos, **dribla** fugindo do marcador e escolhe o **passe** pelo companheiro mais livre e mais à frente.
 
-**Recompensas** (alimentam a coleção):
+**A bola tem física:**
 
-| Situação | Prêmio |
+- **No chão e no ar:** atrito no gramado, altura (passes longos e chutes por cima) e quique.
+- **Passe:** mira onde o companheiro **vai estar**.
+- **Mureta:** a bola bate na lateral, como no futebol de botão.
+
+**Lances do motor construídos em campo:**
+
+- **Troca de posse:** acontece por **desarme** ou **passe interceptado**.
+- **Finalização:** o finalizador se apresenta, recebe, conduz até a zona de chute e bate.
+- **Desfechos:** gol na rede, defesa espalmada, trave com rebote ou bola para fora com tiro de meta.
+- **Bola parada:** pênalti com o posicionamento de todos fora da área, falta com o jogador derrubado e cartão, expulso saindo pela lateral.
+- **Gol:** o artilheiro corre para a bandeirinha, com o time atrás, e há nova saída de bola do meio.
+
+Efeitos: "GOOOL" com a carta do artilheiro, explosão de partículas, tremor, rede balançando, torcida, vibração e telas de vitória e título. A partida tem velocidade 1x/2x/4x e um botão para pular até o fim.
+
+## Economia: moedas Versatte
+
+As moedas são ganhas jogando e trocadas por pacotes na **Loja**. As regras ficam em `COINS` e `SHOP.coinOffers`, em [js/data.js](js/data.js).
+
+| Como ganhar | Moedas |
 |---|---|
-| Vitória | +40 pts |
-| Empate | +15 pts |
-| Derrota | +5 pts |
-| Cada gol | +5 pts |
-| 3 vitórias seguidas | +50 pts |
-| 5 vitórias seguidas | +1 pacote premium |
-| Título | +150 pts e +1 pacote premium |
+| Vitória / empate / derrota | +30 / +12 / +5 |
+| Cada gol marcado | +4 |
+| Não sofrer gol | +6 |
+| A cada 3 vitórias seguidas | +40 |
+| A cada 5 vitórias seguidas | +1 pacote básico |
+| Título da Liga | +200 e +1 pacote premium |
+| 2º / 3º / demais | +80 / +40 / +15 |
+| Carta repetida | +5 / +15 / +40 / +100 (pela raridade) |
+| Amistoso | metade |
+| Cadastro | +100 |
+
+| Trocar por | Preço | Conteúdo |
+|---|---|---|
+| Pacote básico | 120 | 3 cartas, menos repetidas que o diário |
+| Pacote premium | 300 | 4 cartas, a 4ª é Rara ou melhor |
+| Pacote lendário | 900 | 4 cartas, a 4ª é Muito rara (80%) ou Especial (20%) |
+
+Na média, uma partida rende cerca de 25 moedas. Um pacote básico sai a cada 4 ou 5 jogos e um premium a cada 12, aproximadamente. No fim de cada partida, as moedas "voam" até o contador do topo. Os pacotes ficam guardados em **Meus pacotes**, na tela inicial, e você escolhe em qual coleção abrir.
 
 ## Mecânica de sorteio
 
@@ -91,7 +136,6 @@ As regras ficam em [js/data.js](js/data.js) (`PACKS`, `PRIZES`, `SHOP`) e podem 
 - **Diário:** 70% comum · 24% rara · 5% muito rara · 1% especial por carta. Tem **55% de tendência a repetir** cartas que o jogador já tem.
 - **Premium:** 60/28/10/2% nas 3 primeiras cartas; a 4ª é Rara ou melhor (75/21/4%). Tem **15% de tendência a trazer cartas que faltam**.
 - **Garantia:** a cada 15 pacotes premium sem Especial, o próximo traz uma.
-- **Repetidas** viram pontos (5/15/40/100); 250 pontos = 1 pacote premium.
 
 ## Modo debug
 
@@ -101,7 +145,7 @@ Fica no ícone roxo no topo da tela. Ele oferece:
 - **Coleções e pacotes:** relógio simulado, forçar raridade e preencher coleção.
 - **Modo Clube:**
   - dar o kit inicial: escudo, 2 estádios, 2 mascotes e 12 jogadores de todas as posições;
-  - dar todas as cartas;
+  - dar todas as cartas e +1 pacote lendário ou +500 moedas;
   - criar um clube automático;
   - ir para a última rodada;
   - apagar o clube.

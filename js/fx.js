@@ -235,3 +235,45 @@ export function attachTilt(el, { max = 16, idle = true, target = el } = {}) {
   raf = requestAnimationFrame(step);
   return () => { alive = false; cancelAnimationFrame(raf); };
 }
+
+// ------------------------------------------------------------
+//  Moedas voando até o contador do topo
+// ------------------------------------------------------------
+export function coinFly(fromX, fromY, amount, { total = null, onDone } = {}) {
+  const chip = document.querySelector('[data-coins]');
+  if (!chip || amount <= 0) { onDone && onDone(); return; }
+  const target = chip.getBoundingClientRect();
+  const tx = target.left + 16, ty = target.top + target.height / 2;
+  const n = Math.min(14, 4 + Math.round(amount / 10));
+  const label = chip.querySelector('b');
+  // total = saldo final (já salvo); o contador anima de (total − amount) até total
+  const start = total != null ? total - amount : (Number(label.textContent.replace(/\D/g, '')) || 0);
+  label.textContent = start.toLocaleString('pt-BR');
+  let arrived = 0;
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement('div');
+    c.className = 'fly-coin';
+    document.body.appendChild(c);
+    const sx = fromX + (Math.random() - 0.5) * 60, sy = fromY + (Math.random() - 0.5) * 30;
+    const mx = (sx + tx) / 2 + (Math.random() - 0.5) * 120, my = Math.min(sy, ty) - 60 - Math.random() * 80;
+    const delay = i * 55, dur = 650 + Math.random() * 200;
+    const t0 = performance.now() + delay;
+    const step = t => {
+      const p = Math.max(0, Math.min(1, (t - t0) / dur));
+      const e = p * p * (3 - 2 * p);
+      const x = (1 - e) * (1 - e) * sx + 2 * (1 - e) * e * mx + e * e * tx;
+      const y = (1 - e) * (1 - e) * sy + 2 * (1 - e) * e * my + e * e * ty;
+      c.style.transform = `translate(${x - 9}px, ${y - 9}px) scale(${1.2 - e * 0.5}) rotate(${e * 540}deg)`;
+      c.style.opacity = p < 1 ? '1' : '0';
+      if (p < 1) requestAnimationFrame(step);
+      else {
+        c.remove(); arrived++;
+        sfx.tap();
+        label.textContent = Math.round(start + amount * (arrived / n)).toLocaleString('pt-BR');
+        chip.classList.remove('bump'); void chip.offsetWidth; chip.classList.add('bump');
+        if (arrived === n) { sfx.coin(); onDone && onDone(); }
+      }
+    };
+    requestAnimationFrame(step);
+  }
+}

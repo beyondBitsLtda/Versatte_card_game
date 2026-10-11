@@ -4,7 +4,7 @@
 //  minuto a minuto e liga (temporada) com tabela.
 //  Tudo aqui é puro: recebe dados, devolve resultados.
 // ============================================================
-import { CARD_BY_UID, TEAMS, TEAM_BY_ID, POSITIONS, CREST_MORAL } from '../data.js';
+import { CARD_BY_UID, TEAMS, TEAM_BY_ID, POSITIONS, CREST_MORAL, LOAN, COINS } from '../data.js';
 
 // ------------------------------------------------------------
 //  Formações (5 em campo: goleiro + 4)
@@ -22,32 +22,57 @@ const SURNAMES = ['Silva', 'Souza', 'Oliveira', 'Santos', 'Pereira', 'Costa', 'R
 /** O jogador está na posição natural da vaga? */
 export const naturalFor = (card, line) => !!card && POSITIONS[card.pos].line === line;
 
+/** Atributos efetivos: carta emprestada do baralho rende LOAN.player (75%). */
+export function effAttrs(card, loan = false) {
+  if (!loan) return card.attrs;
+  const o = {};
+  for (const k in card.attrs) o[k] = Math.round(card.attrs[k] * LOAN.player);
+  return o;
+}
+export const effOvr = (card, loan = false) => (loan ? Math.round(card.ovr * LOAN.player) : card.ovr);
+export const loanMoral = card => Math.max(0, CREST_MORAL[card.rarity] + LOAN.crestMoral);
+export const loanMando = card => Math.max(1, Math.round(card.mando * LOAN.stadium));
+export const loanPower = card => Math.max(1, Math.round(card.power * LOAN.mascot));
+
 /** Nota do jogador numa vaga: o atributo da linha (já reflete jogar fora de posição). */
-export function slotRating(card, line) {
-  return card ? card.attrs[line] : BASE_PLAYER[line];
+export function slotRating(card, line, loan = false) {
+  return card ? effAttrs(card, loan)[line] : BASE_PLAYER[line];
 }
 
-/** Melhor escalação automática com as cartas disponíveis. */
-export function autoLineup(playerUids, formation) {
-  const pool = playerUids.map(u => CARD_BY_UID[u]).filter(Boolean);
+/**
+ * Melhor escalação automática.
+ * ownedUids: cartas do jogador · loanUids: cartas do baralho que podem ser emprestadas.
+ * Empréstimos só entram para preencher vagas em que nenhuma carta própria rende mais
+ * que o jogador da base, respeitando LOAN.maxPlayers.
+ */
+export function autoLineup(ownedUids, formation, loanUids = []) {
   const lines = FORMATIONS[formation].slots;
+  const owned = ownedUids.map(u => CARD_BY_UID[u]).filter(Boolean);
+  const loans = loanUids.map(u => CARD_BY_UID[u]).filter(Boolean);
   const slots = Array(5).fill(null);
-  const used = new Set();
-  // preenche primeiro GOL e ATA (mais específicos), depois DEF e MEI
-  const order = [0, ...lines.map((l, i) => [l, i]).filter(([l]) => l === 'ATA').map(([, i]) => i),
-    ...lines.map((l, i) => [l, i]).filter(([l]) => l === 'DEF').map(([, i]) => i),
-    ...lines.map((l, i) => [l, i]).filter(([l]) => l === 'MEI').map(([, i]) => i)];
-  const people = new Set();      // a mesma pessoa (ex.: Pelé lenda e Pelé Prime) só entra uma vez
+  const used = new Set(), people = new Set();      // a mesma pessoa (ex.: Pelé lenda e Pelé Prime) só entra uma vez
   const free = c => !used.has(c.uid) && !people.has(c.person);
   const take = c => { used.add(c.uid); people.add(c.person); };
+  let loansUsed = 0;
+  const idx = l => lines.map((x, i) => [x, i]).filter(([x]) => x === l).map(([, i]) => i);
+  const order = [...idx('GOL'), ...idx('ATA'), ...idx('DEF'), ...idx('MEI')];
   for (const i of order) {
-    const best = pool.filter(free).sort((a, b) => b.attrs[lines[i]] - a.attrs[lines[i]])[0];
+    const best = owned.filter(free).sort((a, b) => b.attrs[lines[i]] - a.attrs[lines[i]])[0];
     if (best && best.attrs[lines[i]] > BASE_PLAYER[lines[i]]) { slots[i] = best.uid; take(best); }
   }
+  for (const i of order) {
+    if (slots[i] || loansUsed >= LOAN.maxPlayers) continue;
+    const best = loans.filter(free).sort((a, b) => effAttrs(b, true)[lines[i]] - effAttrs(a, true)[lines[i]])[0];
+    if (best && effAttrs(best, true)[lines[i]] > BASE_PLAYER[lines[i]]) { slots[i] = best.uid; take(best); loansUsed++; }
+  }
   const bench = [];
-  for (const c of pool.slice().sort((a, b) => b.ovr - a.ovr)) {
+  for (const c of owned.slice().sort((a, b) => b.ovr - a.ovr)) {
     if (bench.length >= 5) break;
     if (free(c)) { bench.push(c.uid); take(c); }
+  }
+  for (const c of loans.slice().sort((a, b) => b.ovr - a.ovr)) {
+    if (bench.length >= 5 || loansUsed >= LOAN.maxPlayers) break;
+    if (free(c)) { bench.push(c.uid); take(c); loansUsed++; }
   }
   while (bench.length < 5) bench.push(null);
   return { slots, bench };
@@ -58,29 +83,39 @@ export function autoLineup(playerUids, formation) {
 // ------------------------------------------------------------
 const VERSATTE_CREST = { id: 'vs', name: 'Versatte', abbr: 'VS', colors: ['#0F4C8A', '#FF8A1F'], pattern: 'solid' };
 
-/** Time do jogador a partir do state.club */
-export function userTeam(club, season = 1) {
+/**
+ * Time do jogador a partir do state.club.
+ * isOwned(uid): o jogador tem a carta? Se não tiver, ela entra como empréstimo (desempenho reduzido).
+ */
+export function userTeam(club, season = 1, isOwned = () => true) {
+  const loan = u => !!u && !isOwned(u);
   const crest = club.crest ? CARD_BY_UID[club.crest] : null;
   const stadium = club.stadium ? CARD_BY_UID[club.stadium] : null;
-  const mascot = club.mascot ? CARD_BY_UID[club.mascot] : null;
+  const mascotCard = club.mascot ? CARD_BY_UID[club.mascot] : null;
+  const mascot = mascotCard && loan(mascotCard.uid) ? { ...mascotCard, power: loanPower(mascotCard), loan: true } : mascotCard;
   const base = crest ? crest.teamData : VERSATTE_CREST;
   const lines = FORMATIONS[club.formation].slots;
-  const players = lines.map((line, i) => makePlayer(CARD_BY_UID[club.slots[i]], line, i));
-  const bench = (club.bench || []).map(u => CARD_BY_UID[u]).filter(Boolean)
-    .map((c, i) => makePlayer(c, POSITIONS[c.pos].line, 10 + i));
-  const chem = crest ? Math.min(5, players.filter(p => p.card && p.card.team === crest.team).length) : 0;
+  const players = lines.map((line, i) => makePlayer(CARD_BY_UID[club.slots[i]], line, i, loan(club.slots[i])));
+  const bench = (club.bench || []).filter(u => CARD_BY_UID[u])
+    .map((u, i) => makePlayer(CARD_BY_UID[u], POSITIONS[CARD_BY_UID[u].pos].line, 10 + i, loan(u)));
+  const crestLoan = !!crest && loan(crest.uid);
+  const chem = crest && !crestLoan ? Math.min(5, players.filter(p => p.card && p.card.team === crest.team).length) : 0;
   return {
     id: 'user', user: true, name: club.name, abbr: club.abbr || base.abbr, colors: base.colors, pattern: base.pattern,
     crest, stadium, mascot, formation: club.formation, players, bench,
-    moral: crest ? CREST_MORAL[crest.rarity] : 0, chem, season,
+    moral: crest ? (crestLoan ? loanMoral(crest) : CREST_MORAL[crest.rarity]) : 0, chem, season,
     stadiumName: stadium ? stadium.name : 'Estádio Municipal',
-    mando: stadium ? stadium.mando : 1,
+    mando: stadium ? (loan(stadium.uid) ? loanMando(stadium) : stadium.mando) : 1,
+    loans: {
+      crest: crestLoan, stadium: !!stadium && loan(stadium.uid), mascot: !!mascotCard && loan(mascotCard.uid),
+      players: [...club.slots, ...(club.bench || [])].filter(u => loan(u)).length,
+    },
   };
 }
 
-function makePlayer(card, line, idx) {
+function makePlayer(card, line, idx, loan = false) {
   if (!card) return { name: 'Jogador da base', shirt: 20 + idx, line, base: true, rating: { ...BASE_PLAYER } };
-  return { uid: card.uid, card, name: card.name, shirt: card.shirt, line, pos: card.pos, rating: { ...card.attrs } };
+  return { uid: card.uid, card, name: card.name, shirt: card.shirt, line, pos: card.pos, loan, rating: { ...effAttrs(card, loan) } };
 }
 
 /** Força dos clubes controlados pelo computador: sobe a cada temporada. */
@@ -361,13 +396,15 @@ export function advanceRound(league) {
 // ------------------------------------------------------------
 //  Recompensas (alimentam a coleção: pontos → pacotes)
 // ------------------------------------------------------------
-export const REWARDS = { win: 40, draw: 15, loss: 5, perGoal: 5, streak3: 50, streak5Pack: 1, title: { points: 150, packs: 1 }, vice: { points: 60, packs: 0 } };
+export const REWARDS = COINS;
 
-export function matchReward(goalsFor, outcome, streak) {
-  let points = REWARDS[outcome] + goalsFor * REWARDS.perGoal;
-  let packs = 0;
-  const bonuses = [];
-  if (outcome === 'win' && streak > 0 && streak % 3 === 0) { points += REWARDS.streak3; bonuses.push(`Sequência de ${streak} vitórias: +${REWARDS.streak3} pts`); }
-  if (outcome === 'win' && streak > 0 && streak % 5 === 0) { packs += REWARDS.streak5Pack; bonuses.push(`${streak} vitórias seguidas: +1 pacote premium`); }
-  return { points, packs, bonuses };
+/** Moedas (e pacote bônus) ganhos numa partida. */
+export function matchReward(goalsFor, goalsAgainst, outcome, streak) {
+  const lines = [];
+  lines.push([{ win: 'Vitória', draw: 'Empate', loss: 'Participação' }[outcome], { win: COINS.win, draw: COINS.draw, loss: COINS.loss }[outcome]]);
+  if (goalsFor) lines.push([`${goalsFor} gol(s) marcado(s)`, goalsFor * COINS.goal]);
+  if (!goalsAgainst) lines.push(['Sem sofrer gol', COINS.cleanSheet]);
+  if (outcome === 'win' && streak > 0 && streak % 3 === 0) lines.push([`${streak} vitórias seguidas 🔥`, COINS.streak3]);
+  const pack = outcome === 'win' && streak > 0 && streak % 5 === 0 ? COINS.streak5Pack : null;
+  return { coins: lines.reduce((t, [, v]) => t + v, 0), lines, pack };
 }
