@@ -468,3 +468,34 @@ export function matchReward(goalsFor, goalsAgainst, outcome, streak) {
   const pack = outcome === 'win' && streak > 0 && streak % 5 === 0 ? COINS.streak5Pack : null;
   return { coins: lines.reduce((t, [, v]) => t + v, 0), lines, pack };
 }
+
+// ------------------------------------------------------------
+//  Disputa de pênaltis (mata-mata empatado)
+//  Cobradores: os 4 de linha por finalização (ATA) e o goleiro por último.
+//  Chance de gol = finalização do cobrador × goleiro adversário.
+// ------------------------------------------------------------
+export function penaltyShootout(home, away, rng = Math.random) {
+  const keeperOf = t => t.players.find(p => p.line === 'GOL') || t.players[0];
+  const order = t => [...t.players.filter(p => p.line !== 'GOL').sort((a, b) => b.rating.ATA - a.rating.ATA), keeperOf(t)];
+  const takers = [order(home), order(away)];
+  const keepers = [keeperOf(home), keeperOf(away)];
+  const goals = [0, 0], taken = [0, 0];
+  const kicks = [];
+  for (let i = 0; i < 40; i++) {
+    const s = i % 2;
+    const taker = takers[s][taken[s] % takers[s].length];
+    const keeper = keepers[1 - s];
+    const p = Math.max(0.5, Math.min(0.92, 0.74 + ((taker.rating.ATA || 50) - (keeper.rating.GOL || 40)) * 0.004));
+    const roll = rng();
+    const scored = roll < p;
+    const how = scored ? 'gol' : roll < p + (1 - p) * 0.6 ? 'defesa' : 'fora';
+    taken[s]++; if (scored) goals[s]++;
+    kicks.push({ side: s, taker: taker.name, takerUid: taker.uid, keeper: keeper.name, scored, how, score: [...goals] });
+    // decidido?
+    if (taken[0] <= 5 && taken[1] <= 5) {
+      if (goals[0] > goals[1] + (5 - taken[1]) || goals[1] > goals[0] + (5 - taken[0])) break;
+      if (taken[0] === 5 && taken[1] === 5 && goals[0] !== goals[1]) break;
+    } else if (taken[0] === taken[1] && goals[0] !== goals[1]) break;
+  }
+  return { kicks, score: goals, winner: goals[0] > goals[1] ? 0 : 1 };
+}

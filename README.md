@@ -43,7 +43,25 @@ Arquivo editável: [js/imagens.js](js/imagens.js). Ele traz uma linha por carta 
    - 2-1-1: defensiva;
    - 1-2-1: equilibrada;
    - 1-1-2: ofensiva.
-3. **Disputar a Liga Versatte:** temporada de 8 clubes em turno único, com 7 rodadas. A cada temporada os rivais ficam mais fortes. Também há amistosos rápidos.
+3. **Disputar campeonatos**, cada um com o seu **troféu em 3D**. Os rivais ficam mais fortes a cada edição, e também há amistosos rápidos.
+
+### Campeonatos
+
+| Campeonato | Formato | Troféu 3D | Prêmio do campeão |
+|---|---|---|---|
+| **Liga Versatte** | Pontos corridos: 8 clubes, turno único (7 jogos) | Taça dos Pontos Corridos (ouro, alças, estrela) | 200 moedas + pacote premium |
+| **Copa Versatte** | Mata-mata: 16 clubes, jogo único (até 4 jogos) | Troféu Mata-Mata (prata, bola facetada, louros de ouro) | 300 moedas + pacote premium |
+| **Supercopa das Estrelas** | 4 grupos de 4, os 2 melhores avançam para quartas, semi e final (até 6 jogos) | Taça Continental (ouro, faixas verdes, globo e estrelas) | 400 moedas + pacote lendário |
+
+- **Mata-mata empatado:** vai para a **disputa de pênaltis**, com 5 cobranças e morte súbita. A chance de gol depende da finalização do cobrador contra o goleiro. As cobranças são mostradas uma a uma, com o goleiro voando para um dos cantos.
+- **Na tela Jogar:**
+  - classificação da Liga, grupos com os classificados destacados e chaveamento do mata-mata;
+  - **Sala de troféus**, com os troféus 3D conquistados (os não conquistados aparecem escuros);
+  - para o campeão, celebração com o troféu entrando girando, raios, confete e moedas.
+- **Recompensas da campanha:** mesmo eliminado, você ganha moedas pela fase alcançada.
+- **Na simulação:** um time forte é campeão da Liga em cerca de 53% das vezes, da Copa em 12% e da Supercopa em 8%.
+- **Implementação:** os troféus são desenhados em tempo real com WebGL (three.js, carregado do jsDelivr), sem arquivos de imagem. Dá para girar com o dedo. Se o aparelho não tiver WebGL, aparece um ícone 🏆.
+- **Arquivos:** o código fica em [js/game/tournament.js](js/game/tournament.js), [js/game/trophy3d.js](js/game/trophy3d.js) e [js/game/shootout.js](js/game/shootout.js).
 
 ### Empréstimo do baralho
 
@@ -81,7 +99,7 @@ O motor ([js/game/engine.js](js/game/engine.js)) decide o jogo:
 O jogador escolhe no pré-jogo como assistir (a escolha fica salva):
 
 - **⚽ Jogo de botão:** [js/game/match.js](js/game/match.js), descrito abaixo.
-- **📄 Texto (Brasfoot):** [js/game/textmatch.js](js/game/textmatch.js). Narração minuto a minuto com:
+- **📊 Modo Simulação:** [js/game/textmatch.js](js/game/textmatch.js). Narração minuto a minuto com:
   - placar com as cores dos times e cronômetro;
   - linha do tempo dos 90 minutos com gols e expulsões;
   - artilheiros com os minutos dos gols;
@@ -159,7 +177,9 @@ Fica no ícone roxo no topo da tela. Ele oferece:
   - dar o kit inicial: escudo, 2 estádios, 2 mascotes e 12 jogadores de todas as posições;
   - dar todas as cartas e +1 pacote lendário ou +500 moedas;
   - criar um clube automático;
-  - ir para a última rodada;
+  - ir para a decisão do campeonato (última rodada ou final);
+  - forçar pênaltis no próximo mata-mata;
+  - ganhar os 3 troféus (para ver a sala de troféus);
   - apagar o clube.
 - **Simulação Monte Carlo** do balanceamento.
 
@@ -192,7 +212,10 @@ js/cards.js             renderização das cartas (imagem ou arte SVG)
 js/views.js             início, álbum, cartas, prêmios, loja, detalhe
 js/game/engine.js       Modo Clube: força dos times, simulação e liga
 js/game/match.js        Modo Clube: partida animada (futebol de botão)
-js/game/textmatch.js    Modo Clube: partida em texto (estilo Brasfoot)
+js/game/textmatch.js    Modo Clube: Modo Simulação (partida narrada)
+js/game/tournament.js   Modo Clube: campeonatos (pontos corridos, mata-mata, grupos)
+js/game/trophy3d.js     Modo Clube: troféus 3D (WebGL)
+js/game/shootout.js     Modo Clube: disputa de pênaltis
 js/game/club.js         Modo Clube: telas de clube, escalação e liga
 js/debug.js             painel de debug
 js/fx.js                partículas, sons sintetizados, vibração e tilt 3D

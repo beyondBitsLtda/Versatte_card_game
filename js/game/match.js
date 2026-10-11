@@ -11,6 +11,7 @@ import { FORMATIONS } from './engine.js';
 import { cardHTML, teamArt, cardImage } from '../cards.js';
 import { burst, confetti, sfx, haptic, attachTilt } from '../fx.js';
 import { overlay, esc, icon } from '../ui.js';
+import { runShootout } from './shootout.js';
 
 // ---------------- campo (metros) ----------------
 const FW = 44, FL = 68;                          // largura × comprimento
@@ -70,7 +71,7 @@ function kits(home, away) {
  * Encena a partida. Resolve com 'win' | 'draw' | 'loss' | 'neutral' quando o jogador fecha o resultado.
  * @param {object} o { home, away, result, userSide (0|1|null), context: { title, subtitle }, onResultHtml }
  */
-export function playMatch({ home, away, result, userSide = 0, context = {}, onResultHtml }) {
+export function playMatch({ home, away, result, userSide = 0, context = {}, onResultHtml, shootout = null, resultTitle = null }) {
   return new Promise(resolve => {
     const teams = [home, away];
     const KIT = kits(home, away);
@@ -922,9 +923,11 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
     });
 
     // ---------------- resultado ----------------
-    function showResult() {
-      if (node.querySelector('.mt-result')) return;
-      mountResult(node.querySelector('.mt'), { home, away, result, userSide, onResultHtml }, outcome => {
+    let resultShown = false;
+    async function showResult() {
+      if (resultShown) return; resultShown = true;
+      if (shootout) await runShootout(node.querySelector('.mt'), { home, away, shootout, userSide });
+      mountResult(node.querySelector('.mt'), { home, away, result, userSide, onResultHtml, shootout, resultTitle }, outcome => {
         ro.disconnect(); ov.close(); resolve(outcome);
       });
     }
@@ -932,11 +935,12 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
 }
 
 /** Tela de resultado (usada pelo jogo de botão e pelo modo texto). */
-export function mountResult(container, { home, away, result, userSide, onResultHtml }, onClose) {
+export function mountResult(container, { home, away, result, userSide, onResultHtml, shootout = null, resultTitle = null }, onClose) {
   const [a, b] = result.score;
-  const mine = userSide == null ? null : (userSide === 0 ? a - b : b - a);
+  let mine = userSide == null ? null : (userSide === 0 ? a - b : b - a);
+  if (mine === 0 && shootout) mine = shootout.winner === userSide ? 1 : -1;     // decidido nos pênaltis
   const outcome = mine == null ? 'neutral' : mine > 0 ? 'win' : mine === 0 ? 'draw' : 'loss';
-  const title = { win: 'VITÓRIA!', draw: 'EMPATE', loss: 'DERROTA', neutral: 'FIM DE JOGO' }[outcome];
+  const title = (resultTitle && resultTitle(outcome)) || { win: 'VITÓRIA!', draw: 'EMPATE', loss: 'DERROTA', neutral: 'FIM DE JOGO' }[outcome];
   const mvpCard = result.mvp?.uid ? CARD_BY_UID[result.mvp.uid] : null;
   const st = result.stats;
   const panel = document.createElement('div');
@@ -946,7 +950,7 @@ export function mountResult(container, { home, away, result, userSide, onResultH
       <div class="mr-title">${title}</div>
       <div class="mr-score">
         <div>${crestMini(home)}<b>${esc(home.name)}</b></div>
-        <strong>${a} <i>x</i> ${b}</strong>
+        <strong>${a} <i>x</i> ${b}${shootout ? `<small>pênaltis ${shootout.score[0]} x ${shootout.score[1]}</small>` : ''}</strong>
         <div>${crestMini(away)}<b>${esc(away.name)}</b></div>
       </div>
       ${result.mvp ? `

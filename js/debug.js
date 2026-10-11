@@ -5,7 +5,8 @@ import { simulate } from './gacha.js';
 import { icon, sheet, toast, esc, fmtMoney } from './ui.js';
 import { sfx } from './fx.js';
 import { giveStarterKit, quickCreateClub, simulateUntilLastRound } from './game/club.js';
-import { ALL_CARDS } from './data.js';
+import { ALL_CARDS, COMPETITIONS } from './data.js';
+import { compStatus } from './game/tournament.js';
 
 const DAY = 86400000;
 let debugCol = COLLECTIONS[0].id;
@@ -91,12 +92,14 @@ export function openDebug(app) {
 
       <div class="dbg-sec">
         <h4>Modo Clube</h4>
-        <p class="dbg-info">Clube: <b>${state.club ? esc(state.club.name) : 'não criado'}</b>${state.league ? ` · temporada ${state.league.season} · rodada ${Math.min(state.league.round + 1, 7)}/7` : ''}</p>
+        <p class="dbg-info">Clube: <b>${state.club ? esc(state.club.name) : 'não criado'}</b>${state.comp ? ` · ${esc(COMPETITIONS[state.comp.type].name)} ${state.comp.edition}ª ed. · ${esc(compStatus(state.comp))}` : ' · sem campeonato'}</p>
         <div class="dbg-btns">
           <button data-a="kit">Dar kit inicial</button>
           <button data-a="all-cards">Dar todas as cartas</button>
           <button data-a="auto-club">Criar clube automático</button>
-          <button data-a="to-last">Ir para a última rodada</button>
+          <button data-a="to-last">Ir para a decisão</button>
+          <button data-a="trophies">Ganhar os 3 troféus</button>
+          <button data-a="pens" class="${state.forcePens ? 'on' : ''}">Forçar pênaltis (mata-mata)</button>
           <button data-a="reset-club" class="warn">Apagar clube</button>
         </div>
       </div>
@@ -160,9 +163,12 @@ export function openDebug(app) {
       case 'auto-club': quickCreateClub(); save(); s.close(); toast('Clube criado com as suas melhores cartas', { tone: 'ok' }); return app.go('jogar');
       case 'to-last': {
         if (!state.club) { toast('Crie um clube primeiro'); return; }
-        const n = simulateUntilLastRound(); s.close(); toast(`${n} rodada(s) simulada(s) — jogue a última!`, { tone: 'ok' }); return app.go('jogar');
+        if (!state.comp) { toast('Escolha um campeonato primeiro'); return; }
+        const n = simulateUntilLastRound(); s.close(); toast(`${n} jogo(s) simulado(s) — jogue a decisão!`, { tone: 'ok' }); return app.go('jogar');
       }
-      case 'reset-club': state.club = null; state.league = null; return done('Clube apagado');
+      case 'reset-club': state.club = null; state.league = null; state.comp = null; return done('Clube apagado');
+      case 'pens': state.forcePens = !state.forcePens; return done(state.forcePens ? 'Próximo mata-mata vai para os pênaltis' : 'Pênaltis normais');
+      case 'trophies': state.trophies = { liga: 1, copa: 1, continental: 1 }; return done('Todos os troféus na sala');
       case 'step-club': {
         if (!ALL_CARDS.some(c => c.kind === 'player' && ownedCount(c.uid))) giveStarterKit(addCard);
         if (!state.club) quickCreateClub();

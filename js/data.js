@@ -664,3 +664,32 @@ export const PRIZES = [
   ]),
   { id: 'master', collection: null, at: 1.00, icon: 'trophy', title: 'Kit Lendário Versatte', desc: 'Camisa + caneca + 25% OFF. Para quem completar todas as coleções.' },
 ];
+
+// ------------------------------------------------------------
+//  Campeonatos do Modo Clube (cada um com o seu troféu 3D)
+//  level: dificuldade extra dos rivais · rewards: moedas por campanha
+// ------------------------------------------------------------
+export const COMPETITIONS = {
+  liga: {
+    id: 'liga', name: 'Liga Versatte', trophy: 'Taça dos Pontos Corridos',
+    format: 'Pontos corridos', size: 8, level: 0,
+    desc: '8 clubes em turno único. Quem somar mais pontos é campeão.',
+    games: '7 jogos', color: '#FFC940',
+    rewards: { champion: 200, pack: 'premium', 2: 80, 3: 40, other: 15 },
+  },
+  copa: {
+    id: 'copa', name: 'Copa Versatte', trophy: 'Troféu Mata-Mata',
+    format: 'Mata-mata', size: 16, level: 1,
+    desc: '16 clubes em jogo único. Perdeu, está fora — empate vai para os pênaltis.',
+    games: 'até 4 jogos', color: '#C7D2E0',
+    rewards: { champion: 300, pack: 'premium', final: 120, semi: 60, quartas: 30, oitavas: 10 },
+  },
+  continental: {
+    id: 'continental', name: 'Supercopa das Estrelas', trophy: 'Taça Continental',
+    format: 'Grupos + mata-mata', size: 16, level: 2,
+    desc: '4 grupos de 4. Os dois melhores de cada grupo avançam para o mata-mata.',
+    games: 'até 6 jogos', color: '#3DFF8F',
+    rewards: { champion: 400, pack: 'lendario', final: 150, semi: 80, quartas: 40, grupos: 15 },
+  },
+};
+export const KO_ROUND_NAMES = { 16: 'Oitavas de final', 8: 'Quartas de final', 4: 'Semifinal', 2: 'Final' };

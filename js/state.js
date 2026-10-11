@@ -21,7 +21,10 @@ function fresh() {
     settings: { sound: true, intro: true, debug: true, tilt: true },
     lastCollection: COLLECTIONS[0].id,
     club: null,                // Modo Clube: { name, crest, stadium, mascot, formation, slots[5], bench[5] }
-    league: null,              // temporada em andamento
+    league: null,              // (legado) liga da versão anterior — migrada para comp
+    comp: null,                // campeonato em andamento: { type, edition, ... } (js/game/tournament.js)
+    trophies: { liga: 0, copa: 0, continental: 0 },
+    editions: { liga: 0, copa: 0, continental: 0 },
     game: { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, streak: 0, best: 0, titles: 0, seasons: 0 },
   };
 }
@@ -33,7 +36,7 @@ function load() {
     const s = JSON.parse(raw);
     const base = fresh();
     if (s.coins == null && s.points != null) s.coins = s.points;
-    return { ...base, ...s, inv: { ...base.inv, ...s.inv }, stats: { ...base.stats, ...s.stats }, settings: { ...base.settings, ...s.settings }, game: { ...base.game, ...s.game } };
+    return { ...base, ...s, trophies: { ...base.trophies, ...s.trophies }, editions: { ...base.editions, ...s.editions }, inv: { ...base.inv, ...s.inv }, stats: { ...base.stats, ...s.stats }, settings: { ...base.settings, ...s.settings }, game: { ...base.game, ...s.game } };
   } catch {
     return fresh();
   }

@@ -1,5 +1,5 @@
 // ============================================================
-//  MODO CLUBE — partida em texto (estilo Brasfoot)
+//  MODO CLUBE — Modo Simulação (partida narrada minuto a minuto)
 //  Mesmo resultado do motor; aqui ele é narrado minuto a minuto:
 //  placar, linha do tempo, artilheiros, estatísticas ao vivo,
 //  barra de pressão e narração lance a lance.
@@ -7,6 +7,7 @@
 import { crestMini, mountResult } from './match.js';
 import { burst, confetti, sfx, haptic } from '../fx.js';
 import { overlay, esc, icon } from '../ui.js';
+import { runShootout } from './shootout.js';
 
 const SEC_PER_MIN = 0.36;          // 90 min ≈ 32 s em 1x
 
@@ -56,7 +57,7 @@ const T = {
 /**
  * Narra a partida em texto. Mesma interface de playMatch.
  */
-export function playTextMatch({ home, away, result, userSide = 0, context = {}, onResultHtml }) {
+export function playTextMatch({ home, away, result, userSide = 0, context = {}, onResultHtml, shootout = null, resultTitle = null }) {
   return new Promise(resolve => {
     const teams = [home, away];
     const ev = result.events;
@@ -255,9 +256,11 @@ export function playTextMatch({ home, away, result, userSide = 0, context = {}, 
       showResult();
     });
 
-    function showResult() {
-      if (node.querySelector('.mt-result')) return;
-      mountResult($('.tm'), { home, away, result, userSide, onResultHtml }, outcome => { ov.close(); resolve(outcome); });
+    let resultShown = false;
+    async function showResult() {
+      if (resultShown) return; resultShown = true;
+      if (shootout) await runShootout($('.tm'), { home, away, shootout, userSide });
+      mountResult($('.tm'), { home, away, result, userSide, onResultHtml, shootout, resultTitle }, outcome => { ov.close(); resolve(outcome); });
     }
   });
 }

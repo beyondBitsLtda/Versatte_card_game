@@ -63,7 +63,7 @@ export function homeView(app) {
    <div class="home-more">
     <button class="club-banner" data-act="jogar">
       <span class="cb-ball">⚽</span>
-      <div><b>Modo Clube</b><span>${state.club ? `${esc(state.club.name)} · temporada ${state.league?.season || 1}` : 'Monte seu time com suas cartas e dispute a liga'}</span></div>
+      <div><b>Modo Clube</b><span>${state.club ? `${esc(state.club.name)} · Liga, Copa e Supercopa` : 'Monte seu time com suas cartas e dispute campeonatos'}</span></div>
       ${icon.arrow}
     </button>
 
