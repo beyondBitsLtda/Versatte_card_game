@@ -924,50 +924,55 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
     // ---------------- resultado ----------------
     function showResult() {
       if (node.querySelector('.mt-result')) return;
-      const [a, b] = result.score;
-      const mine = userSide == null ? null : (userSide === 0 ? a - b : b - a);
-      const outcome = mine == null ? 'neutral' : mine > 0 ? 'win' : mine === 0 ? 'draw' : 'loss';
-      const title = { win: 'VITÓRIA!', draw: 'EMPATE', loss: 'DERROTA', neutral: 'FIM DE JOGO' }[outcome];
-      const mvpCard = result.mvp?.uid ? CARD_BY_UID[result.mvp.uid] : null;
-      const st = result.stats;
-      const panel = document.createElement('div');
-      panel.className = `mt-result ${outcome}`;
-      panel.innerHTML = `
-        <div class="mr-in">
-          <div class="mr-title">${title}</div>
-          <div class="mr-score">
-            <div>${crestMini(home)}<b>${esc(home.name)}</b></div>
-            <strong>${a} <i>x</i> ${b}</strong>
-            <div>${crestMini(away)}<b>${esc(away.name)}</b></div>
-          </div>
-          ${result.mvp ? `
-            <div class="mr-mvp">
-              ${mvpCard ? `<div class="mr-mvp-card">${cardHTML(mvpCard, { size: 'sm' })}</div>` : ''}
-              <div><span>Craque do jogo</span><b>${esc(result.mvp.name)}</b>${result.mvp.goals ? `<small>${result.mvp.goals} gol(s)</small>` : ''}</div>
-            </div>` : ''}
-          <div class="mr-stats">
-            <div><b>${st[0].poss}%</b><span>posse</span><b>${st[1].poss}%</b></div>
-            <div><b>${st[0].shots}</b><span>finalizações</span><b>${st[1].shots}</b></div>
-            <div><b>${st[0].onTarget}</b><span>no alvo</span><b>${st[1].onTarget}</b></div>
-          </div>
-          <div class="mr-extra">${onResultHtml ? onResultHtml(outcome) : ''}</div>
-          <button class="btn primary big mr-go">Continuar</button>
-        </div>`;
-      node.querySelector('.mt').appendChild(panel);
-      requestAnimationFrame(() => panel.classList.add('in'));
-      if (outcome === 'win') {
-        sfx.win(); haptic([40, 60, 120]);
-        setTimeout(() => confetti(['#FF8A1F', '#FFC940', '#33B5FF', '#fff']), 200);
-        const r = panel.querySelector('.mr-title').getBoundingClientRect();
-        burst(r.left + r.width / 2, r.top + r.height / 2, { colors: ['#FFC940', '#fff', '#FF8A1F'], count: 120, speed: 11, shape: 'star', size: 3 });
-      } else if (outcome === 'loss') sfx.lose();
-      else sfx.ooh();
-      countUp(panel);
-      panel.querySelector('.mr-go').addEventListener('click', () => {
-        sfx.tap(); ro.disconnect(); ov.close(); resolve(outcome);
+      mountResult(node.querySelector('.mt'), { home, away, result, userSide, onResultHtml }, outcome => {
+        ro.disconnect(); ov.close(); resolve(outcome);
       });
     }
   });
+}
+
+/** Tela de resultado (usada pelo jogo de botão e pelo modo texto). */
+export function mountResult(container, { home, away, result, userSide, onResultHtml }, onClose) {
+  const [a, b] = result.score;
+  const mine = userSide == null ? null : (userSide === 0 ? a - b : b - a);
+  const outcome = mine == null ? 'neutral' : mine > 0 ? 'win' : mine === 0 ? 'draw' : 'loss';
+  const title = { win: 'VITÓRIA!', draw: 'EMPATE', loss: 'DERROTA', neutral: 'FIM DE JOGO' }[outcome];
+  const mvpCard = result.mvp?.uid ? CARD_BY_UID[result.mvp.uid] : null;
+  const st = result.stats;
+  const panel = document.createElement('div');
+  panel.className = `mt-result ${outcome}`;
+  panel.innerHTML = `
+    <div class="mr-in">
+      <div class="mr-title">${title}</div>
+      <div class="mr-score">
+        <div>${crestMini(home)}<b>${esc(home.name)}</b></div>
+        <strong>${a} <i>x</i> ${b}</strong>
+        <div>${crestMini(away)}<b>${esc(away.name)}</b></div>
+      </div>
+      ${result.mvp ? `
+        <div class="mr-mvp">
+          ${mvpCard ? `<div class="mr-mvp-card">${cardHTML(mvpCard, { size: 'sm' })}</div>` : ''}
+          <div><span>Craque do jogo</span><b>${esc(result.mvp.name)}</b>${result.mvp.goals ? `<small>${result.mvp.goals} gol(s)</small>` : ''}</div>
+        </div>` : ''}
+      <div class="mr-stats">
+        <div><b>${st[0].poss}%</b><span>posse</span><b>${st[1].poss}%</b></div>
+        <div><b>${st[0].shots}</b><span>finalizações</span><b>${st[1].shots}</b></div>
+        <div><b>${st[0].onTarget}</b><span>no alvo</span><b>${st[1].onTarget}</b></div>
+      </div>
+      <div class="mr-extra">${onResultHtml ? onResultHtml(outcome) : ''}</div>
+      <button class="btn primary big mr-go">Continuar</button>
+    </div>`;
+  container.appendChild(panel);
+  requestAnimationFrame(() => panel.classList.add('in'));
+  if (outcome === 'win') {
+    sfx.win(); haptic([40, 60, 120]);
+    setTimeout(() => confetti(['#FF8A1F', '#FFC940', '#33B5FF', '#fff']), 200);
+    const r = panel.querySelector('.mr-title').getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, { colors: ['#FFC940', '#fff', '#FF8A1F'], count: 120, speed: 11, shape: 'star', size: 3 });
+  } else if (outcome === 'loss') sfx.lose();
+  else sfx.ooh();
+  countUp(panel);
+  panel.querySelector('.mr-go').addEventListener('click', () => { sfx.tap(); onClose(outcome); });
 }
 
 /** Anima números com data-count (moedas ganhas). */

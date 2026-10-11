@@ -47,18 +47,18 @@ Arquivo editável: [js/imagens.js](js/imagens.js). Ele traz uma linha por carta 
 
 ### Empréstimo do baralho
 
-Quem ainda não tem a carta pode **pegar emprestado do baralho** (qualquer carta do jogo), sempre com desempenho reduzido. As regras ficam em `LOAN`, em [js/data.js](js/data.js):
+Quem ainda não tem a carta pode usar o **baralho**, sempre com desempenho reduzido. As regras ficam em `LOAN`, em [js/data.js](js/data.js).
 
-| Carta emprestada | Efeito |
-|---|---|
-| Jogador | atributos e OVR a **70%** · no máximo **3** emprestados no elenco |
-| Escudo | moral **−2** (mínimo 0) e **sem química** |
-| Estádio | mando **pela metade** |
-| Mascote | força da habilidade **pela metade** |
+- **Jogadores (sorteados):** você não escolhe o emprestado. Reserva até **3 vagas de empréstimo** no elenco e, **a cada partida**, um jogador do baralho é **sorteado** para cada vaga.
+  - Para titulares, o sorteado é da posição da vaga.
+  - Chances: 62% comum, 26% rara, 9% muito rara e 3% especial.
+  - O sorteado rende **80%**.
+  - Antes do jogo, os sorteados são revelados carta a carta. O sorteio fica guardado para aquela partida: sair e voltar não sorteia de novo.
+- **Escudo, estádio e mascote:** são escolhidos no baralho, com efeito reduzido.
+  - Escudo: moral −2 e sem química.
+  - Estádio e mascote: rendem metade.
 
-- "Escalar melhores" usa primeiro as suas cartas e só pega empréstimo para preencher vagas.
-- Quando o jogador conquista a carta num pacote, ela deixa de ser empréstimo automaticamente e passa a render 100%.
-- Cartas emprestadas aparecem com a marca **EMP** e borda tracejada.
+"Escalar melhores" usa primeiro as suas cartas e cria vagas de empréstimo só onde faltar. Na simulação, um clube sem nenhuma carta vence cerca de 11% dos jogos; com as cartas comuns próprias, cerca de 43%.
 
 ### Como as cartas influem no jogo
 
@@ -78,7 +78,19 @@ O motor ([js/game/engine.js](js/game/engine.js)) decide o jogo:
 - **Finalização:** acerto, defesa, trave ou fora dependem de **ataque × (defesa + goleiro)**.
 - **Outros lances:** faltas, cartões, expulsões, cansaço depois dos 60' e substituições aos 65'.
 
-A tela da partida ([js/game/match.js](js/game/match.js)) **encena** esse resultado com física, em estilo futebol de botão.
+O jogador escolhe no pré-jogo como assistir (a escolha fica salva):
+
+- **⚽ Jogo de botão:** [js/game/match.js](js/game/match.js), descrito abaixo.
+- **📄 Texto (Brasfoot):** [js/game/textmatch.js](js/game/textmatch.js). Narração minuto a minuto com:
+  - placar com as cores dos times e cronômetro;
+  - linha do tempo dos 90 minutos com gols e expulsões;
+  - artilheiros com os minutos dos gols;
+  - barra de pressão e estatísticas ao vivo (posse, finalizações, no alvo, faltas e cartões);
+  - jogadas de preparação antes de cada chance e comentários de ambiente;
+  - efeitos de gol, trave e expulsão;
+  - controles de velocidade e pausa, e um botão de resultado final.
+
+A tela do jogo de botão **encena** o resultado com física.
 
 **Cada jogador é um agente independente:**
 
@@ -180,6 +192,7 @@ js/cards.js             renderização das cartas (imagem ou arte SVG)
 js/views.js             início, álbum, cartas, prêmios, loja, detalhe
 js/game/engine.js       Modo Clube: força dos times, simulação e liga
 js/game/match.js        Modo Clube: partida animada (futebol de botão)
+js/game/textmatch.js    Modo Clube: partida em texto (estilo Brasfoot)
 js/game/club.js         Modo Clube: telas de clube, escalação e liga
 js/debug.js             painel de debug
 js/fx.js                partículas, sons sintetizados, vibração e tilt 3D

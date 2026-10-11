@@ -10,8 +10,10 @@ import {
   FORMATIONS, LINE_LABEL, autoLineup, userTeam, aiTeam, teamRatings, simulateMatch, predict, naturalFor,
   createLeague, applyResult, standings, simulateOtherGames, userFixture, advanceRound, matchReward,
   effAttrs, effOvr, loanMoral, loanMando, loanPower,
+  LOAN_SLOT, isLoanSlot, loanSlots, drawLoans, expectedLoan,
 } from './engine.js';
 import { playMatch, crestMini } from './match.js';
+import { playTextMatch } from './textmatch.js';
 import { confetti, burst, sfx, haptic, coinFly } from '../fx.js';
 import { icon, esc, el, sheet, overlay, toast } from '../ui.js';
 
@@ -28,16 +30,24 @@ export const myPlayers = () => ofKind('player').filter(owned);
 const loanable = k => ofKind(k).filter(c => !owned(c));
 
 const byRarity = (a, b) => RARITIES[b.rarity].order - RARITIES[a.rarity].order;
-const team = (club = state.club) => userTeam(club, state.league?.season || 1, isOwned);
-const lineup = formation => autoLineup(myPlayers().map(p => p.uid), formation, loanable('player').map(p => p.uid));
-const loanCount = club => [...club.slots, ...club.bench].filter(u => u && !isOwned(u)).length;
+const team = (club = state.club, draws = null) => userTeam(club, state.league?.season || 1, isOwned, draws);
+const lineup = formation => autoLineup(myPlayers().map(p => p.uid), formation, isOwned);
+const loanCount = club => loanSlots(club);
 
-/** Remove do clube cartas inválidas (o empréstimo continua valendo para as que o jogador não tem). */
+/**
+ * Normaliza o clube: remove cartas inválidas e transforma jogadores que o usuário
+ * não tem (de versões antigas) em vagas de empréstimo sorteadas.
+ */
 function sanitizeClub() {
   const c = state.club; if (!c) return;
   const ok = u => (u && CARD_BY_UID[u] ? u : null);
   c.crest = ok(c.crest); c.stadium = ok(c.stadium); c.mascot = ok(c.mascot);
-  c.slots = c.slots.map(ok); c.bench = c.bench.map(ok);
+  let loans = 0;
+  const fix = u => {
+    if (isLoanSlot(u) || (u && CARD_BY_UID[u] && !isOwned(u))) return loans++ < LOAN.maxPlayers ? LOAN_SLOT : null;
+    return ok(u);
+  };
+  c.slots = c.slots.map(fix); c.bench = c.bench.map(fix);
 }
 
 const fmtPct = v => `${Math.round(v * 100)}%`;
@@ -74,7 +84,7 @@ export function clubView(app) {
   const mascot = me.mascot;
   const empty = club.slots.filter(u => !u).length;
   const L = me.loans;
-  const loanItems = [L.crest && 'escudo', L.stadium && 'estádio', L.mascot && 'mascote', L.players && `${L.players} jogador(es)`].filter(Boolean);
+  const loanItems = [L.crest && 'escudo', L.stadium && 'estádio', L.mascot && 'mascote', L.players && `${L.players} vaga(s) de jogador`].filter(Boolean);
 
   let next = '';
   if (fx) {
@@ -132,7 +142,7 @@ export function clubView(app) {
       <span>${icon.sparkle} Química +${me.chem}</span>
       ${mascot ? `<span title="${esc(abilityText(mascot).desc)}">${mascot.emoji} ${esc(abilityText(mascot).label)} +${mascot.power}</span>` : ''}
     </div>
-    ${loanItems.length ? `<button class="loan-row" data-act="lineup">${icon.swipe}<span><b>Emprestado do baralho:</b> ${loanItems.join(', ')}. Cartas emprestadas rendem menos — conquiste as suas nos pacotes!</span></button>` : ''}
+    ${loanItems.length ? `<button class="loan-row" data-act="lineup">${icon.swipe}<span><b>Emprestado do baralho:</b> ${loanItems.join(', ')}.${L.players ? ' Os jogadores são <b>sorteados a cada partida</b>.' : ''} Conquiste suas cartas nos pacotes!</span></button>` : ''}
     ${empty ? `<button class="warn-row" data-act="lineup">${icon.lock}<span>${empty} vaga(s) com jogador da base — escale ou pegue emprestado</span>${icon.arrow}</button>` : ''}
 
     ${next}
@@ -210,7 +220,7 @@ function introView(app) {
       ${row('🐾', 'Mascote', n.mascot, 1, 'Dá uma habilidade especial ao time')}
       ${row('👟', 'Jogadores', n.player, 10, '5 titulares e 5 reservas da coleção Jogadores')}
     </div>
-    <div class="loan-info">${icon.swipe}<span><b>Faltou carta?</b> Pegue emprestado do baralho: escudo, estádio, mascote e até ${LOAN.maxPlayers} jogadores — sempre com desempenho reduzido (jogadores a ${Math.round(LOAN.player * 100)}%).</span></div>
+    <div class="loan-info">${icon.swipe}<span><b>Faltou carta?</b> Pegue emprestado do baralho: escudo, estádio e mascote com efeito reduzido, e até ${LOAN.maxPlayers} vagas de jogador — <b>sorteado a cada partida</b>, rendendo ${Math.round(LOAN.player * 100)}%.</span></div>
     <button class="btn primary big wide" data-act="create">${icon.sparkle} Criar meu clube</button>
   </section>`);
   node.querySelector('[data-act="create"]').addEventListener('click', () => { sfx.tap(); openIdentity(app, true); });
@@ -290,7 +300,7 @@ function openIdentity(app, creating) {
     if (creating) {
       sfx.win(); confetti(['#FF8A1F', '#FFC940', '#33B5FF', '#fff']);
       const loans = loanCount(state.club);
-      toast(`${esc(name)} fundado!${loans ? ` ${loans} jogador(es) emprestado(s) do baralho.` : ''}`, { tone: 'ok', ms: 3200 });
+      toast(`${esc(name)} fundado!${loans ? ` ${loans} vaga(s) de empréstimo: jogadores sorteados a cada partida.` : ''}`, { tone: 'ok', ms: 3400 });
     }
     app.refresh();
   });
@@ -310,6 +320,16 @@ function openLineup(app) {
     const lines = FORMATIONS[club.formation].slots;
     const R = teamRatings(team(club), { home: true });
     const token = (uid, line, idx, benchSlot = false) => {
+      if (isLoanSlot(uid)) {
+        const v = expectedLoan(benchSlot ? null : line, isOwned)[benchSlot ? 'MEI' : line];
+        return `
+        <button class="tk loan-slot" data-slot="${benchSlot ? 'b' : 's'}${idx}">
+          <span class="tk-loan">EMP</span>
+          <span class="tk-v">🎲<small>~${v}</small></span>
+          <span class="tk-n">Sorteio</span>
+          <span class="tk-p">${benchSlot ? 'qualquer' : line}</span>
+        </button>`;
+      }
       const card = uid ? CARD_BY_UID[uid] : null;
       const loan = !!card && !isOwned(uid);
       const v = card ? (benchSlot ? effOvr(card, loan) : effAttrs(card, loan)[line]) : (line === 'GOL' ? 42 : 50);
@@ -332,13 +352,13 @@ function openLineup(app) {
       </div>
       <div class="lu-bench-h"><b>Reservas</b><span>Entram aos 65' se renderem mais que o titular cansado</span></div>
       <div class="lu-bench">${club.bench.map((u, i) => token(u, u ? POSITIONS[CARD_BY_UID[u].pos].line : 'MEI', i, true)).join('')}</div>
-      <div class="lu-loans ${loans ? 'on' : ''}">${icon.swipe}<span>Empréstimos: <b>${loans}/${LOAN.maxPlayers}</b> · jogadores emprestados rendem ${Math.round(LOAN.player * 100)}%</span></div>
+      <div class="lu-loans ${loans ? 'on' : ''}">🎲<span>Vagas de empréstimo: <b>${loans}/${LOAN.maxPlayers}</b> · um jogador do baralho é sorteado para cada vaga a cada partida e rende ${Math.round(LOAN.player * 100)}%</span></div>
       <div class="lu-ovr"><div class="ovr-big"><b>${R.OVR}</b><span>OVR</span></div>${ratingBars(R)}</div>
       <div class="lu-actions">
         <button class="btn ghost" data-auto>${icon.sparkle} Escalar melhores</button>
         <button class="btn primary" data-done>Pronto</button>
       </div>
-      <p class="fine">⚠ = fora de posição (rende menos) · EMP = emprestado do baralho. Toque numa vaga para trocar.</p>`;
+      <p class="fine">⚠ = fora de posição (rende menos) · 🎲 = vaga de empréstimo (valor médio do sorteio). Toque numa vaga para trocar.</p>`;
   }
   render();
 
@@ -363,41 +383,39 @@ function pickPlayer(slotKey, onDone) {
   const line = isBench ? null : FORMATIONS[club.formation].slots[idx];
   const current = isBench ? club.bench[idx] : club.slots[idx];
   const where = uid => (club.slots.includes(uid) ? 'titular' : club.bench.includes(uid) ? 'reserva' : '');
-  const val = (c, loan) => (line ? effAttrs(c, loan)[line] : effOvr(c, loan));
-  const row = (c, loan) => {
-    const v = val(c, loan);
-    const nat = !line || naturalFor(c, line);
-    const w = where(c.uid);
-    return `<button class="pp ${c.uid === current ? 'on' : ''} ${loan ? 'loan' : ''}" data-uid="${c.uid}" style="--rc:${RARITIES[c.rarity].color}">
-      <span class="pp-v ${nat ? '' : 'off'}">${v}</span>
-      <span class="pp-n"><b>${gem(c.rarity)} ${esc(c.name)}</b><small>${POSITIONS[c.pos].label} · ${esc(c.teamData.abbr)} · ${loan ? `OVR ${c.ovr} → ${effOvr(c, true)}` : `OVR ${c.ovr}`}${c.edition !== 'Elenco 2026' ? ` · ${esc(c.edition)}` : ''}</small></span>
-      ${w ? `<span class="pp-w">${w}</span>` : ''}${loan ? '<span class="pp-w loan">empréstimo</span>' : ''}${nat ? '' : '<span class="pp-w off">fora de posição</span>'}
-    </button>`;
-  };
-  const mine = myPlayers().sort((a, b) => val(b, false) - val(a, false));
-  const others = loanable('player').sort((a, b) => val(b, true) - val(a, true));
+  const val = c => (line ? c.attrs[line] : c.ovr);
+  const mine = myPlayers().sort((a, b) => val(b) - val(a));
   const loans = loanCount(club);
+  const canLoan = isLoanSlot(current) || loans < LOAN.maxPlayers;
+  const exp = expectedLoan(line, isOwned)[line || 'MEI'];
   const s = sheet(`
     <h2>${isBench ? `Reserva ${idx + 1}` : `Vaga: ${LINE_LABEL[line]}`}</h2>
     <p class="muted" style="margin:4px 0 10px">${line ? `Nota = atributo ${line} do jogador nessa vaga.` : 'Reservas entram no segundo tempo.'}</p>
     <div class="pp-list">
-      <button class="pp" data-uid=""><span class="pp-v">${line === 'GOL' ? 42 : 50}</span><span class="pp-n"><b>Jogador da base</b><small>vaga sem carta</small></span></button>
-      ${mine.length ? `<div class="pp-sec">Suas cartas</div>${mine.map(c => row(c, false)).join('')}` : ''}
-      <div class="pp-sec">Emprestar do baralho <small>${loans}/${LOAN.maxPlayers} usados · rendem ${Math.round(LOAN.player * 100)}%</small></div>
-      ${others.map(c => row(c, true)).join('')}
+      <button class="pp loan-pick ${isLoanSlot(current) ? 'on' : ''}" data-uid="${LOAN_SLOT}" ${canLoan ? '' : 'disabled'}>
+        <span class="pp-v">🎲</span>
+        <span class="pp-n"><b>Vaga de empréstimo</b><small>${canLoan ? `Um jogador do baralho${line ? ` (${LINE_LABEL[line].toLowerCase()})` : ''} é sorteado a cada partida · rende ${Math.round(LOAN.player * 100)}% · média ~${exp}` : `Limite de ${LOAN.maxPlayers} vagas de empréstimo atingido`}</small></span>
+        <span class="pp-w loan">${loans}/${LOAN.maxPlayers}</span>
+      </button>
+      <button class="pp ${current == null ? 'on' : ''}" data-uid=""><span class="pp-v">${line === 'GOL' ? 42 : 50}</span><span class="pp-n"><b>Jogador da base</b><small>vaga sem carta</small></span></button>
+      ${mine.length ? `<div class="pp-sec">Suas cartas</div>${mine.map(c => {
+        const nat = !line || naturalFor(c, line);
+        const w = where(c.uid);
+        return `<button class="pp ${c.uid === current ? 'on' : ''}" data-uid="${c.uid}" style="--rc:${RARITIES[c.rarity].color}">
+          <span class="pp-v ${nat ? '' : 'off'}">${val(c)}</span>
+          <span class="pp-n"><b>${gem(c.rarity)} ${esc(c.name)}</b><small>${POSITIONS[c.pos].label} · ${esc(c.teamData.abbr)} · OVR ${c.ovr}${c.edition !== 'Elenco 2026' ? ` · ${esc(c.edition)}` : ''}</small></span>
+          ${w ? `<span class="pp-w">${w}</span>` : ''}${nat ? '' : '<span class="pp-w off">fora de posição</span>'}
+        </button>`;
+      }).join('')}` : '<p class="fine">Você ainda não tem cartas de jogador — abra pacotes ou use vagas de empréstimo.</p>'}
     </div>`);
   s.node.querySelector('.pp-list').addEventListener('click', e => {
-    const b = e.target.closest('button.pp'); if (!b) return;
+    const b = e.target.closest('button.pp'); if (!b || b.disabled) return;
     const uid = b.dataset.uid || null;
-    if (uid) {
+    if (uid && !isLoanSlot(uid)) {
       const card = CARD_BY_UID[uid];
       // a mesma pessoa não pode estar duas vezes no elenco (ex.: Pelé lenda + Pelé Prime)
-      const twin = [...club.slots, ...club.bench].find(u => u && u !== uid && u !== current && CARD_BY_UID[u].person === card.person);
+      const twin = [...club.slots, ...club.bench].find(u => u && !isLoanSlot(u) && u !== uid && u !== current && CARD_BY_UID[u].person === card.person);
       if (twin) { toast(`${esc(card.name)} já está no elenco em outra versão`); return; }
-      // limite de empréstimos
-      const isLoan = !isOwned(uid), inSquad = [...club.slots, ...club.bench].includes(uid);
-      const freesOne = current && !isOwned(current);
-      if (isLoan && !inSquad && !freesOne && loans >= LOAN.maxPlayers) { toast(`Limite de ${LOAN.maxPlayers} empréstimos atingido`); return; }
       // se o jogador já está em outra vaga, troca de lugar
       const si = club.slots.indexOf(uid), bi = club.bench.indexOf(uid);
       if (si >= 0) club.slots[si] = current;
@@ -411,6 +429,69 @@ function pickPlayer(slotKey, onDone) {
 // ============================================================
 //  PARTIDAS
 // ============================================================
+
+/**
+ * Sorteio dos jogadores emprestados para uma partida.
+ * Fica salvo por partida (tag): sair e voltar não sorteia de novo.
+ */
+async function loanDraw(tag) {
+  const club = state.club;
+  const keys = [...club.slots.map((u, i) => isLoanSlot(u) && 's' + i), ...club.bench.map((u, i) => isLoanSlot(u) && 'b' + i)].filter(Boolean);
+  if (!keys.length) return null;
+  const saved = state.loanDraw;
+  const valid = saved && saved.tag === tag && keys.every(k => saved.draws[k] && !isOwned(saved.draws[k]));
+  const draws = valid ? saved.draws : drawLoans(club, isOwned);
+  if (!valid) { state.loanDraw = { tag, draws }; save(); }
+  await revealLoans(keys, draws, valid);
+  return draws;
+}
+
+function revealLoans(keys, draws, already) {
+  return new Promise(resolve => {
+    const lines = FORMATIONS[state.club.formation].slots;
+    const label = k => (k[0] === 's' ? `Vaga: ${LINE_LABEL[lines[+k.slice(1)]]}` : `Reserva ${+k.slice(1) + 1}`);
+    const ov = overlay(`
+      <div class="ld">
+        <div class="ld-h"><span>🎲</span><h2>Sorteio do empréstimo</h2><p>${already ? 'Estes são os emprestados desta partida.' : 'Jogadores do baralho para as suas vagas de empréstimo. Toque para revelar.'}</p></div>
+        <div class="ld-grid n${keys.length}">
+          ${keys.map((k, i) => {
+            const c = CARD_BY_UID[draws[k]];
+            return c ? `
+            <div class="ld-item" style="--i:${i}">
+              <span class="ld-slot">${label(k)}</span>
+              ${cardHTML(c, { size: 'sm', flipped: !already, live: true })}
+              <span class="ld-ovr">OVR ${c.ovr} → <b>${effOvr(c, true)}</b></span>
+            </div>` : '';
+          }).join('')}
+        </div>
+        <p class="fine">Emprestados rendem ${Math.round(LOAN.player * 100)}%. Na próxima partida, novo sorteio.</p>
+        <button class="btn primary big wide" data-ok ${already ? '' : 'disabled'}>${already ? 'Continuar' : 'Revelando…'}</button>
+      </div>`, 'loan-ov');
+    const cards = [...ov.node.querySelectorAll('.ld-item .card')];
+    const btn = ov.node.querySelector('[data-ok]');
+    let i = 0;
+    const flipNext = () => {
+      const c = cards[i++]; if (!c) { btn.disabled = false; btn.textContent = 'Continuar'; return; }
+      const card = CARD_BY_UID[c.dataset.uid];
+      c.classList.remove('flipped');
+      sfx.flip();
+      setTimeout(() => {
+        sfx.reveal(card.rarity);
+        const r = c.getBoundingClientRect();
+        const ord = RARITIES[card.rarity].order;
+        burst(r.left + r.width / 2, r.top + r.height / 2, { colors: ['#fff', RARITIES[card.rarity].color], count: [16, 30, 60, 110][ord], speed: [4, 6, 8, 11][ord], shape: ord >= 2 ? 'star' : 'spark' });
+        if (ord >= 2) haptic([30, 40, 60]);
+        c.closest('.ld-item').classList.add('shown');
+        setTimeout(flipNext, ord >= 2 ? 700 : 420);
+      }, 320);
+    };
+    if (!already) setTimeout(flipNext, 600);
+    ov.node.addEventListener('click', e => {
+      if (e.target.closest('[data-ok]') && !btn.disabled) { sfx.tap(); ov.close(); resolve(); }
+    });
+  });
+}
+
 async function preMatch(home, away, userSide, title) {
   return new Promise(resolve => {
     const p = predict(home, away, 200);
@@ -424,7 +505,7 @@ async function preMatch(home, away, userSide, title) {
           <span class="pm-ovr">${r.OVR}</span>
           <small>${t === home ? `Mandante · ${esc(t.stadiumName)}` : 'Visitante'}</small>
           ${t.mascot ? `<small class="pm-masc">${t.mascot.emoji} ${esc(abilityText(t.mascot).label)} +${t.mascot.power}</small>` : ''}
-          ${t.loans && t.loans.players ? `<small class="pm-loan">${t.loans.players} emprestado(s)</small>` : ''}
+          ${t.loans && t.loans.players ? `<small class="pm-loan">🎲 ${t.loans.players} sorteado(s)</small>` : ''}
         </div>`;
     };
     const ov = overlay(`
@@ -432,11 +513,23 @@ async function preMatch(home, away, userSide, title) {
         <div class="pm-title">${esc(title)}</div>
         <div class="pm-vs">${side(home)}<div class="pm-x">VS</div>${side(away)}</div>
         ${probBar(win, p.draw, loss, true)}
+        <div class="pm-mode">
+          <span>Assistir como</span>
+          <div class="seg">
+            <button data-mode="botao" class="${(state.settings.matchView || 'botao') === 'botao' ? 'on' : ''}">⚽ Jogo de botão</button>
+            <button data-mode="texto" class="${state.settings.matchView === 'texto' ? 'on' : ''}">📄 Texto (Brasfoot)</button>
+          </div>
+        </div>
         <button class="btn primary big wide" data-go>${icon.play} Bola rolando!</button>
         <button class="link-btn" data-back>Voltar</button>
       </div>`, 'prematch-ov');
     sfx.whoosh();
-    ov.node.querySelector('[data-go]').addEventListener('click', () => { sfx.tap(); ov.close(); resolve(true); });
+    ov.node.querySelector('.pm-mode').addEventListener('click', e => {
+      const b = e.target.closest('[data-mode]'); if (!b) return;
+      state.settings.matchView = b.dataset.mode; save(); sfx.tap();
+      ov.node.querySelectorAll('[data-mode]').forEach(x => x.classList.toggle('on', x === b));
+    });
+    ov.node.querySelector('[data-go]').addEventListener('click', () => { sfx.tap(); ov.close(); resolve(state.settings.matchView || 'botao'); });
     ov.node.querySelector('[data-back]').addEventListener('click', () => { sfx.tap(); ov.close(); resolve(false); });
   });
 }
@@ -460,12 +553,15 @@ async function playLeagueRound(app) {
   const lg = state.league;
   const fx = userFixture(lg);
   if (!fx) return;
-  const me = team();
+  const draws = await loanDraw(`L${lg.season}-${lg.round}-${lg.seed}`);
+  const me = team(state.club, draws);
   const opp = aiTeam(fx.opponent, lg.season);
   const home = fx.userHome ? me : opp, away = fx.userHome ? opp : me;
   const userSide = fx.userHome ? 0 : 1;
   const title = `Liga Versatte · Rodada ${lg.round + 1}/${lg.rounds.length}`;
-  if (!(await preMatch(home, away, userSide, title))) return;
+  const mode = await preMatch(home, away, userSide, title);
+  if (!mode) return;
+  state.loanDraw = null;          // sorteio usado: a próxima partida sorteia de novo
 
   const result = simulateMatch(home, away, { seed: (lg.seed + lg.round * 7919 + state.game.played * 104729) >>> 0 });
   const gf = result.score[userSide], ga = result.score[1 - userSide];
@@ -486,7 +582,7 @@ async function playLeagueRound(app) {
   save();
   const pos = standings(lg).findIndex(r => r.id === 'user') + 1;
 
-  await playMatch({
+  await (mode === 'texto' ? playTextMatch : playMatch)({
     home, away, result, userSide,
     context: { title, subtitle: `Temporada ${lg.season}` },
     onResultHtml: () => rewardHtml(reward, `<div class="rw-pos">Liga: <b>${pos}º lugar</b> · rodada ${round}/${lg.rounds.length}</div>`),
@@ -500,11 +596,14 @@ async function playFriendly(app) {
   const season = state.league?.season || 1;
   const ids = Object.keys(TEAM_BY_ID);
   const opp = aiTeam(ids[Math.floor(Math.random() * ids.length)], season);
-  const me = team();
+  const draws = await loanDraw('F');
+  const me = team(state.club, draws);
   const userHome = Math.random() < 0.5;
   const home = userHome ? me : opp, away = userHome ? opp : me;
   const userSide = userHome ? 0 : 1;
-  if (!(await preMatch(home, away, userSide, 'Amistoso'))) return;
+  const mode = await preMatch(home, away, userSide, 'Amistoso');
+  if (!mode) return;
+  state.loanDraw = null;
   const result = simulateMatch(home, away, { seed: (Date.now() & 0xffffff) >>> 0 });
   const gf = result.score[userSide], ga = result.score[1 - userSide];
   const outcome = gf > ga ? 'win' : gf === ga ? 'draw' : 'loss';
@@ -512,7 +611,7 @@ async function playFriendly(app) {
   const coins = Math.round(full.coins * COINS.friendly);
   const reward = { coins, lines: [...full.lines, ['Amistoso (metade)', coins - full.coins]], pack: null };
   state.coins += coins; save();
-  await playMatch({ home, away, result, userSide, context: { title: 'Amistoso', subtitle: `Temporada ${season}` }, onResultHtml: () => rewardHtml(reward) });
+  await (mode === 'texto' ? playTextMatch : playMatch)({ home, away, result, userSide, context: { title: 'Amistoso', subtitle: `Temporada ${season}` }, onResultHtml: () => rewardHtml(reward) });
   app.refresh();
   flyCoins(coins);
 }
@@ -585,7 +684,7 @@ export function simulateUntilLastRound() {
   let n = 0;
   while (!lg.done && lg.round < lg.rounds.length - 1) {
     const fx = userFixture(lg);
-    const me = team(), opp = aiTeam(fx.opponent, lg.season);
+    const me = team(state.club, drawLoans(state.club, isOwned)), opp = aiTeam(fx.opponent, lg.season);
     const [home, away] = fx.userHome ? [me, opp] : [opp, me];
     const side = fx.userHome ? 0 : 1;
     const { score } = simulateMatch(home, away, { seed: lg.seed + lg.round * 31 });

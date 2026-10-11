@@ -121,7 +121,11 @@ export const COINS = {
 //  tem podem ser usadas, sempre com desempenho reduzido.
 // ------------------------------------------------------------
 export const LOAN = {
-  player: 0.7,         // atributos ×0,70
+  // Jogadores emprestados NÃO são escolhidos: o elenco reserva "vagas de
+  // empréstimo" e, a cada partida, um jogador do baralho é SORTEADO para cada
+  // vaga (titulares: da posição da vaga), com as chances abaixo.
+  odds: { comum: 0.62, rara: 0.26, muito: 0.09, especial: 0.03 },
+  player: 0.8,         // o sorteado rende 80% dos atributos
   crestMoral: -2,      // moral do escudo −2 (mínimo 0) e sem química
   stadium: 0.5,        // mando ×0,5
   mascot: 0.5,         // força da habilidade ×0,5
