@@ -1,7 +1,7 @@
 // Telas do app. Cada view recebe `app` = { go(route, params), refresh(), open(collectionId, type) }.
-import { COLLECTIONS, COLLECTION_BY_ID, CARD_BY_UID, RARITIES, RARITY_ORDER, PRIZES, SHOP, PACKS, UPCOMING, ALL_CARDS } from './data.js';
+import { COLLECTIONS, COLLECTION_BY_ID, CARD_BY_UID, RARITIES, RARITY_ORDER, PRIZES, SHOP, PACKS, UPCOMING, ALL_CARDS, POSITIONS, CREST_MORAL } from './data.js';
 import { state, save, progress, ownedCount, freeAvailable, msToNextFree, prizeStatus, claimPrize } from './state.js';
-import { cardHTML, slotHTML, rarityTag, gem } from './cards.js';
+import { cardHTML, slotHTML, rarityTag, gem, abilityText } from './cards.js';
 import { packHTML } from './pack.js';
 import { packOdds } from './gacha.js';
 import { attachTilt, sfx, haptic, confetti, enableGyro } from './fx.js';
@@ -38,10 +38,10 @@ export function homeView(app) {
       ${COLLECTIONS.map(c => {
         const pr = progress(c.id);
         return `
-        <div class="pack-slide" data-col="${c.id}">
-          <div class="pack-wrap">${packHTML(c.id, free ? 'free' : 'premium')}</div>
+        <div class="pack-slide" data-col="${c.id}" style="--glow:${c.theme.glow}">
+          <div class="pack-wrap">${packHTML(c.id, c.premiumOnly || !free ? 'premium' : 'free')}</div>
           <div class="pack-meta">
-            <h2>${esc(c.name)}</h2>
+            <h2>${esc(c.name)}${c.premiumOnly ? ' <span class="po-badge">só premium</span>' : ''}</h2>
             <p>${esc(c.tagline)}</p>
             <div class="mini-prog"><div class="bar"><i style="--to:${pr.pct}"></i></div><b>${pr.have}/${pr.total}</b></div>
           </div>
@@ -61,6 +61,11 @@ export function homeView(app) {
    </div>
 
    <div class="home-more">
+    <button class="club-banner" data-act="jogar">
+      <span class="cb-ball">⚽</span>
+      <div><b>Modo Clube</b><span>${state.club ? `${esc(state.club.name)} · temporada ${state.league?.season || 1}` : 'Monte seu time com suas cartas e dispute a liga'}</span></div>
+      ${icon.arrow}
+    </button>
 
     ${ready.length ? `
       <button class="prize-unlock first" data-act="prizes">
@@ -99,15 +104,28 @@ export function homeView(app) {
   cleanups.push(() => tilts.forEach(s => s()));
 
   requestAnimationFrame(() => { car.scrollLeft = startIdx * car.clientWidth; });
-  car.addEventListener('scroll', () => {
-    const i = Math.round(car.scrollLeft / car.clientWidth);
+  const ticker = setInterval(() => { if (node.isConnected) syncCurrent(); }, 400);
+  cleanups.push(() => clearInterval(ticker));
+  // a coleção atual é lida da posição do carrossel (não depende só do evento de rolagem)
+  const syncCurrent = () => {
+    const i = Math.max(0, Math.min(COLLECTIONS.length - 1, Math.round(car.scrollLeft / (car.clientWidth || 1))));
     dots.forEach((d, j) => d.classList.toggle('on', i === j));
-    const id = COLLECTIONS[i]?.id;
-    if (id && id !== current) { current = id; state.lastCollection = id; save(); }
-  }, { passive: true });
+    const id = COLLECTIONS[i].id;
+    if (id !== current) { current = id; state.lastCollection = id; save(); syncCta(); }
+    return current;
+  };
+  car.addEventListener('scroll', syncCurrent, { passive: true });
+  const freeBtn = node.querySelector('[data-act="free"]');
+  const freeHTML = freeBtn.innerHTML, freeDisabled = freeBtn.disabled;
+  const syncCta = () => {
+    const po = COLLECTION_BY_ID[current].premiumOnly;
+    freeBtn.disabled = po || freeDisabled;
+    freeBtn.innerHTML = po ? `${icon.lock} Só premium` : freeHTML;
+  };
+  syncCta();
   car.querySelectorAll('.pack-slide').forEach(s => s.addEventListener('click', () => {
     enableGyro();
-    if (freeAvailable()) app.open(s.dataset.col, 'free');
+    if (freeAvailable() && !COLLECTION_BY_ID[s.dataset.col].premiumOnly) app.open(s.dataset.col, 'free');
     else if (state.premiumPacks > 0) app.open(s.dataset.col, 'premium');
     else app.go('shop');
   }));
@@ -118,8 +136,8 @@ export function homeView(app) {
     sfx.tap();
     const act = b.dataset.act;
     if (b.dataset.colOpen) { ui.album.col = b.dataset.colOpen; return app.go('album'); }
-    if (act === 'free') app.open(current, 'free');
-    else if (act === 'premium') app.open(current, 'premium');
+    if (act === 'free') app.open(syncCurrent(), 'free');
+    else if (act === 'premium') app.open(syncCurrent(), 'premium');
     else app.go(act);
   });
 
@@ -146,8 +164,12 @@ export function albumView(app) {
 
   const node = el(`
   <section class="view album">
-    <div class="seg" role="tablist">
-      ${COLLECTIONS.map(c => `<button role="tab" class="${c.id === a.col ? 'on' : ''}" data-col="${c.id}">${esc(c.name)}</button>`).join('')}
+    <div class="tabs2">
+      <a href="#/album" class="on">${icon.album} Coleção</a>
+      <a href="#/cards" class="">${icon.cards} Minhas cartas</a>
+    </div>
+    <div class="col-chips">
+      ${COLLECTIONS.map(c => `<button class="cchip ${c.id === a.col ? 'on' : ''}" data-col="${c.id}" style="--glow:${c.theme.glow}">${esc(c.short)}<small>${progress(c.id).have}/${c.cards.length}</small></button>`).join('')}
     </div>
 
     <div class="album-head" style="--glow:${col.theme.glow}">
@@ -207,6 +229,10 @@ export function cardsView(app) {
 
   const node = el(`
   <section class="view mycards ${list.length && u.mode === 'showcase' ? 'fit' : ''}">
+    <div class="tabs2">
+      <a href="#/album" class="">${icon.album} Coleção</a>
+      <a href="#/cards" class="on">${icon.cards} Minhas cartas</a>
+    </div>
     <div class="vh">
       <h2>Minhas cartas</h2>
       <div class="seg small">
@@ -298,9 +324,28 @@ export function openDetail(uid) {
   const have = ownedCount(uid) > 0;
   const t = c.teamData;
 
-  const facts = c.kind === 'team'
-    ? [['Nome oficial', c.full], ['Cidade', c.city], ['Fundação', c.founded], ['Estádio', c.stadium], ['Apelido', c.nickname], ['Mascote', c.mascot]]
-    : [['Nome completo', c.full], ['Clube', t.full], ['Posição', c.position], ['Período no clube', c.era], ['Camisa', c.shirt ?? '—']];
+  const facts = {
+    team: () => [['Nome oficial', c.full], ['Cidade', c.city], ['Fundação', c.founded], ['Estádio', c.stadium], ['Apelido', c.nickname], ['Edição', c.edition]],
+    player: () => [['Nome completo', c.full], ['Clube', t.full], ['Posição', POSITIONS[c.pos].label], ['Período', c.era], ['Camisa', c.shirt ?? '—'], ['Versão', c.edition]],
+    stadium: () => [['Nome oficial', c.full], ['Cidade', c.city], ['Inauguração', c.opened ?? '—'], ['Capacidade', `~${c.capacity.toLocaleString('pt-BR')}`], ['Apelido', c.nickname], ['Clube', t.name]],
+    mascot: () => c.hero
+      ? [['Papel', c.role], ['Inspirado no', t.name], ['Habilidade', abilityText(c).label], ['Força', `+${c.power}`]]
+      : [['Clube', t.name], ['Versão', c.edition], ['Habilidade', abilityText(c).label], ['Força', `+${c.power}`]],
+  }[c.kind]();
+  const gameBlock = () => {
+    if (c.kind === 'player') {
+      const rows = [['ATA', 'Finalização'], ['MEI', 'Criação'], ['DEF', 'Marcação'], ['GOL', 'Goleiro']];
+      return `<div class="d-game"><div class="d-fact-h">${icon.play}<b>No Modo Clube</b><span class="d-ovr">${c.ovr} <small>${c.pos}</small></span></div>
+        <div class="rbars">${rows.map(([k, l]) => `<div class="rb"><span>${l}</span><div class="bar"><i style="--to:${c.attrs[k] / 100}"></i></div><b>${c.attrs[k]}</b></div>`).join('')}</div>
+        ${c.fictional ? '<p class="d-note">Atleta fictício da demonstração.</p>' : ''}</div>`;
+    }
+    const line = {
+      team: `Como escudo do seu clube: <b>moral +${CREST_MORAL[c.rarity]}</b> em todos os setores e <b>química</b> com jogadores do ${esc(t.name)}.`,
+      stadium: `Como estádio do seu clube: <b>+${c.mando} de mando</b> em todos os setores nos jogos em casa.`,
+      mascot: () => `Como mascote do seu clube: <b>${esc(abilityText(c).label)}</b> — ${esc(abilityText(c).desc)}.`,
+    }[c.kind];
+    return `<div class="d-game"><div class="d-fact-h">${icon.play}<b>No Modo Clube</b></div><p>${typeof line === 'function' ? line() : line}</p></div>`;
+  };
 
   const odds = type => {
     const pool = col.cards.filter(x => x.rarity === c.rarity).length;
@@ -327,6 +372,7 @@ export function openDetail(uid) {
             <div class="d-fact-h">${icon.bulb}<b>Curiosidade</b></div>
             <p>${esc(c.fact)}</p>
           </div>
+          ${gameBlock()}
           <dl class="d-facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
           <div class="d-own">${icon.cards}<span>Você tem <b>${ownedCount(uid)}</b> cópia(s) · obtida em ${fmtDate(state.owned[uid].first)}</span></div>
         ` : `

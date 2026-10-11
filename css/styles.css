@@ -213,7 +213,6 @@ body:not(.signed) .tabbar { display: none; }
 .pack-slide { flex: 0 0 100%; height: 100%; scroll-snap-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px 16px 0; cursor: pointer; }
 .pack-wrap { --pack-w: min(calc(56 * var(--vw)), 232px, calc((calc(100 * var(--vh)) - 400px) / 1.62)); position: relative; display: grid; place-items: center; flex: none; height: calc(var(--pack-w) * 1.55 + 30px); }
 .pack-wrap::before { content: ''; position: absolute; width: 150%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--glow, #2E9BFF) 28%, transparent), transparent 62%); pointer-events: none; }
-.pack-slide[data-col="idolos"] .pack-wrap { --glow: #B866FF; }
 .pack-meta { text-align: center; flex: none; }
 .pack-meta h2 { font: italic 800 clamp(20px, calc(6 * var(--vw)), 25px)/1 var(--f-head); text-transform: uppercase; }
 .pack-meta p { color: var(--muted); font-size: 13px; margin-top: 3px; }

@@ -152,6 +152,17 @@ export const sfx = {
   },
   charge: () => tone(120, 1.1, { type: 'sawtooth', vol: 0.05, slide: 700 }),
   win: () => [523, 659, 784, 1047, 784, 1047].forEach((f, i) => tone(f, 0.25, { type: 'triangle', vol: 0.08, at: i * 0.11 })),
+  // ---- partida
+  whistle: (n = 1) => { for (let i = 0; i < n; i++) { tone(2900, 0.22, { type: 'sine', vol: 0.05, at: i * 0.32 }); tone(3150, 0.22, { type: 'sine', vol: 0.04, at: i * 0.32 }); } },
+  kick: () => { tone(140, 0.08, { type: 'square', vol: 0.06, slide: -60 }); noise(0.05, { vol: 0.08, from: 800, to: 300 }); },
+  crowd: (dur = 1.6, vol = 0.12) => { noise(dur, { vol, from: 400, to: 1400, q: 0.4 }); noise(dur * 0.8, { vol: vol * 0.6, from: 1200, to: 2600, q: 0.5, at: 0.1 }); },
+  goal: () => { sfx.crowd(2.4, 0.18); [392, 523, 659, 784, 1047].forEach((f, i) => tone(f, 0.4, { type: 'sawtooth', vol: 0.05, at: 0.15 + i * 0.09 })); tone(98, 1.2, { type: 'square', vol: 0.04, at: 0.1 }); },
+  clang: () => { tone(1250, 0.5, { type: 'triangle', vol: 0.09 }); tone(1870, 0.35, { type: 'sine', vol: 0.05 }); sfx.crowd(0.8, 0.07); },
+  save: () => { noise(0.18, { vol: 0.12, from: 600, to: 200 }); sfx.crowd(1, 0.08); },
+  ooh: () => sfx.crowd(0.9, 0.06),
+  card: () => tone(880, 0.12, { type: 'square', vol: 0.04 }),
+  lose: () => [392, 349, 311, 262].forEach((f, i) => tone(f, 0.35, { type: 'triangle', vol: 0.06, at: i * 0.18 })),
+  champion: () => { sfx.win(); sfx.crowd(3, 0.15); [523, 659, 784, 1047, 1319, 1568].forEach((f, i) => tone(f, 0.5, { type: 'triangle', vol: 0.07, at: 0.8 + i * 0.12 })); },
 };
 
 export function haptic(pattern = 10) {

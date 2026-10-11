@@ -29,6 +29,9 @@ export const icon = {
   swipe: p('<path d="M3.5 7h11M11 3.5 14.5 7 11 10.5"/><path d="M9.5 21v-6.5a1.5 1.5 0 0 1 3 0V17l3.7.6a2 2 0 0 1 1.7 2.2L17.6 21"/>'),
   play: p('<path d="M8 5.5v13l10.5-6.5Z"/>'),
   reset: p('<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3L4.5 9"/><path d="M4.5 4.5V9H9"/>'),
+  ball: p('<circle cx="12" cy="12" r="8.5"/><path d="m12 7.5 3.6 2.6-1.4 4.2H9.8l-1.4-4.2Z"/><path d="M12 3.5v4M15.6 10.1l4.3-1.4M14.2 14.3l2.6 3.7M9.8 14.3 7.2 18M8.4 10.1 4.1 8.7"/>'),
+  cap: p('<path d="M4 15.5a8 8 0 0 1 16 0Z"/><path d="M12 7.5v-1M4 15.5h17.5"/>'),
+  stadium: p('<ellipse cx="12" cy="13" rx="9" ry="5"/><ellipse cx="12" cy="13" rx="4.5" ry="2.2"/><path d="M5 6v4M19 6v4"/>'),
 };
 
 export const fmtMoney = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });

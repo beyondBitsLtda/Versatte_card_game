@@ -4,6 +4,8 @@ import { state, save, resetAll, addCard, ownedCount, progress, removeCollection,
 import { simulate } from './gacha.js';
 import { icon, sheet, toast, esc, fmtMoney } from './ui.js';
 import { sfx } from './fx.js';
+import { giveStarterKit, quickCreateClub, simulateUntilLastRound } from './game/club.js';
+import { ALL_CARDS } from './data.js';
 
 const DAY = 86400000;
 let debugCol = COLLECTIONS[0].id;
@@ -39,6 +41,7 @@ export function openDebug(app) {
           <li><button data-a="step-especial">Abrir premium com carta Especial</button></li>
           <li><button data-a="step-75">Chegar a 75% e resgatar a caneca</button></li>
           <li><button data-a="step-100">Completar a coleção e ganhar a camisa</button></li>
+          <li><button data-a="step-club">Montar um clube e jogar a Liga</button></li>
         </ol>
       </div>
 
@@ -73,7 +76,7 @@ export function openDebug(app) {
 
       <div class="dbg-sec">
         <h4>Coleção</h4>
-        <div class="seg small">${COLLECTIONS.map(c => `<button data-dcol="${c.id}" class="${c.id === debugCol ? 'on' : ''}">${esc(c.short)}</button>`).join('')}</div>
+        <div class="col-chips">${COLLECTIONS.map(c => `<button data-dcol="${c.id}" class="cchip ${c.id === debugCol ? 'on' : ''}" style="--glow:${c.theme.glow}">${esc(c.short)}</button>`).join('')}</div>
         <p class="dbg-info">${esc(COLLECTION_BY_ID[debugCol].name)}: <b>${pr.have}/${pr.total}</b></p>
         <div class="dbg-btns">
           <button data-a="f25">Ir a 25%</button>
@@ -82,6 +85,18 @@ export function openDebug(app) {
           <button data-a="f-1">Todas menos 1</button>
           <button data-a="f100">Completar 100%</button>
           <button data-a="clear" class="warn">Limpar coleção</button>
+        </div>
+      </div>
+
+      <div class="dbg-sec">
+        <h4>Modo Clube</h4>
+        <p class="dbg-info">Clube: <b>${state.club ? esc(state.club.name) : 'não criado'}</b>${state.league ? ` · temporada ${state.league.season} · rodada ${Math.min(state.league.round + 1, 7)}/7` : ''}</p>
+        <div class="dbg-btns">
+          <button data-a="kit">Dar kit inicial</button>
+          <button data-a="all-cards">Dar todas as cartas</button>
+          <button data-a="auto-club">Criar clube automático</button>
+          <button data-a="to-last">Ir para a última rodada</button>
+          <button data-a="reset-club" class="warn">Apagar clube</button>
         </div>
       </div>
 
@@ -138,6 +153,19 @@ export function openDebug(app) {
         if (!confirm('Apagar todo o progresso e a conta deste aparelho?')) return;
         resetAll(); s.close(); return app.boot();
       case 'sim': return runSim(s.node.querySelector('.dbg-sim'), b);
+      case 'kit': giveStarterKit(addCard); return done('Kit inicial: escudo, 2 estádios, 2 mascotes e 12 jogadores');
+      case 'all-cards': ALL_CARDS.forEach(c => { if (!ownedCount(c.uid)) addCard(c.uid); }); return done('Todas as cartas liberadas');
+      case 'auto-club': quickCreateClub(); save(); s.close(); toast('Clube criado com as suas melhores cartas', { tone: 'ok' }); return app.go('jogar');
+      case 'to-last': {
+        if (!state.club) { toast('Crie um clube primeiro'); return; }
+        const n = simulateUntilLastRound(); s.close(); toast(`${n} rodada(s) simulada(s) — jogue a última!`, { tone: 'ok' }); return app.go('jogar');
+      }
+      case 'reset-club': state.club = null; state.league = null; return done('Clube apagado');
+      case 'step-club': {
+        if (!ALL_CARDS.some(c => c.kind === 'player' && ownedCount(c.uid))) giveStarterKit(addCard);
+        if (!state.club) quickCreateClub();
+        save(); s.close(); toast('Clube pronto! Toque em Jogar.', { tone: 'ok' }); return app.go('jogar');
+      }
 
       // roteiro
       case 'step-free': state.lastFreeDay = null; save(); s.close(); return app.open(state.lastCollection, 'free');

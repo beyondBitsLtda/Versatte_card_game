@@ -8,7 +8,7 @@ import { overlay, el, esc, icon, wait } from './ui.js';
 
 function packArt(col, type) {
   const premium = type === 'premium';
-  const [l1, l2] = col.id === 'idolos' ? ['ÍDOLOS', 'LENDAS'] : ['SÉRIE A', '2026'];
+  const [l1, l2] = col.packTitle;
   return `
     <div class="pk-art">
       <div class="pk-foil"></div>
@@ -18,6 +18,7 @@ function packArt(col, type) {
       <div class="pk-brand">VERSATTE <b>CARDS</b></div>
       <div class="pk-emblem"><img src="assets/logo-versatte.png" alt="" draggable="false"></div>
       <div class="pk-title"><span>${l1}</span><strong>${l2}</strong></div>
+      ${col.premiumOnly ? '<div class="pk-special">EDIÇÃO ESPECIAL</div>' : ''}
       <div class="pk-badge">${premium ? `${icon.sparkle} PREMIUM · 4 CARTAS` : 'DIÁRIO · 3 CARTAS'}</div>
       <div class="pk-shine"></div>
     </div>`;

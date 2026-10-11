@@ -3,15 +3,17 @@ import { state, save, onChange, freeAvailable, readyPrizes } from './state.js';
 import { homeView, albumView, cardsView, prizesView, shopView, signupView, openProfile, cleanupView } from './views.js';
 import { startOpening } from './pack.js';
 import { openDebug } from './debug.js';
+import { clubView } from './game/club.js';
 import { burst, sfx, haptic } from './fx.js';
 import { icon, esc, toast, wait } from './ui.js';
 
 const ROUTES = {
   home:   { view: homeView,   label: 'Início',  icon: 'home' },
   album:  { view: albumView,  label: 'Álbum',   icon: 'album' },
-  cards:  { view: cardsView,  label: 'Cartas',  icon: 'cards' },
+  jogar:  { view: clubView,   label: 'Jogar',   icon: 'ball', center: true },
   prizes: { view: prizesView, label: 'Prêmios', icon: 'gift' },
   shop:   { view: shopView,   label: 'Loja',    icon: 'bag' },
+  cards:  { view: cardsView,  label: 'Cartas',  icon: 'cards', hidden: true, tab: 'album' },
 };
 
 const $ = s => document.querySelector(s);
@@ -57,8 +59,9 @@ function render(keepScroll = false) {
 }
 
 function renderChrome() {
-  $('#tabbar').innerHTML = Object.entries(ROUTES).map(([k, r]) => `
-    <a href="#/${k}" class="tab ${k === route ? 'on' : ''}" aria-label="${r.label}">
+  const activeTab = ROUTES[route].tab || route;
+  $('#tabbar').innerHTML = Object.entries(ROUTES).filter(([, r]) => !r.hidden).map(([k, r]) => `
+    <a href="#/${k}" class="tab ${k === activeTab ? 'on' : ''} ${r.center ? 'center' : ''}" aria-label="${r.label}">
       ${icon[r.icon]}<span>${r.label}</span>
       ${k === 'prizes' && readyPrizes().length ? '<i class="dot"></i>' : ''}
       ${k === 'home' && freeAvailable() ? '<i class="dot"></i>' : ''}

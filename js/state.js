@@ -1,7 +1,7 @@
 // Estado do jogador — persistido só no aparelho (localStorage).
 import { COLLECTIONS, PRIZES, CARD_BY_UID } from './data.js';
 
-const KEY = 'versatte-cards:v1';
+const KEY = 'versatte-cards:v2';
 const listeners = new Set();
 
 function fresh() {
@@ -19,6 +19,9 @@ function fresh() {
     stats: { opened: 0, free: 0, premium: 0, cards: 0, spent: 0 },
     settings: { sound: true, intro: true, debug: true, tilt: true },
     lastCollection: COLLECTIONS[0].id,
+    club: null,                // Modo Clube: { name, crest, stadium, mascot, formation, slots[5], bench[5] }
+    league: null,              // temporada em andamento
+    game: { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, streak: 0, best: 0, titles: 0, seasons: 0 },
   };
 }
 
@@ -28,7 +31,7 @@ function load() {
     if (!raw) return fresh();
     const s = JSON.parse(raw);
     const base = fresh();
-    return { ...base, ...s, stats: { ...base.stats, ...s.stats }, settings: { ...base.settings, ...s.settings } };
+    return { ...base, ...s, stats: { ...base.stats, ...s.stats }, settings: { ...base.settings, ...s.settings }, game: { ...base.game, ...s.game } };
   } catch {
     return fresh();
   }

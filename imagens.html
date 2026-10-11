@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Imagens das Cartas</title>
+  <link rel="icon" type="image/png" href="assets/icon-192.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;500;600;700&display=swap">
+  <style>
+    :root { color-scheme: dark; --bg: #04070D; --panel: #0C1626; --line: rgba(150,185,255,.14); --text: #EAF1FF; --muted: #93A3BD; --orange: #FF8A1F; --ok: #3ddc84; --bad: #ff7b7b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 500 14px/1.45 Barlow, Inter, system-ui, sans-serif; }
+    main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
+    h1 { font: italic 800 34px/1 'Barlow Condensed', sans-serif; text-transform: uppercase; margin: 0 0 6px; }
+    h1 b { color: var(--orange); }
+    p { color: var(--muted); margin: 0 0 10px; }
+    code { background: rgba(255,255,255,.07); padding: 1px 6px; border-radius: 6px; font-size: 12.5px; }
+    .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; }
+    button { font: 700 13px Barlow, sans-serif; color: var(--text); background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer; }
+    button.primary { background: linear-gradient(135deg, #FFA048, #FF7A00); color: #1a0b00; border: 0; }
+    .sum { display: flex; gap: 10px; flex-wrap: wrap; }
+    .sum div { padding: 10px 14px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); }
+    .sum b { font-size: 20px; display: block; }
+    h2 { font: italic 800 22px 'Barlow Condensed', sans-serif; text-transform: uppercase; margin: 26px 0 8px; }
+    table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+    th, td { padding: 8px 10px; border-top: 1px solid var(--line); text-align: left; vertical-align: middle; }
+    th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-top: 0; }
+    td.thumb { width: 64px; }
+    .thumb div { width: 52px; height: 64px; border-radius: 8px; background: repeating-conic-gradient(#1a2233 0 25%, #121a28 0 50%) 0 0 / 12px 12px; display: grid; place-items: center; overflow: hidden; }
+    .thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .st { font-weight: 700; font-size: 12.5px; white-space: nowrap; }
+    .st.ok { color: var(--ok); } .st.bad { color: var(--bad); } .st.none { color: var(--muted); } .st.found { color: #FFC940; }
+    .rar { font-size: 12px; font-weight: 700; }
+    .uid { font-family: ui-monospace, Consolas, monospace; font-size: 12px; color: #c9d6ee; }
+    .path { font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: var(--muted); word-break: break-all; }
+    textarea { width: 100%; min-height: 160px; margin-top: 8px; background: #070b14; color: #c9d6ee; border: 1px solid var(--line); border-radius: 12px; padding: 12px; font: 12.5px ui-monospace, Consolas, monospace; }
+    .hide { display: none; }
+    .tw { overflow-x: auto; border-radius: 14px; }
+    @media (max-width: 700px) { .path, th:nth-child(5), td:nth-child(5) { display: none; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Imagens das <b>Cartas</b></h1>
+  <p>Catálogo de todas as cartas e das imagens configuradas em <code>js/imagens.js</code>. Cartas sem imagem usam a arte automática do jogo.</p>
+  <p>Fluxo sugerido: salve os PNGs com o nome sugerido (ex.: <code>assets/cartas/clubes/clube-fla.png</code>), clique em <b>Procurar nos caminhos sugeridos</b> e cole o trecho gerado no arquivo <code>js/imagens.js</code>.</p>
+  <div class="sum" id="sum"></div>
+  <div class="bar">
+    <button class="primary" id="scan">Procurar nos caminhos sugeridos</button>
+    <button id="onlyMissing">Mostrar só as que faltam</button>
+    <a href="./" style="color:var(--orange);font-weight:700;margin-left:auto">← Voltar ao jogo</a>
+  </div>
+  <div id="snippetBox" class="hide">
+    <p><b>Trecho para colar em <code>js/imagens.js</code></b> (substitua as linhas correspondentes):</p>
+    <textarea id="snippet" readonly></textarea>
+  </div>
+  <div id="list"></div>
+</main>
+<script type="module">
+  import { COLLECTIONS, RARITIES } from './js/data.js';
+  import { IMAGENS } from './js/imagens.js';
+
+  const srcOf = uid => { const v = IMAGENS[uid]; return typeof v === 'string' ? v : (v && v.src) || ''; };
+  const suggested = card => `assets/cartas/${card.collection}/${card.uid}.png`;
+  const status = new Map();   // uid -> 'ok' | 'bad' | 'none' | 'found'
+  let onlyMissing = false;
+
+  function render() {
+    const total = COLLECTIONS.reduce((s, c) => s + c.cards.length, 0);
+    const ok = [...status.values()].filter(v => v === 'ok').length;
+    const found = [...status.values()].filter(v => v === 'found').length;
+    const bad = [...status.values()].filter(v => v === 'bad').length;
+    document.getElementById('sum').innerHTML = `
+      <div><b>${total}</b>cartas</div><div><b style="color:var(--ok)">${ok}</b>com imagem</div>
+      <div><b style="color:#FFC940">${found}</b>encontradas, falta configurar</div><div><b style="color:var(--bad)">${bad}</b>com erro</div>`;
+    document.getElementById('list').innerHTML = COLLECTIONS.map(col => `
+      <h2>${col.name} · ${col.cards.length} cartas</h2>
+      <div class="tw"><table>
+        <thead><tr><th></th><th>#</th><th>Carta</th><th>ID (chave em imagens.js)</th><th>Caminho</th><th>Status</th></tr></thead>
+        <tbody>${col.cards.filter(c => !onlyMissing || status.get(c.uid) !== 'ok').map(c => {
+          const st = status.get(c.uid) || 'none';
+          const src = st === 'found' ? suggested(c) : srcOf(c.uid);
+          return `<tr>
+            <td class="thumb"><div>${src && st !== 'bad' ? `<img src="${src}" alt="">` : ''}</div></td>
+            <td>${String(c.number).padStart(2, '0')}</td>
+            <td><b>${c.name}</b><br><span class="rar" style="color:${RARITIES[c.rarity].color}">${c.edition} · ${RARITIES[c.rarity].label}</span></td>
+            <td class="uid">${c.uid}</td>
+            <td class="path">${srcOf(c.uid) || `<span style="opacity:.6">sugerido: ${suggested(c)}</span>`}</td>
+            <td><span class="st ${st}">${{ ok: '✓ carregou', bad: '✗ não encontrada', none: '— arte automática', found: '★ achada no caminho sugerido' }[st]}</span></td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table></div>`).join('');
+  }
+
+  const probe = src => new Promise(res => { const i = new Image(); i.onload = () => res(true); i.onerror = () => res(false); i.src = src + (src.includes('?') ? '&' : '?') + 'v=' + Date.now(); });
+
+  async function checkConfigured() {
+    const all = COLLECTIONS.flatMap(c => c.cards);
+    await Promise.all(all.map(async c => { const s = srcOf(c.uid); status.set(c.uid, s ? ((await probe(s)) ? 'ok' : 'bad') : 'none'); }));
+    render();
+  }
+
+  document.getElementById('scan').addEventListener('click', async e => {
+    e.target.textContent = 'Procurando…';
+    const all = COLLECTIONS.flatMap(c => c.cards).filter(c => status.get(c.uid) !== 'ok');
+    const hits = [];
+    await Promise.all(all.map(async c => { if (await probe(suggested(c))) { status.set(c.uid, 'found'); hits.push(c); } }));
+    e.target.textContent = `Procurar nos caminhos sugeridos (${hits.length} encontradas)`;
+    const box = document.getElementById('snippetBox');
+    box.classList.toggle('hide', !hits.length);
+    document.getElementById('snippet').value = hits.map(c => `  '${c.uid}': '${suggested(c)}',`).join('\n');
+    render();
+  });
+  document.getElementById('onlyMissing').addEventListener('click', e => {
+    onlyMissing = !onlyMissing; e.target.textContent = onlyMissing ? 'Mostrar todas' : 'Mostrar só as que faltam'; render();
+  });
+  render(); checkConfigured();
+</script>
+</body>
+</html>
