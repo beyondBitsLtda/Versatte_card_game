@@ -58,7 +58,7 @@
 .inv > div small { font-size: 12px; color: var(--muted); }
 .inv .btn { flex: none; }
 .mp-empty { font-size: 13px; padding: 2px 4px 6px; }
-.chal { display: grid; gap: 8px; }
+.chal { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
 .chal-opt { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; text-align: left; background: var(--panel); border: 1px solid var(--line); }
 .chal-opt:not(:disabled):active { transform: scale(.98); }
 .chal-opt:disabled { opacity: .45; }
@@ -136,7 +136,7 @@
 .ta-new .card { --cw: 112px; }
 
 /* ---------- torneio online ---------- */
-.cup { max-width: 480px; margin: 0 auto; padding: calc(56px + var(--st)) 16px calc(30px + var(--sb)); display: grid; gap: 10px; }
+.cup { max-width: 480px; margin: 0 auto; padding: calc(56px + var(--st)) 16px calc(30px + var(--sb)); display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
 .cup-head { display: flex; align-items: center; gap: 10px; }
 .cup-mini { width: 70px; height: 92px; flex: none; --tc: #33b5ff; }
 .cup-head span { font: 700 11px var(--f-body); text-transform: uppercase; letter-spacing: .12em; color: #7fd0ff; }

@@ -747,8 +747,15 @@ export function playMatch(opts) {
           addFeed(45, `Intervalo: ${ev.score[0]} x ${ev.score[1]}`);
           sfx.whistle(2);
           const close = bigText('INTERVALO', 'half', `${ev.score[0]} x ${ev.score[1]}`);
-          await simWait(1.3); close();
+          // intervalo: a bola para e os botões voltam às posições de saída e ficam parados
+          script = { freeze: true, immune: true };
+          ball.owner = null; ball.to = null; ball.inNet = false; ball.vx = ball.vy = ball.vz = 0; ball.z = 0;
+          ball.x = FW / 2; ball.y = FL / 2; ball.trail = [];
+          setKickoff(1);
+          await simWait(1.6); close();
+          paused = true;                                                   // nada se mexe enquanto o intervalo durar
           await src.onHalf({ container: node.querySelector('.mt') });     // online: substituições com tempo limite
+          paused = false;
           await kickoff(1);
           break;
         }
