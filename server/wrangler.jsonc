@@ -7,6 +7,9 @@
   "account_id": "7e4b10d80b08fef1f2fcca583577bf2d",
   "main": "src/index.js",
   "compatibility_date": "2026-10-01",
+  // endereço reserva (versatte-api.beyondbitslisa.workers.dev): o app usa se o domínio próprio não responder
+  "workers_dev": true,
+  "preview_urls": false,
   "routes": [{ "pattern": "api-versatte.beyond.dev.br", "custom_domain": true }],
   "vars": {
     // sites que podem chamar a API (o jogo no GitHub Pages e o desenvolvimento local)

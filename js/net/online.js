@@ -8,7 +8,7 @@
 //  • O servidor é a fonte da verdade de cartas, moedas e pacotes;
 //    aqui só espelhamos no `state` e enviamos o clube/campeonatos.
 // ============================================================
-import { API_URL, POLL_MS } from '../config.js';
+import { API_URLS, POLL_MS } from '../config.js';
 import { state, save, onChange, useStorage } from '../state.js';
 
 const SESSION_KEY = 'versatte-sessao';
@@ -23,17 +23,36 @@ export class ApiError extends Error {
   constructor(status, code, message) { super(message || code); this.status = status; this.code = code; }
 }
 
+// endereço que respondeu por último (o domínio próprio ou o reserva *.workers.dev)
+let baseIdx = 0;
+try { baseIdx = Math.max(0, API_URLS.indexOf(sessionStorage.getItem('versatte-api'))); } catch { baseIdx = 0; }
+const remember = i => { baseIdx = i; try { sessionStorage.setItem('versatte-api', API_URLS[i]); } catch { /* sem storage */ } };
+
+/** fetch que tenta os endereços da API em ordem, começando pelo último que funcionou. */
+async function fetchApi(path, init) {
+  let lastErr;
+  for (let k = 0; k < API_URLS.length; k++) {
+    const i = (baseIdx + k) % API_URLS.length;
+    try {
+      const r = await fetch(API_URLS[i] + path, init);
+      if (i !== baseIdx) remember(i);
+      return r;
+    } catch (e) { lastErr = e; }
+  }
+  throw lastErr;
+}
+
 /** Chamada à API. Erros de rede viram ApiError('rede'). Sessão expirada → sai da conta. */
 export async function api(method, path, body) {
   let r;
   try {
-    r = await fetch(API_URL + path, {
+    r = await fetchApi(path, {
       method,
       headers: { 'content-type': 'application/json', ...(session ? { authorization: 'Bearer ' + session.token } : {}) },
       body: body ? JSON.stringify(body) : undefined,
     });
   } catch {
-    throw new ApiError(0, 'rede', 'Sem conexão com o servidor do Versatte');
+    throw new ApiError(0, 'rede', 'Sem conexão com o servidor do Versatte. Confira a internet e tente de novo.');
   }
   const data = await r.json().catch(() => ({}));
   if (!r.ok) {
@@ -44,7 +63,7 @@ export async function api(method, path, body) {
 }
 
 export async function serverUp() {
-  try { const r = await fetch(API_URL + '/saude', { cache: 'no-store' }); return r.ok; } catch { return false; }
+  try { const r = await fetchApi('/saude', { cache: 'no-store' }); return r.ok; } catch { return false; }
 }
 
 // ---------------- senha → chave derivada ----------------

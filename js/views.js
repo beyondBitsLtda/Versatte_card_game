@@ -7,7 +7,6 @@ import { packOdds } from './gacha.js';
 import { attachTilt, sfx, haptic, confetti, enableGyro, centerOf, burst } from './fx.js';
 import { exchangeE, buyE, claimE } from './net/economy.js';
 import { isOnline, me as onlineMe, login, signup, logout, serverUp } from './net/online.js';
-import { API_URL } from './config.js';
 import { icon, esc, el, sheet, overlay, toast, fmtMoney, fmtPct, fmtDate, fmtCountdown, wait } from './ui.js';
 
 const ui = { album: { col: COLLECTIONS[0].id, filter: 'all', rarity: null }, cards: { mode: 'showcase', sort: 'rarity', col: 'all' } };
@@ -691,7 +690,10 @@ export function authView(onDone) {
   render();
   serverUp().then(up => {
     $('.au-srv').innerHTML = up ? '<i class="dot-ok"></i> Servidor online' : '<i class="dot-off"></i> Servidor indisponível no momento';
-    if (!up) $('.au-err').textContent = 'Não foi possível falar com o servidor. Você pode jogar offline enquanto isso.';
+    if (!up) {
+      $('.au-err').innerHTML = 'Não foi possível falar com o servidor. Confira a internet ou <a href="#" data-retry>tente de novo</a> — ou jogue offline enquanto isso.';
+      $('[data-retry]').addEventListener('click', ev => { ev.preventDefault(); sfx.tap(); $('.au-err').textContent = ''; $('.au-srv').textContent = 'Verificando…'; serverUp().then(ok => { $('.au-srv').innerHTML = ok ? '<i class="dot-ok"></i> Servidor online' : '<i class="dot-off"></i> Servidor indisponível no momento'; if (!ok) $('.au-err').textContent = 'Ainda sem resposta do servidor. Tente outra rede (Wi-Fi/4G) ou jogue offline.'; }); });
+    }
   });
   node.addEventListener('click', e => {
     const t = e.target.closest('[data-tab]');
