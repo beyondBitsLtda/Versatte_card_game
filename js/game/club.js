@@ -18,6 +18,7 @@ import {
   createComp, nextUserMatch, recordUserMatch, compReward, compStatus, compLevel, groupStandings, userGroup, koRoundName, migrateLeague,
 } from './tournament.js';
 import { mountTrophies } from './trophy3d.js';
+import { rewardE } from '../net/economy.js';
 import { confetti, burst, sfx, haptic, coinFly } from '../fx.js';
 import { icon, esc, el, sheet, overlay, toast } from '../ui.js';
 
@@ -707,9 +708,10 @@ async function playCompRound(app) {
   const res = recordUserMatch(comp, m, userSide, result.score, shootout);
   Object.assign(g, { played: g.played + 1, gf: g.gf + gf, ga: g.ga + ga, streak, best: Math.max(g.best, streak) });
   g[{ win: 'won', draw: 'drawn', loss: 'lost' }[outcome]]++;
-  state.coins += reward.coins;
-  if (reward.pack) addPacks(reward.pack, 1);
   save();
+  // moedas: offline vão direto; online o servidor credita (com limites anti-trapaça)
+  const got = await rewardE(reward.coins, reward.pack, 'partida');
+  if (got.limited) { reward.lines.push(['Limite diário de recompensas', got.coins - reward.coins]); reward.coins = got.coins; reward.pack = got.pack; }
 
   const after = comp.done || comp.userOut ? '' : nextUserMatch(comp)?.stage;
   const statusLine = res.champion ? `<div class="rw-pos big">🏆 <b>Campeão da ${esc(def.name)}!</b></div>`
@@ -751,10 +753,11 @@ async function playFriendly(app) {
   const full = matchReward(gf, ga, outcome, 0);
   const coins = Math.round(full.coins * COINS.friendly);
   const reward = { coins, lines: [...full.lines, ['Amistoso (metade)', coins - full.coins]], pack: null };
-  state.coins += coins; save();
+  const got = await rewardE(coins, null, 'amistoso');
+  if (got.limited) { reward.lines.push(['Limite de recompensas', got.coins - coins]); reward.coins = got.coins; }
   await (mode === 'texto' ? playTextMatch : playMatch)({ home, away, result, userSide, context: { title: 'Amistoso', subtitle: 'Modo Clube' }, onResultHtml: () => rewardHtml(reward) });
   app.refresh();
-  flyCoins(coins);
+  flyCoins(reward.coins);
 }
 
 /** Fim do campeonato: troféu 3D para o campeão, resumo para quem caiu. */
@@ -766,8 +769,9 @@ async function compEnd(comp) {
   const r = compReward(comp);
   if (champ) { state.trophies[comp.type] = (state.trophies[comp.type] || 0) + 1; state.game.titles++; }
   state.game.seasons++;
-  state.coins += r.coins; if (r.pack) addPacks(r.pack, 1);
   save();
+  const got = await rewardE(r.coins, r.pack, 'campeonato');
+  r.coins = got.coins; r.pack = got.pack;
   return new Promise(resolve => {
     const ov = overlay(`
       <div class="se ${champ ? 'champ' : ''}" style="--tc:${def.color}">

@@ -170,6 +170,27 @@ function buildTrophy(type, locked) {
     g.add(orbit); spinners.push(orbit);
   }
 
+  if (type === 'online') {
+    // Troféu online: cálice de cristal neon com anel de luz e gema girando
+    const crystal = new THREE.MeshPhysicalMaterial({
+      envMap, envMapIntensity: 1.4, color: locked ? '#1b2233' : '#9fe6ff', metalness: 0, roughness: 0.04,
+      transmission: locked ? 0 : 0.85, thickness: 0.6, ior: 1.5, transparent: true, opacity: locked ? 1 : 0.9,
+      emissive: locked ? '#000000' : '#0a4a7a', emissiveIntensity: 0.5, side: THREE.DoubleSide,
+    });
+    const neon = new THREE.MeshStandardMaterial({ color: locked ? '#1b2233' : '#7fd0ff', emissive: locked ? '#000' : '#33b5ff', emissiveIntensity: 2.2 });
+    g.add(cyl(0.6, 0.66, 0.16, mat.black, 0.08, 6));
+    g.add(cyl(0.5, 0.58, 0.16, mat.black, 0.24, 6));
+    g.add(ring(0.6, 0.02, neon, 0.17));
+    g.add(ring(0.5, 0.018, neon, 0.33));
+    g.add(lathe([[0, 0.32], [0.3, 0.32], [0.12, 0.45], [0.08, 0.9], [0.14, 1.0], [0.4, 1.2], [0.58, 1.55], [0.6, 1.8], [0.56, 1.82], [0, 1.25]], crystal));
+    g.add(ring(0.58, 0.02, neon, 1.8));
+    const halo = new THREE.Mesh(new THREE.TorusGeometry(0.78, 0.025, 12, 80), neon);
+    halo.position.y = 1.45; halo.rotation.x = Math.PI / 2.4;
+    g.add(halo); spinners.push(halo);
+    const gemTop = new THREE.Mesh(new THREE.OctahedronGeometry(0.22, 0), new THREE.MeshStandardMaterial({ envMap, color: locked ? '#1b2233' : '#ffc940', metalness: 0.6, roughness: 0.1, emissive: locked ? '#000' : '#ff8a1f', emissiveIntensity: 0.7, flatShading: true }));
+    gemTop.position.y = 2.15; g.add(gemTop); spinners.push(gemTop);
+  }
+
   g.position.y = -1.05;
   return { group: g, spinners };
 }

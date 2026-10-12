@@ -1,7 +1,8 @@
 // Pacote 3D (CSS 3D) + sequência de abertura estilo TCG.
 import { COLLECTION_BY_ID, RARITIES, PACK_STYLE } from './data.js';
 import { state, progress, readyPrizes, freeAvailable, totalPacks } from './state.js';
-import { openPack } from './gacha.js';
+import { openPackE } from './net/economy.js';
+import { toast } from './ui.js';
 import { cardHTML, rarityTag } from './cards.js';
 import { burst, confetti, centerOf, sfx, haptic, attachTilt, enableGyro, coinFly } from './fx.js';
 import { overlay, el, esc, icon, wait } from './ui.js';
@@ -47,12 +48,17 @@ export function packHTML(collectionId, type = 'free') {
 // ------------------------------------------------------------
 //  Sequência de abertura
 // ------------------------------------------------------------
-export function startOpening(collectionId, type, { onDone } = {}) {
+export async function startOpening(collectionId, type, { onDone } = {}) {
   enableGyro();
   const col = COLLECTION_BY_ID[collectionId];
   const before = progress(collectionId);
   const readyBefore = new Set(readyPrizes().map(p => p.id));
-  const result = openPack(collectionId, type);
+  // online o sorteio é feito no servidor: um carregamento curto cobre a ida e volta
+  const loading = overlay(`<div class="pk-loading"><div class="pack-holder">${packHTML(collectionId, type)}</div><span><i class="spinner"></i> Sorteando suas cartas…</span></div>`, 'opening');
+  let result;
+  try { result = await openPackE(collectionId, type); }
+  catch (e) { loading.close(); toast(e.message || 'Não foi possível abrir o pacote', { tone: 'warn' }); onDone && onDone(null); return; }
+  loading.node.remove();
 
   const ov = overlay(`
     <div class="open-bg" style="--glow:${col.theme.glow}"></div>

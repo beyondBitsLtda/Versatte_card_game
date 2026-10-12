@@ -5,6 +5,9 @@ import { cardHTML, slotHTML, rarityTag, gem, abilityText } from './cards.js';
 import { packHTML } from './pack.js';
 import { packOdds } from './gacha.js';
 import { attachTilt, sfx, haptic, confetti, enableGyro, centerOf, burst } from './fx.js';
+import { exchangeE, buyE, claimE } from './net/economy.js';
+import { isOnline, me as onlineMe, login, signup, logout, serverUp } from './net/online.js';
+import { API_URL } from './config.js';
 import { icon, esc, el, sheet, overlay, toast, fmtMoney, fmtPct, fmtDate, fmtCountdown, wait } from './ui.js';
 
 const ui = { album: { col: COLLECTIONS[0].id, filter: 'all', rarity: null }, cards: { mode: 'showcase', sort: 'rarity', col: 'all' } };
@@ -441,11 +444,13 @@ export function prizesView(app) {
     <p class="fine">Protótipo: os códigos são fictícios. Na versão final, o resgate é validado no PDV/e-commerce da Versatte.</p>
   </section>`);
 
-  node.addEventListener('click', e => {
+  node.addEventListener('click', async e => {
     const b = e.target.closest('[data-claim]');
-    if (!b) return;
+    if (!b || b.disabled) return;
     const p = PRIZES.find(x => x.id === b.dataset.claim);
-    const code = claimPrize(p);
+    b.disabled = true;
+    let code;
+    try { code = await claimE(p.id); } catch (err) { b.disabled = false; return toast(err.message, { tone: 'warn' }); }
     sfx.win(); haptic([30, 40, 60]);
     confetti(['#FF8A1F', '#33B5FF', '#FFC940', '#ffffff']);
     const s = sheet(`
@@ -527,15 +532,16 @@ export function shopView(app) {
     <p class="fine">Protótipo: valores ilustrativos e pagamento simulado.</p>
   </section>`);
 
-  node.addEventListener('click', e => {
+  node.addEventListener('click', async e => {
     const b = e.target.closest('button');
     if (!b) return;
     if (b.dataset.buy) { sfx.tap(); checkout(SHOP.offers.find(o => o.id === b.dataset.buy), app); }
     if (b.hasAttribute('data-earn')) { sfx.tap(); openEarnInfo(); }
     if (b.dataset.coinbuy) {
       const o = SHOP.coinOffers.find(x => x.type === b.dataset.coinbuy);
-      if (state.coins < o.price) return;
-      state.coins -= o.price; addPacks(o.type, 1); save();
+      if (state.coins < o.price || b.disabled) return;
+      b.disabled = true;
+      try { await exchangeE(o.type); } catch (err) { b.disabled = false; return toast(err.message, { tone: 'warn' }); }
       sfx.coin(); haptic([20, 30, 40]);
       const c = centerOf(b);
       burst(c.x, c.y, { colors: ['#FFC940', '#fff', '#FF8A1F'], count: 40, speed: 7, shape: 'star', size: 2.4 });
@@ -623,9 +629,7 @@ function checkout(o, app) {
     const b = ev.currentTarget;
     b.disabled = true; b.innerHTML = '<span class="spinner"></span> Processando…';
     await wait(1100);
-    state.premiumPacks += total;
-    state.stats.spent += o.price;
-    save();
+    try { await buyE(o.id); } catch (err) { b.disabled = false; b.textContent = `Pagar ${fmtMoney(o.price)}`; return toast(err.message, { tone: 'warn' }); }
     sfx.win(); haptic([20, 30, 50]);
     s.node.querySelector('.sheet-body').innerHTML = `
       <div class="claim">
@@ -641,39 +645,96 @@ function checkout(o, app) {
 }
 
 // ============================================================
-//  CADASTRO
+//  ENTRAR / CRIAR CONTA (servidor) — ou jogar offline (demonstração)
 // ============================================================
-export function signupView(onDone) {
+export function authView(onDone) {
+  let mode = 'criar';
   const node = el(`
-  <section class="signup">
+  <section class="signup auth">
     <img class="su-logo" src="assets/logo-versatte.png" alt="Versatte">
-    <h1>Crie sua conta <em>grátis</em></h1>
-    <p class="muted">Abra um pacote por dia, complete álbuns e troque por brindes reais na Versatte.</p>
-    <ul class="su-perks">
+    <h1 class="au-h1"></h1>
+    <p class="muted au-lead"></p>
+    <ul class="su-perks au-perks">
       <li>${icon.pack}<span><b>3 cartas grátis</b> todo dia</span></li>
-      <li>${icon.album}<span><b>Álbuns temáticos</b> lançados ao longo do ano</span></li>
+      <li>${icon.swipe}<span><b>Troque cartas</b> e desafie amigos online</span></li>
       <li>${icon.gift}<span><b>Camisas, canecas e cupons</b> ao completar coleções</span></li>
     </ul>
-    <form class="su-form" autocomplete="on">
-      <label><span>Nome</span><input name="name" required maxlength="40" placeholder="Como quer ser chamado?"></label>
-      <label><span>E-mail</span><input name="email" type="email" required placeholder="voce@email.com"></label>
-      <label class="check"><input type="checkbox" name="ok" required><span>Li e aceito os termos de uso e a política de privacidade.</span></label>
-      <button class="btn primary big" type="submit">Criar conta e ganhar bônus</button>
-      <p class="fine">Protótipo: os dados ficam salvos apenas neste aparelho.</p>
+    <div class="seg au-tabs">
+      <button data-tab="criar" class="on">Criar conta</button>
+      <button data-tab="entrar">Entrar</button>
+    </div>
+    <form class="su-form" autocomplete="on" novalidate>
+      <label class="au-nome"><span>Nome</span><input name="nome" maxlength="40" autocomplete="nickname" placeholder="Como quer ser chamado?"></label>
+      <label><span>E-mail</span><input name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
+      <label><span>Senha</span><input name="senha" type="password" minlength="8" autocomplete="new-password" placeholder="Mínimo de 8 caracteres"></label>
+      <label class="check au-aceite"><input type="checkbox" name="aceite"><span>Li e aceito os <a href="#" data-terms>termos de uso e a política de privacidade</a>. Meus dados (nome e e-mail) são usados só para a conta do jogo.</span></label>
+      <p class="au-err" role="alert"></p>
+      <button class="btn primary big au-go" type="submit">Criar conta e ganhar bônus</button>
     </form>
+    <div class="au-off">
+      <span class="au-srv"></span>
+      <button class="link-btn" data-offline>Jogar offline (demonstração, sem conta)</button>
+    </div>
   </section>`);
-  node.querySelector('form').addEventListener('submit', e => {
+  const $ = q => node.querySelector(q);
+  const form = $('form');
+  const render = () => {
+    const criar = mode === 'criar';
+    $('.au-h1').innerHTML = criar ? 'Crie sua conta <em>grátis</em>' : 'Bem-vindo de <em>volta</em>';
+    $('.au-lead').textContent = criar ? 'Sua coleção fica salva na nuvem: jogue em qualquer aparelho, troque cartas e desafie amigos.' : 'Entre para continuar sua coleção.';
+    $('.au-nome').hidden = !criar; $('.au-aceite').hidden = !criar; $('.au-perks').hidden = !criar;
+    form.senha.autocomplete = criar ? 'new-password' : 'current-password';
+    $('.au-go').textContent = criar ? 'Criar conta e ganhar bônus' : 'Entrar';
+    node.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === mode));
+    $('.au-err').textContent = '';
+  };
+  render();
+  serverUp().then(up => {
+    $('.au-srv').innerHTML = up ? '<i class="dot-ok"></i> Servidor online' : '<i class="dot-off"></i> Servidor indisponível no momento';
+    if (!up) $('.au-err').textContent = 'Não foi possível falar com o servidor. Você pode jogar offline enquanto isso.';
+  });
+  node.addEventListener('click', e => {
+    const t = e.target.closest('[data-tab]');
+    if (t) { mode = t.dataset.tab; sfx.tap(); render(); }
+    if (e.target.closest('[data-offline]')) { sfx.tap(); onDone('offline'); }
+    if (e.target.closest('[data-terms]')) { e.preventDefault(); openTerms(); }
+  });
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const f = new FormData(e.target);
-    state.user = { name: String(f.get('name')).trim(), email: String(f.get('email')).trim(), createdAt: Date.now() };
-    state.premiumPacks += 1;
-    state.coins += COINS.welcome;
-    save();
-    sfx.win();
-    onDone();
-    setTimeout(() => toast(`${icon.sparkle} Boas-vindas: 1 pacote premium + ${COINS.welcome} moedas!`, { tone: 'ok', ms: 3500 }), 400);
+    const btn = $('.au-go');
+    const f = { nome: form.nome.value.trim(), email: form.email.value.trim(), senha: form.senha.value, aceite: form.aceite.checked };
+    const err = msg => { $('.au-err').textContent = msg; sfx.ooh(); };
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email)) return err('Informe um e-mail válido.');
+    if (f.senha.length < 8) return err('A senha precisa ter pelo menos 8 caracteres.');
+    if (mode === 'criar' && f.nome.length < 2) return err('Informe seu nome.');
+    if (mode === 'criar' && !f.aceite) return err('Para criar a conta, aceite os termos e a política de privacidade.');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Protegendo sua senha…';
+    try {
+      if (mode === 'criar') await signup(f); else await login(f);
+      sfx.win();
+      onDone(mode);
+      if (mode === 'criar') setTimeout(() => toast(`${icon.sparkle} Boas-vindas: 1 pacote premium + ${COINS.welcome} moedas!`, { tone: 'ok', ms: 3500 }), 400);
+    } catch (ex) {
+      err(ex.message || 'Não foi possível concluir.');
+      btn.disabled = false; render();
+    }
   });
   return node;
+}
+
+function openTerms() {
+  sheet(`
+    <div class="terms">
+      <h2>Termos e privacidade</h2>
+      <p class="muted">Resumo do protótipo (o texto final deve ser revisado pelo jurídico/compliance da Versatte).</p>
+      <ul>
+        <li><b>Dados coletados:</b> nome e e-mail, para criar e identificar a conta. A senha nunca é enviada: o app envia só uma chave derivada dela, guardada com proteção adicional no servidor.</li>
+        <li><b>Uso:</b> salvar a coleção, permitir trocas e partidas entre jogadores e liberar brindes. Outros jogadores veem apenas o seu nome e o nome do seu clube.</li>
+        <li><b>Seus direitos (LGPD):</b> pedir acesso, correção ou exclusão da conta a qualquer momento pelos canais da Versatte.</li>
+        <li><b>Brindes:</b> sujeitos à disponibilidade e às regras da campanha.</li>
+      </ul>
+      <button class="btn primary wide" data-close>Entendi</button>
+    </div>`);
 }
 
 // ============================================================
@@ -694,8 +755,15 @@ export function openProfile(app) {
       <label class="toggle"><span>${icon.sparkle} Brilho pelo giroscópio</span><input type="checkbox" data-set="tilt" ${state.settings.tilt ? 'checked' : ''}><i></i></label>
       <label class="toggle"><span>${icon.play} Intro ao abrir o app</span><input type="checkbox" data-set="intro" ${state.settings.intro ? 'checked' : ''}><i></i></label>
       <label class="toggle"><span>${icon.bug} Modo debug</span><input type="checkbox" data-set="debug" ${state.settings.debug ? 'checked' : ''}><i></i></label>
+      ${isOnline()
+        ? `<div class="pf-acc"><span><i class="dot-ok"></i> Conta online${onlineMe()?.admin ? ' · administrador' : ''}</span><button class="btn ghost sm" data-logout>Sair da conta</button></div>`
+        : `<div class="pf-acc"><span><i class="dot-off"></i> Modo offline (demonstração)</span><button class="btn primary sm" data-login>Entrar / criar conta</button></div>`}
       <p class="fine">Versatte Cards · protótipo desenvolvido por Beyond Bits</p>
     </div>`);
+  s.node.addEventListener('click', e => {
+    if (e.target.closest('[data-logout]')) { logout(); location.hash = '#/home'; location.reload(); }
+    if (e.target.closest('[data-login]')) { s.close(); app.boot({ forceAuth: true }); }
+  });
   s.node.addEventListener('change', e => {
     const k = e.target.dataset.set;
     if (!k) return;

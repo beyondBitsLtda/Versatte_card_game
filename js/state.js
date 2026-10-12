@@ -1,7 +1,10 @@
-// Estado do jogador — persistido só no aparelho (localStorage).
+// Estado do jogador — guardado no aparelho (localStorage).
+// Modo offline: é a fonte da verdade. Modo online: é um espelho do perfil do servidor
+// (cartas, moedas e pacotes vêm da API; cada conta tem a sua chave de armazenamento).
 import { COLLECTIONS, PRIZES, CARD_BY_UID } from './data.js';
 
-const KEY = 'versatte-cards:v2';
+const OFFLINE_KEY = 'versatte-cards:v2';
+let KEY = OFFLINE_KEY;
 const listeners = new Set();
 
 function fresh() {
@@ -26,6 +29,7 @@ function fresh() {
     trophies: { liga: 0, copa: 0, continental: 0 },
     editions: { liga: 0, copa: 0, continental: 0 },
     game: { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, streak: 0, best: 0, titles: 0, seasons: 0 },
+    onlineTrophies: 0,         // torneios online vencidos (vem do servidor)
   };
 }
 
@@ -50,6 +54,19 @@ export function save() {
 }
 
 export function onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); }
+
+/**
+ * Troca o armazenamento ativo: offline (demonstração) ou o espelho de uma conta online.
+ * Recarrega o estado no MESMO objeto (os módulos guardam a referência de `state`).
+ */
+export function useStorage(accountId = null) {
+  KEY = accountId ? `versatte-cards:v2:conta:${accountId}` : OFFLINE_KEY;
+  const keepSettings = { ...state.settings };
+  const next = load();
+  Object.keys(state).forEach(k => delete state[k]);
+  Object.assign(state, next, { settings: { ...next.settings, ...(accountId ? { debug: keepSettings.debug } : {}) } });
+}
+export const storageKey = () => KEY;
 
 export function resetAll() {
   const keepSettings = { ...state.settings };

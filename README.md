@@ -4,6 +4,23 @@ Jogo de cartas colecionáveis para a **Versatte Sports**: o cliente abre um paco
 
 Protótipo de demonstração desenvolvido por **Beyond Bits**, para validar a ideia com a equipe da Versatte.
 
+## Conta online e multiplayer
+
+O jogo funciona de dois jeitos:
+
+- **Com conta (online):** cadastro e login de verdade. Cartas, moedas e pacotes ficam **no servidor**: sorteio, trocas e recompensas são validados lá, o que impede trapaça. Dá para jogar em qualquer aparelho.
+- **Offline (demonstração):** tudo no aparelho, como nas versões anteriores. É a opção oferecida enquanto o servidor não estiver no ar.
+
+O servidor é um Cloudflare Worker que usa o **mesmo banco Postgres do beyond-assist (Lisa)**, com tabelas próprias `versatte_*`. O código, a implantação e as decisões estão em [server/README.md](server/README.md).
+
+**Multiplayer** (ícone de pessoa no topo, ou "Online"):
+
+- **Lista de jogadores:** busca por nome, com quem está online, o nome do clube e quantas cartas a pessoa tem. Toque em **Desafiar** e escolha o modo:
+  - **🔄 Trocar cartas:** os dois montam a mesa e confirmam. Qualquer mudança desfaz as confirmações. A troca é atômica no banco: se alguém não tiver mais a carta, nada se move. Quando conclui, roda a **animação especial**: as cartas viram energia, giram uma em volta da outra, explodem em luz e aparecem do outro lado.
+  - **⚽ Amistoso online:** seu clube contra o clube do outro. A partida é simulada no servidor e os dois assistem ao mesmo jogo, no jogo de botão ou no Modo Simulação. Os jogadores emprestados são sorteados no servidor. Rende moedas.
+  - **🏆 Torneio online:** mata-mata (4 ou 8 vagas, com pênaltis) ou pontos corridos, com até 8 amigos e as vagas restantes preenchidas por robôs. Cada rodada é jogada quando todos tocam em "Estou pronto"; o organizador pode forçar. O campeão leva 250 moedas, um pacote premium e o **troféu online 3D**, um cálice de cristal neon.
+- **Convites e notificações:** convites recebidos e enviados, trocas abertas e partidas novas, com notificação na tela e contador no topo.
+
 ## Coleções
 
 | Coleção | Cartas | Comum | Rara | Muito rara | Especial |
@@ -216,6 +233,13 @@ js/game/textmatch.js    Modo Clube: Modo Simulação (partida narrada)
 js/game/tournament.js   Modo Clube: campeonatos (pontos corridos, mata-mata, grupos)
 js/game/trophy3d.js     Modo Clube: troféus 3D (WebGL)
 js/game/shootout.js     Modo Clube: disputa de pênaltis
+js/game/online-core.js  regras online compartilhadas com o servidor (times, partidas, torneios)
+js/game/multiplayer.js  telas do multiplayer (jogadores, convites, trocas, torneios)
+js/economy-core.js      regras da economia compartilhadas com o servidor
+js/net/online.js        conta, sessão, API e caixa de entrada (polling)
+js/net/economy.js       economia: local (offline) ou pelo servidor (online)
+js/config.js            endereço da API
+server/                 Versatte API (Cloudflare Worker + SQL do banco)
 js/game/club.js         Modo Clube: telas de clube, escalação e liga
 js/debug.js             painel de debug
 js/fx.js                partículas, sons sintetizados, vibração e tilt 3D
@@ -226,5 +250,6 @@ assets/cartas/          imagens das cartas (uma pasta por coleção)
 
 - **Imagens e nomes:** escudos, nomes e imagens de clubes e atletas exigem licenciamento antes do lançamento.
 - **Conteúdo:** as curiosidades são demonstrativas e devem ser revisadas pela Versatte.
-- **Dados pessoais:** neste protótipo tudo fica só no aparelho. A versão real terá cadastro, pagamentos e resgate de brindes. Ela precisa de backend com sorteio e simulação no servidor (para evitar trapaça) e de adequação à LGPD, avaliada com as áreas de governança e compliance.
+- **Dados pessoais:** a conta online guarda nome e e-mail no banco do beyond-assist. Antes de abrir ao público, é preciso revisar os termos e a política de privacidade (o texto atual é um rascunho), ter backup do banco e passar pela avaliação de Governança e Compliance (LGPD).
+- **Pagamentos:** a compra de pacotes ainda é simulada. É preciso integrar um gateway antes de cobrar.
 - **Probabilidades:** manter a tabela de odds visível na loja é uma boa prática de transparência para mecânicas de pacotes pagos.

@@ -1,0 +1,15 @@
+{
+  "name": "versatte-api",
+  "private": true,
+  "type": "module",
+  "description": "API do Versatte Cards (Cloudflare Worker): contas, inventário e multiplayer",
+  "scripts": {
+    "dev": "node dev.mjs",
+    "test": "node test.mjs",
+    "deploy": "wrangler deploy",
+    "migrar": "node --env-file=.env scripts/migrar.mjs db/001_versatte.sql"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8"
+  }
+}

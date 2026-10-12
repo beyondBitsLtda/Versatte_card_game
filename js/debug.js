@@ -7,31 +7,44 @@ import { sfx } from './fx.js';
 import { giveStarterKit, quickCreateClub, simulateUntilLastRound } from './game/club.js';
 import { ALL_CARDS, COMPETITIONS } from './data.js';
 import { compStatus } from './game/tournament.js';
+import { isOnline, isAdmin } from './net/online.js';
+import { debugE } from './net/economy.js';
 
 const DAY = 86400000;
 let debugCol = COLLECTIONS[0].id;
 
-function fill(colId, target) {
+// As ações calculam QUAIS cartas dar; quem aplica é `econ`: no modo offline, o estado local;
+// no online, o servidor (e só para contas administradoras — senão o debug viraria trapaça).
+function fillUids(colId, target) {
   const col = COLLECTION_BY_ID[colId];
   const missing = col.cards.filter(c => ownedCount(c.uid) === 0).sort(() => Math.random() - 0.5);
   const need = Math.max(0, Math.ceil(target * col.cards.length) - progress(colId).have);
-  missing.slice(0, need).forEach(c => addCard(c.uid));
+  return missing.slice(0, need).map(c => c.uid);
 }
 
-function allButOne(colId) {
+/** Todas as que faltam menos a mais rara: { uids, last } */
+function allButOneUids(colId) {
   const col = COLLECTION_BY_ID[colId];
-  const missing = col.cards.filter(c => ownedCount(c.uid) === 0);
-  // deixa de fora a carta mais rara que ainda falta e devolve qual é
-  missing.sort((a, b) => RARITIES[b.rarity].order - RARITIES[a.rarity].order).slice(1).forEach(c => addCard(c.uid));
-  return missing[0] || null;
+  const missing = col.cards.filter(c => ownedCount(c.uid) === 0).sort((a, b) => RARITIES[b.rarity].order - RARITIES[a.rarity].order);
+  return { uids: missing.slice(1).map(c => c.uid), last: missing[0] || null };
 }
+
+async function econ(local, remote) {
+  if (!isOnline()) { local(); return true; }
+  if (!isAdmin()) { toast('Na conta online, o debug de cartas e moedas é só para administradores.', { tone: 'warn', ms: 3500 }); return false; }
+  try { await remote(); return true; } catch (e) { toast(e.message, { tone: 'warn' }); return false; }
+}
+const giveCards = uids => econ(() => uids.forEach(u => addCard(u)), () => debugE('cartas', { uids }));
+const giveFill = (colId, pct) => econ(() => fillUids(colId, pct).forEach(u => addCard(u)), () => debugE('colecao', { colecao: colId, pct }));
+function kitUids() { const uids = []; giveStarterKit(uid => { if (!uids.includes(uid)) uids.push(uid); }); return uids; }
 
 export function openDebug(app) {
   const pr = progress(debugCol);
   const offsetDays = Math.round((state.timeOffset || 0) / DAY);
   const s = sheet(`
     <div class="debug">
-      <div class="dbg-title">${icon.bug}<h2>Modo debug</h2><span class="pill">demo</span></div>
+      <div class="dbg-title">${icon.bug}<h2>Modo debug</h2><span class="pill">${isOnline() ? (isAdmin() ? 'online · admin' : 'online') : 'offline'}</span></div>
+      ${isOnline() && !isAdmin() ? '<p class="dbg-info warn">Conta online sem permissão de administrador: ações que dão cartas, moedas ou pacotes ficam bloqueadas no servidor.</p>' : ''}
 
       <div class="dbg-sec">
         <h4>Roteiro de apresentação</h4>
@@ -133,33 +146,44 @@ export function openDebug(app) {
     if (!b) return;
     if (b.dataset.dcol) { debugCol = b.dataset.dcol; return done(); }
     if (b.dataset.force !== undefined) {
-      state.forceNext = b.dataset.force || null;
-      return done(state.forceNext ? `Próximo pacote terá uma carta ${RARITIES[state.forceNext].label}` : 'Sorteio normal');
+      const r = b.dataset.force || null;
+      if (await econ(() => { state.forceNext = r; }, () => debugE('forcar', { raridade: r }))) {
+        state.forceNext = r;
+        return done(r ? `Próximo pacote terá uma carta ${RARITIES[r].label}` : 'Sorteio normal');
+      }
+      return;
     }
     const a = b.dataset.a;
+    const cards = async (uids, msg) => { if (await giveCards(uids)) done(msg); };
     switch (a) {
-      case 'free-now': state.lastFreeDay = null; return done('Pacote grátis liberado');
-      case 'day+': state.timeOffset = (state.timeOffset || 0) + DAY; return done('+1 dia');
+      case 'free-now': if (await econ(() => { state.lastFreeDay = null; }, () => debugE('gratis'))) done('Pacote grátis liberado'); return;
+      case 'day+':
+        if (isOnline()) { if (await econ(() => {}, () => debugE('gratis'))) done('Online vale o dia do servidor: pacote grátis liberado'); return; }
+        state.timeOffset = (state.timeOffset || 0) + DAY; return done('+1 dia');
       case 'clock0': state.timeOffset = 0; return done('Relógio real');
-      case 'p+1': state.premiumPacks += 1; return done('+1 premium');
-      case 'p+10': state.premiumPacks += 10; return done('+10 premium');
-      case 'pts': state.coins += 500; return done('+500 moedas');
-      case 'lend': addPacks('lendario', 1); return done('+1 pacote lendário');
+      case 'p+1': if (await econ(() => { state.premiumPacks += 1; }, () => debugE('premium', { n: 1 }))) done('+1 premium'); return;
+      case 'p+10': if (await econ(() => { state.premiumPacks += 10; }, () => debugE('premium', { n: 10 }))) done('+10 premium'); return;
+      case 'pts': if (await econ(() => { state.coins += 500; }, () => debugE('moedas', { n: 500 }))) done('+500 moedas'); return;
+      case 'lend': if (await econ(() => addPacks('lendario', 1), () => debugE('lendario', { n: 1 }))) done('+1 pacote lendário'); return;
       case 'shop': s.close(); return app.go('shop');
-      case 'f25': fill(debugCol, 0.25); return done('Coleção em 25%');
-      case 'f50': fill(debugCol, 0.5); return done('Coleção em 50%');
-      case 'f75': fill(debugCol, 0.75); return done('Coleção em 75%');
-      case 'f-1': allButOne(debugCol); return done('Falta só 1 carta');
-      case 'f100': fill(debugCol, 1); save(); s.close(); toast('Coleção completa! Resgate os prêmios liberados.', { tone: 'ok' }); return app.go('prizes');
-      case 'clear': removeCollection(debugCol); return done('Coleção limpa');
-      case 'claims': state.claimed = {}; return done('Resgates resetados');
+      case 'f25': if (await giveFill(debugCol, 0.25)) done('Coleção em 25%'); return;
+      case 'f50': if (await giveFill(debugCol, 0.5)) done('Coleção em 50%'); return;
+      case 'f75': if (await giveFill(debugCol, 0.75)) done('Coleção em 75%'); return;
+      case 'f-1': return cards(allButOneUids(debugCol).uids, 'Falta só 1 carta');
+      case 'f100': if (await giveFill(debugCol, 1)) { save(); s.close(); toast('Coleção completa! Resgate os prêmios liberados.', { tone: 'ok' }); app.go('prizes'); } return;
+      case 'clear': if (await econ(() => removeCollection(debugCol), () => debugE('limpar', { colecao: debugCol }))) done('Coleção limpa'); return;
+      case 'claims': if (await econ(() => { state.claimed = {}; }, () => debugE('resgates'))) done('Resgates resetados'); return;
       case 'intro': s.close(); return app.intro();
       case 'reset':
-        if (!confirm('Apagar todo o progresso e a conta deste aparelho?')) return;
+        if (!confirm(isOnline() ? 'Zerar cartas, moedas, pacotes e clube DESTA CONTA?' : 'Apagar todo o progresso e a conta deste aparelho?')) return;
+        if (isOnline()) {
+          if (await econ(() => {}, () => debugE('resetar'))) { state.club = null; state.comp = null; state.trophies = { liga: 0, copa: 0, continental: 0 }; save(); s.close(); app.go('home'); }
+          return;
+        }
         resetAll(); s.close(); return app.boot();
       case 'sim': return runSim(s.node.querySelector('.dbg-sim'), b);
-      case 'kit': giveStarterKit(addCard); return done('Kit inicial: escudo, 2 estádios, 2 mascotes e 12 jogadores');
-      case 'all-cards': ALL_CARDS.forEach(c => { if (!ownedCount(c.uid)) addCard(c.uid); }); return done('Todas as cartas liberadas');
+      case 'kit': return cards(kitUids(), 'Kit inicial: escudo, 2 estádios, 2 mascotes e 12 jogadores');
+      case 'all-cards': if (await econ(() => ALL_CARDS.forEach(c => { if (!ownedCount(c.uid)) addCard(c.uid); }), () => debugE('todas'))) done('Todas as cartas liberadas'); return;
       case 'auto-club': quickCreateClub(); save(); s.close(); toast('Clube criado com as suas melhores cartas', { tone: 'ok' }); return app.go('jogar');
       case 'to-last': {
         if (!state.club) { toast('Crie um clube primeiro'); return; }
@@ -170,23 +194,36 @@ export function openDebug(app) {
       case 'pens': state.forcePens = !state.forcePens; return done(state.forcePens ? 'Próximo mata-mata vai para os pênaltis' : 'Pênaltis normais');
       case 'trophies': state.trophies = { liga: 1, copa: 1, continental: 1 }; return done('Todos os troféus na sala');
       case 'step-club': {
-        if (!ALL_CARDS.some(c => c.kind === 'player' && ownedCount(c.uid))) giveStarterKit(addCard);
+        if (!ALL_CARDS.some(c => c.kind === 'player' && ownedCount(c.uid)) && !(await giveCards(kitUids()))) return;
         if (!state.club) quickCreateClub();
         save(); s.close(); toast('Clube pronto! Toque em Jogar.', { tone: 'ok' }); return app.go('jogar');
       }
 
       // roteiro
-      case 'step-free': state.lastFreeDay = null; save(); s.close(); return app.open(state.lastCollection, 'free');
-      case 'step-day': state.timeOffset = (state.timeOffset || 0) + DAY; save(); s.close(); return app.open(state.lastCollection, 'free');
+      case 'step-free':
+        if (!(await econ(() => { state.lastFreeDay = null; }, () => debugE('gratis')))) return;
+        save(); s.close(); return app.open(state.lastCollection, 'free');
+      case 'step-day':
+        if (isOnline()) { if (!(await econ(() => {}, () => debugE('gratis')))) return; }
+        else state.timeOffset = (state.timeOffset || 0) + DAY;
+        save(); s.close(); return app.open(state.lastCollection, 'free');
       case 'step-shop': s.close(); return app.go('shop');
-      case 'step-especial': state.premiumPacks += 1; state.forceNext = 'especial'; save(); s.close(); return app.open(state.lastCollection, 'premium');
-      case 'step-75': fill(debugCol, 0.75); state.lastCollection = debugCol; save(); s.close(); toast('Coleção em 75% — resgate a caneca.', { tone: 'ok' }); return app.go('prizes');
+      case 'step-especial':
+        if (!(await econ(() => { state.premiumPacks += 1; state.forceNext = 'especial'; }, async () => { await debugE('premium', { n: 1 }); await debugE('forcar', { raridade: 'especial' }); }))) return;
+        save(); s.close(); return app.open(state.lastCollection, 'premium');
+      case 'step-75':
+        if (!(await giveFill(debugCol, 0.75))) return;
+        state.lastCollection = debugCol; save(); s.close(); toast('Coleção em 75% — resgate a caneca.', { tone: 'ok' }); return app.go('prizes');
       case 'step-100': {
         // completa tudo menos 1 e garante a última carta no próximo premium, que já abre
-        const last = allButOne(debugCol);
+        const { uids, last } = allButOneUids(debugCol);
         s.close();
-        if (!last) { save(); toast('Coleção já está completa — resgate os prêmios.', { tone: 'ok' }); return app.go('prizes'); }
-        state.forceCard = last.uid; state.forceNext = null; state.premiumPacks += 1; state.lastCollection = debugCol; save();
+        if (!last) { toast('Coleção já está completa — resgate os prêmios.', { tone: 'ok' }); return app.go('prizes'); }
+        const ok = await econ(
+          () => { uids.forEach(u => addCard(u)); state.forceCard = last.uid; state.forceNext = null; state.premiumPacks += 1; },
+          async () => { await debugE('cartas', { uids }); await debugE('forcarCarta', { uid: last.uid }); await debugE('premium', { n: 1 }); });
+        if (!ok) return;
+        state.lastCollection = debugCol; save();
         toast(`Falta só ${last.name}! Ela vem neste pacote.`, { ms: 3000 });
         return app.open(debugCol, 'premium');
       }

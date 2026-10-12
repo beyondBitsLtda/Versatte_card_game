@@ -1,90 +1,25 @@
-// Motor de sorteio. Funções puras (rollPack/simulate) + aplicação no estado (openPack).
-import { PACKS, RARITIES, RARITY_ORDER, COLLECTION_BY_ID, SHOP } from './data.js';
-import { state, save, addCard, ownedCount, dayKey, usePack } from './state.js';
+// Sorteio: a regra fica em economy-core.js (compartilhada com o servidor); aqui ficam
+// a aplicação no estado local (modo offline) e a simulação Monte Carlo do debug.
+import { PACKS, RARITIES, RARITY_ORDER, COLLECTION_BY_ID, SHOP, CARD_BY_UID } from './data.js';
+import { state, save, dayKey, now } from './state.js';
+import { rollPack, applyOpenPack } from './economy-core.js';
 
-function pickRarity(odds, rng) {
-  let r = rng();
-  for (const id of RARITY_ORDER) {
-    r -= odds[id] || 0;
-    if (r < 0) return id;
-  }
-  return RARITY_ORDER.find(id => odds[id] > 0);
-}
+export { rollPack };
 
-const pickFrom = (arr, rng) => arr[Math.floor(rng() * arr.length)];
-
-/**
- * Sorteia um pacote.
- * @param {object} opts
- *   isOwned(uid) -> bool, rng, force (raridade p/ melhor slot), pityCount
- * @returns {{cards: object[], hitPity: boolean}}
- */
-export function rollPack(collectionId, type, opts = {}) {
-  const pack = PACKS[type];
-  const col = COLLECTION_BY_ID[collectionId];
-  const rng = opts.rng || Math.random;
-  const isOwned = opts.isOwned || (() => false);
-  const pityHit = !!(pack.pity && (opts.pityCount || 0) + 1 >= pack.pity.after);
-
-  const rarities = pack.slots.map(odds => pickRarity(odds, rng));
-  const last = rarities.length - 1;
-  if (pityHit && !rarities.includes(pack.pity.rarity)) rarities[last] = pack.pity.rarity;
-  if (opts.force && RARITIES[opts.force].order > RARITIES[rarities[last]].order) rarities[last] = opts.force;
-
-  const taken = new Set();
-  const cards = rarities.map(rarity => {
-    const pool = col.cards.filter(c => c.rarity === rarity);
-    let card;
-    for (let attempt = 0; attempt < 4; attempt++) {
-      const have = pool.filter(c => isOwned(c.uid));
-      const missing = pool.filter(c => !isOwned(c.uid));
-      if (pack.dupBias && have.length && rng() < pack.dupBias) card = pickFrom(have, rng);
-      else if (pack.newBoost && missing.length && rng() < pack.newBoost) card = pickFrom(missing, rng);
-      else card = pickFrom(pool, rng);
-      if (!taken.has(card.uid)) break; // evita a mesma carta 2x no mesmo pacote
-    }
-    taken.add(card.uid);
-    return card;
-  });
-
-  return { cards, hitPity: pityHit };
-}
-
-/** Abre um pacote "de verdade": consome, sorteia, grava e devolve o resultado. */
+/** Abre um pacote no modo offline: mesma regra do servidor (economy-core), aplicada ao estado local. */
 export function openPack(collectionId, type) {
-  if (type === 'free') state.lastFreeDay = dayKey();
-  else usePack(type);
-
-  const { cards } = rollPack(collectionId, type, {
-    isOwned: uid => ownedCount(uid) > 0,
-    force: state.forceNext,
-    pityCount: state.pity,
-  });
-  state.forceNext = null;
-  const forced = state.forceCard && COLLECTION_BY_ID[collectionId].cards.find(c => c.uid === state.forceCard);
-  if (forced && !cards.some(c => c.uid === forced.uid)) cards[cards.length - 1] = forced;
-  state.forceCard = null;
-
-  if (type === 'premium') {
-    state.pity = cards.some(c => c.rarity === 'especial') ? 0 : state.pity + 1;
-  }
-
-  let points = 0;
-  const result = cards.map(card => {
-    const isNew = addCard(card.uid);
-    const pts = isNew ? 0 : RARITIES[card.rarity].points;
-    points += pts;
-    return { card, isNew, points: pts, copies: ownedCount(card.uid) };
-  });
-  state.coins += points;
-  state.stats.opened += 1;
-  state.stats[type] = (state.stats[type] || 0) + 1;
+  const today = dayKey();
+  const r = applyOpenPack(state, collectionId, type, { today, now: now() });
   state.lastCollection = collectionId;
   save();
+  return decorate(r);
+}
 
-  // revelação: da menor para a maior raridade (suspense no final)
-  result.sort((a, b) => RARITIES[a.card.rarity].order - RARITIES[b.card.rarity].order);
-  return { cards: result, points };
+/** Converte o resultado ({uid,...}) para o formato da tela de abertura ({card,...}), do menor para o maior. */
+export function decorate(r) {
+  const cards = r.cards.map(c => ({ ...c, card: CARD_BY_UID[c.uid] }));
+  cards.sort((a, b) => RARITIES[a.card.rarity].order - RARITIES[b.card.rarity].order);
+  return { cards, points: r.points };
 }
 
 // ------------------------------------------------------------

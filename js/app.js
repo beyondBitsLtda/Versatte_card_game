@@ -1,7 +1,10 @@
 // Ponto de entrada: intro, cadastro, roteamento por hash e barra de navegação.
 import { state, save, onChange, freeAvailable, readyPrizes, packCount, totalPacks } from './state.js';
 import { PACK_STYLE, COLLECTION_BY_ID } from './data.js';
-import { homeView, albumView, cardsView, prizesView, shopView, signupView, openProfile, cleanupView } from './views.js';
+import { homeView, albumView, cardsView, prizesView, shopView, authView, openProfile, cleanupView } from './views.js';
+import { isOnline, resumeSession, refreshProfile, startPolling, onInbox } from './net/online.js';
+import { onlineView, initMultiplayer, pendingCount } from './game/multiplayer.js';
+import { COINS } from './data.js';
 import { startOpening } from './pack.js';
 import { openDebug } from './debug.js';
 import { clubView } from './game/club.js';
@@ -15,6 +18,7 @@ const ROUTES = {
   prizes: { view: prizesView, label: 'Prêmios', icon: 'gift' },
   shop:   { view: shopView,   label: 'Loja',    icon: 'bag' },
   cards:  { view: cardsView,  label: 'Cartas',  icon: 'cards', hidden: true, tab: 'album' },
+  online: { view: onlineView, label: 'Online',  icon: 'user',  hidden: true, tab: 'jogar' },
 };
 
 const $ = s => document.querySelector(s);
@@ -72,6 +76,7 @@ function renderChrome() {
   $('#chips').innerHTML = `
     <button class="chip-stat" data-go="shop" data-coins aria-label="Moedas">${icon.coin}<b>${state.coins}</b></button>
     <button class="chip-stat premium" data-go="shop" aria-label="Pacotes">${icon.pack}<b>${totalPacks()}</b></button>
+    ${isOnline() ? `<button class="chip-icon online" data-go="online" aria-label="Multiplayer">${icon.user}${pendingCount() ? `<i class="badge">${pendingCount()}</i>` : ''}</button>` : ''}
     ${state.settings.debug ? `<button class="chip-icon" data-debug aria-label="Modo debug">${icon.bug}</button>` : ''}
     <button class="avatar" data-profile aria-label="Perfil">${esc((state.user?.name || '?')[0].toUpperCase())}</button>`;
 }
@@ -106,19 +111,39 @@ async function playIntro(force = false) {
 }
 
 // ---------- boot ----------
-async function boot() {
+const MODE_KEY = 'versatte-modo';
+async function boot({ forceAuth = false } = {}) {
   cleanupView();
   document.body.classList.remove('signed');
-  if (!state.user) {
-    await playIntro();
-    $('#tabbar').innerHTML = ''; $('#chips').innerHTML = '';
-    viewEl.replaceChildren(signupView(() => { document.body.classList.add('signed'); render(); }));
+  const offline = !forceAuth && localStorage.getItem(MODE_KEY) === 'offline';
+
+  // 1) conta online salva neste aparelho
+  if (!forceAuth && resumeSession()) {
+    enter();
+    try { await refreshProfile(); render(true); }
+    catch (e) { toast('Servidor indisponível: mostrando sua coleção salva neste aparelho.', { tone: 'warn', ms: 4000 }); }
+    startPolling(); initMultiplayer(app);
+    if (state.settings.intro) await playIntro();
     return;
   }
-  document.body.classList.add('signed');
-  render();
-  if (state.settings.intro) await playIntro();
+  // 2) modo offline (demonstração) já escolhido
+  if (offline && state.user) { enter(); if (state.settings.intro) await playIntro(); return; }
+
+  // 3) entrar / criar conta
+  if (!forceAuth) await playIntro();
+  $('#tabbar').innerHTML = ''; $('#chips').innerHTML = '';
+  viewEl.replaceChildren(authView(mode => {
+    if (mode === 'offline') {
+      localStorage.setItem(MODE_KEY, 'offline');
+      if (!state.user) { state.user = { name: 'Visitante', email: '', createdAt: Date.now() }; state.premiumPacks += 1; state.coins += COINS.welcome; save(); }
+    } else {
+      localStorage.removeItem(MODE_KEY);
+      startPolling(); initMultiplayer(app);
+    }
+    enter();
+  }));
 }
+function enter() { document.body.classList.add('signed'); render(); }
 
 // ---------- eventos globais ----------
 addEventListener('hashchange', () => {
@@ -137,4 +162,5 @@ $('.brand').addEventListener('click', () => app.go('home'));
 if (new URLSearchParams(location.search).has('debug')) { state.settings.debug = true; save(); }
 
 onChange(() => { if (state.user) renderChrome(); });
+onInbox(() => { if (state.user) renderChrome(); });
 boot();

@@ -1,0 +1,15 @@
+// Versatte API — Cloudflare Worker (mesmo padrão do Abacato/Proof no beyond-assist)
+// Segredos (não ficam no repositório): wrangler secret put SUPABASE_URL
+//                                      wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+//                                      wrangler secret put VERSATTE_SESSAO_SECRET
+{
+  "name": "versatte-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "routes": [{ "pattern": "api-versatte.beyond.dev.br", "custom_domain": true }],
+  "vars": {
+    // sites que podem chamar a API (o jogo no GitHub Pages e o desenvolvimento local)
+    "CORS_ORIGINS": "https://beyondbitsltda.github.io,http://127.0.0.1:8765,http://localhost:8765"
+  },
+  "observability": { "enabled": true }
+}
