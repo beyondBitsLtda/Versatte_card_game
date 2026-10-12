@@ -20,6 +20,7 @@ import {
 } from './tournament.js';
 import { mountTrophies } from './trophy3d.js';
 import { rewardE } from '../net/economy.js';
+import { isDesk } from '../desktop.js';
 import { confetti, burst, sfx, haptic, coinFly } from '../fx.js';
 import { icon, esc, el, sheet, overlay, toast } from '../ui.js';
 
@@ -105,6 +106,7 @@ export function clubView(app) {
 
   const node = el(`
   <section class="view jogar">
+   <div class="jg-a">
     <div class="cl-card" style="--c1:${me.colors[0]};--c2:${me.colors[1] || '#fff'}">
       <div class="cl-crest">${crestMini(me)}</div>
       <div class="cl-info">
@@ -130,9 +132,14 @@ export function clubView(app) {
     </div>
     ${loanItems.length ? `<button class="loan-row" data-act="lineup">${icon.swipe}<span><b>Emprestado do baralho:</b> ${loanItems.join(', ')}.${L.players ? ' Os jogadores são <b>sorteados a cada partida</b>.' : ''} Conquiste suas cartas nos pacotes!</span></button>` : ''}
     ${empty ? `<button class="warn-row" data-act="lineup">${icon.lock}<span>${empty} vaga(s) com jogador da base — escale ou pegue emprestado</span>${icon.arrow}</button>` : ''}
+    <button class="btn ghost wide jg-lineup" data-act="lineup">${icon.album} Escalação</button>
+   </div>
 
+   <div class="jg-b">
     ${active ? activeCompHtml(comp, me) : (comp ? finishedCompHtml(comp) : '') + chooseCompHtml()}
+   </div>
 
+   <div class="jg-c">
     <div class="section-head"><h3>Sala de troféus</h3><span class="muted">${Object.values(state.trophies).reduce((a, b) => a + b, 0)} título(s)</span></div>
     <div class="cabinet">
       ${COMP_IDS.map(id => {
@@ -158,6 +165,7 @@ export function clubView(app) {
     <button class="btn ghost wide" data-act="friendly">${icon.play} Amistoso rápido</button>
     <button class="coin-hint" data-act="shop">${icon.coin}<span>Vitória <b>+${COINS.win}</b> · empate <b>+${COINS.draw}</b> · gol <b>+${COINS.goal}</b> moedas. Títulos valem muito mais!</span>${icon.arrow}</button>
     ${active ? `<button class="link-btn abandon" data-act="abandon">Abandonar ${esc(def.name)}</button>` : ''}
+   </div>
   </section>`);
 
   node.addEventListener('click', e => {
@@ -316,7 +324,7 @@ function bracketHtml(comp) {
     return `<div class="bt">${side(t.a, 0)}${side(t.b, 1)}</div>`;
   };
   return `
-    <div class="section-head"><h3>Mata-mata</h3><span class="muted">deslize para ver as fases</span></div>
+    <div class="section-head"><h3>Mata-mata</h3><span class="muted">${isDesk() ? 'role para o lado para ver as fases' : 'deslize para ver as fases'}</span></div>
     <div class="bracket">
       ${names.map((name, ri) => {
         const ties = rounds[ri] || Array.from({ length: total / Math.pow(2, ri + 1) }, () => ({ a: null, b: null }));
@@ -477,7 +485,7 @@ export function openLineup(app, onClose = null) {
       <div class="lu-pitch">
         ${rows.map(r => `<div class="lu-row">${r.map(([l, i]) => token(club.slots[i], l, i)).join('')}</div>`).join('')}
       </div>
-      <div class="lu-bench-h"><b>Reservas</b><span>Entram aos 65' se renderem mais que o titular cansado</span></div>
+      <div class="lu-bench-h"><b>Reservas</b><span>Você faz as trocas durante a partida (no online, no intervalo)</span></div>
       <div class="lu-bench">${club.bench.map((u, i) => token(u, u ? POSITIONS[CARD_BY_UID[u].pos].line : 'MEI', i, true)).join('')}</div>
       <div class="lu-loans ${loans ? 'on' : ''}">🎲<span>Vagas de empréstimo: <b>${loans}/${LOAN.maxPlayers}</b> · um jogador do baralho é sorteado para cada vaga a cada partida e rende ${Math.round(LOAN.player * 100)}%</span></div>
       <div class="lu-ovr"><div class="ovr-big"><b>${R.OVR}</b><span>OVR</span></div>${ratingBars(R)}</div>
@@ -485,7 +493,7 @@ export function openLineup(app, onClose = null) {
         <button class="btn ghost" data-auto>${icon.sparkle} Escalar melhores</button>
         <button class="btn primary" data-done>Pronto</button>
       </div>
-      <p class="fine">⚠ = fora de posição (rende menos) · 🎲 = vaga de empréstimo (valor médio do sorteio). Toque numa vaga para trocar.</p>`;
+      <p class="fine">⚠ = fora de posição (rende menos) · 🎲 = vaga de empréstimo (valor médio do sorteio). ${isDesk() ? 'Clique' : 'Toque'} numa vaga para trocar.</p>`;
   }
   render();
 

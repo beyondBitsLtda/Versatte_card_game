@@ -8,6 +8,7 @@ import { attachTilt, sfx, haptic, confetti, enableGyro, centerOf, burst } from '
 import { exchangeE, buyE, claimE } from './net/economy.js';
 import { isOnline, me as onlineMe, login, signup, logout, serverUp } from './net/online.js';
 import { icon, esc, el, sheet, overlay, toast, fmtMoney, fmtPct, fmtDate, fmtCountdown, wait } from './ui.js';
+import { carNavHtml, bindCarNav, isDesk } from './desktop.js';
 
 const ui = { album: { col: COLLECTIONS[0].id, filter: 'all', rarity: null }, cards: { mode: 'showcase', sort: 'rarity', col: 'all' } };
 let cleanups = [];
@@ -51,6 +52,7 @@ export function homeView(app) {
       }).join('')}
     </div>
     <div class="dots">${COLLECTIONS.map((c, i) => `<i class="${i === startIdx ? 'on' : ''}"></i>`).join('')}</div>
+    ${carNavHtml('pacote')}
 
     <div class="cta-row">
       <button class="btn primary big" data-act="free" ${free ? '' : 'disabled'}>
@@ -117,6 +119,9 @@ export function homeView(app) {
     return current;
   };
   car.addEventListener('scroll', syncCurrent, { passive: true });
+  bindCarNav(node, car);
+  // bolinhas clicáveis (mouse)
+  dots.forEach((d, i) => d.addEventListener('click', () => car.scrollTo({ left: i * car.clientWidth, behavior: 'smooth' })));
   const freeBtn = node.querySelector('[data-act="free"]');
   const freeHTML = freeBtn.innerHTML, freeDisabled = freeBtn.disabled;
   const syncCta = () => {
@@ -262,6 +267,7 @@ export function cardsView(app) {
         ${list.map(c => `<div class="sc-item" data-uid="${c.uid}">${cardHTML(c, { size: 'lg', count: ownedCount(c.uid) })}</div>`).join('')}
         <div class="sc-spacer"></div>
       </div>
+      ${carNavHtml('carta')}
       <div class="sc-caption"></div>`
     : `<div class="album-grid">${list.map(c => `<button class="slot-owned" data-uid="${c.uid}">${cardHTML(c, { size: 'sm', count: ownedCount(c.uid) })}</button>`).join('')}</div>`}
   </section>`);
@@ -305,10 +311,11 @@ export function cardsView(app) {
         card.classList.add('is-live');
         stop = attachTilt(card, { max: 14 });
         const c = CARD_BY_UID[best.dataset.uid];
-        caption.innerHTML = `${rarityTag(c.rarity)}<b>${esc(c.name)}</b><span>${esc(COLLECTION_BY_ID[c.collection].name)} · #${String(c.number).padStart(2, '0')} · ×${ownedCount(c.uid)}</span><small>Toque na carta para ver detalhes e curiosidades</small>`;
+        caption.innerHTML = `${rarityTag(c.rarity)}<b>${esc(c.name)}</b><span>${esc(COLLECTION_BY_ID[c.collection].name)} · #${String(c.number).padStart(2, '0')} · ×${ownedCount(c.uid)}</span><small>${isDesk() ? 'Clique na carta para ver detalhes · ← → para navegar' : 'Toque na carta para ver detalhes e curiosidades'}</small>`;
       }
     };
     sc.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    bindCarNav(node, sc, '.sc-item');
     requestAnimationFrame(update);
     cleanups.push(() => stop && stop());
   }
@@ -361,7 +368,7 @@ export function openDetail(uid) {
       <div class="d-stage">
         ${have ? cardHTML(c, { size: 'lg', live: true }) : `<div class="d-locked">${slotHTML(c)}</div>`}
       </div>
-      ${have ? `<p class="d-hint">Toque para virar · arraste ou incline o celular para ver o brilho</p>` : ''}
+      ${have ? `<p class="d-hint">${isDesk() ? 'Clique para virar · mova o mouse sobre a carta para ver o brilho' : 'Toque para virar · arraste ou incline o celular para ver o brilho'}</p>` : ''}
       <div class="d-info">
         <div class="d-title">
           ${rarityTag(c.rarity)}
@@ -742,6 +749,9 @@ function openTerms() {
 // ============================================================
 //  PERFIL
 // ============================================================
+const LAYOUT_KEY = 'versatte-layout';
+const layoutPref = () => { try { return localStorage.getItem(LAYOUT_KEY) || 'auto'; } catch { return 'auto'; } };
+
 export function openProfile(app) {
   const s = sheet(`
     <div class="profile">
@@ -753,6 +763,10 @@ export function openProfile(app) {
         <div><b>${state.stats.cards}</b><span>cartas</span></div>
         <div><b>${Object.keys(state.claimed).length}</b><span>prêmios</span></div>
       </div>
+      <div class="pf-layout">
+        <span>Layout da tela</span>
+        <div class="seg small">${[['auto', 'Automático'], ['mobile', 'Celular'], ['desktop', 'Computador']].map(([k, l]) => `<button data-layout="${k}" class="${layoutPref() === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+      </div>
       <label class="toggle"><span>${icon.sound} Sons</span><input type="checkbox" data-set="sound" ${state.settings.sound ? 'checked' : ''}><i></i></label>
       <label class="toggle"><span>${icon.sparkle} Brilho pelo giroscópio</span><input type="checkbox" data-set="tilt" ${state.settings.tilt ? 'checked' : ''}><i></i></label>
       <label class="toggle"><span>${icon.play} Intro ao abrir o app</span><input type="checkbox" data-set="intro" ${state.settings.intro ? 'checked' : ''}><i></i></label>
@@ -763,6 +777,14 @@ export function openProfile(app) {
       <p class="fine">Versatte Cards · protótipo desenvolvido por Beyond Bits</p>
     </div>`);
   s.node.addEventListener('click', e => {
+    const lb = e.target.closest('[data-layout]');
+    if (lb) {
+      sfx.tap();
+      try { if (lb.dataset.layout === 'auto') localStorage.removeItem(LAYOUT_KEY); else localStorage.setItem(LAYOUT_KEY, lb.dataset.layout); } catch { /* sem armazenamento */ }
+      s.node.querySelectorAll('[data-layout]').forEach(x => x.classList.toggle('on', x === lb));
+      window.versatteLayout?.();
+      return;
+    }
     if (e.target.closest('[data-logout]')) { logout(); location.hash = '#/home'; location.reload(); }
     if (e.target.closest('[data-login]')) { s.close(); app.boot({ forceAuth: true }); }
   });

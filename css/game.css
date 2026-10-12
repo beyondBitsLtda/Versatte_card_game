@@ -172,7 +172,10 @@
 .stat-row.six b { font-size: 18px; }
 .stat-row.six span { font-size: 9px; }
 .stat-row .hot { border-color: rgba(255,138,31,.6); box-shadow: 0 0 16px -6px rgba(255,138,31,.9); }
-.jogar > .btn.wide { margin-top: 14px; }
+.jogar .btn.wide { margin-top: 14px; }
+/* colunas da tela do clube: no celular somem (display: contents); no computador viram grade (desktop.css) */
+.jg-a, .jg-b, .jg-c { display: contents; }
+.jg-lineup { display: none !important; }
 
 /* ---------- criar / editar clube ---------- */
 .ident { max-width: 480px; margin: 0 auto; padding: calc(56px + var(--st)) 16px calc(30px + var(--sb)); display: grid; gap: 14px; }

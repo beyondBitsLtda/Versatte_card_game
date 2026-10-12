@@ -196,7 +196,7 @@ export function openDebug(app) {
       case 'step-club': {
         if (!ALL_CARDS.some(c => c.kind === 'player' && ownedCount(c.uid)) && !(await giveCards(kitUids()))) return;
         if (!state.club) quickCreateClub();
-        save(); s.close(); toast('Clube pronto! Toque em Jogar.', { tone: 'ok' }); return app.go('jogar');
+        save(); s.close(); toast('Clube pronto! Agora é só jogar.', { tone: 'ok' }); return app.go('jogar');
       }
 
       // roteiro

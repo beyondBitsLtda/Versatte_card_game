@@ -116,16 +116,25 @@ export function playMatch(opts) {
     const possEl = node.querySelectorAll('.mt-poss i');
 
     // ---------------- dimensões / câmera ----------------
-    let W = 0, H = 0, dpr = 1, sc = 1, ox = 0, oy = 0, fieldCache = null;
+    // O campo é desenhado sempre "em pé" num canvas virtual (VW × VH). Se a área for mais
+    // larga que alta (computador, celular deitado), o canvas é girado: visão de transmissão,
+    // com os gols nas laterais. Números e nomes continuam de pé.
+    let W = 0, H = 0, VW = 0, VH = 0, land = false, dpr = 1, sc = 1, ox = 0, oy = 0, fieldCache = null;
     function resize() {
       const r = wrap.getBoundingClientRect();
       dpr = Math.min(2, window.devicePixelRatio || 1);
       W = r.width; H = r.height;
       canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-      sc = Math.min((W - 16) / FW, (H - 16) / (FL + NET_D * 2));
-      ox = (W - FW * sc) / 2; oy = (H - FL * sc) / 2;
+      land = W > H * 1.1;
+      VW = land ? H : W; VH = land ? W : H;
+      sc = Math.min((VW - 16) / FW, (VH - 16) / (FL + NET_D * 2));
+      ox = (VW - FW * sc) / 2; oy = (VH - FL * sc) / 2;
       fieldCache = null;
     }
+    /** Transformação base: canvas virtual em pé → tela (girado 90° no modo deitado). */
+    const baseT = c => (land ? c.setTransform(0, -dpr, dpr, 0, 0, H * dpr) : c.setTransform(dpr, 0, 0, dpr, 0, 0));
+    /** Ponto do canvas virtual → ponto na tela (px do elemento). */
+    const toScr = (px, py) => (land ? { x: py, y: H - px } : { x: px, y: py });
     resize();
     const ro = new ResizeObserver(resize); ro.observe(wrap);
     const PX = x => ox + x * sc, PY = y => oy + y * sc;
@@ -635,7 +644,7 @@ export function playMatch(opts) {
       while (feed.children.length > 4) feed.lastChild.remove();
     };
     const teamName = s => esc(teams[s].abbr);
-    const toScreen = (x, y) => { const r = canvas.getBoundingClientRect(); return { x: r.left + PX(x), y: r.top + PY(y) }; };
+    const toScreen = (x, y) => { const r = canvas.getBoundingClientRect(), s = toScr(PX(x), PY(y)); return { x: r.left + s.x, y: r.top + s.y }; };
 
     function bigText(text, cls, sub = '', card = null) {
       const el = document.createElement('div');
@@ -765,8 +774,8 @@ export function playMatch(opts) {
       fieldCache = document.createElement('canvas');
       fieldCache.width = canvas.width; fieldCache.height = canvas.height;
       const c = fieldCache.getContext('2d');
-      c.setTransform(dpr, 0, 0, dpr, 0, 0);
-      c.fillStyle = '#082a18'; c.fillRect(0, 0, W, H);
+      baseT(c);
+      c.fillStyle = '#082a18'; c.fillRect(0, 0, VW, VH);
       const stripes = 12;
       for (let i = 0; i < stripes; i++) {
         c.fillStyle = i % 2 ? '#0b3a22' : '#0e4528';
@@ -794,7 +803,8 @@ export function playMatch(opts) {
       [[0, 0], [FW, 0], [0, FL], [FW, FL]].forEach(([x, y]) => { c.beginPath(); c.arc(PX(x), PY(y), 1.2 * sc, 0, Math.PI * 2); c.stroke(); });
       c.shadowBlur = 0;
       c.fillStyle = 'rgba(255,255,255,.06)'; c.font = `800 ${Math.round(sc * 3)}px 'Barlow Condensed', sans-serif`; c.textAlign = 'center';
-      c.fillText((home.stadiumName || '').toUpperCase(), PX(FW / 2), PY(FL / 2) + sc * 1);
+      c.save(); c.translate(PX(FW / 2), PY(FL / 2)); if (land) c.rotate(Math.PI / 2);
+      c.fillText((home.stadiumName || '').toUpperCase(), 0, sc * 1); c.restore();
     }
 
     function drawGoal(top, shake) {
@@ -815,7 +825,7 @@ export function playMatch(opts) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(fieldCache, 0, 0);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      baseT(ctx);
       ctx.save();
       if (shakeT > 0) ctx.translate((Math.random() - 0.5) * 10 * shakeT, (Math.random() - 0.5) * 10 * shakeT);
       drawGoal(true, netShake[0]); drawGoal(false, netShake[1]);
@@ -852,6 +862,7 @@ export function playMatch(opts) {
         ctx.fillStyle = 'rgba(255,255,255,.9)';
         ctx.beginPath(); ctx.arc(a.hx / hl * r * 0.78, a.hy / hl * r * 0.78, Math.max(1.6, r * 0.17), 0, Math.PI * 2); ctx.fill();
         ctx.fillStyle = textOn(c1); ctx.font = `800 ${Math.round(r * 0.95)}px 'Barlow Condensed', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        if (land) ctx.rotate(Math.PI / 2);
         ctx.fillText(String(a.shirt), 0, 1);
         ctx.restore();
         if (t.user && !a.out) { ctx.strokeStyle = 'rgba(255,138,31,.55)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(cx, cy, r + 3.5, 0, Math.PI * 2); ctx.stroke(); }
@@ -861,22 +872,27 @@ export function playMatch(opts) {
         }
         if (ball.owner === a || a.label > 0) {
           const name = a.out ? `${a.name} 🟥` : a.name;
+          const s = toScr(cx, cy);                   // a etiqueta é desenhada na tela, sempre de pé
+          ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
           ctx.font = `700 ${Math.max(10, Math.round(r * 0.8))}px Barlow, sans-serif`;
           const tw = ctx.measureText(name).width + 10;
-          const lx = clamp(cx, tw / 2 + 2, W - tw / 2 - 2), ly = cy - r - 12;
+          const lx = clamp(s.x, tw / 2 + 2, W - tw / 2 - 2), ly = s.y - r - 12;
           ctx.fillStyle = 'rgba(3,6,12,.78)'; roundRect(lx - tw / 2, ly - 8, tw, 16, 8); ctx.fill();
           ctx.fillStyle = a.side === userSide ? '#ffd9b0' : '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
           ctx.fillText(name, lx, ly + 0.5);
+          ctx.restore();
         }
       }
       // bola (com altura: a sombra fica no chão, a bola sobe)
       const br = Math.max(4.5, sc * 0.62);
       const bx = PX(ball.x), by = PY(ball.y), lift = ball.z * sc * 0.55;
       const fast = hyp(ball.vx, ball.vy) > 9;
-      if (fast) ball.trail.forEach((p, i) => { ctx.fillStyle = `rgba(255,255,255,${(i / ball.trail.length) * 0.35})`; ctx.beginPath(); ctx.arc(PX(p.x), PY(p.y) - p.z * sc * 0.55, br * (0.4 + i / ball.trail.length * 0.5), 0, Math.PI * 2); ctx.fill(); });
+      const up = z => (land ? [z, 0] : [0, -z]);      // deslocamento "para cima" na tela, no canvas virtual
+      if (fast) ball.trail.forEach((p, i) => { const [dx, dy] = up(p.z * sc * 0.55); ctx.fillStyle = `rgba(255,255,255,${(i / ball.trail.length) * 0.35})`; ctx.beginPath(); ctx.arc(PX(p.x) + dx, PY(p.y) + dy, br * (0.4 + i / ball.trail.length * 0.5), 0, Math.PI * 2); ctx.fill(); });
       ctx.fillStyle = `rgba(0,0,0,${0.45 - Math.min(0.3, ball.z * 0.04)})`;
       ctx.beginPath(); ctx.ellipse(bx + 1.5, by + 2, br * (1 + ball.z * 0.06), br * 0.7, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.save(); ctx.translate(bx, by - lift); ctx.rotate(ball.spin);
+      const [ldx, ldy] = up(lift);
+      ctx.save(); ctx.translate(bx + ldx, by + ldy); ctx.rotate(ball.spin);
       const bs = br * (1 + ball.z * 0.05);
       ctx.fillStyle = '#fff'; ctx.shadowColor = '#fff'; ctx.shadowBlur = 8;
       ctx.beginPath(); ctx.arc(0, 0, bs, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;

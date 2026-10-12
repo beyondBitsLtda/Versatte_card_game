@@ -18,10 +18,29 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800;1,900&family=Barlow:wght@400;500;600;700&display=swap">
   <script>
     /* Ajuste de tela: mede a área visível e, se o celular abrir a página com viewport de
-       desktop (ex.: "Site para computador"), aplica zoom para tudo voltar ao tamanho real. */
+       desktop (ex.: "Site para computador"), aplica zoom para tudo voltar ao tamanho real.
+       Também decide o layout: celular ou computador (html.desk). Automático = mouse + tela
+       larga; a preferência fica em localStorage 'versatte-layout' (auto | mobile | desktop). */
     (function () {
       var d = document.documentElement, z0 = 0;
+      function deskOn() {
+        var pref = '';
+        try { pref = localStorage.getItem('versatte-layout') || ''; } catch (e) {}
+        if (pref === 'mobile') return false;
+        if (pref === 'desktop') return window.innerWidth >= 720;
+        var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+        return !!fine && window.innerWidth >= 900 && window.innerHeight >= 520;
+      }
+      function layout() {
+        var on = deskOn();
+        if (on !== d.classList.contains('desk')) {
+          d.classList.toggle('desk', on);
+          window.dispatchEvent(new CustomEvent('versatte:layout', { detail: { desk: on } }));
+        }
+      }
+      window.versatteLayout = layout;
       function fit() {
+        layout();
         var iw = window.innerWidth, ih = window.innerHeight, sw = screen.width, z = 1;
         var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
         if (coarse && sw && sw < 760 && iw > sw * 1.2) z = iw / sw;
@@ -44,6 +63,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/game.css">
   <link rel="stylesheet" href="css/online.css">
+  <link rel="stylesheet" href="css/desktop.css">
 </head>
 <body>
   <div class="bg" aria-hidden="true">

@@ -7,6 +7,7 @@ import { CARD_BY_UID, RARITIES } from '../data.js';
 import { gem } from '../cards.js';
 import { sfx } from '../fx.js';
 import { esc } from '../ui.js';
+import { isDesk } from '../desktop.js';
 
 const LINE = { GOL: 'GOL', DEF: 'DEF', MEI: 'MEI', ATA: 'ATA' };
 
@@ -54,7 +55,7 @@ export function openSubPanel(container, { roster, title = 'Substituições', sub
             <div class="sp-pair"><span class="out">⬇ ${esc(roster.onField[c.out].name)}</span><span class="in">⬆ ${esc(roster.bench[c.in].name)}</span><button data-undo="${i}" aria-label="Desfazer">✕</button></div>`).join('')}</div>` : ''}
           <div class="sp-cols">
             <div class="sp-col">
-              <span class="sp-ch">Em campo · toque em quem sai</span>
+              <span class="sp-ch">Em campo · ${isDesk() ? 'clique' : 'toque'} em quem sai</span>
               ${roster.onField.map((p, i) => {
                 const dis = p.sentOff || usedOut.has(i) || left <= 0;
                 return `<button class="sp-p ${pickOut === i ? 'on' : ''} ${p.sentOff ? 'red' : ''}" data-out="${i}" ${dis ? 'disabled' : ''}>

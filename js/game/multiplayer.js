@@ -11,6 +11,7 @@ import { hydrateTeam, cupStandings, cupRoundName, ONLINE_REWARDS, LIVE } from '.
 import { replaySource } from './live.js';
 import { onlineSource } from './online-live.js';
 import { openLineup } from './club.js';
+import { isDesk } from '../desktop.js';
 import { playMatch } from './match.js';
 import { playTextMatch } from './textmatch.js';
 import { mountTrophies } from './trophy3d.js';
@@ -272,7 +273,7 @@ function bindConfig(node, cfg) {
 }
 const lineupHtml = () => {
   const c = state.club;
-  return c ? `<button class="lu-row" data-escalar><span>📋</span><div><b>Revisar escalação</b><small>${esc(c.name)} · ${esc(c.formation)} · depois do apito, só no intervalo</small></div>${icon.arrow}</button>` : '';
+  return c ? `<button class="lur" data-escalar><span>📋</span><div><b>Revisar escalação</b><small>${esc(c.name)} · ${esc(c.formation)} · depois do apito, só no intervalo</small></div>${icon.arrow}</button>` : '';
 };
 /** A escalação abre por cima de tudo; a folha fecha e volta depois, com as escolhas mantidas. */
 function editLineupThen(s, reopen) { sfx.tap(); s.close(); openLineup(null, reopen); }
@@ -399,7 +400,7 @@ export async function openTrade(id) {
       <div class="tr-table">
         <div class="tr-side ${M.ok ? 'ok' : ''}">
           <span class="tr-h">Você oferece ${M.ok ? '✔' : ''}</span>
-          <div class="tr-cards">${myOffer.map(o => slot(o, true)).join('') || '<p class="muted">Toque nas suas cartas abaixo</p>'}</div>
+          <div class="tr-cards">${myOffer.map(o => slot(o, true)).join('') || `<p class="muted">${isDesk() ? 'Clique' : 'Toque'} nas suas cartas abaixo</p>`}</div>
         </div>
         <div class="tr-swap">⇄</div>
         <div class="tr-side them ${T.ok ? 'ok' : ''}">
@@ -413,7 +414,7 @@ export async function openTrade(id) {
         <button class="btn ghost" data-cancelar-troca>Cancelar troca</button>
         <button class="btn primary big" data-confirmar ${M.ok || empty || dirty ? 'disabled' : ''}>${M.ok ? 'Confirmado ✔' : 'Confirmar troca'}</button>
       </div>
-      <div class="section-head"><h3>Sua coleção</h3><span class="muted">toque para oferecer</span></div>
+      <div class="section-head"><h3>Sua coleção</h3><span class="muted">${isDesk() ? 'clique' : 'toque'} para oferecer</span></div>
       <div class="filters">
         ${[['all', 'Todas'], ['dupes', 'Repetidas'], ...COLLECTIONS.map(c => [c.id, c.short])].map(([k, l]) => `<button class="chip ${filter === k ? 'on' : ''}" data-filtro="${k}">${esc(l)}</button>`).join('')}
       </div>

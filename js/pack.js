@@ -3,6 +3,7 @@ import { COLLECTION_BY_ID, RARITIES, PACK_STYLE } from './data.js';
 import { state, progress, readyPrizes, freeAvailable, totalPacks } from './state.js';
 import { openPackE } from './net/economy.js';
 import { toast } from './ui.js';
+import { isDesk } from './desktop.js';
 import { cardHTML, rarityTag } from './cards.js';
 import { burst, confetti, centerOf, sfx, haptic, attachTilt, enableGyro, coinFly } from './fx.js';
 import { overlay, el, esc, icon, wait } from './ui.js';
@@ -72,7 +73,7 @@ export async function startOpening(collectionId, type, { onDone } = {}) {
       <div class="reveal-chip"></div>
     </div>
     <div class="open-foot">
-      <div class="tear-hint">${icon.swipe}<span>Deslize o dedo sobre o pacote para rasgar</span></div>
+      <div class="tear-hint">${icon.swipe}<span>${isDesk() ? 'Arraste o mouse sobre o pacote para rasgar (ou aperte Espaço)' : 'Deslize o dedo sobre o pacote para rasgar'}</span></div>
       <div class="deck-counter"></div>
     </div>`, 'opening');
 
@@ -206,6 +207,18 @@ export async function startOpening(collectionId, type, { onDone } = {}) {
     nextHint();
     setTimeout(() => it.node.remove(), 500);
   }
+
+  // teclado (computador): Espaço/Enter rasga e revela; ← → tira a carta para o lado
+  const onKey = e => {
+    if (!node.isConnected) return document.removeEventListener('keydown', onKey);
+    if (![' ', 'Enter', 'ArrowRight', 'ArrowLeft'].includes(e.key) || e.ctrlKey || e.metaKey || e.altKey) return;
+    e.preventDefault();
+    if (phase === 'tear') { prog = 1; pack.style.setProperty('--cut', '1'); tear(); return; }
+    if (phase !== 'reveal' || busy) return;
+    const it = items[idx]; if (!it) return;
+    if (!it.revealed) reveal(it); else dismiss(it, e.key === 'ArrowLeft' ? -1 : 1);
+  };
+  document.addEventListener('keydown', onKey);
 
   let sx = null;
   deck.addEventListener('pointerdown', e => { sx = e.clientX; });

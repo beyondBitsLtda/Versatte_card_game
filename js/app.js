@@ -1,6 +1,6 @@
 // Ponto de entrada: intro, cadastro, roteamento por hash e barra de navegação.
-import { state, save, onChange, freeAvailable, readyPrizes, packCount, totalPacks } from './state.js';
-import { PACK_STYLE, COLLECTION_BY_ID } from './data.js';
+import { state, save, onChange, freeAvailable, msToNextFree, readyPrizes, packCount, totalPacks } from './state.js';
+import { PACK_STYLE, COLLECTION_BY_ID, COLLECTIONS } from './data.js';
 import { homeView, albumView, cardsView, prizesView, shopView, authView, openProfile, cleanupView } from './views.js';
 import { isOnline, resumeSession, refreshProfile, startPolling, onInbox } from './net/online.js';
 import { onlineView, initMultiplayer, pendingCount } from './game/multiplayer.js';
@@ -9,7 +9,8 @@ import { startOpening } from './pack.js';
 import { openDebug } from './debug.js';
 import { clubView } from './game/club.js';
 import { burst, sfx, haptic } from './fx.js';
-import { icon, esc, toast, wait } from './ui.js';
+import { icon, esc, toast, wait, fmtCountdown } from './ui.js';
+import { initDesktop, isDesk } from './desktop.js';
 
 const ROUTES = {
   home:   { view: homeView,   label: 'Início',  icon: 'home' },
@@ -20,6 +21,11 @@ const ROUTES = {
   cards:  { view: cardsView,  label: 'Cartas',  icon: 'cards', hidden: true, tab: 'album' },
   online: { view: onlineView, label: 'Online',  icon: 'user',  hidden: true, tab: 'jogar' },
 };
+// ordem da navegação; no celular as rotas "hidden" não aparecem na barra (ficam dentro das telas),
+// no computador todas viram itens da barra lateral (atalhos 1 a 7)
+const NAV = ['home', 'album', 'cards', 'jogar', 'online', 'prizes', 'shop'];
+const TITLES = { home: 'Início', album: 'Álbum', cards: 'Minhas cartas', jogar: 'Modo Clube', online: 'Online', prizes: 'Prêmios', shop: 'Loja' };
+const DESK_LABEL = { cards: 'Minhas cartas', jogar: 'Modo Clube' };
 
 const $ = s => document.querySelector(s);
 const viewEl = $('#view');
@@ -66,14 +72,28 @@ function render(keepScroll = false) {
 }
 
 function renderChrome() {
-  const activeTab = ROUTES[route].tab || route;
-  $('#tabbar').innerHTML = Object.entries(ROUTES).filter(([, r]) => !r.hidden).map(([k, r]) => `
-    <a href="#/${k}" class="tab ${k === activeTab ? 'on' : ''} ${r.center ? 'center' : ''}" aria-label="${r.label}">
-      ${icon[r.icon]}<span>${r.label}</span>
+  const desk = isDesk();
+  const activeTab = desk ? route : (ROUTES[route].tab || route);
+  const pend = isOnline() ? pendingCount() : 0;
+  const free = freeAvailable();
+  $('#tabbar').innerHTML = NAV.map((k, i) => {
+    const r = ROUTES[k];
+    return `
+    <a href="#/${k}" class="tab ${k === activeTab ? 'on' : ''} ${r.center ? 'center' : ''} ${r.hidden ? 'x' : ''}" aria-label="${r.label}" title="${desk ? `${DESK_LABEL[k] || r.label} · tecla ${i + 1}` : ''}">
+      ${icon[r.icon]}<span>${desk ? DESK_LABEL[k] || r.label : r.label}</span>
       ${k === 'prizes' && readyPrizes().length ? '<i class="dot"></i>' : ''}
-      ${k === 'home' && freeAvailable() ? '<i class="dot"></i>' : ''}
-    </a>`).join('');
+      ${k === 'home' && free ? '<i class="dot"></i>' : ''}
+      ${k === 'online' && pend ? `<i class="badge">${pend}</i>` : ''}
+    </a>`;
+  }).join('') + `
+    <div class="side-foot">
+      <button class="sf-free ${free ? 'on' : ''}" data-side-free>
+        ${icon.pack}<div><b>${free ? 'Pacote grátis liberado' : 'Próximo pacote grátis'}</b><span class="sf-time">${free ? 'Abrir agora' : fmtCountdown(msToNextFree())}</span></div>
+      </button>
+      <p class="sf-keys"><kbd>1</kbd>–<kbd>7</kbd> navegar · <kbd>Esc</kbd> fechar</p>
+    </div>`;
   $('#chips').innerHTML = `
+    <span class="desk-title">${TITLES[route]}</span>
     <button class="chip-stat" data-go="shop" data-coins aria-label="Moedas">${icon.coin}<b>${state.coins}</b></button>
     <button class="chip-stat premium" data-go="shop" aria-label="Pacotes">${icon.pack}<b>${totalPacks()}</b></button>
     ${isOnline() ? `<button class="chip-icon online" data-go="online" aria-label="Multiplayer">${icon.user}${pendingCount() ? `<i class="badge">${pendingCount()}</i>` : ''}</button>` : ''}
@@ -157,6 +177,22 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-debug]')) { sfx.tap(); openDebug(app); }
 });
 $('.brand').addEventListener('click', () => app.go('home'));
+document.addEventListener('click', e => {
+  if (!e.target.closest('[data-side-free]')) return;
+  sfx.tap();
+  if (freeAvailable() && !COLLECTION_BY_ID[state.lastCollection]?.premiumOnly) app.open(state.lastCollection || COLLECTIONS[0].id, 'free');
+  else app.go('home');
+});
+// contagem do próximo pacote grátis na barra lateral
+setInterval(() => {
+  const t = document.querySelector('.sf-time');
+  if (!t || !state.user) return;
+  if (freeAvailable() !== !!document.querySelector('.sf-free.on')) return renderChrome();
+  if (!freeAvailable()) t.textContent = fmtCountdown(msToNextFree());
+}, 1000);
+// trocou de celular para computador (ou o contrário): redesenha a navegação e a tela
+addEventListener('versatte:layout', () => { if (document.body.classList.contains('signed')) render(true); });
+initDesktop(app, NAV);
 
 // ativa o modo debug pela URL (?debug=1) mesmo se estiver desligado
 if (new URLSearchParams(location.search).has('debug')) { state.settings.debug = true; save(); }
