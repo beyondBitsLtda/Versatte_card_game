@@ -8,12 +8,13 @@ import { state, save, ownedCount, addPacks } from '../state.js';
 import { cardHTML, gem, abilityText } from '../cards.js';
 import {
   FORMATIONS, LINE_LABEL, autoLineup, userTeam, aiTeam, teamRatings, simulateMatch, predict, naturalFor,
-  standings, matchReward, penaltyShootout, mulberry32,
+  standings, matchReward,
   effAttrs, effOvr, loanMoral, loanMando, loanPower,
   LOAN_SLOT, isLoanSlot, loanSlots, drawLoans, expectedLoan,
 } from './engine.js';
 import { playMatch, crestMini } from './match.js';
 import { playTextMatch } from './textmatch.js';
+import { offlineSource } from './live.js';
 import {
   createComp, nextUserMatch, recordUserMatch, compReward, compStatus, compLevel, groupStandings, userGroup, koRoundName, migrateLeague,
 } from './tournament.js';
@@ -86,6 +87,7 @@ function ensureComp() {
 export function clubView(app) {
   sanitizeClub();
   ensureComp();
+  if (settlePendingMatch()) setTimeout(() => toast('Partida abandonada no meio: derrota por W.O. (3 x 0)'), 400);
   if (cleanupTrophies) { cleanupTrophies(); cleanupTrophies = null; }
   if (!state.club) return introView(app);
   const club = state.club;
@@ -433,10 +435,11 @@ function openIdentity(app, creating) {
 // ============================================================
 //  ESCALAÇÃO
 // ============================================================
-function openLineup(app) {
+/** Escalação do clube. Também usada antes de desafiar/aceitar uma partida online (app = null, onClose avisa). */
+export function openLineup(app, onClose = null) {
   const ov = overlay(`<button class="icon-btn ov-x" aria-label="Fechar">${icon.close}</button><div class="lu"></div>`, 'detail-ov lu-ov');
   const root = ov.node.querySelector('.lu');
-  const close = () => { ov.close(); app.refresh(); };
+  const close = () => { ov.close(); app?.refresh(); onClose?.(); };
   ov.node.querySelector('.ov-x').addEventListener('click', () => { sfx.tap(); close(); });
 
   function render() {
@@ -673,6 +676,36 @@ function flyCoins(amount) {
   setTimeout(() => coinFly(innerWidth / 2, innerHeight * 0.45, amount, { total: state.coins }), 350);
 }
 
+/** Placar em que o usuário perde por W.O. (3 x 0). */
+const woScore = userSide => (userSide === 0 ? [0, 3] : [3, 0]);
+
+/** Soma a partida às estatísticas do clube. */
+function addGameStats(gf, ga, outcome) {
+  const g = state.game;
+  const streak = outcome === 'win' ? g.streak + 1 : 0;
+  Object.assign(g, { played: g.played + 1, gf: g.gf + gf, ga: g.ga + ga, streak, best: Math.max(g.best, streak) });
+  g[{ win: 'won', draw: 'drawn', loss: 'lost' }[outcome]]++;
+  return streak;
+}
+
+/**
+ * Partida que começou e não terminou (app fechado no meio do jogo): vale como W.O.
+ * Sem isso, bastaria fechar o app ao tomar um gol para jogar de novo.
+ */
+export function settlePendingMatch() {
+  const p = state.pendingMatch;
+  if (!p) return null;
+  state.pendingMatch = null;
+  const comp = state.comp;
+  if (p.kind === 'comp' && comp && comp.edition === p.edition && comp.seed === p.seed && comp.played === p.played && !comp.done && !comp.userOut) {
+    const m = nextUserMatch(comp);
+    if (m) recordUserMatch(comp, m, p.userSide, woScore(p.userSide), null);
+  }
+  addGameStats(0, 3, 'loss');
+  save();
+  return p;
+}
+
 async function playCompRound(app) {
   const comp = state.comp;
   const m = comp && nextUserMatch(comp);
@@ -686,52 +719,54 @@ async function playCompRound(app) {
   const mode = await preMatch(home, away, userSide, m.title);
   if (!mode) return;
   state.loanDraw = null;          // sorteio usado: a próxima partida sorteia de novo
-
-  // debug "forçar pênaltis": procura uma simulação que termine empatada (o placar continua coerente)
-  let result;
-  for (let i = 0; i < 300; i++) {
-    result = simulateMatch(home, away, { seed: (comp.seed + comp.played * 7919 + state.game.played * 104729 + i * 15485863) >>> 0 });
-    if (!(state.forcePens && m.knockout) || result.score[0] === result.score[1]) break;
-  }
+  const forceTie = !!state.forcePens;
   state.forcePens = false;
-  const drawn = result.score[0] === result.score[1];
-  const shootout = m.knockout && drawn ? penaltyShootout(home, away, mulberry32(comp.seed + comp.played * 31 + 7)) : null;
-  const gf = result.score[userSide], ga = result.score[1 - userSide];
-  const outcome = gf > ga ? 'win' : gf === ga ? 'draw' : 'loss';
-  const g = state.game;
-  const streak = outcome === 'win' ? g.streak + 1 : 0;
-  const reward = matchReward(gf, ga, outcome, streak);
-  const pensWon = shootout && shootout.winner === userSide;
-  if (pensWon) { reward.lines.push(['Vitória nos pênaltis', COINS.draw]); reward.coins += COINS.draw; }
-
-  // grava tudo antes da animação (se o app fechar, o resultado vale)
-  const res = recordUserMatch(comp, m, userSide, result.score, shootout);
-  Object.assign(g, { played: g.played + 1, gf: g.gf + gf, ga: g.ga + ga, streak, best: Math.max(g.best, streak) });
-  g[{ win: 'won', draw: 'drawn', loss: 'lost' }[outcome]]++;
+  // a partida começou: se o app fechar antes do apito final, vale W.O.
+  state.pendingMatch = { kind: 'comp', edition: comp.edition, seed: comp.seed, played: comp.played, userSide };
   save();
-  // moedas: offline vão direto; online o servidor credita (com limites anti-trapaça)
-  const got = await rewardE(reward.coins, reward.pack, 'partida');
-  if (got.limited) { reward.lines.push(['Limite diário de recompensas', got.coins - reward.coins]); reward.coins = got.coins; reward.pack = got.pack; }
 
-  const after = comp.done || comp.userOut ? '' : nextUserMatch(comp)?.stage;
-  const statusLine = res.champion ? `<div class="rw-pos big">🏆 <b>Campeão da ${esc(def.name)}!</b></div>`
-    : res.eliminated ? `<div class="rw-pos out">Fim da campanha · <b>${esc(compReward(comp).label)}</b></div>`
-    : res.advanced ? `<div class="rw-pos up">Classificado! Próxima fase: <b>${esc(after || '')}</b></div>`
-    : comp.type === 'liga' ? `<div class="rw-pos">${esc(def.name)}: <b>${standings(comp.league).findIndex(r => r.id === 'user') + 1}º lugar</b></div>`
-    : `<div class="rw-pos">${esc(compStatus(comp))}</div>`;
+  const src = offlineSource(home, away, userSide, {
+    seed: (comp.seed + comp.played * 7919 + state.game.played * 104729) >>> 0, knockout: !!m.knockout, forceTie,
+  });
+  let reward = null, res = null, statusLine = '';
+  const onFinish = async ({ result, shootout }) => {
+    state.pendingMatch = null;
+    const wo = result.forfeit != null;
+    const gf = result.score[userSide], ga = result.score[1 - userSide];
+    const outcome = gf > ga ? 'win' : gf === ga ? 'draw' : 'loss';
+    const streak = addGameStats(gf, ga, outcome);
+    res = recordUserMatch(comp, m, userSide, result.score, wo ? null : shootout);
+    if (wo) reward = { coins: 0, lines: [['Desistência', 0]], pack: null };
+    else {
+      reward = matchReward(gf, ga, outcome, streak);
+      if (shootout && shootout.winner === userSide) { reward.lines.push(['Vitória nos pênaltis', COINS.draw]); reward.coins += COINS.draw; }
+    }
+    save();
+    // moedas: offline vão direto; online o servidor credita (com limites anti-trapaça)
+    if (reward.coins || reward.pack) {
+      const got = await rewardE(reward.coins, reward.pack, 'partida');
+      if (got.limited) { reward.lines.push(['Limite diário de recompensas', got.coins - reward.coins]); reward.coins = got.coins; reward.pack = got.pack; }
+    }
+    const after = comp.done || comp.userOut ? '' : nextUserMatch(comp)?.stage;
+    statusLine = res.champion ? `<div class="rw-pos big">🏆 <b>Campeão da ${esc(def.name)}!</b></div>`
+      : res.eliminated ? `<div class="rw-pos out">Fim da campanha · <b>${esc(compReward(comp).label)}</b></div>`
+      : res.advanced ? `<div class="rw-pos up">Classificado! Próxima fase: <b>${esc(after || '')}</b></div>`
+      : comp.type === 'liga' ? `<div class="rw-pos">${esc(def.name)}: <b>${standings(comp.league).findIndex(r => r.id === 'user') + 1}º lugar</b></div>`
+      : `<div class="rw-pos">${esc(compStatus(comp))}</div>`;
+  };
   const resultTitle = o => {
-    if (res.champion) return 'CAMPEÃO!';
-    if (m.knockout) return o === 'win' ? (shootout ? 'CLASSIFICADO NOS PÊNALTIS!' : 'CLASSIFICADO!') : 'ELIMINADO';
+    if (res?.champion) return 'CAMPEÃO!';
+    if (m.knockout) return o === 'win' ? (src.final?.shootout ? 'CLASSIFICADO NOS PÊNALTIS!' : 'CLASSIFICADO!') : 'ELIMINADO';
     return null;
   };
 
   await (mode === 'texto' ? playTextMatch : playMatch)({
-    home, away, result, userSide, shootout, resultTitle,
+    src, resultTitle, onFinish,
     context: { title: m.title, subtitle: `${comp.edition}ª edição` },
-    onResultHtml: () => rewardHtml(reward, statusLine),
+    onResultHtml: () => (reward ? rewardHtml(reward, statusLine) : ''),
   });
   app.refresh();
-  flyCoins(reward.coins);
+  if (reward?.coins) flyCoins(reward.coins);
   if (comp.done || comp.userOut) { await new Promise(r => setTimeout(r, 1300)); await compEnd(comp); app.refresh(); }
 }
 
@@ -747,17 +782,27 @@ async function playFriendly(app) {
   const mode = await preMatch(home, away, userSide, 'Amistoso');
   if (!mode) return;
   state.loanDraw = null;
-  const result = simulateMatch(home, away, { seed: (Date.now() & 0xffffff) >>> 0 });
-  const gf = result.score[userSide], ga = result.score[1 - userSide];
-  const outcome = gf > ga ? 'win' : gf === ga ? 'draw' : 'loss';
-  const full = matchReward(gf, ga, outcome, 0);
-  const coins = Math.round(full.coins * COINS.friendly);
-  const reward = { coins, lines: [...full.lines, ['Amistoso (metade)', coins - full.coins]], pack: null };
-  const got = await rewardE(coins, null, 'amistoso');
-  if (got.limited) { reward.lines.push(['Limite de recompensas', got.coins - coins]); reward.coins = got.coins; }
-  await (mode === 'texto' ? playTextMatch : playMatch)({ home, away, result, userSide, context: { title: 'Amistoso', subtitle: 'Modo Clube' }, onResultHtml: () => rewardHtml(reward) });
+  state.pendingMatch = { kind: 'friendly', userSide };
+  save();
+  const src = offlineSource(home, away, userSide, { seed: (Date.now() & 0xffffff) >>> 0 });
+  let reward = null;
+  const onFinish = async ({ result }) => {
+    state.pendingMatch = null;
+    save();
+    if (result.forfeit != null) { reward = { coins: 0, lines: [['Desistência', 0]], pack: null }; return; }
+    const gf = result.score[userSide], ga = result.score[1 - userSide];
+    const outcome = gf > ga ? 'win' : gf === ga ? 'draw' : 'loss';
+    const full = matchReward(gf, ga, outcome, 0);
+    const coins = Math.round(full.coins * COINS.friendly);
+    reward = { coins, lines: [...full.lines, ['Amistoso (metade)', coins - full.coins]], pack: null };
+    const got = await rewardE(coins, null, 'amistoso');
+    if (got.limited) { reward.lines.push(['Limite de recompensas', got.coins - coins]); reward.coins = got.coins; }
+  };
+  await (mode === 'texto' ? playTextMatch : playMatch)({
+    src, onFinish, context: { title: 'Amistoso', subtitle: 'Modo Clube' }, onResultHtml: () => (reward ? rewardHtml(reward) : ''),
+  });
   app.refresh();
-  flyCoins(reward.coins);
+  if (reward?.coins) flyCoins(reward.coins);
 }
 
 /** Fim do campeonato: troféu 3D para o campeão, resumo para quem caiu. */

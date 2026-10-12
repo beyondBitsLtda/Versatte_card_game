@@ -7,7 +7,7 @@
     "dev": "node dev.mjs",
     "test": "node test.mjs",
     "deploy": "wrangler deploy",
-    "migrar": "node --env-file=.env scripts/migrar.mjs db/001_versatte.sql"
+    "migrar": "node --env-file=.env scripts/migrar.mjs db/001_versatte.sql && node --env-file=.env scripts/migrar.mjs db/002_partida_ao_vivo.sql"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8"

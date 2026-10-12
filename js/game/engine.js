@@ -264,42 +264,77 @@ const pickWeighted = (items, weight, rng) => {
 const SHOT_W = { ATA: 6, MEI: 3, DEF: 1, GOL: 0.05 };
 const ASSIST_W = { ATA: 2, MEI: 3, DEF: 1, GOL: 0.2 };
 
+// ------------------------------------------------------------
+//  Simulação em passos (minuto a minuto, retomável)
+//  O estado (sim.st) é JSON puro: dá para tirar "foto" a cada minuto
+//  (substituição no meio do jogo) e salvar no banco (intervalo online).
+// ------------------------------------------------------------
+export const MAX_SUBS = 3;
+
+/** Gerador pseudoaleatório com estado serializável (mesmo algoritmo do mulberry32). */
+function rngNext(r) {
+  r.s = (r.s + 0x6D2B79F5) | 0;
+  let t = Math.imul(r.s ^ (r.s >>> 15), 1 | r.s);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+}
+
+/** Jogador "limpo" para a simulação (sem a carta inteira: o estado precisa ser leve). */
+const simPlayer = (p, fresh) => ({
+  name: p.name, shirt: p.shirt ?? null, line: p.line, pos: p.pos || null, uid: p.uid || null,
+  loan: !!p.loan, drawn: !!p.drawn, base: !!p.base, rating: { ...p.rating }, fresh,
+});
+
 /**
- * Simula uma partida. Devolve { score, events, mvp, stats }.
- * Eventos: kickoff, goal, save, post, miss, foul, yellow, red, sub, half, end
+ * Cria a simulação. autoSubs: substituições automáticas aos 65' (padrão: só para times
+ * controlados pelo computador — quem joga com as próprias cartas substitui na mão).
  */
-export function simulateMatch(home, away, { seed = Date.now() } = {}) {
-  const rng = mulberry32(seed);
-  const side = [home, away].map(t => ({
-    team: t, onField: t.players.map(p => ({ ...p, fresh: false })), bench: t.bench.map(p => ({ ...p, fresh: true })),
-    reds: 0, yellows: {}, goals: 0, shots: 0, onTarget: 0, poss: 0,
-  }));
-  const events = [{ min: 0, type: 'kickoff' }];
-  const score = [0, 0];
-  const scorers = new Map();
-  const possession = [0];   // quem teve a bola em cada minuto (0 = mandante, 1 = visitante)
-
-  const ratingsAt = (s, min) => {
-    const fatigue = min <= 60 ? 1 : 1 - 0.07 * (min - 60) / 30;
-    return teamRatings(s.team, { home: s === side[0], fatigue, reds: s.reds, onField: s.onField, opp: (s === side[0] ? side[1] : side[0]).team });
+export function createSim(home, away, { seed = Date.now(), autoSubs = null } = {}) {
+  return {
+    home, away,
+    st: {
+      min: 0, rng: { s: seed | 0 }, score: [0, 0],
+      events: [{ min: 0, type: 'kickoff' }], possession: [0], scorers: {},
+      auto: autoSubs || [!home.user, !away.user],
+      sides: [home, away].map(t => ({
+        onField: t.players.map(p => simPlayer(p, false)), bench: t.bench.map(p => simPlayer(p, true)),
+        reds: 0, yellows: {}, goals: 0, shots: 0, onTarget: 0, poss: 0, subs: 0,
+      })),
+    },
   };
+}
 
-  for (let min = 1; min <= 90; min++) {
-    if (min === 46) events.push({ min: 45, type: 'half', score: [...score] });
-    if (min === 65) side.forEach((s, i) => doSubs(s, i, events, min));
+/** Retoma a partir de um estado salvo (times já montados/hidratados). */
+export const resumeSim = (home, away, st) => ({ home, away, st: JSON.parse(JSON.stringify(st)) });
+export const snapshotSim = sim => JSON.parse(JSON.stringify(sim.st));
+export const restoreSim = (sim, snap) => { sim.st = JSON.parse(JSON.stringify(snap)); };
 
-    const r = side.map(s => ratingsAt(s, min));
+/** Simula até o fim do minuto `to` (inclusive). Emite 'half' ao fim do 45 e 'end' ao fim do 90. */
+export function simTo(sim, to) {
+  const st = sim.st;
+  const teams = [sim.home, sim.away];
+  const rng = () => rngNext(st.rng);
+  const side = st.sides;
+  const ratingsAt = (i, min) => {
+    const fatigue = min <= 60 ? 1 : 1 - 0.07 * (min - 60) / 30;
+    return teamRatings(teams[i], { home: i === 0, fatigue, reds: side[i].reds, onField: side[i].onField, opp: teams[1 - i] });
+  };
+  for (let min = st.min + 1; min <= Math.min(90, to); min++) {
+    st.min = min;
+    if (min === 65) side.forEach((s, i) => { if (st.auto[i]) autoSubs(s, i, st.events, min); });
+
+    const r = [ratingsAt(0, min), ratingsAt(1, min)];
     const pHome = Math.pow(r[0].CRI, 2) / (Math.pow(r[0].CRI, 2) + Math.pow(r[1].CRI, 2));
     const a = rng() < pHome ? 0 : 1, d = 1 - a;
     side[a].poss++;
-    possession[min] = a;
+    st.possession[min] = a;
     const ra = r[a], rd = r[d];
     const att = side[a], def = side[d];
+    const am = teams[a].mascot, dm = teams[d].mascot;
 
     let chance = Math.min(0.2, 0.085 * Math.pow(ra.ATQ / rd.DEF, 1.25));
-    const am = att.team.mascot, dm = def.team.mascot;
     if (am && am.ability === 'pressao' && min >= 76) chance *= 1 + am.power * 0.04;
-    if (am && am.ability === 'raca' && score[a] < score[d]) chance *= 1 + am.power * 0.05;
+    if (am && am.ability === 'raca' && st.score[a] < st.score[d]) chance *= 1 + am.power * 0.05;
 
     if (rng() < chance) {
       const penalty = rng() < 0.06;
@@ -307,7 +342,7 @@ export function simulateMatch(home, away, { seed = Date.now() } = {}) {
       const shooter = pickWeighted(field, p => SHOT_W[p.line] * (p.rating.ATA / 50), rng);
       const mates = field.filter(p => p !== shooter);
       const assist = !penalty && mates.length && rng() < 0.75 ? pickWeighted(mates, p => ASSIST_W[p.line] * (p.rating.MEI / 50), rng) : null;
-      const keeper = def.onField.find(p => p.line === 'GOL') || def.onField[0];
+      const keeper = def.onField.find(p => p.line === 'GOL' && !p.sentOff) || def.onField.find(p => !p.sentOff) || def.onField[0];
       const q = ra.ATQ / (rd.DEF * 0.45 + rd.G * 0.55);
       let goalP = penalty ? 0.76 : Math.min(0.55, Math.max(0.1, 0.3 * Math.pow(q, 1.3)));
       if (am && am.ability === 'contra') goalP += am.power * 0.01;
@@ -316,55 +351,100 @@ export function simulateMatch(home, away, { seed = Date.now() } = {}) {
       const base = { min, team: a, shooter: shooter.name, shooterUid: shooter.uid, penalty, x: rng() };
       if (roll < goalP) {
         if (dm && dm.ability === 'sorte' && rng() < dm.power * 0.015) {
-          events.push({ ...base, type: 'post', luck: dm.name });
+          st.events.push({ ...base, type: 'post', luck: dm.name });
         } else {
-          score[a]++; att.goals++; att.onTarget++;
-          scorers.set(shooter, (scorers.get(shooter) || 0) + 1);
-          events.push({ ...base, type: 'goal', assist: assist ? assist.name : null, score: [...score] });
+          st.score[a]++; att.goals++; att.onTarget++;
+          const key = `${a}|${shooter.uid || shooter.name}`;
+          st.scorers[key] = { name: shooter.name, uid: shooter.uid, team: a, goals: (st.scorers[key]?.goals || 0) + 1 };
+          st.events.push({ ...base, type: 'goal', assist: assist ? assist.name : null, score: [...st.score] });
         }
       } else if (roll < goalP + 0.10) {
-        events.push({ ...base, type: 'post' });
+        st.events.push({ ...base, type: 'post' });
       } else if (roll < goalP + 0.10 + 0.5 * (1 - goalP)) {
         att.onTarget++;
-        events.push({ ...base, type: 'save', keeper: keeper.name, keeperUid: keeper.uid });
+        st.events.push({ ...base, type: 'save', keeper: keeper.name, keeperUid: keeper.uid });
       } else {
-        events.push({ ...base, type: 'miss' });
+        st.events.push({ ...base, type: 'miss' });
       }
     } else if (rng() < 0.028) {
       const field = def.onField.filter(p => !p.sentOff && p.line !== 'GOL');
-      if (!field.length) continue;
-      const who = field[Math.floor(rng() * field.length)];
-      const key = who.name + who.shirt;
-      if (rng() < 0.012) {
-        who.sentOff = true; def.reds++;
-        events.push({ min, team: d, type: 'red', player: who.name });
-      } else if (rng() < 0.32) {
-        def.yellows[key] = (def.yellows[key] || 0) + 1;
-        if (def.yellows[key] === 2) { who.sentOff = true; def.reds++; events.push({ min, team: d, type: 'red', player: who.name, second: true }); }
-        else events.push({ min, team: d, type: 'yellow', player: who.name });
-      } else {
-        events.push({ min, team: d, type: 'foul', player: who.name });
+      if (field.length) {
+        const who = field[Math.floor(rng() * field.length)];
+        const key = who.name + who.shirt;
+        if (rng() < 0.012) {
+          who.sentOff = true; def.reds++;
+          st.events.push({ min, team: d, type: 'red', player: who.name });
+        } else if (rng() < 0.32) {
+          def.yellows[key] = (def.yellows[key] || 0) + 1;
+          if (def.yellows[key] === 2) { who.sentOff = true; def.reds++; st.events.push({ min, team: d, type: 'red', player: who.name, second: true }); }
+          else st.events.push({ min, team: d, type: 'yellow', player: who.name });
+        } else {
+          st.events.push({ min, team: d, type: 'foul', player: who.name });
+        }
       }
     }
+    if (min === 45) st.events.push({ min: 45, type: 'half', score: [...st.score] });
+    if (min === 90) st.events.push({ min: 90, type: 'end', score: [...st.score] });
   }
-  events.push({ min: 90, type: 'end', score: [...score] });
+  return sim;
+}
 
-  // craque do jogo: quem mais marcou; empate → melhor nota do time vencedor
-  let mvp = null, best = -1;
-  for (const [p, g] of scorers) if (g > best) { best = g; mvp = p; }
+/** Quem está em campo e no banco (para a tela de substituição). */
+export function simRoster(sim, sideIdx) {
+  const s = sim.st.sides[sideIdx];
+  return { onField: s.onField, bench: s.bench, subsLeft: MAX_SUBS - s.subs };
+}
+
+/**
+ * Substituição manual: troca onField[outIdx] por bench[inIdx] no minuto atual.
+ * Expulsos não saem (o time fica com um a menos) e quem saiu não volta.
+ */
+export function simSubstitute(sim, sideIdx, outIdx, inIdx) {
+  const s = sim.st.sides[sideIdx];
+  const out = s.onField[outIdx], inn = s.bench[inIdx];
+  if (!out || !inn) throw new Error('Substituição inválida');
+  if (out.sentOff) throw new Error(`${out.name} foi expulso e não pode ser substituído`);
+  if (s.subs >= MAX_SUBS) throw new Error(`Limite de ${MAX_SUBS} substituições`);
+  s.onField[outIdx] = { ...inn, line: out.line, fresh: true, subbed: true };
+  s.bench.splice(inIdx, 1);
+  s.subs++;
+  const min = sim.st.min;
+  const ev = { min, team: sideIdx, type: 'sub', playerIn: inn.name, playerOut: out.name, inUid: inn.uid, manual: true };
+  sim.st.events.push(ev);
+  return ev;
+}
+
+/** Resultado no formato usado pelas telas. */
+export function simResult(sim) {
+  const st = sim.st;
+  const list = Object.values(st.scorers);
+  let mvp = list.sort((a, b) => b.goals - a.goals)[0] || null;
   if (!mvp) {
-    const w = score[0] >= score[1] ? 0 : 1;
-    mvp = side[w].onField.slice().sort((x, y) => (y.rating[y.line] || 0) - (x.rating[x.line] || 0))[0];
+    const w = st.score[0] >= st.score[1] ? 0 : 1;
+    const p = st.sides[w].onField.slice().sort((x, y) => (y.rating[y.line] || 0) - (x.rating[x.line] || 0))[0];
+    mvp = p ? { name: p.name, uid: p.uid, goals: 0, team: w } : null;
   }
-  const totalPoss = side[0].poss + side[1].poss || 1;
+  const totalPoss = st.sides[0].poss + st.sides[1].poss || 1;
   return {
-    score, events, possession,
-    mvp: mvp ? { name: mvp.name, uid: mvp.uid, goals: scorers.get(mvp) || 0, team: side[0].onField.includes(mvp) || side[0].bench.includes(mvp) ? 0 : 1 } : null,
-    stats: side.map(s => ({ shots: s.shots, onTarget: s.onTarget, poss: Math.round(s.poss / totalPoss * 100) })),
+    score: [...st.score], events: st.events, possession: st.possession,
+    mvp, stats: st.sides.map(s => ({ shots: s.shots, onTarget: s.onTarget, poss: Math.round(s.poss / totalPoss * 100) })),
   };
 }
 
-function doSubs(s, sideIdx, events, min) {
+/** Partida inteira de uma vez (prévia, robôs, debug, simulações de balanceamento). */
+export function simulateMatch(home, away, { seed = Date.now() } = {}) {
+  return simResult(simTo(createSim(home, away, { seed }), 90));
+}
+
+/** Resultado de desistência (W.O.): quem desistiu fica com 0; o adversário com 3 (ou os gols que já tinha, se mais). */
+export function forfeitResult(result, loserSide) {
+  const score = [...result.score];
+  const w = 1 - loserSide;
+  score[w] = Math.max(3, score[w]); score[loserSide] = 0;
+  return { ...result, score, forfeit: loserSide, events: [...result.events.filter(e => e.type !== 'end'), { min: result.events.at(-1)?.min ?? 0, type: 'end', score, forfeit: loserSide }] };
+}
+
+function autoSubs(s, sideIdx, events, min) {
   const fatigue = 0.977;   // cansaço aos 65'
   let done = 0;
   for (const benchP of s.bench.slice().sort((a, b) => (b.rating[b.line]) - (a.rating[a.line]))) {
@@ -376,6 +456,7 @@ function doSubs(s, sideIdx, events, min) {
     const idx = s.onField.indexOf(worst);
     s.onField[idx] = { ...benchP, line: worst.line, fresh: true, subbed: true };
     s.bench = s.bench.filter(p => p !== benchP);
+    s.subs++;
     events.push({ min, team: sideIdx, type: 'sub', playerIn: benchP.name, playerOut: worst.name, inUid: benchP.uid });
     done++;
   }

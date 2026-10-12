@@ -6,8 +6,11 @@
 import { CARD_BY_UID, ALL_CARDS, RARITIES, COLLECTIONS } from '../data.js';
 import { state } from '../state.js';
 import { cardHTML } from '../cards.js';
-import { api, me, isOnline, onInbox, getInbox, pollNow, pollFastMode, applyProfile, refreshProfile } from '../net/online.js';
-import { hydrateTeam, cupStandings, cupRoundName, ONLINE_REWARDS } from './online-core.js';
+import { api, me, isOnline, onInbox, getInbox, pollNow, pollFastMode, applyProfile, refreshProfile, syncClubNow } from '../net/online.js';
+import { hydrateTeam, cupStandings, cupRoundName, ONLINE_REWARDS, LIVE } from './online-core.js';
+import { replaySource } from './live.js';
+import { onlineSource } from './online-live.js';
+import { openLineup } from './club.js';
 import { playMatch } from './match.js';
 import { playTextMatch } from './textmatch.js';
 import { mountTrophies } from './trophy3d.js';
@@ -21,7 +24,7 @@ let openTradeId = null;
 
 const MODES = {
   troca: { ico: '🔄', label: 'Trocar cartas', desc: 'Monte uma troca e confirmem juntos' },
-  amistoso: { ico: '⚽', label: 'Amistoso online', desc: 'Seu clube contra o clube dele, simulado no servidor' },
+  amistoso: { ico: '⚽', label: 'Amistoso online', desc: 'Seu clube contra o dele, ao vivo — substituições no intervalo' },
   torneio: { ico: '🏆', label: 'Torneio online', desc: 'Mata-mata ou pontos corridos com amigos (e robôs)' },
 };
 
@@ -50,16 +53,30 @@ export function initMultiplayer(app) {
       // (a troca/partida é criada logo depois do "aceito": só avisa quando a referência já existe)
       if (c.de === id && c.status === 'aceito' && !seen.aceitos.has(k) && (c.ref || c.modo === 'torneio')) {
         seen.aceitos.add(k);
+        if (c.modo === 'amistoso' && c.ref) {
+          seen.partidas.add(c.ref);
+          if (waitingFor?.id === c.id) waitingFor.accepted(c.ref);          // estava esperando: entra direto
+          else if (!seen.first) notify(`⚽ <b>${esc(c.nome_para)}</b> aceitou o desafio! A partida já vai começar.`, 'Jogar', () => watchMatch(c.ref));
+        }
         if (!seen.first && c.modo === 'troca' && c.ref) notify(`🔄 <b>${esc(c.nome_para)}</b> aceitou a troca!`, 'Abrir', () => openTrade(c.ref));
         if (!seen.first && c.modo === 'torneio') notify(`🏆 <b>${esc(c.nome_para)}</b> entrou no seu torneio`, 'Ver', () => app.go('online'));
       }
-      if (c.de === id && c.status === 'recusado' && !seen.aceitos.has(k)) { seen.aceitos.add(k); if (!seen.first) toast(`${esc(c.nome_para)} recusou o convite.`); }
+      if (c.de === id && (c.status === 'recusado' || c.status === 'cancelado') && !seen.aceitos.has(k)) {
+        seen.aceitos.add(k);
+        if (waitingFor?.id === c.id) waitingFor.refused(c.status);
+        else if (!seen.first && c.status === 'recusado') toast(`${esc(c.nome_para)} recusou o convite.`);
+      }
     }
     for (const p of ib.partidas) {
-      if (!p.vista && !seen.partidas.has(p.id)) {
-        seen.partidas.add(p.id);
-        if (!seen.first) notify(`⚽ Partida online pronta: <b>${esc(p.nomes[0])} x ${esc(p.nomes[1])}</b>`, 'Assistir', () => watchMatch(p.id));
-      }
+      if (p.vista || seen.partidas.has(p.id) || watching === p.id) continue;
+      // amistoso ao vivo já é avisado pelo convite; aqui: rodada de torneio começando ou partida encerrada sem você
+      if (p.fase !== 'fim' && p.tipo !== 'torneio') continue;
+      seen.partidas.add(p.id);
+      if (seen.first) continue;
+      if (p.fase !== 'fim') {
+        if (cupOpen === p.torneio_id) watchMatch(p.id);                  // está com o torneio aberto: entra direto
+        else notify(`🏆 Sua partida do torneio começou: <b>${esc(p.nomes[0])} x ${esc(p.nomes[1])}</b>`, 'Jogar', () => watchMatch(p.id));
+      } else notify(`⚽ Partida online encerrada: <b>${esc(p.nomes[0])} x ${esc(p.nomes[1])}</b>`, 'Assistir', () => watchMatch(p.id));
     }
     seen.first = false;
     // a tela online se atualiza sozinha (menos na lista de jogadores, para não atrapalhar a busca)
@@ -131,12 +148,7 @@ export function onlineView(app) {
         const ok = t.a === id ? t.ok_b : t.ok_a;
         return `<div class="inv"><span class="inv-ico">🔄</span><div><b>Troca com ${esc(outro)}</b><small>${ok ? 'ele já confirmou!' : `${(t.oferta_a.length + t.oferta_b.length)} carta(s) na mesa`}</small></div><button class="btn primary sm" data-troca="${t.id}">Abrir</button></div>`;
       }).join(''), 'Nenhuma troca em andamento.')}
-      ${section('Partidas online', partidas.map(p => `
-        <div class="inv ${p.vista ? '' : 'new'}">
-          <span class="inv-ico">${p.tipo === 'torneio' ? '🏆' : '⚽'}</span>
-          <div><b>${esc(p.nomes[0])} ${p.placar[0]} x ${p.placar[1]} ${esc(p.nomes[1])}</b><small>${p.tipo === 'torneio' ? 'Torneio online' : 'Amistoso online'}${p.vista ? '' : ' · nova!'}</small></div>
-          <button class="btn ${p.vista ? 'ghost' : 'primary'} sm" data-assistir="${p.id}">${p.vista ? 'Rever' : 'Assistir'}</button>
-        </div>`).join(''), 'Nenhuma partida online ainda.')}
+      ${section('Partidas online', partidas.map(matchRow).join(''), 'Nenhuma partida online ainda.')}
       ${section('Enviados', enviados.map(c => `
         <div class="inv dim"><span class="inv-ico">${MODES[c.modo].ico}</span><div><b>${esc(c.nome_para)}</b><small>${MODES[c.modo].label} · aguardando resposta</small></div><button class="btn ghost sm" data-cancelar="${c.id}">Cancelar</button></div>`).join(''), '')}`;
   }
@@ -174,6 +186,18 @@ export function onlineView(app) {
   return node;
 }
 
+/** Linha de partida: o placar só aparece depois que você assistiu (nada de spoiler). */
+function matchRow(p) {
+  const live = p.fase && p.fase !== 'fim';
+  const sub = live ? '<i class="dot-live"></i> ao vivo agora' : p.vista ? (p.tipo === 'torneio' ? `Torneio · rodada ${(p.rodada ?? 0) + 1}` : 'Amistoso online') : 'encerrada · assista para ver o placar';
+  return `
+    <div class="inv ${p.vista ? '' : 'new'}">
+      <span class="inv-ico">${p.tipo === 'torneio' ? '🏆' : '⚽'}</span>
+      <div><b>${esc(p.nomes[0])} ${p.placar ? `${p.placar[0]} x ${p.placar[1]}` : 'x'} ${esc(p.nomes[1])}</b><small>${sub}</small></div>
+      <button class="btn ${p.vista ? 'ghost' : 'primary'} sm" data-assistir="${p.id}">${live ? 'Entrar' : p.vista ? 'Rever' : 'Assistir'}</button>
+    </div>`;
+}
+
 const section = (title, html, empty) => (html || empty ? `<div class="section-head"><h3>${title}</h3></div>${html || `<p class="muted mp-empty">${empty}</p>`}` : '');
 
 async function loadPlayers(box) {
@@ -209,6 +233,7 @@ function challenge(p) {
     const b = e.target.closest('[data-modo]'); if (!b || b.disabled || s.node.classList.contains('busy')) return;
     sfx.tap();
     if (b.dataset.modo === 'torneio') { s.close(); return createCup([p]); }
+    if (b.dataset.modo === 'amistoso') { s.close(); return challengeFriendly(p); }
     s.node.classList.add('busy');
     const small = b.querySelector('small'), old = small.textContent;
     small.innerHTML = '<span class="spinner"></span> Enviando convite…';
@@ -220,7 +245,113 @@ function challenge(p) {
   });
 }
 
+// ---------------- configuração da partida online (escolhida por quem desafia) ----------------
+const cfgLabel = c => `${c?.estilo === 'texto' ? '📊 Modo Simulação' : '⚽ Jogo de botão'} · velocidade ${c?.vel || 1}x`;
+function configHtml(cfg) {
+  return `
+    <div class="cfg">
+      <span class="cfg-h">Estilo da partida</span>
+      <div class="seg">
+        <button data-estilo="botao" class="${cfg.estilo === 'botao' ? 'on' : ''}">⚽ Jogo de botão</button>
+        <button data-estilo="texto" class="${cfg.estilo === 'texto' ? 'on' : ''}">📊 Modo Simulação</button>
+      </div>
+      <span class="cfg-h">Velocidade</span>
+      <div class="seg">${[1, 2, 4].map(v => `<button data-vel="${v}" class="${cfg.vel === v ? 'on' : ''}">${v}x</button>`).join('')}</div>
+      <small class="muted">Os dois assistem no mesmo estilo e velocidade. Substituições só no intervalo, com ${LIVE.janelaIntervaloMs / 1000} segundos para decidir.</small>
+    </div>`;
+}
+function bindConfig(node, cfg) {
+  node.addEventListener('click', e => {
+    const b = e.target.closest('[data-estilo],[data-vel]'); if (!b) return;
+    if (b.dataset.estilo) cfg.estilo = b.dataset.estilo;
+    if (b.dataset.vel) cfg.vel = +b.dataset.vel;
+    sfx.tap();
+    node.querySelectorAll('[data-estilo]').forEach(x => x.classList.toggle('on', x.dataset.estilo === cfg.estilo));
+    node.querySelectorAll('[data-vel]').forEach(x => x.classList.toggle('on', +x.dataset.vel === cfg.vel));
+  });
+}
+const lineupHtml = () => {
+  const c = state.club;
+  return c ? `<button class="lu-row" data-escalar><span>📋</span><div><b>Revisar escalação</b><small>${esc(c.name)} · ${esc(c.formation)} · depois do apito, só no intervalo</small></div>${icon.arrow}</button>` : '';
+};
+/** A escalação abre por cima de tudo; a folha fecha e volta depois, com as escolhas mantidas. */
+function editLineupThen(s, reopen) { sfx.tap(); s.close(); openLineup(null, reopen); }
+
+let waitingFor = null;       // desafio enviado aguardando resposta (tela de espera aberta)
+function challengeFriendly(p, cfg = { estilo: state.settings.matchView === 'texto' ? 'texto' : 'botao', vel: 1 }) {
+  const s = sheet(`
+    <div class="chal">
+      <h2>Amistoso contra ${esc(p.nome)}</h2>
+      ${configHtml(cfg)}
+      ${lineupHtml()}
+      <button class="btn primary big wide" data-enviar>Enviar desafio</button>
+    </div>`);
+  bindConfig(s.node, cfg);
+  s.node.addEventListener('click', async e => {
+    if (e.target.closest('[data-escalar]')) return editLineupThen(s, () => challengeFriendly(p, cfg));
+    const b = e.target.closest('[data-enviar]'); if (!b || b.disabled) return;
+    sfx.tap(); b.disabled = true; b.innerHTML = '<span class="spinner"></span> Enviando…';
+    try {
+      await syncClubNow();                                  // o servidor monta o time com a escalação de agora
+      const c = await api('POST', '/convites', { para: p.id, modo: 'amistoso', config: cfg });
+      s.close();
+      waitAccept(c, p.nome);
+    } catch (err) { toast(err.message, { tone: 'warn' }); b.disabled = false; b.textContent = 'Enviar desafio'; }
+  });
+}
+
+function waitAccept(c, nome) {
+  pollFastMode(true);
+  const ov = overlay(`
+    <div class="wa">
+      <div class="wa-ball">⚽</div>
+      <h2>Desafio enviado!</h2>
+      <p>Aguardando <b>${esc(nome)}</b> aceitar…</p>
+      <span class="pill">${cfgLabel(c.dados?.config)}</span>
+      <button class="btn ghost wide" data-bg>Esperar em segundo plano</button>
+      <button class="link-btn" data-cancel>Cancelar desafio</button>
+    </div>`, 'wait-ov');
+  const done = () => { waitingFor = null; pollFastMode(false); ov.close(); };
+  waitingFor = {
+    id: c.id,
+    accepted: ref => { done(); watchMatch(ref); },
+    refused: st => { done(); if (st === 'recusado') toast(`${esc(nome)} recusou o desafio.`); },
+  };
+  ov.node.addEventListener('click', async e => {
+    if (e.target.closest('[data-bg]')) { sfx.tap(); done(); toast('Avisamos quando aceitar!', { tone: 'ok' }); }
+    if (e.target.closest('[data-cancel]')) { sfx.tap(); await api('POST', `/convites/${c.id}/cancelar`).catch(() => {}); done(); await pollNow(); appRef?.refresh(); }
+  });
+}
+
+/** Aceitar amistoso: mostra o que o desafiante escolheu e deixa revisar a escalação antes. */
+function acceptFriendly(c) {
+  const s = sheet(`
+    <div class="chal">
+      <h2>${esc(c.nome_de)} te desafiou!</h2>
+      <div class="cfg-sum"><span>Escolhido por quem desafiou</span><b>${cfgLabel(c.dados?.config)}</b></div>
+      ${lineupHtml()}
+      <button class="btn primary big wide" data-ok>Aceitar e jogar</button>
+      <button class="btn ghost wide" data-nao>Recusar</button>
+    </div>`);
+  s.node.addEventListener('click', async e => {
+    if (e.target.closest('[data-escalar]')) return editLineupThen(s, () => acceptFriendly(c));
+    const no = e.target.closest('[data-nao]');
+    if (no) { sfx.tap(); s.close(); await api('POST', `/convites/${c.id}/responder`, { aceitar: false }).catch(() => {}); await pollNow(); return appRef?.refresh(); }
+    const b = e.target.closest('[data-ok]'); if (!b || b.disabled) return;
+    sfx.tap(); b.disabled = true; b.innerHTML = '<span class="spinner"></span>';
+    try {
+      await syncClubNow();
+      const r = await api('POST', `/convites/${c.id}/responder`, { aceitar: true });
+      s.close();
+      if (r.partida) { seen.partidas.add(r.partida); watchMatch(r.partida); }
+      pollNow();
+    } catch (err) { b.disabled = false; b.textContent = 'Aceitar e jogar'; toast(err.message, { tone: 'warn' }); }
+  });
+}
+
 async function respond(id, aceitar, btn) {
+  const conv = getInbox()?.convites.find(c => c.id === id);
+  if (aceitar && conv?.modo === 'amistoso') return acceptFriendly(conv);
   btn.disabled = true;
   if (aceitar) btn.innerHTML = '<span class="spinner"></span>';
   try {
@@ -402,27 +533,62 @@ function tradeAnimation(gave, got, name) {
 // ============================================================
 //  ASSISTIR PARTIDA ONLINE
 // ============================================================
+let watching = 0;
 export async function watchMatch(id) {
-  let p;
-  try { p = await api('GET', `/partidas/${id}`); } catch (e) { return toast(e.message, { tone: 'warn' }); }
-  const myId = me().id;
-  const home = hydrateTeam(p.times[0]), away = hydrateTeam(p.times[1]);
-  const userSide = p.casa === myId ? 0 : 1;
-  const rw = p.recompensa?.[myId];
-  const result = p.resultado;
-  const play = state.settings.matchView === 'texto' ? playTextMatch : playMatch;
-  await play({
-    home, away, result, userSide, shootout: result.shootout || null,
-    context: { title: p.tipo === 'torneio' ? `Torneio online · rodada ${(p.rodada ?? 0) + 1}` : 'Amistoso online', subtitle: `${home.name} x ${away.name}` },
-    onResultHtml: () => (rw ? `<div class="mr-rew"><div class="rw-lines">${rw.lines.map(([l, v], i) => `<div class="rwl" style="--i:${i}"><span>${esc(l)}</span><b>+${v}</b></div>`).join('')}</div><div class="rw">${icon.coin}<b data-count="${rw.coins}">+0</b><span>moedas</span></div></div>` : ''),
-  });
-  if (!p[userSide === 0 ? 'vista_casa' : 'vista_fora']) {
-    await api('POST', `/partidas/${id}/vista`).catch(() => {});
-    await refreshProfile().catch(() => {});
-    if (rw) setTimeout(() => coinFly(innerWidth / 2, innerHeight * 0.45, rw.coins, { total: state.coins }), 350);
-  }
+  if (watching) return;
+  watching = id;
+  try {
+    let p;
+    try { p = await api('GET', `/partidas/${id}`); } catch (e) { return toast(e.message, { tone: 'warn' }); }
+    seen.partidas.add(id);
+    const myId = me().id;
+    const lado = p.lado ?? (p.casa === myId ? 0 : 1);
+    const live = p.fase !== 'fim';
+    const src = live ? onlineSource(p) : replaySource(hydrateTeam(p.times[0]), hydrateTeam(p.times[1]), lado, p.resultado, p.resultado.shootout || null);
+    const estilo = p.config?.estilo || (state.settings.matchView === 'texto' ? 'texto' : 'botao');
+    const wasSeen = !!p[lado === 0 ? 'vista_casa' : 'vista_fora'];
+    let rw = live ? null : p.recompensa?.[myId] || null, marked = wasSeen;
+    const markSeen = async () => { if (!marked) { marked = true; await api('POST', `/partidas/${id}/vista`).catch(() => {}); } };
+    if (live) await countdown(src);
+    await (estilo === 'texto' ? playTextMatch : playMatch)({
+      src,
+      context: { title: p.tipo === 'torneio' ? `Torneio online · rodada ${(p.rodada ?? 0) + 1}` : 'Amistoso online', subtitle: live ? 'Ao vivo' : `${src.home.name} x ${src.away.name}` },
+      onFinish: async () => { if (live) rw = src.reward?.[myId] || null; await markSeen(); },
+      onResultHtml: () => (rw ? `<div class="mr-rew"><div class="rw-lines">${rw.lines.map(([l, v], i) => `<div class="rwl" style="--i:${i}"><span>${esc(l)}</span><b>+${v}</b></div>`).join('')}</div><div class="rw">${icon.coin}<b data-count="${rw.coins}">+0</b><span>moedas</span></div></div>` : ''),
+    });
+    await markSeen();
+    if (!wasSeen) {
+      await refreshProfile().catch(() => {});
+      if (rw?.coins) setTimeout(() => coinFly(innerWidth / 2, innerHeight * 0.45, rw.coins, { total: state.coins }), 350);
+    }
+  } finally { watching = 0; }
   await pollNow();
   appRef?.refresh();
+}
+
+/** Contagem regressiva: os dois jogadores começam no mesmo instante. */
+function countdown(src) {
+  if (src.startsAt - Date.now() < 800) return Promise.resolve();
+  return new Promise(resolve => {
+    const ov = overlay(`
+      <div class="cd">
+        <div class="cd-vs"><b>${esc(src.home.name)}</b><i>x</i><b>${esc(src.away.name)}</b></div>
+        <div class="cd-n"></div>
+        <small>A partida começa ao mesmo tempo para os dois</small>
+      </div>`, 'countdown-ov');
+    const n = ov.node.querySelector('.cd-n');
+    let last = null;
+    const t = setInterval(() => {
+      const sec = Math.ceil((src.startsAt - Date.now()) / 1000);
+      if (sec !== last) {
+        last = sec;
+        n.textContent = sec > 0 ? sec : 'Já!';
+        n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop');
+        if (sec > 0) sfx.tap();
+      }
+      if (sec <= 0) { clearInterval(t); sfx.whistle(1); setTimeout(() => { ov.close(); resolve(); }, 450); }
+    }, 100);
+  });
 }
 
 // ============================================================
@@ -431,6 +597,7 @@ export async function watchMatch(id) {
 async function createCup(preselect = []) {
   let players = [];
   try { players = await api('GET', '/jogadores'); } catch (e) { return toast(e.message, { tone: 'warn' }); }
+  const cfg = { estilo: state.settings.matchView === 'texto' ? 'texto' : 'botao', vel: 1 };
   const pre = new Set(preselect.map(p => p.id));
   const s = sheet(`
     <div class="cupnew">
@@ -438,6 +605,7 @@ async function createCup(preselect = []) {
       <label class="fld"><span>Nome</span><input name="nome" maxlength="40" value="Copa dos Amigos"></label>
       <div class="seg cup-fmt"><button data-fmt="mata" class="on">Mata-mata</button><button data-fmt="pontos">Pontos corridos</button></div>
       <p class="muted cup-fmt-d">Jogo único, empate vai para os pênaltis. 4 ou 8 vagas (o resto vira robô).</p>
+      ${configHtml(cfg)}
       <div class="section-head"><h3>Convidar (até 7)</h3><span class="muted cup-n">${pre.size} selecionado(s)</span></div>
       <div class="cup-list">
         ${players.filter(p => p.temClube).map(p => `<label class="cup-p"><input type="checkbox" value="${p.id}" ${pre.has(p.id) ? 'checked' : ''}><span><b>${esc(p.nome)}</b><small>${p.online ? '<i class="dot-ok"></i> online' : 'offline'} · ${esc(p.clube || '')}</small></span></label>`).join('') || '<p class="muted">Nenhum jogador com clube criado ainda.</p>'}
@@ -445,6 +613,7 @@ async function createCup(preselect = []) {
       <button class="btn primary big wide" data-criar>Enviar convites</button>
     </div>`);
   let fmt = 'mata';
+  bindConfig(s.node, cfg);
   s.node.addEventListener('change', () => { s.node.querySelector('.cup-n').textContent = `${s.node.querySelectorAll('.cup-p input:checked').length} selecionado(s)`; });
   s.node.addEventListener('click', async e => {
     const f = e.target.closest('[data-fmt]');
@@ -459,25 +628,27 @@ async function createCup(preselect = []) {
     if (!convidados.length) return toast('Selecione pelo menos um jogador');
     if (convidados.length > 7) return toast('No máximo 7 convidados');
     try {
-      const t = await api('POST', '/torneios', { nome: s.node.querySelector('[name=nome]').value, formato: fmt, convidados });
+      const t = await api('POST', '/torneios', { nome: s.node.querySelector('[name=nome]').value, formato: fmt, convidados, config: cfg });
       s.close(); toast('Convites enviados! Abra o torneio para iniciar quando aceitarem.', { tone: 'ok', ms: 3500 });
       ui.tab = 'torneios'; await pollNow(); openCup(t.id);
     } catch (err) { toast(err.message, { tone: 'warn' }); }
   });
 }
 
+let cupOpen = null;          // torneio aberto na tela (a partida da rodada abre sozinha)
 export async function openCup(id) {
   pollFastMode(true);
+  cupOpen = id;
   const ov = overlay(`<button class="icon-btn ov-x" aria-label="Fechar">${icon.close}</button><div class="cup"></div>`, 'detail-ov cup-ov');
   const root = ov.node.querySelector('.cup');
   let t = null, closed = false, lastRound = null;
   const myId = me().id;
   let lastGames = '';
   const off = onInbox(ib => {           // novos jogos do torneio aparecem sem recarregar
-    const g = JSON.stringify((ib.partidas || []).filter(p => p.torneio_id === id).map(p => [p.id, p.vista]));
+    const g = JSON.stringify((ib.partidas || []).filter(p => p.torneio_id === id).map(p => [p.id, p.vista, p.fase]));
     if (g !== lastGames) { lastGames = g; if (t) render(); }
   });
-  const close = () => { closed = true; off(); pollFastMode(false); ov.close(); appRef?.refresh(); };
+  const close = () => { closed = true; cupOpen = null; off(); pollFastMode(false); ov.close(); appRef?.refresh(); };
   ov.node.querySelector('.ov-x').addEventListener('click', () => { sfx.tap(); close(); });
   const name = pid => t.participantes.find(p => p.id === pid)?.nome || 'A definir';
 
@@ -499,6 +670,7 @@ export async function openCup(id) {
       const iPlay = alive.includes(myId) && t.status === 'andamento';
       const meP = t.participantes.find(p => p.id === myId);
       const waiting = humans.filter(p => alive.includes(p.id) && !p.pronto);
+      const myLive = (getInbox()?.partidas || []).find(p => p.torneio_id === t.id && p.fase && p.fase !== 'fim');
       bodyHtml = `
         ${t.status === 'encerrado' ? `
           <div class="cup-champ">
@@ -507,9 +679,11 @@ export async function openCup(id) {
           </div>` : `
           <div class="cup-round">
             <span>${esc(cupRoundName(t.formato, e))}</span>
-            ${iPlay ? `<button class="btn primary big wide" data-pronto ${meP?.pronto ? 'disabled' : ''}>${meP?.pronto ? '✔ Pronto — aguardando os outros' : '⚽ Estou pronto: jogar a rodada'}</button>` : '<p class="muted">Você não joga esta rodada — acompanhe o resultado.</p>'}
-            ${waiting.length ? `<small>Aguardando: ${waiting.map(p => esc(p.nome)).join(', ')}</small>` : ''}
-            ${isHost && waiting.length && iPlay && meP?.pronto ? '<button class="link-btn" data-forcar>Jogar a rodada agora (organizador)</button>' : ''}
+            <small class="cup-cfg">${cfgLabel(e.config)}</small>
+            ${e.emJogo ? (myLive ? `<button class="btn primary big wide" data-assistir="${myLive.id}"><i class="dot-live"></i> Entrar na partida (ao vivo)</button>` : '<p class="muted">Rodada em andamento… o resultado aparece quando todos os jogos acabarem.</p>')
+              : iPlay ? `${meP?.pronto ? '' : lineupHtml()}<button class="btn primary big wide" data-pronto ${meP?.pronto ? 'disabled' : ''}>${meP?.pronto ? '✔ Pronto — aguardando os outros' : '⚽ Estou pronto: jogar a rodada'}</button>` : '<p class="muted">Você não joga esta rodada — acompanhe o resultado.</p>'}
+            ${!e.emJogo && waiting.length ? `<small>Aguardando: ${waiting.map(p => esc(p.nome)).join(', ')}</small>` : ''}
+            ${!e.emJogo && isHost && waiting.length && iPlay && meP?.pronto ? '<button class="link-btn" data-forcar>Jogar a rodada agora (organizador)</button>' : ''}
           </div>`}
         ${t.formato === 'pontos' ? `
           <div class="tbl">
@@ -529,11 +703,10 @@ export async function openCup(id) {
               </div>`).join('')}
           </div>`}
         <div class="section-head"><h3>Seus jogos</h3></div>
-        ${(getInbox()?.partidas || []).filter(p => p.torneio_id === t.id).map(p => `
-          <div class="inv ${p.vista ? '' : 'new'}"><span class="inv-ico">⚽</span><div><b>${esc(p.nomes[0])} ${p.placar[0]} x ${p.placar[1]} ${esc(p.nomes[1])}</b><small>rodada ${(p.rodada ?? 0) + 1}</small></div><button class="btn ${p.vista ? 'ghost' : 'primary'} sm" data-assistir="${p.id}">${p.vista ? 'Rever' : 'Assistir'}</button></div>`).join('') || '<p class="muted mp-empty">Os jogos aparecem aqui depois de cada rodada.</p>'}`;
+        ${(getInbox()?.partidas || []).filter(p => p.torneio_id === t.id).map(matchRow).join('') || '<p class="muted mp-empty">Seus jogos aparecem aqui a cada rodada.</p>'}`;
     } else bodyHtml = '<p class="muted">Torneio cancelado.</p>';
     root.innerHTML = `
-      <div class="cup-head"><div class="cup-mini" data-trophy="online" data-spin="1"></div><div><span>${t.formato === 'pontos' ? 'Pontos corridos' : 'Mata-mata'} · online</span><h2>${esc(t.nome)}</h2></div></div>
+      <div class="cup-head"><div class="cup-mini" data-trophy="online" data-spin="1"></div><div><span>${t.formato === 'pontos' ? 'Pontos corridos' : 'Mata-mata'} · online · ${t.estado?.config?.estilo === 'texto' ? 'Simulação' : 'Botão'} ${t.estado?.config?.vel || 1}x</span><h2>${esc(t.nome)}</h2></div></div>
       ${bodyHtml}`;
     mountTrophies(root);
     if (t.status === 'encerrado' && lastRound !== 'fim') {
@@ -549,7 +722,7 @@ export async function openCup(id) {
       const changed = !t || nt.versao !== t.versao;
       const newRound = t && nt.rodada !== t.rodada;
       t = nt;
-      if (changed) { render(); if (newRound) { sfx.whistle(1); toast('Rodada jogada! Assista ao seu jogo.', { tone: 'ok' }); pollNow(); } }
+      if (changed) { render(); if (newRound) { sfx.whistle(1); toast('Rodada encerrada! Confira a tabela.', { tone: 'ok' }); pollNow(); } }
     } catch (e) { toast(e.message, { tone: 'warn' }); return close(); }
     if (t.status === 'encerrado' || t.status === 'cancelado') return;
     setTimeout(refresh, 2000);
@@ -558,9 +731,17 @@ export async function openCup(id) {
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
     sfx.tap();
-    const act = async (path, body) => { b.disabled = true; try { t = await api('POST', path, body); render(); await pollNow(); render(); } catch (err) { b.disabled = false; toast(err.message, { tone: 'warn' }); } };
+    const act = async (path, body) => {
+      b.disabled = true;
+      try {
+        t = await api('POST', path, body); render(); await pollNow(); render();
+        const mine = (getInbox()?.partidas || []).find(p => p.torneio_id === id && p.fase && p.fase !== 'fim');
+        if (mine && !watching) { seen.partidas.add(mine.id); watchMatch(mine.id); }
+      } catch (err) { b.disabled = false; toast(err.message, { tone: 'warn' }); }
+    };
     if (b.hasAttribute('data-iniciar')) return act(`/torneios/${id}/iniciar`);
-    if (b.hasAttribute('data-pronto')) return act(`/torneios/${id}/pronto`);
+    if (b.hasAttribute('data-escalar')) { sfx.tap(); return openLineup(null, () => render()); }
+    if (b.hasAttribute('data-pronto')) { await syncClubNow().catch(() => {}); return act(`/torneios/${id}/pronto`); }
     if (b.hasAttribute('data-forcar')) return act(`/torneios/${id}/pronto`, { forcar: true });
     if (b.hasAttribute('data-cancelar-cup')) { if (confirm('Cancelar o torneio?')) { await act(`/torneios/${id}/cancelar`); close(); } return; }
     if (b.dataset.assistir) return watchMatch(+b.dataset.assistir);

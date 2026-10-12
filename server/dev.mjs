@@ -2,7 +2,7 @@
 //  Servidor de DESENVOLVIMENTO da Versatte API
 //  Roda o MESMO Worker (src/index.js) em Node, com o banco em
 //  PGlite (Postgres embutido, em memória ou em pasta) aplicando o
-//  SQL real (db/001_versatte.sql). Não toca no banco de produção.
+//  SQL real (db/*.sql, em ordem). Não toca no banco de produção.
 //
 //    node dev.mjs            → http://127.0.0.1:8787 (banco em memória)
 //    PORT=8788 DATA=./.pgdata node dev.mjs   (banco persistente)
@@ -11,13 +11,16 @@
 //  (para testar o modo debug).
 // ============================================================
 import http from 'node:http';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
 import worker from './src/index.js';
 
 const PORT = +(process.env.PORT || 8787);
 const db = new PGlite(process.env.DATA || undefined);
-await db.exec(readFileSync(new URL('./db/001_versatte.sql', import.meta.url), 'utf8'));
+for (const f of readdirSync(new URL('./db/', import.meta.url)).filter(f => f.endsWith('.sql')).sort()) {
+  // "notify pgrst" é só para o PostgREST de produção
+  await db.exec(readFileSync(new URL(`./db/${f}`, import.meta.url), 'utf8').replace(/^notify .*$/gm, ''));
+}
 
 async function rpc(fn, params = {}) {
   if (!/^versatte_[a-z_]+$/.test(fn)) throw new Error('função inválida');

@@ -31,7 +31,7 @@ Com o jogo aberto em `http://127.0.0.1:8765` (por exemplo, `python -m http.serve
    cp .env.example .env    # preencha SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY
    npm run migrar
    ```
-   Alternativa: colar `db/001_versatte.sql` no SQL Editor do Studio.
+   Aplica `db/001_versatte.sql` e `db/002_partida_ao_vivo.sql`, nessa ordem (as duas são aditivas e podem rodar de novo). Alternativa: colar os arquivos no SQL Editor do Studio.
 3. **Segredos do Worker** (não ficam no repositório):
    ```bash
    npx wrangler login
@@ -66,12 +66,18 @@ Enquanto o servidor não estiver no ar, o jogo mostra "Servidor indisponível" e
 | GET | `/jogadores?busca=` | lista com presença (online nos últimos 45 s) |
 | POST | `/convites` · `/convites/:id/responder` · `/convites/:id/cancelar` | convites (troca, amistoso e torneio) |
 | GET/POST | `/trocas/:id` · `/oferta` · `/confirmar` · `/cancelar` | troca: atômica no banco, com controle de versão |
-| GET/POST | `/partidas/:id` · `/partidas/:id/vista` | partida online (simulada no servidor) |
+| GET | `/partidas/:id` | partida online: só o 1º tempo até o intervalo; o placar final aparece depois |
+| POST | `/partidas/:id/intervalo` | chegou ao intervalo: abre a janela de substituição (30 s, igual para os dois) e devolve o elenco |
+| POST | `/partidas/:id/substituicoes` | trocas do intervalo; quando os dois mandam (ou o prazo acaba), o 2º tempo é simulado |
+| POST | `/partidas/:id/desistir` | desistência (W.O. 3 x 0, sem moedas para quem desistiu) |
+| POST | `/partidas/:id/vista` | o jogador assistiu até o fim (libera o placar na lista e fecha a rodada do torneio) |
 | POST/GET | `/torneios` · `/:id` · `/:id/iniciar` · `/:id/pronto` · `/:id/cancelar` | torneio online |
 
 ## Decisões e limites conhecidos
 
 - **Tempo real por polling** (consultas periódicas). O plano gratuito de Workers não mantém WebSocket sem Durable Objects. As partidas são simuladas no servidor e os dois assistem ao mesmo resultado, então a latência de 1,5 a 4 s não atrapalha.
+- **Partida online em duas fases** (`db/002_partida_ao_vivo.sql`): ao aceitar, o servidor simula só o 1º tempo; no intervalo cada jogador tem 30 s para substituir; depois o 2º tempo é simulado com uma semente nova. O placar final não existe antes disso, então não há como espiar. O estado interno da simulação nunca sai do servidor. Se ninguém aparecer, a partida se encerra sozinha 5 min após o apito (a caixa de entrada e o GET da partida fecham as vencidas).
+- **Estilo e velocidade** da partida online são escolhidos por quem desafia (ou organiza o torneio) e valem para os dois.
 - **Partidas offline do Modo Clube** ainda são simuladas no aparelho. O servidor só credita as moedas, com limites: no máximo 120 por partida, 1.500 por dia e 3 pacotes por dia, e uma partida a cada 15 s. As partidas **online** são 100% no servidor.
 - **Compra de pacotes é simulada** (máximo de 5 por dia por conta). Integrar um gateway de pagamento antes de cobrar de verdade.
 - **Rate limit por IP e por conta** é de melhor esforço, por instância do Worker. Para produção, considere o Rate Limiting da Cloudflare.

@@ -147,9 +147,10 @@ export async function refreshProfile() {
 
 // envia clube/campeonatos/troféus quando mudam (economia não: essa só o servidor muda)
 let clubTimer = 0, lastClubJSON = '';
+const clubPayload = () => ({ club: state.club, comp: state.comp, trophies: state.trophies, editions: state.editions, game: state.game });
 onChange(() => {
   if (!session || applying) return;
-  const clube = { club: state.club, comp: state.comp, trophies: state.trophies, editions: state.editions, game: state.game };
+  const clube = clubPayload();
   const j = JSON.stringify(clube);
   if (j === lastClubJSON) return;
   clearTimeout(clubTimer);
@@ -157,6 +158,17 @@ onChange(() => {
     try { const r = await api('PUT', '/perfil/clube', { clube }); lastClubJSON = j; clubVersion = r.versao; } catch { /* tenta de novo na próxima mudança */ }
   }, 1200);
 });
+
+/** Envia a escalação agora (antes de desafiar/aceitar: o servidor monta o time a partir dela). */
+export async function syncClubNow() {
+  if (!session) return;
+  clearTimeout(clubTimer);
+  const clube = clubPayload();
+  const j = JSON.stringify(clube);
+  if (j === lastClubJSON) return;
+  const r = await api('PUT', '/perfil/clube', { clube });
+  lastClubJSON = j; clubVersion = r.versao;
+}
 
 // ---------------- caixa de entrada (polling) ----------------
 const inboxListeners = new Set();

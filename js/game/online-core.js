@@ -6,7 +6,10 @@
 //  remontados com as cartas do catálogo (hydrateTeam).
 // ============================================================
 import { CARD_BY_UID, TEAMS } from '../data.js';
-import { userTeam, aiTeam, drawLoans, simulateMatch, penaltyShootout, mulberry32 } from './engine.js';
+import {
+  userTeam, aiTeam, drawLoans, simulateMatch, penaltyShootout, mulberry32,
+  createSim, resumeSim, simTo, simSubstitute, simResult, forfeitResult, MAX_SUBS,
+} from './engine.js';
 
 export const ONLINE_REWARDS = { win: 20, draw: 8, loss: 4, goal: 2, cupChampion: 250, cupPack: 'premium', cupVice: 100, cupPart: 30 };
 
@@ -64,8 +67,90 @@ export function playOnline(home, away, { seed = Date.now(), knockout = false } =
   return { ...result, shootout };
 }
 
+// ------------------------------------------------------------
+//  Partida online AO VIVO (duas fases)
+//  1) ao criar: o servidor simula só o 1º tempo e guarda a simulação
+//     parada no intervalo;
+//  2) no intervalo: cada jogador tem um prazo para substituir;
+//  3) depois: o servidor aplica as trocas, sorteia uma semente nova e
+//     simula o 2º tempo. Antes disso o placar final não existe.
+// ------------------------------------------------------------
+export const LIVE = {
+  atrasoInicioMs: 6000,          // contagem regressiva para os dois começarem juntos
+  janelaIntervaloMs: 30000,      // tempo para substituir no intervalo
+  prazoMaxMs: 5 * 60000,         // ninguém apareceu: encerra sozinha
+  desistirAteMs: 3 * 60000,      // depois do 2º tempo simulado, ainda dá para desistir enquanto ele "passa"
+};
+export const ONLINE_VEL = [1, 2, 4];
+export const ONLINE_ESTILOS = ['botao', 'texto'];
+
+/** Configuração escolhida por quem desafia/organiza: estilo de jogo e velocidade (iguais para os dois). */
+export function normalizeConfig(c = {}) {
+  return {
+    estilo: ONLINE_ESTILOS.includes(c.estilo) ? c.estilo : 'botao',
+    vel: ONLINE_VEL.includes(+c.vel) ? +c.vel : 1,
+    mata: !!c.mata,
+  };
+}
+
+/** Simula o 1º tempo. Devolve o estado parado no intervalo e o que pode ser mostrado. */
+export function liveFirstHalf(home, away, seed) {
+  const sim = createSim(home, away, { seed });
+  simTo(sim, 45);
+  const r = simResult(sim);
+  return { estado: sim.st, primeiro: { score: r.score, events: r.events, possession: r.possession, stats: r.stats, mvp: r.mvp } };
+}
+
+/** Elenco de um lado no intervalo (para o painel de substituição). */
+export function liveRoster(estado, side) {
+  const s = estado.sides[side];
+  return { onField: s.onField, bench: s.bench, subsLeft: Math.max(0, MAX_SUBS - s.subs) };
+}
+
+/** Confere as trocas pedidas no intervalo (índices do elenco do intervalo). */
+export function validSubs(estado, side, trocas) {
+  if (!Array.isArray(trocas)) return [];
+  const r = liveRoster(estado, side);
+  const outs = new Set(), ins = new Set(), ok = [];
+  for (const t of trocas.slice(0, r.subsLeft)) {
+    const o = Math.floor(+t?.out), i = Math.floor(+t?.in);
+    if (!(o >= 0 && o < r.onField.length) || !(i >= 0 && i < r.bench.length)) continue;
+    if (outs.has(o) || ins.has(i) || r.onField[o].sentOff) continue;
+    outs.add(o); ins.add(i); ok.push({ out: o, in: i });
+  }
+  return ok;
+}
+
+/** Aplica as trocas do intervalo e simula o 2º tempo (semente nova, decidida só agora). */
+export function liveSecondHalf(home, away, estado, subs, { seed, knockout = false }) {
+  const sim = resumeSim(home, away, estado);
+  sim.st.rng.s = seed | 0;
+  [0, 1].forEach(side => {
+    const trocas = subs[side] || [];
+    const s = sim.st.sides[side];
+    const benchPlayers = trocas.map(t => s.bench[t.in]);
+    trocas.forEach((t, k) => {
+      try { simSubstitute(sim, side, t.out, s.bench.indexOf(benchPlayers[k])); } catch { /* troca inválida: ignora */ }
+    });
+  });
+  simTo(sim, 90);
+  const result = simResult(sim);
+  const shootout = knockout && result.score[0] === result.score[1] ? penaltyShootout(home, away, mulberry32(seed + 77)) : null;
+  return { ...result, shootout };
+}
+
+/** Desistência no minuto `min`: o que já aconteceu até ali + W.O. para o outro lado. */
+export function liveForfeit(base, side, min) {
+  const m = Math.max(0, Math.min(90, Math.floor(+min || 0)));
+  const events = base.events.filter(e => e.min <= m && e.type !== 'end' && !(e.type === 'half' && m < 45));
+  const score = [0, 0];
+  events.forEach(e => { if (e.type === 'goal') score[e.team]++; });
+  return { ...forfeitResult({ ...base, score, events, possession: base.possession.slice(0, m + 1) }, side), shootout: null };
+}
+
 /** Moedas de uma partida online para o lado `side`. */
 export function onlineReward(result, side) {
+  if (result.forfeit === side) return { outcome: 'loss', coins: 0, lines: [['Desistência', 0]] };
   const gf = result.score[side], ga = result.score[1 - side];
   let out = gf > ga ? 'win' : gf < ga ? 'loss' : 'draw';
   if (out === 'draw' && result.shootout) out = result.shootout.winner === side ? 'win' : 'loss';

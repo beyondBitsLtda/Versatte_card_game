@@ -1,7 +1,7 @@
 // ============================================================
 //  Teste de ponta a ponta da API (Worker + SQL em PGlite)
 //  Dois jogadores: cadastro, login, pacote, loja, troca, amistoso
-//  online e torneio online. Rode com: node test.mjs
+//  online ao vivo (intervalo, substituições, desistência) e torneio online. Rode com: node test.mjs
 // ============================================================
 import { spawn } from 'node:child_process';
 import { webcrypto as crypto } from 'node:crypto';
@@ -92,29 +92,78 @@ try {
   tr = await call('POST', `/trocas/${acc.troca}/confirmar`, { versao: tr.versao }, tb);
   ok(tr.status === 'concluida' && tr.perfil.dados.owned['jog-pele-prime'], 'troca concluída: Beto recebeu o Pelé Prime');
 
-  // amistoso online
-  const am = await call('POST', '/convites', { para: B.usuario.id, modo: 'amistoso' }, ta);
+  // amistoso online AO VIVO: 1º tempo → intervalo (substituições) → 2º tempo
+  await call('PUT', '/perfil/clube', { clube: { club: { ...clubeAna.club, bench: ['jog-cafu', 'jog-falcao', 'jog-garrincha', null, null] } } }, ta);
+  const moedas = async tk => (await call('GET', '/eu', null, tk)).perfil.dados.coins;
+  const [ma0, mb0] = [await moedas(ta), await moedas(tb)];
+  const am = await call('POST', '/convites', { para: B.usuario.id, modo: 'amistoso', config: { estilo: 'texto', vel: 2 } }, ta);
+  ok(am.dados?.config?.estilo === 'texto' && am.dados.config.vel === 2, 'desafiante escolhe estilo e velocidade');
   const aa = await call('POST', `/convites/${am.id}/responder`, { aceitar: true }, tb);
-  ok(aa.partida, 'amistoso aceito: partida simulada no servidor');
-  const pa = await call('GET', `/partidas/${aa.partida}`, null, ta);
-  ok(pa.resultado?.events?.length > 2 && pa.times?.length === 2, `partida com eventos (placar ${pa.resultado?.score?.join(' x ')})`);
+  ok(aa.partida, 'amistoso aceito: partida criada');
+  let pa = await call('GET', `/partidas/${aa.partida}`, null, ta);
+  const maxMin = Math.max(...pa.resultado.events.map(e => e.min));
+  ok(pa.fase === '1t' && pa.estado === undefined && maxMin <= 45 && pa.resultado.events.some(e => e.type === 'half') && !pa.resultado.events.some(e => e.type === 'end'),
+    `só o 1º tempo existe (${pa.resultado.score.join(' x ')} no intervalo, sem estado interno)`);
+  ok(pa.config.vel === 2 && pa.config.estilo === 'texto' && pa.inicio && pa.lado === 0, 'partida traz configuração, apito inicial e o lado do jogador');
   ok(pa.times[1].players.some(p => p.drawn), 'emprestados do Beto foram sorteados no servidor');
+  ok((await call('GET', '/caixa', null, tb)).partidas.find(p => p.id === aa.partida).placar === null, 'caixa não mostra placar de partida em andamento');
   ok((await call('GET', `/partidas/${aa.partida}`, null, (await call('POST', '/auth/cadastro', { email: 'c@x.com', nome: 'Caio', chave: ka, aceite: true })).token)).status === 404, 'terceiro não vê a partida dos outros');
+  const ia = await call('POST', `/partidas/${aa.partida}/intervalo`, {}, ta);
+  ok(ia.prazo && ia.elenco?.onField?.length === 5 && ia.elenco.bench.length === 3 && ia.elenco.subsLeft === 3, 'intervalo abre a janela de substituição com o elenco');
+  const ib = await call('POST', `/partidas/${aa.partida}/intervalo`, {}, tb);
+  ok(Date.parse(ib.prazo) === Date.parse(ia.prazo), 'o prazo do intervalo é o mesmo para os dois');
+  pa = await call('POST', `/partidas/${aa.partida}/substituicoes`, { trocas: [{ out: 2, in: 0 }, { out: 2, in: 1 }, { out: 99, in: 0 }] }, ta);
+  ok(pa.fase === '1t' && pa.subs_ok[0] && !pa.subs_ok[1], 'Ana substituiu; 2º tempo espera o Beto');
+  pa = await call('POST', `/partidas/${aa.partida}/substituicoes`, { trocas: [] }, tb);
+  const subs = pa.resultado.events.filter(e => e.type === 'sub' && e.manual);
+  ok(pa.fase === 'fim' && pa.resultado.events.some(e => e.type === 'end') && subs.length === 1 && subs[0].min === 45 && subs[0].team === 0,
+    `2º tempo simulado depois das trocas (final ${pa.resultado.score.join(' x ')}, 1 troca válida aplicada)`);
+  const [ma1, mb1] = [await moedas(ta), await moedas(tb)];
+  ok(ma1 - ma0 === pa.recompensa[A.usuario.id].coins && mb1 - mb0 === pa.recompensa[B.usuario.id].coins, 'moedas creditadas só no fim');
+  ok((await call('GET', '/caixa', null, tb)).partidas.find(p => p.id === aa.partida).placar === null, 'placar escondido até o Beto assistir');
+  await call('POST', `/partidas/${aa.partida}/vista`, {}, tb);
+  ok((await call('GET', '/caixa', null, tb)).partidas.find(p => p.id === aa.partida).placar?.length === 2, 'depois de assistir, o placar aparece');
 
-  // torneio online
-  const tor = await call('POST', '/torneios', { nome: 'Copa dos Amigos', formato: 'mata', convidados: [B.usuario.id] }, ta);
-  ok(tor.id, 'torneio criado com convite');
+  // desistência
+  const am2 = await call('POST', '/convites', { para: B.usuario.id, modo: 'amistoso', config: {} }, ta);
+  const aa2 = await call('POST', `/convites/${am2.id}/responder`, { aceitar: true }, tb);
+  const d = await call('POST', `/partidas/${aa2.partida}/desistir`, { min: 30 }, tb);
+  ok(d.fase === 'fim' && d.resultado.forfeit === 1 && d.resultado.score[0] >= 3 && d.resultado.score[1] === 0 && d.recompensa[B.usuario.id].coins === 0,
+    `Beto desiste: W.O. ${d.resultado.score.join(' x ')} e sem moedas`);
+  const d2 = await call('GET', `/partidas/${aa2.partida}`, null, ta);
+  ok(d2.resultado.forfeit === 1 && d2.recompensa[A.usuario.id].coins > 0, 'Ana vê a desistência e ganha a vitória');
+
+  // torneio online (rodadas ao vivo)
+  const tor = await call('POST', '/torneios', { nome: 'Copa dos Amigos', formato: 'mata', convidados: [B.usuario.id], config: { estilo: 'botao', vel: 4 } }, ta);
+  ok(tor.id && tor.estado?.config?.vel === 4, 'torneio criado com convite e configuração');
   const cxb = await call('GET', '/caixa', null, tb);
   const ct = cxb.convites.find(c => c.modo === 'torneio');
   await call('POST', `/convites/${ct.id}/responder`, { aceitar: true }, tb);
   let t = await call('POST', `/torneios/${tor.id}/iniciar`, {}, ta);
-  ok(t.status === 'andamento' && t.participantes.length === 4, 'torneio iniciado com 2 humanos + 2 robôs');
-  for (let guard = 0; guard < 6 && t.status === 'andamento'; guard++) {
+  ok(t.status === 'andamento' && t.participantes.length === 4 && t.estado.config.vel === 4, 'torneio iniciado com 2 humanos + 2 robôs');
+  const jogarMinhas = async tk => {
+    const cx = await call('GET', '/caixa', null, tk);
+    for (const p of cx.partidas.filter(p => p.torneio_id === tor.id && p.fase !== 'fim')) {
+      await call('POST', `/partidas/${p.id}/intervalo`, {}, tk);
+      await call('POST', `/partidas/${p.id}/substituicoes`, { trocas: [] }, tk);
+    }
+    for (const p of (await call('GET', '/caixa', null, tk)).partidas.filter(p => p.torneio_id === tor.id && !p.vista)) await call('POST', `/partidas/${p.id}/vista`, {}, tk);
+  };
+  let viuAoVivo = false;
+  for (let guard = 0; guard < 8 && t.status === 'andamento'; guard++) {
     const alive = t.estado.rounds[t.estado.round].flatMap(g => [g.a, g.b]);
     if (alive.includes(A.usuario.id)) t = await call('POST', `/torneios/${tor.id}/pronto`, {}, ta);
     if (t.status === 'andamento' && alive.includes(B.usuario.id)) t = await call('POST', `/torneios/${tor.id}/pronto`, {}, tb);
+    if (t.estado?.emJogo) {
+      const g = t.estado.rounds[t.estado.round].find(g => g.partida);
+      const p = g && await call('GET', `/partidas/${g.partida}`, null, alive.includes(A.usuario.id) ? ta : tb);
+      if (p?.fase === '1t' && p.config.mata && p.config.vel === 4) viuAoVivo = true;
+    }
+    await jogarMinhas(ta); await jogarMinhas(tb);
+    t = await call('GET', `/torneios/${tor.id}`, null, ta);
     if (t.status === 'andamento' && !alive.includes(A.usuario.id) && !alive.includes(B.usuario.id)) break;
   }
+  ok(viuAoVivo, 'rodada do torneio vira partida ao vivo (mata-mata, velocidade do organizador)');
   ok(t.status === 'encerrado' && t.campeao, `torneio encerrado — campeão: ${t.participantes.find(p => p.id === t.campeao)?.nome}`);
 } catch (e) { console.error(e); falhas++; }
 srv.kill();

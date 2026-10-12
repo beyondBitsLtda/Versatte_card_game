@@ -12,6 +12,8 @@ import { cardHTML, teamArt, cardImage } from '../cards.js';
 import { burst, confetti, sfx, haptic, attachTilt } from '../fx.js';
 import { overlay, esc, icon } from '../ui.js';
 import { runShootout } from './shootout.js';
+import { replaySource } from './live.js';
+import { openSubPanel, confirmIn } from './subs.js';
 
 // ---------------- campo (metros) ----------------
 const FW = 44, FL = 68;                          // largura × comprimento
@@ -69,9 +71,13 @@ function kits(home, away) {
 
 /**
  * Encena a partida. Resolve com 'win' | 'draw' | 'loss' | 'neutral' quando o jogador fecha o resultado.
- * @param {object} o { home, away, result, userSide (0|1|null), context: { title, subtitle }, onResultHtml }
+ * @param {object} o { src (fonte da partida, js/game/live.js), context: { title, subtitle }, onResultHtml, resultTitle }
+ *   (compatível: { home, away, result, userSide, shootout } vira um replay)
  */
-export function playMatch({ home, away, result, userSide = 0, context = {}, onResultHtml, shootout = null, resultTitle = null }) {
+export function playMatch(opts) {
+  const src = opts.src || replaySource(opts.home, opts.away, opts.userSide ?? 0, opts.result, opts.shootout);
+  const { home, away, userSide } = src;
+  const { context = {}, onResultHtml, resultTitle = null, onFinish = null } = opts;
   return new Promise(resolve => {
     const teams = [home, away];
     const KIT = kits(home, away);
@@ -92,8 +98,11 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
         </div>
         <div class="mt-feed" aria-live="polite"></div>
         <div class="mt-ctrl">
-          <div class="mt-speed">${[1, 2, 4].map(s => `<button data-speed="${s}" class="${s === 1 ? 'on' : ''}">${s}x</button>`).join('')}</div>
-          <button class="link-btn mt-skip">Pular para o fim ${icon.arrow}</button>
+          ${src.speedFixed ? `<span class="mt-fixed">${src.speedFixed}x</span>` : `<div class="mt-speed">${[1, 2, 4].map(s => `<button data-speed="${s}" class="${s === 1 ? 'on' : ''}">${s}x</button>`).join('')}</div>`}
+          <div class="mt-btns">
+            ${src.replay ? '' : `<button class="btn ghost sm mt-sub" ${src.online ? 'disabled' : ''}>🔁 ${src.online ? 'Subst. no intervalo' : 'Substituir'}</button>`}
+            <button class="btn ghost sm mt-quit">${src.replay ? 'Sair' : 'Desistir'}</button>
+          </div>
         </div>
       </div>`, 'match-ov');
 
@@ -182,7 +191,7 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
 
     // ---------------- roteiro (lances do motor) ----------------
     let script = null;               // { side, immune, shooter, dribbleTo, shot, freeze, chaser, victim }
-    let simTime = 0, speedMul = 1, gameMin = 0, evIdx = 1, busy = false, finished = false, skipping = false;
+    let simTime = 0, speedMul = src.speedFixed || 1, gameMin = 0, evIdx = 1, busy = false, finished = false, skipping = false, paused = false, wantSub = false;
     let wantSide = 0, wantSince = 0, pendingSteal = 0;
     const waiters = [];
     const simWait = s => new Promise(r => waiters.push({ t: simTime + s, r }));
@@ -192,7 +201,7 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
     /** Posse desejada pelo motor numa janela de minutos (evita troca frenética). */
     function desiredSide(min) {
       let c0 = 0, n = 0;
-      for (let m = min - 2; m <= min + 2; m++) { const v = result.possession[clamp(m, 1, 90)]; if (v === 0) c0++; n++; }
+      for (let m = min - 2; m <= min + 2; m++) { const v = src.possession[clamp(m, 1, 90)]; if (v === 0) c0++; n++; }
       return c0 * 2 >= n ? 0 : 1;
     }
 
@@ -318,10 +327,11 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
       }
 
       // relógio + lances
-      if (!busy && !finished && !script) {
+      if (wantSub && !busy && !finished && !script) { wantSub = false; doSubFlow(); }
+      if (!busy && !finished && !script && !paused) {
         gameMin = Math.min(90, gameMin + dt / SEC_PER_MIN);
         minEl.textContent = `${Math.floor(gameMin)}'`;
-        const ev = result.events[evIdx];
+        const ev = src.events[evIdx];
         if (ev && ev.min <= gameMin) { evIdx++; busy = true; runEvent(ev).finally(() => { busy = false; }); }
         const want = desiredSide(Math.max(1, Math.floor(gameMin)));
         if (want !== wantSide && simTime - wantSince > 2.2) { wantSide = want; wantSince = simTime; }
@@ -729,10 +739,12 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
           sfx.whistle(2);
           const close = bigText('INTERVALO', 'half', `${ev.score[0]} x ${ev.score[1]}`);
           await simWait(1.3); close();
+          await src.onHalf({ container: node.querySelector('.mt') });     // online: substituições com tempo limite
           await kickoff(1);
           break;
         }
         case 'end': {
+          if (finished) break;
           finished = true;
           minEl.textContent = "90'";
           sfx.whistle(3);
@@ -887,12 +899,12 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
       if (!node.isConnected) return;
       const real = Math.min(0.05, (now - last) / 1000); last = now;
       let sim = real * speedMul;
-      while (sim > 0) { const h = Math.min(1 / 90, sim); update(h); sim -= h; }
+      while (sim > 0 && !paused) { const h = Math.min(1 / 90, sim); update(h); sim -= h; }
       shakeT = Math.max(0, shakeT - real * 2.2);
       netShake = netShake.map(v => Math.max(0, v - real * 1.2));
       if (postFlash) postFlash.t -= real * 1.5;
       const m = Math.max(1, Math.floor(gameMin));
-      const p0 = result.possession.slice(1, m + 1).filter(x => x === 0).length + 1;
+      const p0 = src.possession.slice(1, m + 1).filter(x => x === 0).length + 1;
       possEl[0].style.flex = String(p0); possEl[1].style.flex = String(m + 2 - p0);
       draw();
       requestAnimationFrame(frame);
@@ -901,33 +913,62 @@ export function playMatch({ home, away, result, userSide = 0, context = {}, onRe
     requestAnimationFrame(t => { last = t; frame(t); });
 
     // ---------------- controles ----------------
-    node.querySelector('.mt-speed').addEventListener('click', e => {
+    node.querySelector('.mt-speed')?.addEventListener('click', e => {
       const b = e.target.closest('[data-speed]'); if (!b) return;
       speedMul = +b.dataset.speed; sfx.tap();
       node.querySelectorAll('[data-speed]').forEach(x => x.classList.toggle('on', x === b));
     });
-    node.querySelector('.mt-skip').addEventListener('click', () => {
-      if (finished) return;
-      skipping = true; finished = true; sfx.tap();
-      flushWaiters();
-      node.querySelectorAll('.mt-big').forEach(x => x.remove());
-      for (let i = 1; i < result.events.length; i++) {
-        const ev = result.events[i];
-        if (ev.type === 'goal' && ev.score[ev.team] > goalsShown[ev.team]) addFeed(ev.min, `<em class="g">GOL</em> ${esc(ev.shooter)} (${teamName(ev.team)})`, 'goal');
-      }
-      node.querySelector('.sd[data-s="0"]').textContent = result.score[0];
-      node.querySelector('.sd[data-s="1"]').textContent = result.score[1];
-      minEl.textContent = "90'";
-      script = { freeze: true, immune: true };
-      showResult();
+    const subBtn = node.querySelector('.mt-sub');
+    subBtn?.addEventListener('click', () => {
+      if (finished || !src.canSubNow()) return;
+      sfx.tap(); wantSub = true; subBtn.disabled = true; subBtn.textContent = '🔁 Aguardando a bola parar…';
     });
+    async function doSubFlow() {
+      paused = true;
+      const roster = src.roster(gameMin);
+      if (roster.subsLeft <= 0) { paused = false; resetSubBtn(); return toastIn('Limite de substituições atingido'); }
+      const changes = await openSubPanel(node.querySelector('.mt'), { roster, title: 'Substituições', sub: `${Math.floor(gameMin)}' · ${esc(teams[userSide].name)}` });
+      if (changes && changes.length) {
+        try { src.substitute(changes, gameMin); sfx.whistle(1); } catch (e) { toastIn(e.message); }
+      }
+      paused = false; resetSubBtn();
+    }
+    function resetSubBtn() { if (subBtn && !src.online) { subBtn.disabled = false; subBtn.textContent = '🔁 Substituir'; } }
+    function toastIn(msg) { const t = document.createElement('div'); t.className = 'mt-toast'; t.textContent = msg; node.querySelector('.mt').appendChild(t); setTimeout(() => t.remove(), 2500); }
+
+    node.querySelector('.mt-quit').addEventListener('click', async () => {
+      if (finished) return;
+      sfx.tap();
+      if (src.replay) { finished = true; ro.disconnect(); ov.close(); resolve('left'); return; }
+      paused = true;
+      const ok = await confirmIn(node.querySelector('.mt'), { title: 'Desistir da partida?', text: 'Você perde por W.O. (3 x 0) e não ganha moedas desta partida.', yes: 'Desistir', no: 'Continuar jogando' });
+      if (!ok) { paused = false; return; }
+      endNow(await src.forfeit(gameMin));
+    });
+    // online: o adversário desistiu
+    const offRemote = src.onRemoteEnd(fin => { if (!finished) { toastIn('O adversário desistiu!'); endNow(fin); } });
+
+    function endNow(fin) {
+      finished = true; skipping = true; paused = false;
+      flushWaiters();
+      node.querySelectorAll('.mt-big, .sp').forEach(x => x.remove());
+      node.querySelector('.sd[data-s="0"]').textContent = fin.result.score[0];
+      node.querySelector('.sd[data-s="1"]').textContent = fin.result.score[1];
+      script = { freeze: true, immune: true };
+      showResult(fin);
+    }
 
     // ---------------- resultado ----------------
     let resultShown = false;
-    async function showResult() {
+    async function showResult(fin = null) {
       if (resultShown) return; resultShown = true;
-      if (shootout) await runShootout(node.querySelector('.mt'), { home, away, shootout, userSide });
-      mountResult(node.querySelector('.mt'), { home, away, result, userSide, onResultHtml, shootout, resultTitle }, outcome => {
+      offRemote();
+      fin = fin || await src.finish();
+      const { result, shootout } = fin;
+      if (shootout && result.forfeit == null) await runShootout(node.querySelector('.mt'), { home, away, shootout, userSide });
+      src.final = fin;
+      if (onFinish) { try { await onFinish(fin); } catch (e) { console.error(e); } }   // grava o resultado só agora
+      mountResult(node.querySelector('.mt'), { home, away, result, userSide, onResultHtml, shootout: result.forfeit == null ? shootout : null, resultTitle }, outcome => {
         ro.disconnect(); ov.close(); resolve(outcome);
       });
     }
@@ -940,7 +981,9 @@ export function mountResult(container, { home, away, result, userSide, onResultH
   let mine = userSide == null ? null : (userSide === 0 ? a - b : b - a);
   if (mine === 0 && shootout) mine = shootout.winner === userSide ? 1 : -1;     // decidido nos pênaltis
   const outcome = mine == null ? 'neutral' : mine > 0 ? 'win' : mine === 0 ? 'draw' : 'loss';
-  const title = (resultTitle && resultTitle(outcome)) || { win: 'VITÓRIA!', draw: 'EMPATE', loss: 'DERROTA', neutral: 'FIM DE JOGO' }[outcome];
+  const wo = result.forfeit != null;
+  const title = wo ? (result.forfeit === userSide ? 'DESISTÊNCIA' : 'VITÓRIA POR W.O.')
+    : (resultTitle && resultTitle(outcome)) || { win: 'VITÓRIA!', draw: 'EMPATE', loss: 'DERROTA', neutral: 'FIM DE JOGO' }[outcome];
   const mvpCard = result.mvp?.uid ? CARD_BY_UID[result.mvp.uid] : null;
   const st = result.stats;
   const panel = document.createElement('div');
@@ -958,11 +1001,11 @@ export function mountResult(container, { home, away, result, userSide, onResultH
           ${mvpCard ? `<div class="mr-mvp-card">${cardHTML(mvpCard, { size: 'sm' })}</div>` : ''}
           <div><span>Craque do jogo</span><b>${esc(result.mvp.name)}</b>${result.mvp.goals ? `<small>${result.mvp.goals} gol(s)</small>` : ''}</div>
         </div>` : ''}
-      <div class="mr-stats">
+      ${st ? `<div class="mr-stats">
         <div><b>${st[0].poss}%</b><span>posse</span><b>${st[1].poss}%</b></div>
         <div><b>${st[0].shots}</b><span>finalizações</span><b>${st[1].shots}</b></div>
         <div><b>${st[0].onTarget}</b><span>no alvo</span><b>${st[1].onTarget}</b></div>
-      </div>
+      </div>` : ''}
       <div class="mr-extra">${onResultHtml ? onResultHtml(outcome) : ''}</div>
       <button class="btn primary big mr-go">Continuar</button>
     </div>`;
