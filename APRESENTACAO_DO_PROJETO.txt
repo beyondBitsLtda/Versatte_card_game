@@ -1,0 +1,301 @@
+====================================================================
+  JOGO DE CARTAS COLECIONÁVEIS DE FUTEBOL
+  Apresentação do projeto
+====================================================================
+
+Desenvolvimento: Beyond Bits
+Situação: protótipo funcional, publicado na web para testes
+Observação: o nome da marca parceira e a identidade final do produto
+foram omitidos neste documento.
+
+
+--------------------------------------------------------------------
+1. O QUE É
+--------------------------------------------------------------------
+
+Um jogo digital de cartas colecionáveis de futebol, no estilo do
+álbum de figurinhas, com uma diferença central: completar coleções
+rende prêmios físicos de verdade (cupons de desconto, canecas, bonés,
+camisas e kits) que o jogador resgata nas lojas da marca.
+
+As cartas não servem só para colecionar: elas montam o time do
+jogador, que disputa partidas e campeonatos dentro do próprio jogo,
+sozinho ou contra amigos pela internet.
+
+O jogo roda direto no navegador, no celular ou no computador, sem
+instalar nada.
+
+
+--------------------------------------------------------------------
+2. SETOR E OBJETIVO DE NEGÓCIO
+--------------------------------------------------------------------
+
+Setor: varejo de artigos esportivos, com foco em futebol (camisas de
+clubes, camisas retrô, bolas, acessórios e produtos licenciados).
+
+O jogo foi pensado como ferramenta de relacionamento e vendas para
+uma rede desse setor:
+
+  - Fidelização: o pacote grátis diário cria o hábito de voltar todo
+    dia, e as coleções mantêm o torcedor engajado ao longo da
+    temporada.
+  - Tráfego para as lojas: os prêmios são resgatados no ponto de
+    venda ou no e-commerce, o que leva o jogador até a loja.
+  - Venda direta: pacotes premium podem ser comprados no próprio
+    jogo.
+  - Vitrine de produtos: as coleções e os prêmios conversam com o
+    catálogo (camisas de clubes, camisas retrô, bolas, bonés,
+    produtos infantis).
+  - Calendário: novas coleções acompanham o calendário do futebol
+    (já previstas: Camisas Históricas, Libertadores e Seleções).
+
+Público: torcedores de futebol de todas as idades, com atenção
+especial a quem já coleciona figurinhas e a quem joga no celular.
+
+
+--------------------------------------------------------------------
+3. AS COLEÇÕES
+--------------------------------------------------------------------
+
+São 5 coleções, com 148 cartas no total:
+
+  - Clubes Série A 2026 (32 cartas): os 20 clubes da elite e
+    edições especiais (uniforme 2, histórica, campeão).
+  - Jogadores (56 cartas): atletas de todas as posições, ídolos e
+    versões "prime" dos craques.
+  - Estádios (19 cartas): os principais estádios do país.
+  - Mascotes (29 cartas): mascotes dos clubes, com versões raras.
+  - Juízo Final (12 cartas): coleção especial temática, que só sai
+    em pacotes premium ou lendários.
+
+Cada carta tem 4 raridades, cada uma com efeitos visuais próprios:
+Comum, Rara, Muito rara e Especial. As cartas trazem curiosidades e
+fatos reais (fundação, estádio, apelido, conquistas), o que dá um
+lado educativo para a coleção.
+
+O jogador acompanha tudo no Álbum, que mostra o que já tem, o que
+falta (com a silhueta da carta) e a chance de tirar cada uma.
+
+
+--------------------------------------------------------------------
+4. COMO SE CONSEGUEM CARTAS
+--------------------------------------------------------------------
+
+Pacotes:
+
+  - Diário (grátis, 1 por dia): 3 cartas.
+  - Básico: 3 cartas, com menos chance de repetir.
+  - Premium: 4 cartas; a 4ª é Rara ou melhor.
+  - Lendário: 4 cartas; a 4ª é Muito rara (80%) ou Especial (20%).
+
+A abertura é um momento de espetáculo: o pacote é 3D, o jogador
+rasga o lacre com o dedo (ou com o mouse) e as cartas são reveladas
+uma a uma, com brilho, partículas e som conforme a raridade.
+
+Chance de raridade por carta:
+
+                  Diário    Premium
+  Comum            70%       45%
+  Rara             24%       39,8%
+  Muito rara        5%       12,8%
+  Especial          1%        2,5%
+
+Regras de equilíbrio:
+
+  - O pacote diário tende a repetir cartas que o jogador já tem; o
+    premium tende a trazer as que faltam.
+  - Garantia: a cada 15 pacotes premium sem Especial, o próximo
+    traz uma.
+  - Carta repetida vira moedas (de +5 a +100, conforme a raridade).
+
+Todas as probabilidades ficam visíveis na Loja, por transparência.
+
+
+--------------------------------------------------------------------
+5. ECONOMIA: MOEDAS E PACOTES
+--------------------------------------------------------------------
+
+O jogo tem duas formas de conseguir pacotes:
+
+  1) Moedas, ganhas jogando, trocadas na Loja:
+       Básico 120 · Premium 300 · Lendário 900 moedas.
+  2) Compra com dinheiro (valores ilustrativos no protótipo):
+       1 pacote R$ 4,90 · 5 (+1 bônus) R$ 19,90 ·
+       12 (+3 bônus) R$ 39,90.
+
+Como se ganham moedas:
+
+  - Vitória no Modo Clube +30, empate +12, derrota +5
+  - Cada gol +4; não sofrer gol +6
+  - A cada 3 vitórias seguidas +40; a cada 5, um pacote básico
+  - Título de campeonato: +200 a +400 moedas e um pacote premium
+    ou lendário
+  - Amistosos rendem metade
+  - Bônus de cadastro: 100 moedas e 1 pacote premium
+
+Para evitar abuso, o servidor limita as recompensas: no máximo 1.500
+moedas e 3 pacotes por dia vindos de partidas.
+
+
+--------------------------------------------------------------------
+6. PRÊMIOS REAIS
+--------------------------------------------------------------------
+
+Cada coleção tem uma trilha de prêmios liberados por porcentagem
+completada. Exemplos:
+
+  - Clubes: cupom 5% → cupom 10% em camisas de clubes → caneca
+    exclusiva → camisa de clube à escolha.
+  - Jogadores: cupom 5% → cupom 15% em camisas retrô → caneca →
+    camisa retrô personalizada de um ídolo.
+  - Estádios: cupom 5% → cupom 10% em bolas e acessórios → boné
+    exclusivo → bola oficial.
+  - Mascotes: cupom 5% → cupom 10% em produtos infantis → caneca →
+    mascote de pelúcia.
+  - Desafio Lendário: completar todas as coleções dá direito a um
+    kit lendário.
+
+Ao resgatar, o jogador recebe um código para apresentar na loja ou
+usar no site. No protótipo, os códigos são fictícios; na versão
+final, a validação é feita no PDV e no e-commerce.
+
+
+--------------------------------------------------------------------
+7. MODO CLUBE: JOGAR COM AS CARTAS
+--------------------------------------------------------------------
+
+É a parte que dá uso às cartas e faz o jogador querer cartas
+melhores.
+
+Montagem do clube:
+
+  - Escudo (dá moral ao time), estádio (dá vantagem em casa) e
+    mascote (habilidade especial, como pressão no fim do jogo).
+  - 5 titulares e 5 reservas, em três esquemas táticos (defensivo,
+    equilibrado e ofensivo).
+  - Atributos reais de cada carta (ataque, criação, defesa, goleiro)
+    definem a força do time; jogador fora de posição rende menos;
+    jogadores do mesmo clube do escudo dão química.
+  - Quem ainda não tem as cartas pode pegar emprestado do baralho,
+    com força reduzida; os emprestados são sorteados a cada
+    partida. Isso deixa qualquer um jogar desde o primeiro dia e
+    incentiva conquistar as próprias cartas.
+
+Campeonatos (cada um com troféu 3D próprio na sala de troféus):
+
+  - Liga: pontos corridos, 8 clubes, turno único.
+  - Copa: mata-mata em jogo único, com pênaltis no empate.
+  - Supercopa: fase de grupos seguida de mata-mata.
+  - Amistoso rápido, para jogar sem compromisso.
+
+Dois jeitos de assistir à partida (o jogador escolhe):
+
+  - Jogo de botão: campo animado com física, jogadas, chutes, defesas
+    e comemoração; no computador, o campo fica na horizontal, como
+    numa transmissão de TV.
+  - Modo Simulação: narração lance a lance com placar, linha do
+    tempo, estatísticas ao vivo e barra de pressão.
+
+Durante a partida:
+
+  - O jogador faz até 3 substituições a qualquer momento.
+  - Pode desistir; quem desiste perde por W.O. (3 x 0) e não ganha
+    moedas.
+  - Nada é revelado antes da hora: placar, gols e cartões só
+    aparecem quando o lance acontece.
+  - Fechar o app no meio da partida conta como W.O. (não dá para
+    "fugir" de uma derrota).
+
+
+--------------------------------------------------------------------
+8. MULTIPLAYER (ONLINE)
+--------------------------------------------------------------------
+
+Com uma conta, o jogador vê quem está online e pode convidar
+qualquer pessoa da lista para:
+
+  - Troca de cartas: os dois montam a oferta na mesma mesa e
+    confirmam juntos; a troca é concluída com uma animação especial.
+    A troca é atômica no servidor: ou as duas partes recebem, ou
+    nada muda.
+  - Amistoso ao vivo: quem desafia escolhe o estilo (botão ou
+    simulação) e a velocidade; os dois revisam a escalação antes;
+    a partida começa ao mesmo tempo para os dois, com contagem
+    regressiva.
+  - Torneio entre amigos: mata-mata ou pontos corridos, de 2 a 8
+    jogadores; vagas que sobram viram times controlados pelo
+    computador. O campeão leva moedas, um pacote premium e o troféu
+    online.
+
+Partidas online são justas e sem espiada:
+
+  - O servidor simula só o 1º tempo.
+  - No intervalo, cada jogador tem 30 segundos para substituir.
+  - Só depois o 2º tempo é simulado. O resultado final não existe
+    antes do intervalo, então não há como prever o placar.
+
+
+--------------------------------------------------------------------
+9. EXPERIÊNCIA E PLATAFORMAS
+--------------------------------------------------------------------
+
+  - Celular em primeiro lugar: telas pensadas para uma mão,
+    gestos de deslizar e rasgar, vibração e brilho que reage ao
+    movimento do aparelho.
+  - Modo computador automático: barra lateral, telas em colunas,
+    campo na horizontal e atalhos de teclado (1 a 7 navega, Esc
+    fecha, Espaço abre o pacote, 1/2/4 muda a velocidade).
+  - Visual escuro com neon, sons sintetizados, animações de
+    abertura, troféus 3D e confete nas conquistas.
+  - Pode ser adicionado à tela inicial do celular como um app.
+  - Modo demonstração sem conta (dados ficam só no aparelho).
+
+
+--------------------------------------------------------------------
+10. TECNOLOGIA (RESUMO)
+--------------------------------------------------------------------
+
+  - Aplicação web estática, sem instalação, publicada em hospedagem
+    de site estático.
+  - Servidor próprio (API em Cloudflare Workers) com banco de dados
+    Postgres: contas, inventário de cartas, moedas, convites, trocas,
+    partidas e torneios.
+  - Tudo que vale dinheiro é decidido no servidor (abertura de
+    pacotes, trocas, recompensas); o aparelho não consegue criar
+    cartas ou moedas.
+  - As mesmas regras do jogo rodam no app e no servidor, para que os
+    dois nunca discordem.
+  - Senhas nunca trafegam em texto: o navegador deriva uma chave
+    (PBKDF2) e o servidor guarda só uma versão protegida dela.
+  - Testes automáticos cobrem cadastro, pacotes, loja, trocas,
+    amistoso ao vivo, desistência e torneio completo.
+
+
+--------------------------------------------------------------------
+11. ESTADO ATUAL E PRÓXIMOS PASSOS
+--------------------------------------------------------------------
+
+Pronto no protótipo:
+
+  - Pacotes, coleções, álbum e prêmios
+  - Economia de moedas e loja
+  - Modo Clube completo, com campeonatos
+  - Contas online e multiplayer (trocas, amistosos e torneios)
+  - Versões para celular e computador
+
+Antes de lançar:
+
+  - Proteção de dados: o cadastro coleta nome e e-mail. A solução
+    deve passar pela avaliação de Governança e Compliance (LGPD), e
+    da TI quando aplicável. O texto de termos e privacidade é um
+    rascunho a ser revisado pelo jurídico.
+  - Infraestrutura: rotina de backup do banco de dados.
+  - Pagamentos: integrar meio de pagamento real (hoje é simulado).
+  - Prêmios: integrar a validação dos códigos ao PDV e ao
+    e-commerce.
+  - Conteúdo: imagens oficiais das cartas e licenciamento de
+    clubes, atletas e marcas (hoje há artes provisórias e atletas
+    fictícios nas demonstrações).
+  - Valores: definir preços, chances e prêmios finais com a área
+    comercial.
+  - Próximas coleções: Camisas Históricas, Libertadores e Seleções.
