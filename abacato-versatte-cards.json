@@ -1,0 +1,2587 @@
+{
+  "id": "d8f3bdfcc59366d8b61a9cfc",
+  "name": "Versatte Cards · Jogo, Cupons e Pagamentos",
+  "desc": "Jogo de cartas colecionáveis da Versatte Sports (Beyond Bits). Fases 1 a 3 concluídas: protótipo, Modo Clube e multiplayer online. Próximos passos: decisão jurídica sobre pacotes pagos (ECA Digital), infraestrutura de produção, pagamentos por Pix e cartão, cupons válidos na loja e prêmios físicos.",
+  "closed": false,
+  "prefs": {
+    "background": "blue",
+    "backgroundColor": "#1F5C99"
+  },
+  "labels": [
+    {
+      "id": "cbd0ce8e7d8ec1708fbe98a8",
+      "name": "Frontend",
+      "color": "blue",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "78a55cf85e827ff55e02769f",
+      "name": "Backend",
+      "color": "purple",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "d05e8eaac8f717b17da6c3ec",
+      "name": "Segurança",
+      "color": "red",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "299c1d48a841e8c4d9f8c3cf",
+      "name": "Pagamentos",
+      "color": "green",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "65fb8f71ce5b2b4ecbbca614",
+      "name": "Cupons e prêmios",
+      "color": "lime",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "a33d0bdaaa322dcffa7e3b1a",
+      "name": "Infra / Domínio",
+      "color": "sky",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "438af13555616f0926ce3f90",
+      "name": "Game design",
+      "color": "pink",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "03760dfcba2d32387ff692fe",
+      "name": "Decisão da Versatte",
+      "color": "yellow",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "1f726a64eb016b0c84a6b103",
+      "name": "LGPD / Jurídico",
+      "color": "orange",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "1a4ece77bccfb6d6a05263e5",
+      "name": "Documentação",
+      "color": "black",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    }
+  ],
+  "lists": [
+    {
+      "id": "940330e5b1d3449c6ff9020a",
+      "name": "Fase 1 · Protótipo e coleções ✔ concluída",
+      "closed": false,
+      "pos": 16384,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "ea5b6be6e9243aaa43b86387",
+      "name": "Fase 2 · Modo Clube e partidas ✔ concluída",
+      "closed": false,
+      "pos": 32768,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "c26f64dd942091c88ea2ad1d",
+      "name": "Fase 3 · Conta online, servidor e multiplayer ✔ concluída",
+      "closed": false,
+      "pos": 49152,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "f5d40092889466d0668ab374",
+      "name": "Fase 4 · Jurídico e regras de monetização (bloqueia pagamentos)",
+      "closed": false,
+      "pos": 65536,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "835dc0905049151179c3e464",
+      "name": "Fase 5 · Infra e segurança para produção",
+      "closed": false,
+      "pos": 81920,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "9512557f28272a4fce49e749",
+      "name": "Fase 6 · Contas e integração com a loja",
+      "closed": false,
+      "pos": 98304,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "0547d6cbc357313ca0e18ec4",
+      "name": "Fase 7 · Pagamentos (Pix e cartão)",
+      "closed": false,
+      "pos": 114688,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "f07b170cc10765971504d970",
+      "name": "Fase 8 · Cupons gerados pelo jogo",
+      "closed": false,
+      "pos": 131072,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "e7b94bfe3aa407910ef244b5",
+      "name": "Fase 9 · Prêmios físicos e resgate",
+      "closed": false,
+      "pos": 147456,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "3b3d27f7d6be7de798c5ef1e",
+      "name": "Fase 10 · Testes e lançamento",
+      "closed": false,
+      "pos": 163840,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    },
+    {
+      "id": "5ab7a097a37f4bb549ba382f",
+      "name": "Backlog · Ideias futuras",
+      "closed": false,
+      "pos": 180224,
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc"
+    }
+  ],
+  "cards": [
+    {
+      "id": "7dc92d855ca8d72440b68e80",
+      "name": "Protótipo mobile-first do Versatte Cards",
+      "desc": "Jogo de cartas colecionáveis no navegador (sem instalar), pensado primeiro para o celular. Publicado no GitHub Pages.",
+      "closed": false,
+      "idList": "940330e5b1d3449c6ff9020a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "cbd0ce8e7d8ec1708fbe98a8",
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": "2026-10-05T12:00:00.000Z",
+      "due": "2026-10-05T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "1067a5d786f06d8ef4499b19",
+      "name": "Coleções e cartas",
+      "desc": "148 cartas em 5 coleções: Clubes Série A (32), Jogadores (56), Estádios (19), Mascotes (29) e Juízo Final (12). Jogadores comuns fictícios para não usar imagem de atletas sem licença.",
+      "closed": false,
+      "idList": "940330e5b1d3449c6ff9020a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-05T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "7ed2451cdc2b98d67b77b27b",
+      "name": "Pacotes, sorteio e abertura",
+      "desc": "Pacote grátis diário, pacotes básico/premium/lendário, abertura 3D com efeitos.",
+      "closed": false,
+      "idList": "940330e5b1d3449c6ff9020a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-05T12:00:00.000Z",
+      "due": "2026-10-05T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "359742c8d573a1ffb49de069",
+      "name": "Álbum e prêmios por marco",
+      "desc": "Prêmios ao completar 25/50/75/100% de cada coleção (cupons, canecas, bonés, bola, camisas) e Kit Lendário para quem completar tudo.",
+      "closed": false,
+      "idList": "940330e5b1d3449c6ff9020a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 65536,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "65fb8f71ce5b2b4ecbbca614"
+      ],
+      "idMembers": [],
+      "start": "2026-10-05T12:00:00.000Z",
+      "due": "2026-10-05T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "9ee6933451ceaebd58e4f565",
+      "name": "Ajustes de mobile do protótipo",
+      "desc": "Telas cabendo na altura visível do celular, inclusive com viewport de desktop.",
+      "closed": false,
+      "idList": "940330e5b1d3449c6ff9020a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 81920,
+      "idLabels": [
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-05T12:00:00.000Z",
+      "due": "2026-10-05T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "c4ac4bc991eeab90d0b91854",
+      "name": "Modo debug e roteiro de apresentação",
+      "desc": "Painel para demonstrar o jogo à Versatte.",
+      "closed": false,
+      "idList": "940330e5b1d3449c6ff9020a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 98304,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "1a4ece77bccfb6d6a05263e5"
+      ],
+      "idMembers": [],
+      "start": "2026-10-05T12:00:00.000Z",
+      "due": "2026-10-06T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "14ed51e09dd05a95da03588d",
+      "name": "Modo Clube: clube, elenco e formações",
+      "desc": "O jogador cria o clube com escudo, estádio e mascote (cartas) e escala 5 titulares + 5 reservas.",
+      "closed": false,
+      "idList": "ea5b6be6e9243aaa43b86387",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "194e643719868efb3502622e",
+      "name": "Motor de simulação e efeito das cartas",
+      "desc": "Posse pela criação, chances por ataque × defesa, finalização contra defesa + goleiro, faltas, cartões, cansaço e substituições.",
+      "closed": false,
+      "idList": "ea5b6be6e9243aaa43b86387",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "78a55cf85e827ff55e02769f"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "47caec8b5425cfd0345eb8c2",
+      "name": "Jogo de botão com física",
+      "desc": "Encenação da partida com jogadores como agentes independentes e bola com física.",
+      "closed": false,
+      "idList": "ea5b6be6e9243aaa43b86387",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "4b5eb58e6461d7357fb14046",
+      "name": "Modo Simulação (partida narrada)",
+      "desc": "Narração minuto a minuto no estilo Brasfoot, com estatísticas ao vivo.",
+      "closed": false,
+      "idList": "ea5b6be6e9243aaa43b86387",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 65536,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "3d954e3511df539c5c914553",
+      "name": "Empréstimo do baralho",
+      "desc": "Quem não tem a carta usa o baralho com desempenho reduzido; jogadores emprestados são sorteados a cada partida.",
+      "closed": false,
+      "idList": "ea5b6be6e9243aaa43b86387",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 81920,
+      "idLabels": [
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "f60cacd5dad985e8cef628e7",
+      "name": "Campeonatos, troféus 3D e pênaltis",
+      "desc": "Liga Versatte, Copa Versatte e Supercopa das Estrelas, cada uma com troféu 3D em WebGL.",
+      "closed": false,
+      "idList": "ea5b6be6e9243aaa43b86387",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 98304,
+      "idLabels": [
+        "438af13555616f0926ce3f90",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "5d8ee11b04ce5cd3cba64292",
+      "name": "Economia de moedas e loja",
+      "desc": "Moedas ganhas jogando e trocadas por pacotes. Uma partida rende ~25 moedas.",
+      "closed": false,
+      "idList": "ea5b6be6e9243aaa43b86387",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 114688,
+      "idLabels": [
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "adcd2b3acaa0d2ea7f475e02",
+      "name": "Versatte API (Cloudflare Worker) e banco",
+      "desc": "Servidor em api-versatte.beyond.dev.br com tabelas versatte_* no Postgres do beyond-assist. Acesso ao banco só pela service_role dentro do Worker; RLS ligado e sem policies.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "a33d0bdaaa322dcffa7e3b1a",
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "02f8c861d0d3b40059fb7b6a",
+      "name": "Login próprio seguro",
+      "desc": "O navegador deriva a senha (PBKDF2-SHA512, 210 mil iterações) e o servidor guarda só um HMAC dela. Segredo de sessão próprio.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "f28bf7267d3e2ea1ac1477e8",
+      "name": "Inventário no servidor (anti-trapaça)",
+      "desc": "Cartas, moedas e pacotes ficam no servidor: sorteio, prêmios e recompensas validados lá.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "5c73dda37e190b1fb367049f",
+      "name": "Multiplayer: jogadores, convites e notificações",
+      "desc": "Lista de jogadores com presença, convites de troca/amistoso/torneio e caixa de entrada por polling.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 65536,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "5f5b0fe8a009c269cc237c5b",
+      "name": "Troca de cartas atômica",
+      "desc": "Troca confirmada pelos dois; qualquer mudança desfaz as confirmações. Atômica no banco, com controle de versão.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 81920,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "dc87858453d0ad41098d878d",
+      "name": "Amistoso e torneio online",
+      "desc": "Partidas simuladas no servidor; os dois assistem ao mesmo jogo.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 98304,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-11T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "669e51661ee236167bb4ca77",
+      "name": "Partidas ao vivo sem spoiler",
+      "desc": "O servidor simula só o 1º tempo; no intervalo cada um tem 30 s para substituir; depois o 2º tempo é simulado.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 114688,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": "2026-10-12T12:00:00.000Z",
+      "due": "2026-10-12T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "0e06c9b539c47b7e90d9c900",
+      "name": "Modo computador (desktop)",
+      "desc": "Barra lateral, telas largas, campo deitado e atalhos de teclado.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 131072,
+      "idLabels": [
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": "2026-10-12T12:00:00.000Z",
+      "due": "2026-10-12T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "c69fa2c20494df66e0d0d079",
+      "name": "Testes e documentação",
+      "desc": "Teste de ponta a ponta com 2 jogadores e testes do SQL; README, server/README e apresentação do projeto.",
+      "closed": false,
+      "idList": "c26f64dd942091c88ea2ad1d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 147456,
+      "idLabels": [
+        "1a4ece77bccfb6d6a05263e5",
+        "78a55cf85e827ff55e02769f"
+      ],
+      "idMembers": [],
+      "start": "2026-10-11T12:00:00.000Z",
+      "due": "2026-10-12T21:00:00.000Z",
+      "dueComplete": true,
+      "cover": {
+        "color": "green"
+      },
+      "attachments": []
+    },
+    {
+      "id": "ba6fea2dfba5d8b0779fa2fa",
+      "name": "BLOQUEANTE · Pacotes pagos x ECA Digital (Lei 15.211/2025)",
+      "desc": "Em vigor desde 17/03/2026, o art. 20 do ECA Digital proíbe caixas de recompensa (pagar por conteúdo sorteado) em jogos direcionados a crianças e adolescentes ou de acesso provável por eles. Multa de até 10% do faturamento.\n\nO jogo hoje é para \"todas as idades\" e vende pacotes com cartas sorteadas. Antes de cobrar por Pix ou cartão é preciso escolher um caminho, com parecer jurídico:\n• Pacotes pagos só para maiores de 18, com verificação de idade e classificação indicativa compatível.\n• Vender só itens de conteúdo conhecido (ex.: a carta escolhida, pacote com conteúdo exibido antes).\n• Não vender pacotes: monetizar com produtos físicos/cupons e manter pacotes só ganhos jogando.\nAtenção: comprar moedas com dinheiro e trocá-las por pacote sorteado também conta como caixa de recompensa.",
+      "closed": false,
+      "idList": "f5d40092889466d0668ab374",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "1f726a64eb016b0c84a6b103",
+        "03760dfcba2d32387ff692fe",
+        "299c1d48a841e8c4d9f8c3cf"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "abc6c3afdfb49f5724a44c7c",
+      "name": "Promoção comercial: prêmios e cupons",
+      "desc": "Prêmios físicos e cupons ligados a sorteio de cartas podem se enquadrar como promoção comercial (Lei 5.768/71), que pode exigir autorização prévia. Verificar com o jurídico antes de prometer prêmios reais.",
+      "closed": false,
+      "idList": "f5d40092889466d0668ab374",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "1f726a64eb016b0c84a6b103",
+        "65fb8f71ce5b2b4ecbbca614",
+        "03760dfcba2d32387ff692fe"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "a5d2bd0d4c41b4b03dd50599",
+      "name": "Licenciamento de marcas e imagens",
+      "desc": "Escudos, nomes de clubes, mascotes oficiais e atletas (inclusive as versões Prime) exigem licença antes do lançamento. Alternativa: substituir por conteúdo fictício.",
+      "closed": false,
+      "idList": "f5d40092889466d0668ab374",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "1f726a64eb016b0c84a6b103",
+        "03760dfcba2d32387ff692fe",
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "97600ad81ec0403594606b6a",
+      "name": "Termos de uso, privacidade e transparência",
+      "desc": "O texto atual de termos e privacidade é rascunho.",
+      "closed": false,
+      "idList": "f5d40092889466d0668ab374",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 65536,
+      "idLabels": [
+        "1f726a64eb016b0c84a6b103"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "bb01c446fe3bd7f4077f80b5",
+      "name": "Backup do banco",
+      "desc": "Hoje o banco não tem backup (ver server/README.md). Com dinheiro e cupons passando pelo jogo, isso é obrigatório.",
+      "closed": false,
+      "idList": "835dc0905049151179c3e464",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "a33d0bdaaa322dcffa7e3b1a",
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "cde80ee54efeddcc1929899d",
+      "name": "Separar o banco do jogo do banco interno",
+      "desc": "O jogo usa o mesmo Postgres da Lisa (beyond-assist). Dados de clientes, pagamentos e cupons não devem dividir banco e credencial com sistemas internos: um vazamento num afeta o outro.",
+      "closed": false,
+      "idList": "835dc0905049151179c3e464",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "a33d0bdaaa322dcffa7e3b1a",
+        "d05e8eaac8f717b17da6c3ec",
+        "03760dfcba2d32387ff692fe"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "00b96d213b189ae8d43bd6ea",
+      "name": "Proteções da Cloudflare e monitoramento",
+      "desc": "O rate limit atual é de melhor esforço, por instância do Worker.",
+      "closed": false,
+      "idList": "835dc0905049151179c3e464",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "a33d0bdaaa322dcffa7e3b1a",
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "06ca28a9da0da0b712c5ca12",
+      "name": "Domínio da Versatte para o jogo",
+      "desc": "Depende do domínio do site (quadro do site, Fase 2). Ex.: jogo.versattesports.com.br e api.jogo.versattesports.com.br.",
+      "closed": false,
+      "idList": "835dc0905049151179c3e464",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 65536,
+      "idLabels": [
+        "a33d0bdaaa322dcffa7e3b1a"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "62766e91f99e90d8fba205d0",
+      "name": "Completar o fluxo de conta",
+      "desc": "Hoje há cadastro e login, mas não há confirmação de e-mail nem recuperação de senha.",
+      "closed": false,
+      "idList": "9512557f28272a4fce49e749",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "d05e8eaac8f717b17da6c3ec",
+        "1f726a64eb016b0c84a6b103"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "9e583f3f16d6ed2d1091612a",
+      "name": "Conta única com a loja do site",
+      "desc": "O mesmo cliente deveria usar uma conta só no jogo e na loja: cupons ganhos no jogo aparecem no checkout da loja.",
+      "closed": false,
+      "idList": "9512557f28272a4fce49e749",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "03760dfcba2d32387ff692fe"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "bd1dc7a9381e880f35b0b0b4",
+      "name": "Anti-abuso de contas",
+      "desc": "Com cupons de valor real, aparecem contas falsas para farmar prêmios.",
+      "closed": false,
+      "idList": "9512557f28272a4fce49e749",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "d05e8eaac8f717b17da6c3ec",
+        "65fb8f71ce5b2b4ecbbca614"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "e65030f45a87826f2d79237c",
+      "name": "Gateway e catálogo de ofertas",
+      "desc": "Usar o mesmo gateway escolhido para a loja do site. O que será vendido depende da decisão da Fase 4 (ECA Digital).",
+      "closed": false,
+      "idList": "0547d6cbc357313ca0e18ec4",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "299c1d48a841e8c4d9f8c3cf",
+        "03760dfcba2d32387ff692fe"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "daffedb92dedc9e1738f5673",
+      "name": "Pagamento por Pix",
+      "desc": "QR Code dinâmico com expiração. Os itens só são creditados pela confirmação do webhook, nunca pelo retorno do navegador.",
+      "closed": false,
+      "idList": "0547d6cbc357313ca0e18ec4",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "299c1d48a841e8c4d9f8c3cf",
+        "78a55cf85e827ff55e02769f"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "5032b55bcabd5c3ce91071d1",
+      "name": "Pagamento por cartão",
+      "desc": "Os dados do cartão ficam no gateway (tokenização): nunca passam pelo Worker nem pelo banco.",
+      "closed": false,
+      "idList": "0547d6cbc357313ca0e18ec4",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "299c1d48a841e8c4d9f8c3cf",
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "8ee47f19f2d7b76a834fddee",
+      "name": "Webhooks, registro e estornos",
+      "desc": "Toda compra e todo crédito ficam num registro imutável (ledger), para conferir saldo e resolver disputas.",
+      "closed": false,
+      "idList": "0547d6cbc357313ca0e18ec4",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 65536,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "299c1d48a841e8c4d9f8c3cf",
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "1151df45c95b06690e00cdf1",
+      "name": "Serviço de cupons compartilhado com a loja",
+      "desc": "Hoje o código do prêmio só existe no perfil do jogador e ninguém o valida. Os cupons passam a ser emitidos e validados por um serviço único, o mesmo que a loja do site usa (quadro do site, Fase 8).",
+      "closed": false,
+      "idList": "f07b170cc10765971504d970",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "65fb8f71ce5b2b4ecbbca614",
+        "78a55cf85e827ff55e02769f"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "13a55e46bb637bbefed3af42",
+      "name": "Geração segura dos códigos",
+      "desc": "O protótipo gera VS-PREMIO-XXXX com Math.random e só 4 caracteres: dá para adivinhar. Em produção o código precisa ser imprevisível.",
+      "closed": false,
+      "idList": "f07b170cc10765971504d970",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "65fb8f71ce5b2b4ecbbca614",
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "d9b253527c2d51f269877c9f",
+      "name": "Uso do cupom na loja online e na loja física",
+      "desc": "Na loja online o cupom é aplicado no checkout. Na loja física o vendedor valida por QR Code.",
+      "closed": false,
+      "idList": "f07b170cc10765971504d970",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "65fb8f71ce5b2b4ecbbca614",
+        "cbd0ce8e7d8ec1708fbe98a8",
+        "78a55cf85e827ff55e02769f"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "9a26bec2ffa19149f1847a93",
+      "name": "Meus cupons e painel da Versatte",
+      "desc": "O jogador acompanha os cupons; a Versatte emite, consulta e cancela.",
+      "closed": false,
+      "idList": "f07b170cc10765971504d970",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 65536,
+      "idLabels": [
+        "65fb8f71ce5b2b4ecbbca614",
+        "cbd0ce8e7d8ec1708fbe98a8"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "dae95f4e270456509c8a734c",
+      "name": "Fluxo de resgate de prêmios físicos",
+      "desc": "Canecas, bonés, bolas, pelúcias, camisas e o Kit Lendário.",
+      "closed": false,
+      "idList": "e7b94bfe3aa407910ef244b5",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "65fb8f71ce5b2b4ecbbca614",
+        "78a55cf85e827ff55e02769f",
+        "03760dfcba2d32387ff692fe"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "f64f111274a689acd80f69d4",
+      "name": "Teste de segurança da economia",
+      "desc": "Tentar quebrar o jogo antes que um jogador tente.",
+      "closed": false,
+      "idList": "3b3d27f7d6be7de798c5ef1e",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "d05e8eaac8f717b17da6c3ec"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "92ca48ed7f4e00fded24a3ff",
+      "name": "Testes de carga e de pagamento",
+      "desc": "O multiplayer consulta o servidor a cada 1,5–4 s por jogador.",
+      "closed": false,
+      "idList": "3b3d27f7d6be7de798c5ef1e",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "a33d0bdaaa322dcffa7e3b1a",
+        "299c1d48a841e8c4d9f8c3cf"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "fa42478c402a68a2700fbad2",
+      "name": "Beta fechado e lançamento",
+      "desc": "Lançar primeiro com clientes da Versatte e acompanhar de perto.",
+      "closed": false,
+      "idList": "3b3d27f7d6be7de798c5ef1e",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "03760dfcba2d32387ff692fe",
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "5dc3a860f4152013cc4dd071",
+      "name": "Novas coleções",
+      "desc": "Já previstas na apresentação: Camisas Históricas, Libertadores e Seleções.",
+      "closed": false,
+      "idList": "5ab7a097a37f4bb549ba382f",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 16384,
+      "idLabels": [
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "ea32b2ffd5d2ff5138b23134",
+      "name": "Tempo real com WebSocket",
+      "desc": "Trocar o polling por WebSocket (Durable Objects) quando o volume justificar.",
+      "closed": false,
+      "idList": "5ab7a097a37f4bb549ba382f",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 32768,
+      "idLabels": [
+        "78a55cf85e827ff55e02769f",
+        "a33d0bdaaa322dcffa7e3b1a"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    },
+    {
+      "id": "5a1ec90af2aac65b9854ad8b",
+      "name": "Imagens oficiais das cartas",
+      "desc": "Preencher js/imagens.js com as imagens licenciadas.",
+      "closed": false,
+      "idList": "5ab7a097a37f4bb549ba382f",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "pos": 49152,
+      "idLabels": [
+        "438af13555616f0926ce3f90"
+      ],
+      "idMembers": [],
+      "start": null,
+      "due": null,
+      "dueComplete": false,
+      "cover": {
+        "color": null
+      },
+      "attachments": []
+    }
+  ],
+  "checklists": [
+    {
+      "id": "85e0f5ce0b8fe9d90f758b86",
+      "idCard": "7dc92d855ca8d72440b68e80",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "ef9f0f009f1b8d21dfe379bb",
+          "name": "Casca do app: intro, navegação e telas",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "e3937884fb31b9a8d064b423",
+          "name": "Manifesto PWA e ícones",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "84d58cfe01417a802bb25d8f",
+          "name": "Publicação no GitHub Pages (push na main)",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "8646cffe23a0659741f33719",
+      "idCard": "1067a5d786f06d8ef4499b19",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "b4f6b26927400d08f5d6e7b6",
+          "name": "4 raridades com moldura, holográfico, brilho e raios",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "eae0fc8106301ebf31802924",
+          "name": "Arte gerada automaticamente em SVG quando não há imagem",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "39c97045051ff02f454a73b5",
+          "name": "Relação carta → imagem editável (js/imagens.js)",
+          "state": "complete",
+          "pos": 49152
+        },
+        {
+          "id": "1c08e58e7ac1df9ac924ad6a",
+          "name": "Página imagens.html para conferir as imagens das cartas",
+          "state": "complete",
+          "pos": 65536
+        },
+        {
+          "id": "cec8b56bad36aca191e6c34b",
+          "name": "Coleções reformuladas e Juízo Final com personagens originais",
+          "state": "complete",
+          "pos": 81920
+        }
+      ]
+    },
+    {
+      "id": "3e638c9fe62c20f8a833f27c",
+      "idCard": "7ed2451cdc2b98d67b77b27b",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "82a0e10405d7d8fe115b6e24",
+          "name": "Odds por raridade e tipo de pacote",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "fda598b090520067e75ee8f1",
+          "name": "Garantia: Especial a cada 15 premium sem Especial",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "953e464a30a7a6cc987c88bd",
+          "name": "Tendência a repetir (diário) / a trazer faltantes (premium)",
+          "state": "complete",
+          "pos": 49152
+        },
+        {
+          "id": "a0eee2d5cc48ea5757476e2d",
+          "name": "Abertura 3D do pacote com efeitos e sons",
+          "state": "complete",
+          "pos": 65536
+        },
+        {
+          "id": "df754fe808aec7aec9709797",
+          "name": "Simulação Monte Carlo do balanceamento",
+          "state": "complete",
+          "pos": 81920
+        }
+      ]
+    },
+    {
+      "id": "e831991b422a00e8b28af8a4",
+      "idCard": "359742c8d573a1ffb49de069",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "aa76d54721b645ae87618617",
+          "name": "Álbum com espaços das cartas que faltam",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "9a33a0ac907bf967c39ce05d",
+          "name": "Tabela de prêmios por coleção (js/data.js · PRIZES)",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "6c47dc495be3f017ccb22db4",
+          "name": "Resgate gera um código (protótipo: VS-PREMIO-XXXX)",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "dc6a4255b4450f0719e76a7c",
+      "idCard": "9ee6933451ceaebd58e4f565",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "607ac1fffee0acfe8b3ee5a2",
+          "name": "Telas cabem na altura visível",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "8cf5dee549ce85aeca947c04",
+          "name": "Tela inteira mesmo com viewport de desktop",
+          "state": "complete",
+          "pos": 32768
+        }
+      ]
+    },
+    {
+      "id": "c53c2c559fbb36353e63af4c",
+      "idCard": "c4ac4bc991eeab90d0b91854",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "e151e870c905595ef35137aa",
+          "name": "Roteiro de apresentação em 7 passos",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "90deac3c510858cac7d6acbc",
+          "name": "Relógio simulado, forçar raridade e completar coleção",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "406212d2912676f7117bf419",
+          "name": "Atalhos do Modo Clube (kit inicial, troféus, pênaltis)",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "7074e2cc5c15003fb4ec18a9",
+      "idCard": "14ed51e09dd05a95da03588d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "0a7fb81982899d201628d400",
+          "name": "Criação do clube",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "3ea1514ad65ee203acb82dfe",
+          "name": "Escalação com 3 formações (2-1-1, 1-2-1, 1-1-2)",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "532b3d6f5aadd31cff5157e3",
+          "name": "\"Escalar melhores\" automático",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "fd71e4cdb61e3af447dca9cb",
+      "idCard": "194e643719868efb3502622e",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "045c584e3248142e4d91df65",
+          "name": "Atributos ATA/MEI/DEF/GOL e posição",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "fba931c73dff165f13822315",
+          "name": "Moral e química do escudo, mando do estádio, habilidades dos mascotes",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "6779e2735a35f053ba398d94",
+          "name": "Motor compartilhado entre app e servidor",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "eae655b2fb78af947dd43e0e",
+      "idCard": "47caec8b5425cfd0345eb8c2",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "685f14ab0e1efaa7b51ae7ac",
+          "name": "Posicionamento, marcação, pressão e cobertura",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "96a2145b06021f532bbe8fbe",
+          "name": "Passe, drible, chute, goleiro voando",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "a261e57c8cc20f788c6fe089",
+          "name": "Bola parada: pênalti, falta e expulsão",
+          "state": "complete",
+          "pos": 49152
+        },
+        {
+          "id": "9ba045b184bd187ed7439fb3",
+          "name": "Efeitos de gol e velocidade 1x/2x/4x",
+          "state": "complete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "379f9699792cd53fab68e199",
+      "idCard": "4b5eb58e6461d7357fb14046",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "0ad2379ebfaa42d07e53b5ac",
+          "name": "Placar, cronômetro e linha do tempo",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "878cc47e101756484d1e6f96",
+          "name": "Estatísticas ao vivo e barra de pressão",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "ee5e77089dfa4f75356c1764",
+          "name": "Controles de velocidade, pausa e resultado final",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "2f1f676d6a57577dcc11f0a6",
+      "idCard": "3d954e3511df539c5c914553",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "b59bc602111d51b08ef4192b",
+          "name": "Até 3 vagas de empréstimo sorteadas por partida (rende 80%)",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "d1a8cee308f81eca7d040722",
+          "name": "Escudo, estádio e mascote emprestados com efeito reduzido",
+          "state": "complete",
+          "pos": 32768
+        }
+      ]
+    },
+    {
+      "id": "f895ba0a0c73442afc3fa589",
+      "idCard": "f60cacd5dad985e8cef628e7",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "8caa0f87578a2b9add6308ec",
+          "name": "Pontos corridos, mata-mata e grupos",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "617db91aa926af4f4957dcaa",
+          "name": "Disputa de pênaltis com morte súbita",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "51b13c7c1b2d13a7946ecd0e",
+          "name": "Sala de troféus e celebração do campeão",
+          "state": "complete",
+          "pos": 49152
+        },
+        {
+          "id": "d5ab8b7131eaf1983caee64d",
+          "name": "Recompensas por fase alcançada",
+          "state": "complete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "56aa559f08384af245da8840",
+      "idCard": "5d8ee11b04ce5cd3cba64292",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "e834e175ef89da1df20d2b90",
+          "name": "Tabela de ganhos (vitória, gols, sequência, títulos, repetidas)",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "4454456c627bef4e91fb5326",
+          "name": "Troca de moedas por pacotes (120 / 300 / 900)",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "d428ffaca75523ce50810c23",
+          "name": "Meus pacotes: escolher a coleção ao abrir",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "a9803f6e78b2008ab55df7d5",
+      "idCard": "adcd2b3acaa0d2ea7f475e02",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "4bcafbc79a14212fef9f01d2",
+          "name": "Worker publicado com endereço reserva (workers.dev)",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "a6c635b8d44b1130d5bc0303",
+          "name": "Migrações SQL idempotentes (001 e 002)",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "559680a0e2ca451ae2eb029e",
+          "name": "Segredos fora do repositório (wrangler secret)",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "68e7c5c75bcdb6239ab74c85",
+      "idCard": "02f8c861d0d3b40059fb7b6a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "50af0e4cce41434c51426d2b",
+          "name": "Cadastro e login",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "3497e4101f65e57bcd23e473",
+          "name": "Sessão própria, independente da Lisa e do Abacato",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "35a8deaa573f8bb0282d85c6",
+          "name": "Modo offline (demonstração) quando o servidor não responde",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "c5c7811bdfac508f585ee418",
+      "idCard": "f28bf7267d3e2ea1ac1477e8",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "f5c267feccd1580ad0b72208",
+          "name": "Sorteio dos pacotes no servidor",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "03dffa2e2356d018be26e9a0",
+          "name": "Resgate de prêmio conferido no servidor",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "8573b7d390bd2eef7c16a922",
+          "name": "Limites de moedas por partida e por dia",
+          "state": "complete",
+          "pos": 49152
+        },
+        {
+          "id": "8347082fb1e75c315e99d5b3",
+          "name": "Rate limit por IP e por conta (melhor esforço)",
+          "state": "complete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "0ff7f28bb9e414d20dcc0003",
+      "idCard": "5c73dda37e190b1fb367049f",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "01b01b2687a7becda90435f7",
+          "name": "Busca de jogadores e presença online",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "e8f74bbe8d85584679cf4e6b",
+          "name": "Convites recebidos e enviados com notificações",
+          "state": "complete",
+          "pos": 32768
+        }
+      ]
+    },
+    {
+      "id": "f61c5ebdfbdcd394db547292",
+      "idCard": "5f5b0fe8a009c269cc237c5b",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "ae5c07e1acc88d0822f194d1",
+          "name": "Mesa de troca com confirmação dupla",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "d33dfc289a49ab5dedd4298f",
+          "name": "Transação atômica (nada se move se faltar carta)",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "2c1a92a23aada66fc102300a",
+          "name": "Animação especial da troca",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "ee64fd712c63c947f0143059",
+      "idCard": "dc87858453d0ad41098d878d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "445bde642d6cacb08e128eae",
+          "name": "Amistoso online com moedas",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "c382582308ff2caff6b123f5",
+          "name": "Torneio mata-mata (4/8) ou pontos corridos com robôs",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "f722a048f5f7773bcbaed996",
+          "name": "Troféu online 3D",
+          "state": "complete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "c730f638e4d4757f9537c54c",
+      "idCard": "669e51661ee236167bb4ca77",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "5e9918fe2948ce356e89b23b",
+          "name": "Intervalo com substituições",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "42bcd5498a54e1cbf539aef5",
+          "name": "Desistência (W.O.)",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "e65536a6e5127619a0b20cf7",
+          "name": "Placar final só existe depois do 2º tempo",
+          "state": "complete",
+          "pos": 49152
+        },
+        {
+          "id": "c7c36d0212591d97d28c5a8c",
+          "name": "Intervalo parado no jogo de botão",
+          "state": "complete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "44902f529557c3611165b4b4",
+      "idCard": "0e06c9b539c47b7e90d9c900",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "e09ae9e10276dc82ec4c9315",
+          "name": "Layout de desktop",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "f0861ab08dfec36700a63972",
+          "name": "Botão Salvar do clube no mobile",
+          "state": "complete",
+          "pos": 32768
+        }
+      ]
+    },
+    {
+      "id": "c910a710b14477950e81a2b2",
+      "idCard": "c69fa2c20494df66e0d0d079",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "c4dabb59677e76fca7db8802",
+          "name": "Teste e2e: conta, pacote, troca, amistoso, torneio",
+          "state": "complete",
+          "pos": 16384
+        },
+        {
+          "id": "b9e3d705f5556b2f71c103db",
+          "name": "Testes de SQL (troca atômica, convites, concorrência)",
+          "state": "complete",
+          "pos": 32768
+        },
+        {
+          "id": "3e3835e2d92409f6ff61726f",
+          "name": "README.md e server/README.md",
+          "state": "complete",
+          "pos": 49152
+        },
+        {
+          "id": "270e1a13f8a76c3cf504ad36",
+          "name": "APRESENTACAO_DO_PROJETO.txt",
+          "state": "complete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "07e0a7672de32f5037688eb4",
+      "idCard": "ba6fea2dfba5d8b0779fa2fa",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "7543a1a0518f7b52e01f5fcb",
+          "name": "Parecer jurídico sobre o ECA Digital e o Decreto 12.880/2026",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "6bfefd6933d3f821f206583b",
+          "name": "Definir classificação indicativa do jogo",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "a77d5931082bebf9003f69dc",
+          "name": "Escolher o modelo de monetização",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "a7e316feb3d29b3b9afdc037",
+          "name": "Registrar a decisão neste card",
+          "state": "incomplete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "e5a3a5377a199c7eec8c1b3f",
+      "idCard": "abc6c3afdfb49f5724a44c7c",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "0367c4c6b3c4c64cdbfe50cf",
+          "name": "Verificar enquadramento com o jurídico",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "3570992df2a98eb525e99d65",
+          "name": "Regulamento dos prêmios e cupons",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "7a020b6ba34db3c71ab1ab0e",
+          "name": "Pedir autorização, se necessário",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "2416c64f769831e1816e8ec2",
+      "idCard": "a5d2bd0d4c41b4b03dd50599",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "0f84bdd6305ef8d9d4ebc6c8",
+          "name": "Levantar o que exige licença (clubes, mascotes, atletas)",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "6baa9204d574b4c42e2bce18",
+          "name": "Negociar licenças ou trocar por conteúdo original",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "960119f1b505a7e719fe144b",
+          "name": "Revisar as curiosidades das cartas com a Versatte",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "90133405a5d1eb35e1ea9070",
+      "idCard": "97600ad81ec0403594606b6a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "8230114553f9951b4a994852",
+          "name": "Termos de uso definitivos",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "165496cdd12e0b5e4ee82fb5",
+          "name": "Política de privacidade definitiva",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "c3921fe17fc37f64e67aa8fa",
+          "name": "Tabela de probabilidades visível na loja",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "684cae4b3af473cc00a16fe5",
+          "name": "Política de reembolso de itens digitais",
+          "state": "incomplete",
+          "pos": 65536
+        },
+        {
+          "id": "2e1a9ec2c06602f8988d5929",
+          "name": "Verificar emissão de nota fiscal das vendas digitais",
+          "state": "incomplete",
+          "pos": 81920
+        },
+        {
+          "id": "7ad9930655f5f39f43a09c54",
+          "name": "Avaliação de Governança e Compliance (como pede o server/README.md)",
+          "state": "incomplete",
+          "pos": 98304
+        }
+      ]
+    },
+    {
+      "id": "9d8eb0e3ae0d2c9a5f2ca891",
+      "idCard": "bb01c446fe3bd7f4077f80b5",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "cc97b5780ae99065f0680848",
+          "name": "Backup automático diário",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "bc10fe2d991a35a8ee70fa08",
+          "name": "Teste de restauração",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "11794366f2b8f81d03898ec5",
+          "name": "Backup antes de cada migração",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "ba7097f0ed6c5d634329a38e",
+      "idCard": "cde80ee54efeddcc1929899d",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "c3f81743df713f95dcc6a92a",
+          "name": "Banco dedicado (ou ao menos credencial e esquema isolados)",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "36ab963920630e0e4f6fba0d",
+          "name": "Migrar as tabelas versatte_*",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "9e815faeaea1a8496b9e2e7f",
+          "name": "Revisar quem tem acesso à service_role",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "e968e00db424ca9658bac917",
+      "idCard": "00b96d213b189ae8d43bd6ea",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "fabfe67ce52246de361c4216",
+          "name": "Rate Limiting e WAF da Cloudflare",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "edb0710239d9e583398382c5",
+          "name": "Monitor de erros e de disponibilidade da API",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "f8353b21136221209a3cccf5",
+          "name": "Alertas de uso anormal (moedas, cupons, compras)",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "4b56ad9815eb81471e618195",
+          "name": "2FA nas contas Cloudflare, banco e GitHub",
+          "state": "incomplete",
+          "pos": 65536
+        },
+        {
+          "id": "5e58a8de3db90a42c0a25b97",
+          "name": "Rotação dos segredos",
+          "state": "incomplete",
+          "pos": 81920
+        }
+      ]
+    },
+    {
+      "id": "b4ad989be03a6718176ae5de",
+      "idCard": "06ca28a9da0da0b712c5ca12",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "1fb553ea84822a934719d52e",
+          "name": "Subdomínio do jogo e da API",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "81faae1de667722be05b17a0",
+          "name": "Atualizar routes no wrangler.jsonc e API_URL em js/config.js",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "57139efe4eadcf01eaddb6a1",
+          "name": "HTTPS e redirecionamento do endereço antigo",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "90f975f1e665de68e2008f62",
+      "idCard": "62766e91f99e90d8fba205d0",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "39cabfd2210d82eac05dfccf",
+          "name": "Confirmação de e-mail no cadastro",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "1a11b613bb62bc49d8f0c7d1",
+          "name": "Recuperação de senha com link de uso único",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "9d334c263f477015c4052c43",
+          "name": "Bloqueio temporário após tentativas erradas",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "18a0e268153c5c72a9539129",
+          "name": "Baixar meus dados e excluir conta (LGPD)",
+          "state": "incomplete",
+          "pos": 65536
+        },
+        {
+          "id": "6739ca13ba5fb1c44b88b883",
+          "name": "2FA para administradores",
+          "state": "incomplete",
+          "pos": 81920
+        }
+      ]
+    },
+    {
+      "id": "3d18df1079b1595fd732ca4f",
+      "idCard": "9e583f3f16d6ed2d1091612a",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "11d086c295eb69a673b34fd9",
+          "name": "Definir junto com a arquitetura da loja (quadro do site, Fase 3)",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "bc826d22b6285bd5fc1b6e92",
+          "name": "Vincular conta do jogo à conta da loja",
+          "state": "incomplete",
+          "pos": 32768
+        }
+      ]
+    },
+    {
+      "id": "8948bc389db0ba000bb651e6",
+      "idCard": "bd1dc7a9381e880f35b0b0b4",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "fab6b826bba485c86ef4de8a",
+          "name": "Cupons só para contas com e-mail confirmado",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "eb748f653f2ad3ec43d472d7",
+          "name": "Limite de prêmios por pessoa (e-mail/telefone verificado)",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "bc28d8f1bab215e57895973a",
+          "name": "Detecção de contas em massa (mesmo IP/aparelho)",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "796349b3972f159b2bfe4d46",
+      "idCard": "e65030f45a87826f2d79237c",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "70d0c9b61ba3276df0e49e5d",
+          "name": "Confirmar o gateway (mesmo da loja)",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "f275c59cc22416ad83d4f464",
+          "name": "Ofertas em reais configuráveis no painel",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "c6fdd56932def628100b9d8b",
+          "name": "Remover a compra simulada (/loja/comprar) em produção",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "ccbb32c7f5c1afd1ff599027",
+      "idCard": "daffedb92dedc9e1738f5673",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "440d5800566992bd6b3cd3d4",
+          "name": "QR Code e Pix copia e cola dentro do jogo",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "91a78dbfe471804f192be147",
+          "name": "Tela de aguardando pagamento",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "455ec515860b761a35540587",
+          "name": "Crédito automático após webhook confirmado",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "6f6d443e83039bd2818b8e1a",
+          "name": "Expirar cobrança não paga",
+          "state": "incomplete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "20646212353148934ce378ce",
+      "idCard": "5032b55bcabd5c3ce91071d1",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "8efe445b2927268d978ea87c",
+          "name": "Campos/checkout do gateway com tokenização",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "02440062ea887aaf9d60aea0",
+          "name": "3-D Secure e antifraude",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "68f1ee978f31b060d1804543",
+          "name": "Mensagens claras de recusa",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "7d0c42c7f5f7ca5893527291",
+      "idCard": "8ee47f19f2d7b76a834fddee",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "7464755589239b0d894db22b",
+          "name": "Validar assinatura dos webhooks",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "68fe91ebcbe55e998d273977",
+          "name": "Idempotência: evento repetido não credita duas vezes",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "1c4896672a9e76a3d7fce21a",
+          "name": "Ledger de compras e créditos",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "7b42094811acd0818eb2a0e8",
+          "name": "Estorno e chargeback: retirar/bloquear o que foi creditado",
+          "state": "incomplete",
+          "pos": 65536
+        },
+        {
+          "id": "82d4cf533971b42a0821c2f6",
+          "name": "Limite de gasto diário/mensal por conta",
+          "state": "incomplete",
+          "pos": 81920
+        },
+        {
+          "id": "fdcc796110915217a11f256c",
+          "name": "Recibo por e-mail e histórico de compras na conta",
+          "state": "incomplete",
+          "pos": 98304
+        }
+      ]
+    },
+    {
+      "id": "1aec81171dd98ac73f678837",
+      "idCard": "1151df45c95b06690e00cdf1",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "9d41c50cbe19722fbea02be4",
+          "name": "Tabela de cupons emitidos (dono, regra, validade, status)",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "007935c716516d86ca8f0dfa",
+          "name": "Regras de cada prêmio: 5% qualquer produto, 10% Série A, 15% retrô, 10% bolas, 10% infantil",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "ebc4949d03075da5d07a1afc",
+          "name": "API de validação usada pela loja online",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "42e8aed43e140464d49d4808",
+      "idCard": "13a55e46bb637bbefed3af42",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "c0e88014cd1bbed71a7692b3",
+          "name": "Gerar com crypto.getRandomValues, 10+ caracteres sem ambiguidade",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "323738c02f694e65372e0a9e",
+          "name": "Cupom de uso único, vinculado à conta e com validade",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "2c2a2521a7a1f28d0a7c02b9",
+          "name": "Rate limit na validação para impedir tentativa e erro",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "f752d5b214d074156693d252",
+          "name": "Migrar os códigos já emitidos no protótipo (ou invalidar)",
+          "state": "incomplete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "a5b67017491e7354386192f5",
+      "idCard": "d9b253527c2d51f269877c9f",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "d7fa9914b35fa33328d1aff5",
+          "name": "Aplicação automática no checkout da loja (conta única)",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "60a2c5808f8a02721ab2597c",
+          "name": "QR Code do cupom no jogo",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "e9dbe71f49f2d87f2d8b69dd",
+          "name": "Tela de validação para o vendedor (marca como usado)",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "2be1d8d017301387a21b8dcf",
+      "idCard": "9a26bec2ffa19149f1847a93",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "a95d4c0450fa3dab669878fc",
+          "name": "Tela \"Meus cupons\" no jogo (válido, usado, expirado)",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "2080bae587e92e4a7833583f",
+          "name": "Painel da Versatte: emitir, consultar, cancelar",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "df6cddcd175bed6587228e37",
+          "name": "Relatório de cupons emitidos e usados",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "6a8d38f4e96d007fe89aafe0",
+      "idCard": "dae95f4e270456509c8a734c",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "82c04a08fdfc4cea0cb3f3b9",
+          "name": "Escolha: envio para o endereço ou retirada na loja",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "086b33fbfaae4aa155cbcf99",
+          "name": "Estoque de brindes no painel",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "9e9fc7b2d17c8cf4c89c4ba3",
+          "name": "Status do resgate (solicitado, separado, enviado, entregue)",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "a8d743b3974eb2e90b2672fd",
+          "name": "Verificação extra para prêmios de maior valor",
+          "state": "incomplete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "c5b440b363e4664738256cd5",
+      "idCard": "f64f111274a689acd80f69d4",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "cdca5125216dc5ecf644e387",
+          "name": "Manipular moedas, recompensas e pacotes pelo navegador",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "afd07a9dce809de408ac4818",
+          "name": "Repetir webhook e requisições (replay)",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "5cd20f66d040ce9801a23929",
+          "name": "Corrida em trocas e resgates simultâneos",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "020139ee308657bb5d3f3d45",
+          "name": "Adivinhar e reaproveitar cupons",
+          "state": "incomplete",
+          "pos": 65536
+        },
+        {
+          "id": "081d77c6f04ae57fea8bf871",
+          "name": "Ver dados de outro jogador (IDOR)",
+          "state": "incomplete",
+          "pos": 81920
+        }
+      ]
+    },
+    {
+      "id": "8a61e0787e17cdfe5368a16d",
+      "idCard": "92ca48ed7f4e00fded24a3ff",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "6e004bc28b39dbed11c45968",
+          "name": "Teste de carga do Worker e do banco",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "e591d5741fa223fa0341d026",
+          "name": "Avaliar plano pago / Durable Objects se necessário",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "5a9cc2ad6bbeca49d12e1ade",
+          "name": "Pagamentos no sandbox e uma compra real com estorno",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "c9d6f142a5534fff21d065bc",
+      "idCard": "fa42478c402a68a2700fbad2",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "7965d977688eab2b7026a203",
+          "name": "Beta fechado com clientes convidados",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "f0eb2dad33b44e74197a534f",
+          "name": "Ajustes de balanceamento com dados reais",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "76f0cb367720efcc292d15e8",
+          "name": "Lançamento divulgado no Instagram",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "a2b75369116c1d5eca22e4db",
+          "name": "Acompanhamento da primeira semana",
+          "state": "incomplete",
+          "pos": 65536
+        }
+      ]
+    },
+    {
+      "id": "7d1f447b6830b3413619acc7",
+      "idCard": "5dc3a860f4152013cc4dd071",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "df6d521fcaaf69f12d437741",
+          "name": "Camisas Históricas",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "7496b511cbd510500ff7161b",
+          "name": "Libertadores",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "380d4c636014bbe45119caf7",
+          "name": "Seleções",
+          "state": "incomplete",
+          "pos": 49152
+        }
+      ]
+    },
+    {
+      "id": "8f8b4acffe6f9a056f8c887f",
+      "idCard": "ea32b2ffd5d2ff5138b23134",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "ff0a79b5a97a3e072c5d5aa1",
+          "name": "Avaliar custo do Durable Objects",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "5db75a5cc6db2475f8f121d1",
+          "name": "Migrar caixa de entrada e partidas",
+          "state": "incomplete",
+          "pos": 32768
+        }
+      ]
+    },
+    {
+      "id": "4462bc26ef20cc09b9cd22a9",
+      "idCard": "5a1ec90af2aac65b9854ad8b",
+      "idBoard": "d8f3bdfcc59366d8b61a9cfc",
+      "name": "Tarefas",
+      "pos": 16384,
+      "checkItems": [
+        {
+          "id": "ac1f7676ffbfcc479619c97f",
+          "name": "Escudos 512×512",
+          "state": "incomplete",
+          "pos": 16384
+        },
+        {
+          "id": "b575e1858ca79341414e2ed7",
+          "name": "Jogadores 600×800",
+          "state": "incomplete",
+          "pos": 32768
+        },
+        {
+          "id": "4bb72756d5a746a336b329a2",
+          "name": "Estádios 630×880",
+          "state": "incomplete",
+          "pos": 49152
+        },
+        {
+          "id": "92a3e14b4e54dd9253403231",
+          "name": "Mascotes 600×600",
+          "state": "incomplete",
+          "pos": 65536
+        }
+      ]
+    }
+  ],
+  "members": [],
+  "actions": []
+}
