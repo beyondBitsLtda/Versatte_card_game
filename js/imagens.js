@@ -29,76 +29,76 @@
 export const IMAGENS = {
 
   // ---------- Clubes Série A (32 cartas) — escudo PNG transparente 512×512
-  'clube-fla-camp': '',                    // #01 Flamengo · Campeão · Especial
-  'clube-pal-camp': '',                    // #02 Palmeiras · Campeão · Especial
-  'clube-bot-hist': '',                    // #03 Botafogo · Histórica · Muito rara
-  'clube-flu-hist': '',                    // #04 Fluminense · Histórica · Muito rara
-  'clube-san-hist': '',                    // #05 Santos · Histórica · Muito rara
-  'clube-vas-hist': '',                    // #06 Vasco · Histórica · Muito rara
-  'clube-cam-u2': '',                      // #07 Atlético-MG · Uniforme 2 · Rara
-  'clube-cor-u2': '',                      // #08 Corinthians · Uniforme 2 · Rara
-  'clube-cru-u2': '',                      // #09 Cruzeiro · Uniforme 2 · Rara
-  'clube-gre-u2': '',                      // #10 Grêmio · Uniforme 2 · Rara
-  'clube-int-u2': '',                      // #11 Internacional · Uniforme 2 · Rara
-  'clube-sao-u2': '',                      // #12 São Paulo · Uniforme 2 · Rara
-  'clube-cap': '',                         // #13 Athletico-PR · Escudo oficial · Comum
-  'clube-cam': '',                         // #14 Atlético-MG · Escudo oficial · Comum
-  'clube-bah': '',                         // #15 Bahia · Escudo oficial · Comum
-  'clube-bot': '',                         // #16 Botafogo · Escudo oficial · Comum
-  'clube-rbb': '',                         // #17 Bragantino · Escudo oficial · Comum
-  'clube-cha': '',                         // #18 Chapecoense · Escudo oficial · Comum
-  'clube-cor': '',                         // #19 Corinthians · Escudo oficial · Comum
-  'clube-cfc': '',                         // #20 Coritiba · Escudo oficial · Comum
-  'clube-cru': '',                         // #21 Cruzeiro · Escudo oficial · Comum
-  'clube-fla': '',                         // #22 Flamengo · Escudo oficial · Comum
-  'clube-flu': '',                         // #23 Fluminense · Escudo oficial · Comum
-  'clube-gre': '',                         // #24 Grêmio · Escudo oficial · Comum
-  'clube-int': '',                         // #25 Internacional · Escudo oficial · Comum
-  'clube-mir': '',                         // #26 Mirassol · Escudo oficial · Comum
-  'clube-pal': '',                         // #27 Palmeiras · Escudo oficial · Comum
-  'clube-rem': '',                         // #28 Remo · Escudo oficial · Comum
-  'clube-san': '',                         // #29 Santos · Escudo oficial · Comum
-  'clube-sao': '',                         // #30 São Paulo · Escudo oficial · Comum
-  'clube-vas': '',                         // #31 Vasco · Escudo oficial · Comum
-  'clube-vit': '',                         // #32 Vitória · Escudo oficial · Comum
+  'clube-fla-camp': 'assets/cartas/clubes/clube-fla.png',  // #01 Flamengo · Campeão · Especial
+  'clube-pal-camp': 'assets/cartas/clubes/clube-pal.png',  // #02 Palmeiras · Campeão · Especial
+  'clube-bot-hist': 'assets/cartas/clubes/clube-bot.png',  // #03 Botafogo · Histórica · Muito rara
+  'clube-flu-hist': 'assets/cartas/clubes/clube-flu.png',  // #04 Fluminense · Histórica · Muito rara
+  'clube-san-hist': 'assets/cartas/clubes/clube-san.png',  // #05 Santos · Histórica · Muito rara
+  'clube-vas-hist': 'assets/cartas/clubes/clube-vas.png',  // #06 Vasco · Histórica · Muito rara
+  'clube-cam-u2': 'assets/cartas/clubes/clube-cam.png',  // #07 Atlético-MG · Uniforme 2 · Rara
+  'clube-cor-u2': 'assets/cartas/clubes/clube-cor.png',  // #08 Corinthians · Uniforme 2 · Rara
+  'clube-cru-u2': 'assets/cartas/clubes/clube-cru.png',  // #09 Cruzeiro · Uniforme 2 · Rara
+  'clube-gre-u2': 'assets/cartas/clubes/clube-gre.png',  // #10 Grêmio · Uniforme 2 · Rara
+  'clube-int-u2': 'assets/cartas/clubes/clube-int.png',  // #11 Internacional · Uniforme 2 · Rara
+  'clube-sao-u2': 'assets/cartas/clubes/clube-sao.png',  // #12 São Paulo · Uniforme 2 · Rara
+  'clube-cap': 'assets/cartas/clubes/clube-cap.png',  // #13 Athletico-PR · Escudo oficial · Comum
+  'clube-cam': 'assets/cartas/clubes/clube-cam.png',  // #14 Atlético-MG · Escudo oficial · Comum
+  'clube-bah': 'assets/cartas/clubes/clube-bah.png',  // #15 Bahia · Escudo oficial · Comum
+  'clube-bot': 'assets/cartas/clubes/clube-bot.png',  // #16 Botafogo · Escudo oficial · Comum
+  'clube-rbb': 'assets/cartas/clubes/clube-rbb.png',  // #17 Bragantino · Escudo oficial · Comum
+  'clube-cha': 'assets/cartas/clubes/clube-cha.png',  // #18 Chapecoense · Escudo oficial · Comum
+  'clube-cor': 'assets/cartas/clubes/clube-cor.png',  // #19 Corinthians · Escudo oficial · Comum
+  'clube-cfc': 'assets/cartas/clubes/clube-cfc.png',  // #20 Coritiba · Escudo oficial · Comum
+  'clube-cru': 'assets/cartas/clubes/clube-cru.png',  // #21 Cruzeiro · Escudo oficial · Comum
+  'clube-fla': 'assets/cartas/clubes/clube-fla.png',  // #22 Flamengo · Escudo oficial · Comum
+  'clube-flu': 'assets/cartas/clubes/clube-flu.png',  // #23 Fluminense · Escudo oficial · Comum
+  'clube-gre': 'assets/cartas/clubes/clube-gre.png',  // #24 Grêmio · Escudo oficial · Comum
+  'clube-int': 'assets/cartas/clubes/clube-int.png',  // #25 Internacional · Escudo oficial · Comum
+  'clube-mir': 'assets/cartas/clubes/clube-mir.png',  // #26 Mirassol · Escudo oficial · Comum
+  'clube-pal': 'assets/cartas/clubes/clube-pal.png',  // #27 Palmeiras · Escudo oficial · Comum
+  'clube-rem': 'assets/cartas/clubes/clube-rem.png',  // #28 Remo · Escudo oficial · Comum
+  'clube-san': 'assets/cartas/clubes/clube-san.png',  // #29 Santos · Escudo oficial · Comum
+  'clube-sao': 'assets/cartas/clubes/clube-sao.png',  // #30 São Paulo · Escudo oficial · Comum
+  'clube-vas': 'assets/cartas/clubes/clube-vas.png',  // #31 Vasco · Escudo oficial · Comum
+  'clube-vit': 'assets/cartas/clubes/clube-vit.png',  // #32 Vitória · Escudo oficial · Comum
 
   // ---------- Jogadores (56 cartas) — jogador PNG transparente 600×800 (busto, pés/peito na base)
-  'jog-garrincha-prime': '',               // #01 Garrincha · Prime · Especial
-  'jog-pele-prime': '',                    // #02 Pelé · Prime · Especial
-  'jog-romario-prime': '',                 // #03 Romário · Prime · Especial
-  'jog-ronaldo-prime': '',                 // #04 Ronaldo · Prime · Especial
-  'jog-zico-prime': '',                    // #05 Zico · Prime · Especial
-  'jog-ademir': '',                        // #06 Ademir da Guia · Lenda · Muito rara
-  'jog-cafu': '',                          // #07 Cafu · Lenda · Muito rara
-  'jog-falcao': '',                        // #08 Falcão · Lenda · Muito rara
-  'jog-figueroa': '',                      // #09 Figueroa · Lenda · Muito rara
-  'jog-garrincha': '',                     // #10 Garrincha · Lenda · Muito rara
-  'jog-marcos': '',                        // #11 Marcos · Lenda · Muito rara
-  'jog-nilton-santos': '',                 // #12 Nilton Santos · Lenda · Muito rara
-  'jog-pele': '',                          // #13 Pelé · Lenda · Muito rara
-  'jog-rivellino': '',                     // #14 Rivellino · Lenda · Muito rara
-  'jog-dinamite': '',                      // #15 Roberto Dinamite · Lenda · Muito rara
-  'jog-ceni': '',                          // #16 Rogério Ceni · Lenda · Muito rara
-  'jog-socrates': '',                      // #17 Sócrates · Lenda · Muito rara
-  'jog-zico': '',                          // #18 Zico · Lenda · Muito rara
-  'jog-ruschel': '',                       // #19 Alan Ruschel · Ídolo · Rara
-  'jog-alcino': '',                        // #20 Alcino · Ídolo · Rara
-  'jog-alex': '',                          // #21 Alex · Ídolo · Rara
-  'jog-bebeto': '',                        // #22 Bebeto · Ídolo · Rara
-  'jog-bobo': '',                          // #23 Bobô · Ídolo · Rara
-  'jog-castilho': '',                      // #24 Castilho · Ídolo · Rara
-  'jog-clodoaldo': '',                     // #25 Clodoaldo · Ídolo · Rara
-  'jog-fred': '',                          // #26 Fred · Ídolo · Rara
-  'jog-gamarra': '',                       // #27 Gamarra · Ídolo · Rara
-  'jog-leandro': '',                       // #28 Leandro · Ídolo · Rara
-  'jog-lugano': '',                        // #29 Lugano · Ídolo · Rara
-  'jog-luis-pereira': '',                  // #30 Luís Pereira · Ídolo · Rara
-  'jog-mauro-silva': '',                   // #31 Mauro Silva · Ídolo · Rara
-  'jog-reinaldo': '',                      // #32 Reinaldo · Ídolo · Rara
-  'jog-renato': '',                        // #33 Renato Gaúcho · Ídolo · Rara
-  'jog-sicupira': '',                      // #34 Sicupira · Ídolo · Rara
-  'jog-tostao': '',                        // #35 Tostão · Ídolo · Rara
-  'jog-victor': '',                        // #36 Victor · Ídolo · Rara
+  'jog-garrincha-prime': 'assets/cartas/jogadores/jog-garrincha.jpg',  // #01 Garrincha · Prime · Especial
+  'jog-pele-prime': 'assets/cartas/jogadores/jog-pele.jpg',  // #02 Pelé · Prime · Especial
+  'jog-romario-prime': 'assets/cartas/jogadores/jog-romario.jpg',  // #03 Romário · Prime · Especial
+  'jog-ronaldo-prime': 'assets/cartas/jogadores/jog-ronaldo.jpg',  // #04 Ronaldo · Prime · Especial
+  'jog-zico-prime': 'assets/cartas/jogadores/jog-zico.jpg',  // #05 Zico · Prime · Especial
+  'jog-ademir': 'assets/cartas/jogadores/jog-ademir.jpg',  // #06 Ademir da Guia · Lenda · Muito rara
+  'jog-cafu': 'assets/cartas/jogadores/jog-cafu.jpg',  // #07 Cafu · Lenda · Muito rara
+  'jog-falcao': 'assets/cartas/jogadores/jog-falcao.jpg',  // #08 Falcão · Lenda · Muito rara
+  'jog-figueroa': 'assets/cartas/jogadores/jog-figueroa.jpg',  // #09 Figueroa · Lenda · Muito rara
+  'jog-garrincha': 'assets/cartas/jogadores/jog-garrincha.jpg',  // #10 Garrincha · Lenda · Muito rara
+  'jog-marcos': 'assets/cartas/jogadores/jog-marcos.jpg',  // #11 Marcos · Lenda · Muito rara
+  'jog-nilton-santos': 'assets/cartas/jogadores/jog-nilton-santos.jpg',  // #12 Nilton Santos · Lenda · Muito rara
+  'jog-pele': 'assets/cartas/jogadores/jog-pele.jpg',  // #13 Pelé · Lenda · Muito rara
+  'jog-rivellino': 'assets/cartas/jogadores/jog-rivellino.jpg',  // #14 Rivellino · Lenda · Muito rara
+  'jog-dinamite': 'assets/cartas/jogadores/jog-dinamite.jpg',  // #15 Roberto Dinamite · Lenda · Muito rara
+  'jog-ceni': 'assets/cartas/jogadores/jog-ceni.jpg',  // #16 Rogério Ceni · Lenda · Muito rara
+  'jog-socrates': 'assets/cartas/jogadores/jog-socrates.jpg',  // #17 Sócrates · Lenda · Muito rara
+  'jog-zico': 'assets/cartas/jogadores/jog-zico.jpg',  // #18 Zico · Lenda · Muito rara
+  'jog-ruschel': 'assets/cartas/jogadores/jog-ruschel.jpg',  // #19 Alan Ruschel · Ídolo · Rara
+  'jog-alcino': 'assets/cartas/jogadores/jog-alcino.jpg',  // #20 Alcino · Ídolo · Rara
+  'jog-alex': 'assets/cartas/jogadores/jog-alex.jpg',  // #21 Alex · Ídolo · Rara
+  'jog-bebeto': 'assets/cartas/jogadores/jog-bebeto.jpg',  // #22 Bebeto · Ídolo · Rara
+  'jog-bobo': 'assets/cartas/jogadores/jog-bobo.jpg',  // #23 Bobô · Ídolo · Rara
+  'jog-castilho': 'assets/cartas/jogadores/jog-castilho.jpg',  // #24 Castilho · Ídolo · Rara
+  'jog-clodoaldo': 'assets/cartas/jogadores/jog-clodoaldo.jpg',  // #25 Clodoaldo · Ídolo · Rara
+  'jog-fred': 'assets/cartas/jogadores/jog-fred.jpg',  // #26 Fred · Ídolo · Rara
+  'jog-gamarra': 'assets/cartas/jogadores/jog-gamarra.jpg',  // #27 Gamarra · Ídolo · Rara
+  'jog-leandro': 'assets/cartas/jogadores/jog-leandro.jpg',  // #28 Leandro · Ídolo · Rara
+  'jog-lugano': 'assets/cartas/jogadores/jog-lugano.jpg',  // #29 Lugano · Ídolo · Rara
+  'jog-luis-pereira': 'assets/cartas/jogadores/jog-luis-pereira.jpg',  // #30 Luís Pereira · Ídolo · Rara
+  'jog-mauro-silva': 'assets/cartas/jogadores/jog-mauro-silva.jpg',  // #31 Mauro Silva · Ídolo · Rara
+  'jog-reinaldo': 'assets/cartas/jogadores/jog-reinaldo.jpg',  // #32 Reinaldo · Ídolo · Rara
+  'jog-renato': 'assets/cartas/jogadores/jog-renato.jpg',  // #33 Renato Gaúcho · Ídolo · Rara
+  'jog-sicupira': 'assets/cartas/jogadores/jog-sicupira.jpg',  // #34 Sicupira · Ídolo · Rara
+  'jog-tostao': 'assets/cartas/jogadores/jog-tostao.jpg',  // #35 Tostão · Ídolo · Rara
+  'jog-victor': 'assets/cartas/jogadores/jog-victor.jpg',  // #36 Victor · Ídolo · Rara
   'jog-breno-lacerda': '',                 // #37 Breno Lacerda · Elenco 2026 · Comum
   'jog-caio-lemos': '',                    // #38 Caio Lemos · Elenco 2026 · Comum
   'jog-davi-rocha': '',                    // #39 Davi Rocha · Elenco 2026 · Comum
@@ -121,25 +121,25 @@ export const IMAGENS = {
   'jog-thiago-brandao': '',                // #56 Thiago Brandão · Elenco 2026 · Comum
 
   // ---------- Estádios (19 cartas) — foto/arte 630×880 (preenche a carta)
-  'estadio-maracana': '',                  // #01 Maracanã · Estádio · Especial
-  'estadio-arena-mrv': '',                 // #02 Arena MRV · Estádio · Muito rara
-  'estadio-mineirao': '',                  // #03 Mineirão · Estádio · Muito rara
-  'estadio-morumbis': '',                  // #04 MorumBIS · Estádio · Muito rara
-  'estadio-allianz': '',                   // #05 Allianz Parque · Estádio · Rara
-  'estadio-arena-gremio': '',              // #06 Arena do Grêmio · Estádio · Rara
-  'estadio-fonte-nova': '',                // #07 Arena Fonte Nova · Estádio · Rara
-  'estadio-beira-rio': '',                 // #08 Beira-Rio · Estádio · Rara
-  'estadio-ligga-arena': '',               // #09 Ligga Arena · Estádio · Rara
-  'estadio-neo-quimica': '',               // #10 Neo Química Arena · Estádio · Rara
-  'estadio-nilton-santos': '',             // #11 Nilton Santos · Estádio · Rara
-  'estadio-sao-januario': '',              // #12 São Januário · Estádio · Rara
-  'estadio-vila-belmiro': '',              // #13 Vila Belmiro · Estádio · Rara
-  'estadio-arena-conda': '',               // #14 Arena Condá · Estádio · Comum
-  'estadio-barradao': '',                  // #15 Barradão · Estádio · Comum
-  'estadio-couto-pereira': '',             // #16 Couto Pereira · Estádio · Comum
-  'estadio-maiao': '',                     // #17 Maião · Estádio · Comum
-  'estadio-mangueirao': '',                // #18 Mangueirão · Estádio · Comum
-  'estadio-nabi-abi-chedid': '',           // #19 Nabi Abi Chedid · Estádio · Comum
+  'estadio-maracana': 'assets/cartas/estadios/estadio-maracana.jpg',  // #01 Maracanã · Estádio · Especial
+  'estadio-arena-mrv': 'assets/cartas/estadios/estadio-arena-mrv.jpg',  // #02 Arena MRV · Estádio · Muito rara
+  'estadio-mineirao': 'assets/cartas/estadios/estadio-mineirao.jpg',  // #03 Mineirão · Estádio · Muito rara
+  'estadio-morumbis': 'assets/cartas/estadios/estadio-morumbis.jpg',  // #04 MorumBIS · Estádio · Muito rara
+  'estadio-allianz': 'assets/cartas/estadios/estadio-allianz.jpg',  // #05 Allianz Parque · Estádio · Rara
+  'estadio-arena-gremio': 'assets/cartas/estadios/estadio-arena-gremio.jpg',  // #06 Arena do Grêmio · Estádio · Rara
+  'estadio-fonte-nova': 'assets/cartas/estadios/estadio-fonte-nova.jpg',  // #07 Arena Fonte Nova · Estádio · Rara
+  'estadio-beira-rio': 'assets/cartas/estadios/estadio-beira-rio.jpg',  // #08 Beira-Rio · Estádio · Rara
+  'estadio-ligga-arena': 'assets/cartas/estadios/estadio-ligga-arena.jpg',  // #09 Ligga Arena · Estádio · Rara
+  'estadio-neo-quimica': 'assets/cartas/estadios/estadio-neo-quimica.jpg',  // #10 Neo Química Arena · Estádio · Rara
+  'estadio-nilton-santos': 'assets/cartas/estadios/estadio-nilton-santos.jpg',  // #11 Nilton Santos · Estádio · Rara
+  'estadio-sao-januario': 'assets/cartas/estadios/estadio-sao-januario.jpg',  // #12 São Januário · Estádio · Rara
+  'estadio-vila-belmiro': 'assets/cartas/estadios/estadio-vila-belmiro.jpg',  // #13 Vila Belmiro · Estádio · Rara
+  'estadio-arena-conda': 'assets/cartas/estadios/estadio-arena-conda.jpg',  // #14 Arena Condá · Estádio · Comum
+  'estadio-barradao': 'assets/cartas/estadios/estadio-barradao.jpg',  // #15 Barradão · Estádio · Comum
+  'estadio-couto-pereira': 'assets/cartas/estadios/estadio-couto-pereira.jpg',  // #16 Couto Pereira · Estádio · Comum
+  'estadio-maiao': 'assets/cartas/estadios/estadio-maiao.jpg',  // #17 Maião · Estádio · Comum
+  'estadio-mangueirao': 'assets/cartas/estadios/estadio-mangueirao.jpg',  // #18 Mangueirão · Estádio · Comum
+  'estadio-nabi-abi-chedid': 'assets/cartas/estadios/estadio-nabi-abi-chedid.jpg',  // #19 Nabi Abi Chedid · Estádio · Comum
 
   // ---------- Mascotes (29 cartas) — mascote PNG transparente 600×600
   'masc-pal-supremo': '',                  // #01 Porco Supremo · Supremo · Especial

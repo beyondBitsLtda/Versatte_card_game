@@ -52,6 +52,7 @@ Arquivo editável: [js/imagens.js](js/imagens.js). Ele traz uma linha por carta 
   - **Estádio:** 630×880, preenche a carta.
   - **Mascote:** PNG transparente, 600×600.
 - A página **`imagens.html`** (ex.: `https://…/Versatte_card_game/imagens.html`) lista todas as cartas, mostra quais já têm imagem e procura PNGs salvos nos caminhos sugeridos (`assets/cartas/<coleção>/<id>.png`). Ela também gera o trecho pronto para colar no `imagens.js`.
+- **Teste de imagens reais:** escudos, estádios e jogadores reais já têm imagens, a maioria do Wikimedia Commons (licença livre). Seis delas (escudos de Vasco e Bragantino e fotos de Leandro, Victor, Sicupira e Alcino) **não têm licença livre** e estão no projeto só para teste. Fonte, autor e licença de cada imagem estão em [assets/cartas/CREDITOS.md](assets/cartas/CREDITOS.md). Antes do lançamento, troque as não livres e faça o licenciamento de marcas e de direito de imagem.
 
 ## Modo Clube (aba "Jogar")
 
