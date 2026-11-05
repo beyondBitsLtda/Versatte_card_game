@@ -52,7 +52,7 @@ Arquivo editável: [js/imagens.js](js/imagens.js). Ele traz uma linha por carta 
   - **Estádio:** 630×880, preenche a carta.
   - **Mascote:** PNG transparente, 600×600.
 - A página **`imagens.html`** (ex.: `https://…/Versatte_card_game/imagens.html`) lista todas as cartas, mostra quais já têm imagem e procura PNGs salvos nos caminhos sugeridos (`assets/cartas/<coleção>/<id>.png`). Ela também gera o trecho pronto para colar no `imagens.js`.
-- **Teste de imagens reais:** escudos, estádios e jogadores reais já têm imagens, a maioria do Wikimedia Commons (licença livre). Seis delas (escudos de Vasco e Bragantino e fotos de Leandro, Victor, Sicupira e Alcino) **não têm licença livre** e estão no projeto só para teste. Fonte, autor e licença de cada imagem estão em [assets/cartas/CREDITOS.md](assets/cartas/CREDITOS.md). Antes do lançamento, troque as não livres e faça o licenciamento de marcas e de direito de imagem.
+- **Teste de imagens reais:** escudos, estádios, jogadores (fotos em ação) e mascotes já têm imagens. Os heróis do Juízo Final usam a imagem do mascote do clube que os inspira. Parte vem do Wikimedia Commons (licença livre) e parte de sites de clubes e de notícias **sem licença livre**, incluída só para teste. Fonte, autor e licença de cada imagem estão em [assets/cartas/CREDITOS.md](assets/cartas/CREDITOS.md). Antes do lançamento, troque as não livres e faça o licenciamento de marcas, mascotes e direito de imagem.
 
 ## Modo Clube (aba "Jogar")
 

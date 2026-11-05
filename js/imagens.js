@@ -62,12 +62,12 @@ export const IMAGENS = {
   'clube-vas': 'assets/cartas/clubes/clube-vas.png',  // #31 Vasco · Escudo oficial · Comum
   'clube-vit': 'assets/cartas/clubes/clube-vit.png',  // #32 Vitória · Escudo oficial · Comum
 
-  // ---------- Jogadores (56 cartas) — jogador PNG transparente 600×800 (busto, pés/peito na base)
-  'jog-garrincha-prime': 'assets/cartas/jogadores/jog-garrincha.jpg',  // #01 Garrincha · Prime · Especial
-  'jog-pele-prime': 'assets/cartas/jogadores/jog-pele.jpg',  // #02 Pelé · Prime · Especial
-  'jog-romario-prime': 'assets/cartas/jogadores/jog-romario.jpg',  // #03 Romário · Prime · Especial
-  'jog-ronaldo-prime': 'assets/cartas/jogadores/jog-ronaldo.jpg',  // #04 Ronaldo · Prime · Especial
-  'jog-zico-prime': 'assets/cartas/jogadores/jog-zico.jpg',  // #05 Zico · Prime · Especial
+  // ---------- Jogadores (56 cartas) — foto do jogador em ação (JPG) ou PNG transparente 600×800
+  'jog-garrincha-prime': 'assets/cartas/jogadores/jog-garrincha-prime.jpg',  // #01 Garrincha · Prime · Especial
+  'jog-pele-prime': 'assets/cartas/jogadores/jog-pele-prime.jpg',  // #02 Pelé · Prime · Especial
+  'jog-romario-prime': 'assets/cartas/jogadores/jog-romario-prime.jpg',  // #03 Romário · Prime · Especial
+  'jog-ronaldo-prime': 'assets/cartas/jogadores/jog-ronaldo-prime.jpg',  // #04 Ronaldo · Prime · Especial
+  'jog-zico-prime': 'assets/cartas/jogadores/jog-zico-prime.jpg',  // #05 Zico · Prime · Especial
   'jog-ademir': 'assets/cartas/jogadores/jog-ademir.jpg',  // #06 Ademir da Guia · Lenda · Muito rara
   'jog-cafu': 'assets/cartas/jogadores/jog-cafu.jpg',  // #07 Cafu · Lenda · Muito rara
   'jog-falcao': 'assets/cartas/jogadores/jog-falcao.jpg',  // #08 Falcão · Lenda · Muito rara
@@ -142,47 +142,47 @@ export const IMAGENS = {
   'estadio-nabi-abi-chedid': 'assets/cartas/estadios/estadio-nabi-abi-chedid.jpg',  // #19 Nabi Abi Chedid · Estádio · Comum
 
   // ---------- Mascotes (29 cartas) — mascote PNG transparente 600×600
-  'masc-pal-supremo': '',                  // #01 Porco Supremo · Supremo · Especial
-  'masc-fla-supremo': '',                  // #02 Urubu Supremo · Supremo · Especial
-  'masc-san-lendario': '',                 // #03 Baleia Lendária · Lendário · Muito rara
-  'masc-cor-lendario': '',                 // #04 Mosqueteiro Alvinegro Lendário · Lendário · Muito rara
-  'masc-int-lendario': '',                 // #05 Saci Lendário · Lendário · Muito rara
-  'masc-cam-neon': '',                     // #06 Galo Neon · Neon · Rara
-  'masc-pal-neon': '',                     // #07 Porco Neon · Neon · Rara
-  'masc-cru-neon': '',                     // #08 Raposa Neon · Neon · Rara
-  'masc-fla-neon': '',                     // #09 Urubu Neon · Neon · Rara
-  'masc-vas': '',                          // #10 Almirante · Oficial · Comum
-  'masc-san': '',                          // #11 Baleia · Oficial · Comum
-  'masc-bot': '',                          // #12 Biriba · Oficial · Comum
-  'masc-flu': '',                          // #13 Cartola · Oficial · Comum
-  'masc-cap': '',                          // #14 Furacão · Oficial · Comum
-  'masc-cam': '',                          // #15 Galo · Oficial · Comum
-  'masc-bah': '',                          // #16 Herói Tricolor · Oficial · Comum
-  'masc-cha': '',                          // #17 Índio Condá · Oficial · Comum
-  'masc-rem': '',                          // #18 Leão Azul · Oficial · Comum
-  'masc-mir': '',                          // #19 Leão Caipira · Oficial · Comum
-  'masc-vit': '',                          // #20 Leão da Barra · Oficial · Comum
-  'masc-cor': '',                          // #21 Mosqueteiro Alvinegro · Oficial · Comum
-  'masc-gre': '',                          // #22 Mosqueteiro Tricolor · Oficial · Comum
-  'masc-pal': '',                          // #23 Porco · Oficial · Comum
-  'masc-cru': '',                          // #24 Raposa · Oficial · Comum
-  'masc-int': '',                          // #25 Saci · Oficial · Comum
-  'masc-sao': '',                          // #26 Santo Paulo · Oficial · Comum
-  'masc-rbb': '',                          // #27 Touro · Oficial · Comum
-  'masc-fla': '',                          // #28 Urubu · Oficial · Comum
-  'masc-cfc': '',                          // #29 Vovô Coxa · Oficial · Comum
+  'masc-pal-supremo': 'assets/cartas/mascotes/masc-pal.jpg',  // #01 Porco Supremo · Supremo · Especial
+  'masc-fla-supremo': 'assets/cartas/mascotes/masc-fla.jpg',  // #02 Urubu Supremo · Supremo · Especial
+  'masc-san-lendario': 'assets/cartas/mascotes/masc-san.jpg',  // #03 Baleia Lendária · Lendário · Muito rara
+  'masc-cor-lendario': 'assets/cartas/mascotes/masc-cor.jpg',  // #04 Mosqueteiro Alvinegro Lendário · Lendário · Muito rara
+  'masc-int-lendario': 'assets/cartas/mascotes/masc-int.jpg',  // #05 Saci Lendário · Lendário · Muito rara
+  'masc-cam-neon': 'assets/cartas/mascotes/masc-cam.jpg',  // #06 Galo Neon · Neon · Rara
+  'masc-pal-neon': 'assets/cartas/mascotes/masc-pal.jpg',  // #07 Porco Neon · Neon · Rara
+  'masc-cru-neon': 'assets/cartas/mascotes/masc-cru.jpg',  // #08 Raposa Neon · Neon · Rara
+  'masc-fla-neon': 'assets/cartas/mascotes/masc-fla.jpg',  // #09 Urubu Neon · Neon · Rara
+  'masc-vas': 'assets/cartas/mascotes/masc-vas.jpg',  // #10 Almirante · Oficial · Comum
+  'masc-san': 'assets/cartas/mascotes/masc-san.jpg',  // #11 Baleia · Oficial · Comum
+  'masc-bot': 'assets/cartas/mascotes/masc-bot.jpg',  // #12 Biriba · Oficial · Comum
+  'masc-flu': 'assets/cartas/mascotes/masc-flu.jpg',  // #13 Cartola · Oficial · Comum
+  'masc-cap': 'assets/cartas/mascotes/masc-cap.jpg',  // #14 Furacão · Oficial · Comum
+  'masc-cam': 'assets/cartas/mascotes/masc-cam.jpg',  // #15 Galo · Oficial · Comum
+  'masc-bah': 'assets/cartas/mascotes/masc-bah.jpg',  // #16 Herói Tricolor · Oficial · Comum
+  'masc-cha': 'assets/cartas/mascotes/masc-cha.jpg',  // #17 Índio Condá · Oficial · Comum
+  'masc-rem': 'assets/cartas/mascotes/masc-rem.jpg',  // #18 Leão Azul · Oficial · Comum
+  'masc-mir': 'assets/cartas/mascotes/masc-mir.jpg',  // #19 Leão Caipira · Oficial · Comum
+  'masc-vit': 'assets/cartas/mascotes/masc-vit.jpg',  // #20 Leão da Barra · Oficial · Comum
+  'masc-cor': 'assets/cartas/mascotes/masc-cor.jpg',  // #21 Mosqueteiro Alvinegro · Oficial · Comum
+  'masc-gre': 'assets/cartas/mascotes/masc-gre.jpg',  // #22 Mosqueteiro Tricolor · Oficial · Comum
+  'masc-pal': 'assets/cartas/mascotes/masc-pal.jpg',  // #23 Porco · Oficial · Comum
+  'masc-cru': 'assets/cartas/mascotes/masc-cru.jpg',  // #24 Raposa · Oficial · Comum
+  'masc-int': 'assets/cartas/mascotes/masc-int.jpg',  // #25 Saci · Oficial · Comum
+  'masc-sao': 'assets/cartas/mascotes/masc-sao.jpg',  // #26 Santo Paulo · Oficial · Comum
+  'masc-rbb': 'assets/cartas/mascotes/masc-rbb.jpg',  // #27 Touro · Oficial · Comum
+  'masc-fla': 'assets/cartas/mascotes/masc-fla.jpg',  // #28 Urubu · Oficial · Comum
+  'masc-cfc': 'assets/cartas/mascotes/masc-cfc.jpg',  // #29 Vovô Coxa · Oficial · Comum
 
   // ---------- Juízo Final (12 cartas) — mascote PNG transparente 600×600
   'jf-doutor-rebaixamento': '',            // #01 Doutor Rebaixamento · Vilão · Especial
-  'jf-urubu-infinito': '',                 // #02 Urubu Infinito · Líder da Liga · Especial
-  'jf-galo-trovao': '',                    // #03 Galo do Trovão · Força · Muito rara
-  'jf-porco-blindado': '',                 // #04 Porco Blindado · Defensor · Muito rara
-  'jf-raposa-sombria': '',                 // #05 Raposa Sombria · Estrategista · Muito rara
-  'jf-leao-colossal': '',                  // #06 Leão Colossal · Gigante · Rara
-  'jf-mosqueteiro-escudo': '',             // #07 Mosqueteiro Escudo · Capitão · Rara
-  'jf-saci-mistico': '',                   // #08 Saci Místico · Feiticeiro · Rara
-  'jf-almirante-tempestade': '',           // #09 Almirante Tempestade · Navegador · Comum
-  'jf-baleia-tsunami': '',                 // #10 Baleia Tsunami · Maré · Comum
-  'jf-furacao-veloz': '',                  // #11 Furacão Veloz · Velocista · Comum
-  'jf-touro-implacavel': '',               // #12 Touro Implacável · Aríete · Comum
+  'jf-urubu-infinito': 'assets/cartas/mascotes/masc-fla.jpg',  // #02 Urubu Infinito · Líder da Liga · Especial
+  'jf-galo-trovao': 'assets/cartas/mascotes/masc-cam.jpg',  // #03 Galo do Trovão · Força · Muito rara
+  'jf-porco-blindado': 'assets/cartas/mascotes/masc-pal.jpg',  // #04 Porco Blindado · Defensor · Muito rara
+  'jf-raposa-sombria': 'assets/cartas/mascotes/masc-cru.jpg',  // #05 Raposa Sombria · Estrategista · Muito rara
+  'jf-leao-colossal': 'assets/cartas/mascotes/masc-rem.jpg',  // #06 Leão Colossal · Gigante · Rara
+  'jf-mosqueteiro-escudo': 'assets/cartas/mascotes/masc-cor.jpg',  // #07 Mosqueteiro Escudo · Capitão · Rara
+  'jf-saci-mistico': 'assets/cartas/mascotes/masc-int.jpg',  // #08 Saci Místico · Feiticeiro · Rara
+  'jf-almirante-tempestade': 'assets/cartas/mascotes/masc-vas.jpg',  // #09 Almirante Tempestade · Navegador · Comum
+  'jf-baleia-tsunami': 'assets/cartas/mascotes/masc-san.jpg',  // #10 Baleia Tsunami · Maré · Comum
+  'jf-furacao-veloz': 'assets/cartas/mascotes/masc-cap.jpg',  // #11 Furacão Veloz · Velocista · Comum
+  'jf-touro-implacavel': 'assets/cartas/mascotes/masc-rbb.jpg',  // #12 Touro Implacável · Aríete · Comum
 };
