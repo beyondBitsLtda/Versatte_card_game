@@ -5,7 +5,7 @@
 > e a imagem dos atletas é direito de cada um, então precisam de licenciamento próprio mesmo quando a foto tem
 > licença livre (ver "Observações para a versão final" no README).
 
-Resumo: 95 arquivos de imagem; 29 sem licença livre; 66 com licença livre.
+Resumo: 95 arquivos de imagem; 35 sem licença livre; 60 com licença livre.
 
 ## 1. Imagens SEM licença livre (somente teste)
 
@@ -23,12 +23,18 @@ Remova ou substitua antes de publicar o jogo para o público.
 | Carta(s) | Arquivo | Fonte | Autor | Licença |
 |---|---|---|---|---|
 | Alcino · Ídolo | `jog-alcino.jpg` | [Remo 100%](https://www.remo100porcento.com/futebol-profissional/2016/ha-10-anos-remo-perdia-idolo-alcino) | — | sem licença livre |
+| Bebeto · Ídolo | `jog-bebeto.jpg` | [DCI](https://www.dci.com.br/esporte/futebol/flamengo/flamengo-hepta-copa-uniao/) | Celso Meira / Agência O Globo (crédito citado) | desconhecida |
+| Bobô · Ídolo | `jog-bobo.jpg` | [Terceiro Tempo (Portal Milton Neves)](https://terceirotempo.uol.com.br/que-fim-levou/bobo-2426) | — | desconhecida |
 | Figueroa · Lenda | `jog-figueroa.jpg` | [Goal.com](https://www.goal.com/it/notizie/la-leggenda-di-elias-figueroa-il-piu-grande-calciatore-cileno-di-tutti-i-tempi/blt8fcfe279c6fb43ba) | — | desconhecida |
 | Gamarra · Ídolo | `jog-gamarra.jpg` | [Meu Timão](https://www.meutimao.com.br/noticia/261386/gamarra-descreve-briga-de-ex-jogadores-do-corinthians-e-opina-sobre-balbuena-e-romero) | — | desconhecida |
 | Leandro · Ídolo | `jog-leandro.jpg` | [Lance!](https://www.lance.com.br/tim4g/tim-leandro-craque-idolo-uma-camisa.html) | — | sem licença livre |
 | Marcos · Lenda | `jog-marcos.jpg` | [Gazeta Esportiva](https://www.gazetaesportiva.com/times/palmeiras/em-um-ano-prass-iguala-penaltis-defendidos-por-sao-marcos-em-tres-anos-e-meio/) | — | desconhecida |
+| Mauro Silva · Ídolo | `jog-mauro-silva.jpg` | [Jovem Pan](https://jovempan.com.br/colunistas/thiago-uberreich/o-quase-gol-de-mauro-silva-na-final-de-94-poderia-ter-evitado-prorrogacao-e-penaltis/) | — | desconhecida |
+| Reinaldo · Ídolo | `jog-reinaldo.jpg` | [Terceiro Tempo (Portal Milton Neves)](https://terceirotempo.uol.com.br/que-fim-levou/reinaldo-2093) | — | desconhecida |
 | Romário · Prime | `jog-romario-prime.jpg` | [FC Barcelona (fcbarcelona.com)](https://www.fcbarcelona.com/en/news/969544/25-years-since-5-0-drubbing-of-real-madrid) | — | desconhecida |
-| Sicupira · Ídolo | `jog-sicupira.jpg` | [Tribuna PR](https://www.tribunapr.com.br/arquivo/lendas-vivas/trajetoria-de-sicupira-vai-muito-alem-do-joaquim-americo/) | — | sem licença livre |
+| Sicupira · Ídolo | `jog-sicupira.jpg` | [Terceiro Tempo (Portal Milton Neves)](https://terceirotempo.uol.com.br/que-fim-levou/sicupira-2905) | — | desconhecida |
+| Sócrates · Lenda | `jog-socrates.jpg` | [Terceiro Tempo (Portal Milton Neves), foto da revista Placar](https://terceirotempo.uol.com.br/que-fim-levou/socrates-1650) | Revista Placar | desconhecida |
+| Tostão · Ídolo | `jog-tostao.jpg` | [Terceiro Tempo (Portal Milton Neves), via blog Tardes de Pacaembu](https://terceirotempo.uol.com.br/que-fim-levou/tostao-2319) | — | desconhecida |
 | Victor · Ídolo | `jog-victor.jpg` | [Gazeta Esportiva](https://www.gazetaesportiva.com/times/atletico-mg/defesa-de-victor-contra-o-tijuana-completa-11-anos-nesta-quinta-feira/) | — | desconhecida |
 
 ### Mascotes e Juízo Final
@@ -89,32 +95,26 @@ Remova ou substitua antes de publicar o jogo para o público.
 
 | Carta(s) | Arquivo | Fonte | Autor | Licença |
 |---|---|---|---|---|
-| Ademir da Guia · Lenda | `jog-ademir.jpg` | [Ademir da Guia (1974).jpg](https://commons.wikimedia.org/wiki/File:Ademir_da_Guia_(1974).jpg) | Rob Mieremet / Anefo | [CC BY-SA 3.0 nl](https://creativecommons.org/licenses/by-sa/3.0/nl/deed.en) |
+| Ademir da Guia · Lenda | `jog-ademir.jpg` | [Wikimedia Commons (Arquivo Nacional, Fundo Correio da Manhã)](https://commons.wikimedia.org/wiki/File:Ademir_da_Guia_no_jogo_Vasco_X_Palmeiras_(1970).tif) | Correio da Manhã (fotógrafo desconhecido) | Domínio público (PD-Arquivo Nacional) |
 | Alex · Ídolo | `jog-alex.jpg` | [Alexsandro de Souza.jpg](https://commons.wikimedia.org/wiki/File:Alexsandro_de_Souza.jpg) | Serkan YAKIN - antu.com | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) |
-| Bebeto · Ídolo | `jog-bebeto.jpg` | [Bebeto brazil (cropped).jpg](https://commons.wikimedia.org/wiki/File:Bebeto_brazil_(cropped).jpg) | Sergio Savarese from Sao Paulo City / Ipiranga, Brasil | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0) |
-| Bobô · Ídolo | `jog-bobo.jpg` | [Deputado Bobô, discursando no plenário da ALBA em 2022.jpg](https://commons.wikimedia.org/wiki/File:Deputado_Bob%C3%B4,_discursando_no_plen%C3%A1rio_da_ALBA_em_2022.jpg) | Assembléia Legislativa da Bahia | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 | Cafu · Lenda | `jog-cafu.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Marcos_Evangelista_de_Moraes.jpg) | Александр Мельников | CC BY-SA 3.0 |
 | Castilho · Ídolo | `jog-castilho.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Goleiro_Castilho_defende_p%C3%AAnalti_do_atacante_Pinga_em_partida_entre_Fluminense_e_Vasco_no_Maracan%C3%A3.png) | desconhecido | Public domain |
 | Rogério Ceni · Lenda | `jog-ceni.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:BAHIA_X_SP_Brasileir%C3%A3o_2012_Pitua%C3%A7u.jpg) | Bahia Notícias from Salvador, Brasil | CC BY 2.0 |
 | Clodoaldo · Ídolo | `jog-clodoaldo.jpg` | [Clodoaldo Tavares de Santana.jpg](https://commons.wikimedia.org/wiki/File:Clodoaldo_Tavares_de_Santana.jpg) | Christophe95 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
-| Roberto Dinamite · Lenda | `jog-dinamite.jpg` | [Roberto Dinamite.jpg](https://commons.wikimedia.org/wiki/File:Roberto_Dinamite.jpg) | LonEMedia | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
+| Roberto Dinamite · Lenda | `jog-dinamite.jpg` | [Wikimedia Commons (El Gráfico)](https://commons.wikimedia.org/wiki/File:Sabella_roberto_dinamita_1984.jpg) | El Gráfico (fotógrafo desconhecido) | Domínio público (El Gráfico, foto argentina) |
 | Falcão · Lenda | `jog-falcao.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Falcao_1980.jpg) | El Gráfico | Public domain |
-| Fred · Ídolo | `jog-fred.jpg` | [Fred Silver Boot, Confederations Cup 2013.jpg](https://commons.wikimedia.org/wiki/File:Fred_Silver_Boot,_Confederations_Cup_2013.jpg) | Tânia Rêgo/ABr | [CC BY 3.0 br](https://creativecommons.org/licenses/by/3.0/br/deed.en) |
+| Fred · Ídolo | `jog-fred.jpg` | [Wikimedia Commons (Agência Brasil)](https://commons.wikimedia.org/wiki/File:Brazil_and_Croatia_match_at_the_FIFA_World_Cup_2014-06-12_(20).jpg) | Agência Brasil | CC BY 3.0 BR |
 | Garrincha · Prime | `jog-garrincha-prime.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Garrincha_na_copa_de_1962.jpg) | desconhecido | Public domain |
 | Garrincha · Lenda | `jog-garrincha.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Garrinchabotafogo.JPG) | Hector Maffuche | Public domain |
 | Lugano · Ídolo | `jog-lugano.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:U02_Diego_Lugano_2990.jpg) | Ailura | CC BY-SA 3.0 at |
 | Luís Pereira · Ídolo | `jog-luis-pereira.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lu%C3%ADs_Pereira_and_Dra%C5%BEen_Mu%C5%BEini%C4%87.jpg) | desconhecido | CC BY-SA 3.0 de |
-| Mauro Silva · Ídolo | `jog-mauro-silva.jpg` | [Maurosilva.png](https://commons.wikimedia.org/wiki/File:Maurosilva.png) | Refivagert | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 | Nilton Santos · Lenda | `jog-nilton-santos.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Arquivo_Nacional_-_Nilton_Santos_jogando_pelo_Botafogo_nos_anos_60.jpg) | desconhecido | Public domain |
 | Pelé · Prime | `jog-pele-prime.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:1970_Pele_Scores_World_Cup_Goal_Against_Czechoslovakia.jpg) | United Press International | Public domain |
 | Pelé · Lenda | `jog-pele.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Huracan_vs_santos_pele_1973.jpg) | desconhecido | Public domain |
-| Reinaldo · Ídolo | `jog-reinaldo.jpg` | [JPP4693 (54137928249) (cropped).jpg](https://commons.wikimedia.org/wiki/File:JPP4693_(54137928249)_(cropped).jpg) | Galo Na Veia from Brasil | Public domain |
-| Renato Gaúcho · Ídolo | `jog-renato.jpg` | [Renato gaucho.jpg](https://commons.wikimedia.org/wiki/File:Renato_gaucho.jpg) | Ricardo Stuckert/PR | Attribution |
-| Rivellino · Lenda | `jog-rivellino.jpg` | [Rivelino brasil figurita.jpg](https://commons.wikimedia.org/wiki/File:Rivelino_brasil_figurita.jpg) | Autor desconhecido | Public domain |
+| Renato Gaúcho · Ídolo | `jog-renato.jpg` | [Wikimedia Commons (El Gráfico nº 3381)](https://commons.wikimedia.org/wiki/File:Renato_1984.png) | Ayton Moza (creditado) | Domínio público (El Gráfico, foto argentina) |
+| Rivellino · Lenda | `jog-rivellino.jpg` | [Wikimedia Commons (Arquivo Nacional, Fundo Correio da Manhã)](https://commons.wikimedia.org/wiki/File:Rivelino_no_jogo_Fluminense_X_Corinthians.tif) | Correio da Manhã (fotógrafo desconhecido) | Domínio público (PD-Arquivo Nacional) |
 | Ronaldo · Prime | `jog-ronaldo-prime.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ronaldos_(5121959679).jpg) | Alex Carvalho from Rio de Janeiro, Brasil | CC BY-SA 2.0 |
 | Alan Ruschel · Ídolo | `jog-ruschel.jpg` | [Alanruschel.jpg](https://commons.wikimedia.org/wiki/File:Alanruschel.jpg) | Sirli Freitas/Chapecoense | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) |
-| Sócrates · Lenda | `jog-socrates.jpg` | [Socrates87660.jpg](https://commons.wikimedia.org/wiki/File:Socrates87660.jpg) | Foto U. Dettmar/ABr. | [CC BY 3.0 br](https://creativecommons.org/licenses/by/3.0/br/deed.en) |
-| Tostão · Ídolo | `jog-tostao.jpg` | [Tostão (Eduardo Gonçalves de Andrade, 1970).jpg](https://commons.wikimedia.org/wiki/File:Tost%C3%A3o_(Eduardo_Gon%C3%A7alves_de_Andrade,_1970).jpg) | Panini | Public domain |
 | Zico · Prime | `jog-zico-prime.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Zico_flamengo_elgrafico.jpg) | desconhecido | Public domain |
 | Zico · Lenda | `jog-zico.jpg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Zico,_Fundo_Correio_da_Manh%C3%A3_-_2.tif) | desconhecido | Public domain |
 
