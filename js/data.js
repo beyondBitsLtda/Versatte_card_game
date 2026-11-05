@@ -304,7 +304,7 @@ const CLUB_CARDS = [
 
 // ============================================================
 //  COLEÇÃO 2 — JOGADORES
-//  Comuns: atletas FICTÍCIOS do elenco 2026 (substituir por licenciados)
+//  Comuns: atletas reais do elenco 2026 (um por clube)
 //  Raras: ídolos · Muito raras: lendas · Especiais: versões Prime
 // ============================================================
 const COMMON_TIPS = {
@@ -315,33 +315,39 @@ const COMMON_TIPS = {
   MEI: 'Meias controlam a posse de bola: quem cria mais, ataca mais vezes.',
   ATA: 'Atacantes têm o maior peso na finalização (ATA) e no número de gols.',
 };
+// Ids mantidos dos antigos atletas fictícios para não invalidar coleções já salvas (uid = jog-<id>).
 const COMMON_PLAYERS = [
-  ['davi-rocha', 'Davi Rocha', 'fla', 'ATA', 70, 9],
-  ['caio-lemos', 'Caio Lemos', 'pal', 'ZAG', 69, 4],
-  ['renan-sousa', 'Renan Sousa', 'cor', 'VOL', 67, 5],
-  ['thiago-brandao', 'Thiago Brandão', 'sao', 'GOL', 68, 1],
-  ['kaua-mendes', 'Kauã Mendes', 'san', 'ATA', 66, 11],
-  ['igor-paiva', 'Igor Paiva', 'bot', 'LAT', 68, 6],
-  ['rafael-teixeira', 'Rafael Teixeira', 'cam', 'MEI', 68, 10],
-  ['lucas-fontes', 'Lucas Fontes', 'cru', 'ZAG', 67, 3],
-  ['matheus-prado', 'Matheus Prado', 'gre', 'GOL', 66, 1],
-  ['enzo-carvalho', 'Enzo Carvalho', 'int', 'MEI', 67, 8],
-  ['pedro-almeida', 'Pedro Almeida', 'vas', 'ATA', 66, 9],
-  ['gustavo-neri', 'Gustavo Neri', 'flu', 'LAT', 66, 2],
-  ['icaro-santana', 'Ícaro Santana', 'bah', 'VOL', 66, 5],
-  ['breno-lacerda', 'Breno Lacerda', 'rbb', 'ZAG', 65, 4],
-  ['jonas-bezerra', 'Jonas Bezerra', 'mir', 'GOL', 65, 1],
-  ['luan-cerqueira', 'Luan Cerqueira', 'vit', 'ATA', 64, 7],
-  ['henrique-bauer', 'Henrique Bauer', 'cfc', 'MEI', 64, 10],
-  ['felipe-kruger', 'Felipe Krüger', 'cap', 'LAT', 64, 6],
-  ['diego-zanella', 'Diego Zanella', 'cha', 'ZAG', 63, 3],
-  ['marlon-siqueira', 'Marlon Siqueira', 'rem', 'VOL', 63, 8],
-].map(([id, name, team, pos, ovr, shirt]) => ({
-  id, name, team, pos, ovr, shirt, rarity: 'comum', edition: 'Elenco 2026', fictional: true, era: '2026',
-  full: `${name} (atleta fictício)`,
-  highlight: 'Atleta fictício da demonstração: substitua por um jogador licenciado do elenco.',
-  fact: COMMON_TIPS[pos],
-}));
+  ['davi-rocha', 'Pedro', 'fla', 'ATA', 70, 9, 'Pedro Guilherme Abreu dos Santos'],
+  ['caio-lemos', 'Gustavo Gómez', 'pal', 'ZAG', 69, 15, 'Gustavo Raúl Gómez Portillo'],
+  ['renan-sousa', 'Breno Bidon', 'cor', 'VOL', 67, 7, 'Breno de Souza Bidon'],
+  ['thiago-brandao', 'Rafael', 'sao', 'GOL', 68, 23, 'Rafael Pires Monteiro'],
+  ['kaua-mendes', 'Neymar', 'san', 'ATA', 66, 10, 'Neymar da Silva Santos Júnior'],
+  ['igor-paiva', 'Vitinho', 'bot', 'LAT', 68, 2, 'Victor Alexander da Silva'],
+  ['rafael-teixeira', 'Bernard', 'cam', 'MEI', 68, 11, 'Bernard Anício Caldeira Duarte'],
+  ['lucas-fontes', 'Fabrício Bruno', 'cru', 'ZAG', 67, 15, 'Fabrício Bruno Soares de Faria'],
+  ['matheus-prado', 'Weverton', 'gre', 'GOL', 66, 1, 'Weverton Pereira da Silva'],
+  ['enzo-carvalho', 'Alan Patrick', 'int', 'MEI', 67, 10, 'Alan Patrick Lourenço'],
+  ['pedro-almeida', 'Pedro Almeida', 'vas', 'ATA', 66, 9, 'Pedro Almeida (atleta fictício)'],
+  ['gustavo-neri', 'Gustavo Neri', 'flu', 'LAT', 66, 2, 'Gustavo Neri (atleta fictício)'],
+  ['icaro-santana', 'Ícaro Santana', 'bah', 'VOL', 66, 5, 'Ícaro Santana (atleta fictício)'],
+  ['breno-lacerda', 'Breno Lacerda', 'rbb', 'ZAG', 65, 4, 'Breno Lacerda (atleta fictício)'],
+  ['jonas-bezerra', 'Walter', 'mir', 'GOL', 65, 22, 'Walter Leandro Capeloza Artune'],
+  ['luan-cerqueira', 'Luan Cerqueira', 'vit', 'ATA', 64, 7, 'Luan Cerqueira (atleta fictício)'],
+  ['henrique-bauer', 'Henrique Bauer', 'cfc', 'MEI', 64, 10, 'Henrique Bauer (atleta fictício)'],
+  ['felipe-kruger', 'Felipe Krüger', 'cap', 'LAT', 64, 6, 'Felipe Krüger (atleta fictício)'],
+  ['diego-zanella', 'Diego Zanella', 'cha', 'ZAG', 63, 3, 'Diego Zanella (atleta fictício)'],
+  ['marlon-siqueira', 'Marlon Siqueira', 'rem', 'VOL', 63, 8, 'Marlon Siqueira (atleta fictício)'],
+].map(([id, name, team, pos, ovr, shirt, full]) => {
+  const fictional = full.endsWith('(atleta fictício)');
+  return {
+    id, name, team, pos, ovr, shirt, full, rarity: 'comum', edition: 'Elenco 2026', era: '2026', fictional,
+    highlight: fictional
+      ? 'Atleta fictício da demonstração: substitua por um jogador licenciado do elenco.'
+      : `Do elenco do ${TEAM_BY_ID[team].name} na temporada 2026.`,
+    fact: COMMON_TIPS[pos],
+  };
+});
+// fim COMMON_PLAYERS
 
 const IDOLS = [
   // ---- goleiros

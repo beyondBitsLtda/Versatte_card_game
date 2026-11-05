@@ -99,26 +99,26 @@ export const IMAGENS = {
   'jog-sicupira': 'assets/cartas/jogadores/jog-sicupira.jpg',  // #34 Sicupira · Ídolo · Rara
   'jog-tostao': 'assets/cartas/jogadores/jog-tostao.jpg',  // #35 Tostão · Ídolo · Rara
   'jog-victor': 'assets/cartas/jogadores/jog-victor.jpg',  // #36 Victor · Ídolo · Rara
-  'jog-breno-lacerda': '',                 // #37 Breno Lacerda · Elenco 2026 · Comum
-  'jog-caio-lemos': '',                    // #38 Caio Lemos · Elenco 2026 · Comum
-  'jog-davi-rocha': '',                    // #39 Davi Rocha · Elenco 2026 · Comum
-  'jog-diego-zanella': '',                 // #40 Diego Zanella · Elenco 2026 · Comum
-  'jog-enzo-carvalho': '',                 // #41 Enzo Carvalho · Elenco 2026 · Comum
-  'jog-felipe-kruger': '',                 // #42 Felipe Krüger · Elenco 2026 · Comum
-  'jog-gustavo-neri': '',                  // #43 Gustavo Neri · Elenco 2026 · Comum
-  'jog-henrique-bauer': '',                // #44 Henrique Bauer · Elenco 2026 · Comum
-  'jog-icaro-santana': '',                 // #45 Ícaro Santana · Elenco 2026 · Comum
-  'jog-igor-paiva': '',                    // #46 Igor Paiva · Elenco 2026 · Comum
-  'jog-jonas-bezerra': '',                 // #47 Jonas Bezerra · Elenco 2026 · Comum
-  'jog-kaua-mendes': '',                   // #48 Kauã Mendes · Elenco 2026 · Comum
-  'jog-luan-cerqueira': '',                // #49 Luan Cerqueira · Elenco 2026 · Comum
-  'jog-lucas-fontes': '',                  // #50 Lucas Fontes · Elenco 2026 · Comum
-  'jog-marlon-siqueira': '',               // #51 Marlon Siqueira · Elenco 2026 · Comum
-  'jog-matheus-prado': '',                 // #52 Matheus Prado · Elenco 2026 · Comum
-  'jog-pedro-almeida': '',                 // #53 Pedro Almeida · Elenco 2026 · Comum
-  'jog-rafael-teixeira': '',               // #54 Rafael Teixeira · Elenco 2026 · Comum
-  'jog-renan-sousa': '',                   // #55 Renan Sousa · Elenco 2026 · Comum
-  'jog-thiago-brandao': '',                // #56 Thiago Brandão · Elenco 2026 · Comum
+  'jog-enzo-carvalho': 'assets/cartas/jogadores/jog-enzo-carvalho.jpg', // #37 Alan Patrick · Elenco 2026 · Comum
+  'jog-rafael-teixeira': 'assets/cartas/jogadores/jog-rafael-teixeira.jpg', // #38 Bernard · Elenco 2026 · Comum
+  'jog-renan-sousa': 'assets/cartas/jogadores/jog-renan-sousa.jpg', // #39 Breno Bidon · Elenco 2026 · Comum
+  'jog-breno-lacerda': '',                // #40 Breno Lacerda · Elenco 2026 · Comum
+  'jog-diego-zanella': '',                // #41 Diego Zanella · Elenco 2026 · Comum
+  'jog-lucas-fontes': 'assets/cartas/jogadores/jog-lucas-fontes.jpg', // #42 Fabrício Bruno · Elenco 2026 · Comum
+  'jog-felipe-kruger': '',                // #43 Felipe Krüger · Elenco 2026 · Comum
+  'jog-caio-lemos': 'assets/cartas/jogadores/jog-caio-lemos.jpg', // #44 Gustavo Gómez · Elenco 2026 · Comum
+  'jog-gustavo-neri': '',                 // #45 Gustavo Neri · Elenco 2026 · Comum
+  'jog-henrique-bauer': '',               // #46 Henrique Bauer · Elenco 2026 · Comum
+  'jog-icaro-santana': '',                // #47 Ícaro Santana · Elenco 2026 · Comum
+  'jog-luan-cerqueira': '',               // #48 Luan Cerqueira · Elenco 2026 · Comum
+  'jog-marlon-siqueira': '',              // #49 Marlon Siqueira · Elenco 2026 · Comum
+  'jog-kaua-mendes': 'assets/cartas/jogadores/jog-kaua-mendes.jpg', // #50 Neymar · Elenco 2026 · Comum
+  'jog-davi-rocha': 'assets/cartas/jogadores/jog-davi-rocha.jpg', // #51 Pedro · Elenco 2026 · Comum
+  'jog-pedro-almeida': '',                // #52 Pedro Almeida · Elenco 2026 · Comum
+  'jog-thiago-brandao': 'assets/cartas/jogadores/jog-thiago-brandao.jpg', // #53 Rafael · Elenco 2026 · Comum
+  'jog-igor-paiva': 'assets/cartas/jogadores/jog-igor-paiva.jpg', // #54 Vitinho · Elenco 2026 · Comum
+  'jog-jonas-bezerra': 'assets/cartas/jogadores/jog-jonas-bezerra.jpg', // #55 Walter · Elenco 2026 · Comum
+  'jog-matheus-prado': 'assets/cartas/jogadores/jog-matheus-prado.jpg', // #56 Weverton · Elenco 2026 · Comum
 
   // ---------- Estádios (19 cartas) — foto/arte 630×880 (preenche a carta)
   'estadio-maracana': 'assets/cartas/estadios/estadio-maracana.jpg',  // #01 Maracanã · Estádio · Especial
