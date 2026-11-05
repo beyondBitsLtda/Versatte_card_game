@@ -100,22 +100,22 @@ export const IMAGENS = {
   'jog-tostao': 'assets/cartas/jogadores/jog-tostao.jpg',  // #35 Tostão · Ídolo · Rara
   'jog-victor': 'assets/cartas/jogadores/jog-victor.jpg',  // #36 Victor · Ídolo · Rara
   'jog-enzo-carvalho': 'assets/cartas/jogadores/jog-enzo-carvalho.jpg', // #37 Alan Patrick · Elenco 2026 · Comum
-  'jog-rafael-teixeira': 'assets/cartas/jogadores/jog-rafael-teixeira.jpg', // #38 Bernard · Elenco 2026 · Comum
-  'jog-renan-sousa': 'assets/cartas/jogadores/jog-renan-sousa.jpg', // #39 Breno Bidon · Elenco 2026 · Comum
-  'jog-breno-lacerda': '',                // #40 Breno Lacerda · Elenco 2026 · Comum
-  'jog-diego-zanella': '',                // #41 Diego Zanella · Elenco 2026 · Comum
-  'jog-lucas-fontes': 'assets/cartas/jogadores/jog-lucas-fontes.jpg', // #42 Fabrício Bruno · Elenco 2026 · Comum
-  'jog-felipe-kruger': '',                // #43 Felipe Krüger · Elenco 2026 · Comum
-  'jog-caio-lemos': 'assets/cartas/jogadores/jog-caio-lemos.jpg', // #44 Gustavo Gómez · Elenco 2026 · Comum
-  'jog-gustavo-neri': '',                 // #45 Gustavo Neri · Elenco 2026 · Comum
-  'jog-henrique-bauer': '',               // #46 Henrique Bauer · Elenco 2026 · Comum
-  'jog-icaro-santana': '',                // #47 Ícaro Santana · Elenco 2026 · Comum
-  'jog-luan-cerqueira': '',               // #48 Luan Cerqueira · Elenco 2026 · Comum
+  'jog-breno-lacerda': 'assets/cartas/jogadores/jog-breno-lacerda.jpg', // #38 Alix Vinicius · Elenco 2026 · Comum
+  'jog-gustavo-neri': 'assets/cartas/jogadores/jog-gustavo-neri.jpg', // #39 Arana · Elenco 2026 · Comum
+  'jog-rafael-teixeira': 'assets/cartas/jogadores/jog-rafael-teixeira.jpg', // #40 Bernard · Elenco 2026 · Comum
+  'jog-renan-sousa': 'assets/cartas/jogadores/jog-renan-sousa.jpg', // #41 Breno Bidon · Elenco 2026 · Comum
+  'jog-pedro-almeida': 'assets/cartas/jogadores/jog-pedro-almeida.jpg', // #42 Colidio · Elenco 2026 · Comum
+  'jog-diego-zanella': 'assets/cartas/jogadores/jog-diego-zanella.jpg', // #43 Doma · Elenco 2026 · Comum
+  'jog-felipe-kruger': 'assets/cartas/jogadores/jog-felipe-kruger.jpg', // #44 Esquivel · Elenco 2026 · Comum
+  'jog-lucas-fontes': 'assets/cartas/jogadores/jog-lucas-fontes.jpg', // #45 Fabrício Bruno · Elenco 2026 · Comum
+  'jog-caio-lemos': 'assets/cartas/jogadores/jog-caio-lemos.jpg', // #46 Gustavo Gómez · Elenco 2026 · Comum
+  'jog-icaro-santana': 'assets/cartas/jogadores/jog-icaro-santana.jpg', // #47 Jean Lucas · Elenco 2026 · Comum
+  'jog-henrique-bauer': 'assets/cartas/jogadores/jog-henrique-bauer.jpg', // #48 Josué · Elenco 2026 · Comum
   'jog-marlon-siqueira': '',              // #49 Marlon Siqueira · Elenco 2026 · Comum
   'jog-kaua-mendes': 'assets/cartas/jogadores/jog-kaua-mendes.jpg', // #50 Neymar · Elenco 2026 · Comum
   'jog-davi-rocha': 'assets/cartas/jogadores/jog-davi-rocha.jpg', // #51 Pedro · Elenco 2026 · Comum
-  'jog-pedro-almeida': '',                // #52 Pedro Almeida · Elenco 2026 · Comum
-  'jog-thiago-brandao': 'assets/cartas/jogadores/jog-thiago-brandao.jpg', // #53 Rafael · Elenco 2026 · Comum
+  'jog-thiago-brandao': 'assets/cartas/jogadores/jog-thiago-brandao.jpg', // #52 Rafael · Elenco 2026 · Comum
+  'jog-luan-cerqueira': 'assets/cartas/jogadores/jog-luan-cerqueira.jpg', // #53 Renato Kayzer · Elenco 2026 · Comum
   'jog-igor-paiva': 'assets/cartas/jogadores/jog-igor-paiva.jpg', // #54 Vitinho · Elenco 2026 · Comum
   'jog-jonas-bezerra': 'assets/cartas/jogadores/jog-jonas-bezerra.jpg', // #55 Walter · Elenco 2026 · Comum
   'jog-matheus-prado': 'assets/cartas/jogadores/jog-matheus-prado.jpg', // #56 Weverton · Elenco 2026 · Comum

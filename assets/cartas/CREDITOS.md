@@ -5,7 +5,7 @@
 > e a imagem dos atletas é direito de cada um, então precisam de licenciamento próprio mesmo quando a foto tem
 > licença livre (ver "Observações para a versão final" no README).
 
-Resumo: 106 arquivos de imagem; 46 sem licença livre; 60 com licença livre.
+Resumo: 114 arquivos de imagem; 54 sem licença livre; 60 com licença livre.
 
 ## 1. Imagens SEM licença livre (somente teste)
 
@@ -25,19 +25,27 @@ Remova ou substitua antes de publicar o jogo para o público.
 | Alcino · Ídolo | `jog-alcino.jpg` | [Remo 100%](https://www.remo100porcento.com/futebol-profissional/2016/ha-10-anos-remo-perdia-idolo-alcino) | — | sem licença livre |
 | Bebeto · Ídolo | `jog-bebeto.jpg` | [DCI](https://www.dci.com.br/esporte/futebol/flamengo/flamengo-hepta-copa-uniao/) | Celso Meira / Agência O Globo (crédito citado) | desconhecida |
 | Bobô · Ídolo | `jog-bobo.jpg` | [Terceiro Tempo (Portal Milton Neves)](https://terceirotempo.uol.com.br/que-fim-levou/bobo-2426) | — | desconhecida |
+| Alix Vinicius · Elenco 2026 | `jog-breno-lacerda.jpg` | [Flickr oficial do Red Bull Bragantino, foto Ari Ferreira/Red Bull Bragantino](https://www.flickr.com/photos/126671438@N06/55617547047/) | Ari Ferreira/Red Bull Bragantino | Todos os direitos reservados (uso autorizado pelo usuário para teste) |
 | Gustavo Gómez · Elenco 2026 | `jog-caio-lemos.jpg` | [Flickr oficial da SE Palmeiras](https://www.flickr.com/photos/sepalmeiras/54720712707/) | Cesar Greco/Palmeiras | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
 | Pedro · Elenco 2026 | `jog-davi-rocha.jpg` | [Esporte na Band](https://www.band.com.br/esportes/flamengo-de-olho-na-copa-do-mundo-pedro-tem-8-gols-nos-ultimos-9-jogos-202605031905) | — | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
+| Doma · Elenco 2026 | `jog-diego-zanella.jpg` | [Flickr oficial da Chapecoense (chapeoficial), foto Rafael Bressan/ACF](https://www.flickr.com/photos/chapeoficial/55270941138/) | Rafael Bressan/ACF | Todos os direitos reservados (uso autorizado pelo usuário para teste) |
 | Alan Patrick · Elenco 2026 | `jog-enzo-carvalho.jpg` | [Placar (foto do Flickr oficial do Internacional)](https://placar.com.br/placar/alan-patrick-e-o-responsavel-por-quase-todos-os-gols-do-inter-no-ano/) | Ricardo Duarte/Internacional | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
+| Esquivel · Elenco 2026 | `jog-felipe-kruger.jpg` | [Bem Paraná (crédito Rui Santos)](https://www.bemparana.com.br/esportes/atletico-paranaense/esquivel-enfrenta-julgamento-nesta-sexta-e-pode-desfalcar-o-athletico/) | Rui Santos | desconhecida (todos os direitos reservados; uso autorizado pelo usuário para teste) |
 | Figueroa · Lenda | `jog-figueroa.jpg` | [Goal.com](https://www.goal.com/it/notizie/la-leggenda-di-elias-figueroa-il-piu-grande-calciatore-cileno-di-tutti-i-tempi/blt8fcfe279c6fb43ba) | — | desconhecida |
 | Gamarra · Ídolo | `jog-gamarra.jpg` | [Meu Timão](https://www.meutimao.com.br/noticia/261386/gamarra-descreve-briga-de-ex-jogadores-do-corinthians-e-opina-sobre-balbuena-e-romero) | — | desconhecida |
+| Arana · Elenco 2026 | `jog-gustavo-neri.jpg` | [Flickr oficial do Fluminense (oficialflu), foto Lucas Merçon/Fluminense F.C.](https://www.flickr.com/photos/oficialflu/55149579699/) | Lucas Merçon/Fluminense F.C. | Todos os direitos reservados; Flickr indica uso institucional/divulgação, uso comercial vetado, crédito obrigatório (uso autorizado pelo usuário para teste) |
+| Josué · Elenco 2026 | `jog-henrique-bauer.jpg` | [Bem Paraná (crédito Rui Santos)](https://www.bemparana.com.br/esportes/coritiba/coritiba-perde-para-o-palmeiras-com-gols-de-dupla-da-copa-do-mundo/) | Rui Santos | desconhecida (todos os direitos reservados; uso autorizado pelo usuário para teste) |
+| Jean Lucas · Elenco 2026 | `jog-icaro-santana.jpg` | [Flickr oficial do EC Bahia (esporteclubebahia), foto Letícia Martins/EC Bahia](https://www.flickr.com/photos/esporteclubebahia/55619520887/) | Letícia Martins/EC Bahia | Todos os direitos reservados; Flickr indica 'fotos liberadas apenas para uso editorial', crédito obrigatório (uso autorizado pelo usuário para teste) |
 | Vitinho · Elenco 2026 | `jog-igor-paiva.jpg` | [Flickr oficial do Botafogo](https://www.flickr.com/photos/botafogooficial/55128165255/) | Vitor Silva/Botafogo | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
 | Walter · Elenco 2026 | `jog-jonas-bezerra.jpg` | [Flickr MS Sports (MSMAISFOTO)](https://www.flickr.com/photos/148139304@N08/54661502955/) | MS Sports | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
 | Neymar · Elenco 2026 | `jog-kaua-mendes.jpg` | [Portal N10](https://portaln10.com.br/esporte/futebol/neymar-brilha-na-vila-belmiro-e-santos-sai-da-zona-de-rebaixamento-335139/) | — | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
 | Leandro · Ídolo | `jog-leandro.jpg` | [Lance!](https://www.lance.com.br/tim4g/tim-leandro-craque-idolo-uma-camisa.html) | — | sem licença livre |
+| Renato Kayzer · Elenco 2026 | `jog-luan-cerqueira.jpg` | [A Tarde (foto Victor Ferreira/EC Vitória)](https://atarde.com.br/esportes/kayzer-chora-apos-vitoria-sobre-o-galo-nossa-familia-sofre-junto-1349129) | Victor Ferreira/EC Vitória | desconhecida (todos os direitos reservados; uso autorizado pelo usuário para teste) |
 | Fabrício Bruno · Elenco 2026 | `jog-lucas-fontes.jpg` | [Flickr oficial do Cruzeiro](https://www.flickr.com/photos/cruzeirooficial/55156098920/) | Igor Barrankievicz e Du Caneppele/Cruzeiro | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
 | Marcos · Lenda | `jog-marcos.jpg` | [Gazeta Esportiva](https://www.gazetaesportiva.com/times/palmeiras/em-um-ano-prass-iguala-penaltis-defendidos-por-sao-marcos-em-tres-anos-e-meio/) | — | desconhecida |
 | Weverton · Elenco 2026 | `jog-matheus-prado.jpg` | [Flickr MS Sports (MSMAISFOTO)](https://www.flickr.com/photos/148139304@N08/55468665757/) | MS Sports | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
 | Mauro Silva · Ídolo | `jog-mauro-silva.jpg` | [Jovem Pan](https://jovempan.com.br/colunistas/thiago-uberreich/o-quase-gol-de-mauro-silva-na-final-de-94-poderia-ter-evitado-prorrogacao-e-penaltis/) | — | desconhecida |
+| Colidio · Elenco 2026 | `jog-pedro-almeida.jpg` | [Diário do Rio (foto João Salles/Agência Enquadrar/Agência O Globo)](https://www.diariodorio.com/esporte/vasco-da-gama/2026/08/27/tecnico-do-vasco-destaca-versatilidade-de-colidio-ajuda-na-nossa-forma-de-jogar.html) | João Salles/Agência Enquadrar/Agência O Globo | desconhecida (todos os direitos reservados; uso autorizado pelo usuário para teste) |
 | Bernard · Elenco 2026 | `jog-rafael-teixeira.jpg` | [Gazeta Esportiva (foto do Flickr oficial do Atlético-MG)](https://www.gazetaesportiva.com/?p=3866223) | — | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
 | Reinaldo · Ídolo | `jog-reinaldo.jpg` | [Terceiro Tempo (Portal Milton Neves)](https://terceirotempo.uol.com.br/que-fim-levou/reinaldo-2093) | — | desconhecida |
 | Breno Bidon · Elenco 2026 | `jog-renan-sousa.jpg` | [Tribuna de Jundiaí (foto do Instagram oficial do Corinthians)](https://tribunadejundiai.com.br/mais/esportes/corinthians-vence-rosario-central-mesmo-com-expulsao-e-se-classifica-na-libertadores/) | — | Todos os direitos reservados (uso sem licença livre autorizado pelo usuário para este teste) |
@@ -161,13 +169,5 @@ Remova ou substitua antes de publicar o jogo para o público.
 
 ## 3. Cartas sem imagem (arte automática)
 
-- Breno Lacerda (`jog-breno-lacerda`)
-- Diego Zanella (`jog-diego-zanella`)
-- Felipe Krüger (`jog-felipe-kruger`)
-- Gustavo Neri (`jog-gustavo-neri`)
-- Henrique Bauer (`jog-henrique-bauer`)
-- Ícaro Santana (`jog-icaro-santana`)
-- Luan Cerqueira (`jog-luan-cerqueira`)
 - Marlon Siqueira (`jog-marlon-siqueira`)
-- Pedro Almeida (`jog-pedro-almeida`)
 - Doutor Rebaixamento (`jf-doutor-rebaixamento`)
