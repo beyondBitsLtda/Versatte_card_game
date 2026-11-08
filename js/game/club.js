@@ -432,7 +432,7 @@ function openIdentity(app, creating) {
     }
     save(); ov.close();
     if (creating) {
-      sfx.win(); confetti(['#FF8A1F', '#FFC940', '#33B5FF', '#fff']);
+      sfx.win(); confetti(['#EA5B0C', '#FFC940', '#1F5C99', '#17130F']);
       const loans = loanCount(state.club);
       toast(`${esc(name)} fundado!${loans ? ` ${loans} vaga(s) de empréstimo: jogadores sorteados a cada partida.` : ''}`, { tone: 'ok', ms: 3400 });
     }

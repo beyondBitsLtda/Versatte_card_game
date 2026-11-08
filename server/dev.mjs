@@ -40,6 +40,9 @@ const env = {
   rpc,
   VERSATTE_SESSAO_SECRET: process.env.VERSATTE_SESSAO_SECRET || 'segredo-de-desenvolvimento-nao-usar-em-producao',
   CORS_ORIGINS: process.env.CORS_ORIGINS || '*',
+  // compras (InfinitePay): sem INFINITEPAY_HANDLE ficam simuladas; nos testes, INFINITEPAY_API_URL aponta para um simulador
+  ...Object.fromEntries(['INFINITEPAY_HANDLE', 'INFINITEPAY_API_KEY', 'INFINITEPAY_API_URL', 'JOGO_URL', 'API_PUBLICA_URL']
+    .filter(k => process.env[k]).map(k => [k, process.env[k]])),
 };
 
 http.createServer(async (req, res) => {

@@ -4,6 +4,8 @@ Jogo de cartas colecionáveis para a **Versatte Sports**: o cliente abre um paco
 
 Protótipo de demonstração desenvolvido por **Beyond Bits**, para validar a ideia com a equipe da Versatte.
 
+> **Jogo para maiores de 18 anos.** Os pacotes têm cartas sorteadas e podem ser comprados com dinheiro (ECA Digital, Lei 15.211/2025, art. 20). O app mostra um aviso na primeira abertura e o cadastro exige a data de nascimento: o servidor recusa menores e guarda só o registro de que a pessoa é maior de idade, não a data.
+
 ## Conta online e multiplayer
 
 O jogo funciona de dois jeitos:
@@ -29,10 +31,10 @@ O servidor é um Cloudflare Worker que usa o **mesmo banco Postgres do beyond-as
 | **Jogadores** | 56 | 20 atletas do elenco 2026, um por clube, todas as posições | 18 ídolos | 13 lendas | 5 versões Prime |
 | **Estádios** | 19 | 6 | 9 | 3 | Maracanã |
 | **Mascotes** | 29 | os 20 mascotes oficiais | 4 × Neon | 3 × Lendário | 2 × Supremo |
-| **Juízo Final** | 12 | 4 | 3 | 3 | 2 (só em pacote premium) |
+| **Juízo Final** | 12 | 4 | 3 | 3 | 2 |
 
-- **Jogadores comuns são fictícios** (nomes inventados), para não usar a imagem de atletas em atividade sem licença. Troque-os pelo elenco licenciado em [js/data.js](js/data.js) (`COMMON_PLAYERS`).
-- **Juízo Final** é a "Liga dos Mascotes" contra o vilão **Doutor Rebaixamento**. É inspirada em grandes sagas de super-heróis, mas os personagens, nomes e artes são originais, sem marcas de terceiros.
+- **Jogadores comuns (teste):** 19 dos 20 são atletas reais do elenco 2026, e só Marlon Siqueira (Remo) é fictício. Antes do lançamento é preciso licenciar o nome e a imagem dos atletas em atividade, ou trocá-los de volta por fictícios em [js/data.js](js/data.js) (`COMMON_PLAYERS`).
+- **Juízo Final** só sai em pacotes premium ou lendários (a coleção inteira, não só as especiais). É a "Liga dos Mascotes" contra o vilão **Doutor Rebaixamento**. É inspirada em grandes sagas de super-heróis, mas os personagens, nomes e artes são originais, sem marcas de terceiros.
 
 ## Imagens das cartas
 
@@ -177,13 +179,30 @@ As moedas são ganhas jogando e trocadas por pacotes na **Loja**. As regras fica
 
 Na média, uma partida rende cerca de 25 moedas. Um pacote básico sai a cada 4 ou 5 jogos e um premium a cada 12, aproximadamente. No fim de cada partida, as moedas "voam" até o contador do topo. Os pacotes ficam guardados em **Meus pacotes**, na tela inicial, e você escolhe em qual coleção abrir.
 
+## Compras com dinheiro (InfinitePay)
+
+Os pacotes premium da Loja (1 por R$ 4,90 · 5 + 1 por R$ 19,90 · 12 + 3 por R$ 39,90, em `SHOP.offers`) são pagos pelo **Checkout Integrado da InfinitePay**, com Pix ou cartão de crédito:
+
+1. Na Loja, o jogador escolhe a oferta e toca em **Pagar**. O servidor cria o pedido e o link de pagamento, e o app leva o jogador até a página da InfinitePay. Os dados do cartão ficam só com a InfinitePay.
+2. Depois de pagar, a InfinitePay devolve o jogador ao jogo. O app pede ao servidor para conferir, e a InfinitePay também avisa o servidor.
+3. O servidor só credita os pacotes depois de conferir o pagamento na própria InfinitePay. A tela mostra **Compra aprovada!**, com o comprovante, e a compra aparece em **Suas compras**, na Loja.
+
+Regras:
+
+- Só contas online e maiores de 18.
+- Limite de **R$ 200 por dia** por conta (`SHOP.limitPerDay`). Links abertos na última hora também contam.
+- Probabilidades sempre visíveis na Loja.
+- Estorno: feito na InfinitePay. Depois, um administrador marca o pedido no servidor e os pacotes não abertos daquela compra saem da conta.
+
+Configuração e rotas: [server/README.md](server/README.md#compras-com-dinheiro-infinitepay-e-18). Sem a InfiniteTag configurada no servidor, e no modo offline, a compra continua **simulada**, sem cobrança. O código do app fica em [js/pagamento.js](js/pagamento.js) e [css/pagamento.css](css/pagamento.css).
+
 ## Mecânica de sorteio
 
 As regras ficam em [js/data.js](js/data.js) (`PACKS`, `PRIZES`, `SHOP`) e podem ser ajustadas sem mexer no motor:
 
 - **Diário:** 70% comum · 24% rara · 5% muito rara · 1% especial por carta. Tem **55% de tendência a repetir** cartas que o jogador já tem.
 - **Premium:** 60/28/10/2% nas 3 primeiras cartas; a 4ª é Rara ou melhor (75/21/4%). Tem **15% de tendência a trazer cartas que faltam**.
-- **Garantia:** a cada 15 pacotes premium sem Especial, o próximo traz uma.
+- **Garantia:** se 14 pacotes premium seguidos vierem sem Especial, o 15º traz uma com certeza (nunca passa de 14 seguidos sem Especial).
 
 ## Modo debug
 
@@ -240,6 +259,8 @@ js/economy-core.js      regras da economia compartilhadas com o servidor
 js/net/online.js        conta, sessão, API e caixa de entrada (polling)
 js/net/economy.js       economia: local (offline) ou pelo servidor (online)
 js/config.js            endereço da API
+js/pagamento.js         aviso de 18+, checkout da InfinitePay, volta do pagamento e "Suas compras"
+css/pagamento.css       estilos dessas telas
 server/                 Versatte API (Cloudflare Worker + SQL do banco)
 js/game/club.js         Modo Clube: telas de clube, escalação e liga
 js/debug.js             painel de debug
@@ -252,5 +273,6 @@ assets/cartas/          imagens das cartas (uma pasta por coleção)
 - **Imagens e nomes:** escudos, nomes e imagens de clubes e atletas exigem licenciamento antes do lançamento.
 - **Conteúdo:** as curiosidades são demonstrativas e devem ser revisadas pela Versatte.
 - **Dados pessoais:** a conta online guarda nome e e-mail no banco do beyond-assist. Antes de abrir ao público, é preciso revisar os termos e a política de privacidade (o texto atual é um rascunho), ter backup do banco e passar pela avaliação de Governança e Compliance (LGPD).
-- **Pagamentos:** a compra de pacotes ainda é simulada. É preciso integrar um gateway antes de cobrar.
+- **Pagamentos:** a integração com a InfinitePay está pronta e testada com um simulador. Para ligar, configure a InfiniteTag no servidor, aplique `server/db/003_pagamentos.sql` e faça o deploy (passo a passo em [server/README.md](server/README.md)).
+- **18+:** a verificação é por data de nascimento declarada. Confirme com o jurídico se isso basta para o art. 20 do ECA Digital e o seu decreto, ou se é preciso uma verificação mais forte.
 - **Probabilidades:** manter a tabela de odds visível na loja é uma boa prática de transparência para mecânicas de pacotes pagos.

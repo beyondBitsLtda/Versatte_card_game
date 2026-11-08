@@ -149,7 +149,7 @@ export function applyExchange(p, type) {
   return offer;
 }
 
-/** Compra (simulada no protótipo) de pacotes premium. */
+/** Compra simulada (modo offline/demonstração, ou servidor sem pagamentos configurados). */
 export function applyPurchase(p, offerId) {
   normalizeProfile(p);
   const o = SHOP.offers.find(x => x.id === offerId);
@@ -157,6 +157,65 @@ export function applyPurchase(p, offerId) {
   p.premiumPacks += o.packs + (o.bonus || 0);
   p.stats.spent = (p.stats.spent || 0) + o.price;
   return o;
+}
+
+// ------------------------------------------------------------
+//  Compra com dinheiro (InfinitePay): o servidor cria o pedido a
+//  partir da oferta e, quando o pagamento é confirmado, credita o
+//  conteúdo GUARDADO no pedido (se o preço mudar depois, vale o pedido).
+// ------------------------------------------------------------
+/** Oferta paga → { id, descricao, valor (centavos), conteudo }. */
+export function paidOffer(offerId) {
+  const o = SHOP.offers.find(x => x.id === offerId);
+  if (!o) return null;
+  const total = o.packs + (o.bonus || 0);
+  return {
+    id: o.id,
+    descricao: `Versatte Cards: ${total} pacote${total > 1 ? 's' : ''} premium${o.bonus ? ` (${o.packs} + ${o.bonus} de bônus)` : ''}`,
+    valor: Math.round(o.price * 100),
+    conteudo: { premium: total },
+  };
+}
+
+/** Credita um pedido pago. Idempotente: o perfil guarda os pedidos já creditados. */
+export function applyPaidOrder(p, order, now = Date.now()) {
+  normalizeProfile(p);
+  p.orders = p.orders || {};
+  if (p.orders[order.id]) return false;
+  const c = order.conteudo || {};
+  p.premiumPacks += c.premium || 0;
+  for (const t of ['basico', 'lendario']) if (c[t]) p.inv[t] = (p.inv[t] || 0) + c[t];
+  p.coins += c.moedas || 0;
+  p.stats.spent = Math.round(((p.stats.spent || 0) + order.valor / 100) * 100) / 100;
+  p.orders[order.id] = now;
+  return true;
+}
+
+/** Estorno: tira os pacotes da compra que ainda não foram abertos. Devolve quantos saíram. */
+export function revertPaidOrder(p, order) {
+  normalizeProfile(p);
+  p.orders = p.orders || {};
+  if (!p.orders[order.id] || p.orders[order.id] < 0) return null;
+  const c = order.conteudo || {};
+  const out = { premium: Math.min(p.premiumPacks, c.premium || 0) };
+  p.premiumPacks -= out.premium;
+  for (const t of ['basico', 'lendario']) if (c[t]) { out[t] = Math.min(p.inv[t] || 0, c[t]); p.inv[t] -= out[t]; }
+  if (c.moedas) { out.moedas = Math.min(p.coins, c.moedas); p.coins -= out.moedas; }
+  p.stats.spent = Math.max(0, Math.round(((p.stats.spent || 0) - order.valor / 100) * 100) / 100);
+  p.orders[order.id] = -1;   // marcado como estornado (não credita de novo)
+  return out;
+}
+
+/** Idade completa em `today` (AAAA-MM-DD, fuso de Brasília) para a data de nascimento AAAA-MM-DD; null se inválida. */
+export function ageOn(birth, today = dayKeyBR()) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(birth || ''));
+  if (!m) return null;
+  const [y, mo, d] = m.slice(1).map(Number);
+  const dt = new Date(Date.UTC(y, mo - 1, d));
+  if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== mo - 1 || dt.getUTCDate() !== d) return null;
+  const [ty, tm, td] = today.split('-').map(Number);
+  const age = ty - y - (tm < mo || (tm === mo && td < d) ? 1 : 0);
+  return age >= 0 && age <= 120 ? age : null;
 }
 
 export function progressOf(p, collectionId) {

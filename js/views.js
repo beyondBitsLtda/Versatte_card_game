@@ -1,11 +1,13 @@
 // Telas do app. Cada view recebe `app` = { go(route, params), refresh(), open(collectionId, type) }.
-import { COLLECTIONS, COLLECTION_BY_ID, CARD_BY_UID, RARITIES, RARITY_ORDER, PRIZES, SHOP, PACKS, UPCOMING, ALL_CARDS, POSITIONS, CREST_MORAL, PACK_TYPES, PACK_STYLE, COINS } from './data.js';
+import { COLLECTIONS, COLLECTION_BY_ID, CARD_BY_UID, RARITIES, RARITY_ORDER, PRIZES, SHOP, PACKS, UPCOMING, ALL_CARDS, POSITIONS, CREST_MORAL, PACK_TYPES, PACK_STYLE, COINS, MIN_AGE } from './data.js';
+import { ageOn, dayKeyBR } from './economy-core.js';
+import { openCheckout, realPayments, fillOrders, markAdultDevice } from './pagamento.js';
 import { state, save, progress, ownedCount, freeAvailable, msToNextFree, prizeStatus, claimPrize, packCount, addPacks, totalPacks } from './state.js';
 import { cardHTML, slotHTML, rarityTag, gem, abilityText } from './cards.js';
 import { packHTML } from './pack.js';
 import { packOdds } from './gacha.js';
 import { attachTilt, sfx, haptic, confetti, enableGyro, centerOf, burst } from './fx.js';
-import { exchangeE, buyE, claimE } from './net/economy.js';
+import { exchangeE, claimE } from './net/economy.js';
 import { isOnline, me as onlineMe, login, signup, logout, serverUp } from './net/online.js';
 import { icon, esc, el, sheet, overlay, toast, fmtMoney, fmtPct, fmtDate, fmtCountdown, wait } from './ui.js';
 import { carNavHtml, bindCarNav, isDesk } from './desktop.js';
@@ -422,7 +424,7 @@ export function prizesView(app) {
         </div>
         ${st === 'ready' ? `<button class="btn primary sm" data-claim="${p.id}">Resgatar</button>`
           : st === 'claimed' ? `<span class="pz-ok">${icon.check}Resgatado</span>`
-          : `<span class="pz-need">${icon.lock}${pr ? `faltam ${need}` : '2 coleções'}</span>`}
+          : `<span class="pz-need">${icon.lock}${pr ? `faltam ${need}` : (n => `falta${n > 1 ? 'm' : ''} ${n} coleç${n > 1 ? 'ões' : 'ão'}`)(COLLECTIONS.filter(c => progress(c.id).pct < 1).length)}</span>`}
       </div>`;
   };
 
@@ -458,7 +460,7 @@ export function prizesView(app) {
     let code;
     try { code = await claimE(p.id); } catch (err) { b.disabled = false; return toast(err.message, { tone: 'warn' }); }
     sfx.win(); haptic([30, 40, 60]);
-    confetti(['#FF8A1F', '#33B5FF', '#FFC940', '#ffffff']);
+    confetti(['#EA5B0C', '#1F5C99', '#FFC940', '#17130F']);   // tela clara: sem branco (sumiria no creme)
     const s = sheet(`
       <div class="claim">
         <div class="claim-ico">${icon[p.icon]}</div>
@@ -508,6 +510,9 @@ export function shopView(app) {
     </div>
 
     <h3 class="shop-h">Pacotes premium</h3>
+    <p class="shop-pay">${realPayments()
+      ? `${icon.lock} Pix ou cartão de crédito, pagos na <b>InfinitePay</b>`
+      : `${icon.lock} Demonstração: pagamento simulado${isOnline() ? '' : ' (entre com uma conta online para comprar)'}`}</p>
     <div class="offers">
       ${SHOP.offers.map(o => `
         <button class="offer ${o.tag ? 'tagged' : ''}" data-buy="${o.id}">
@@ -532,16 +537,20 @@ export function shopView(app) {
         <li><b>Básico:</b> ${PACKS.basico.cards} cartas; só ${Math.round(PACKS.basico.dupBias * 100)}% de tendência a repetir.</li>
         <li><b>Premium:</b> ${PACKS.premium.cards} cartas; ${Math.round(PACKS.premium.newBoost * 100)}% de tendência a trazer cartas que faltam.</li>
         <li><b>Lendário:</b> ${PACKS.lendario.cards} cartas; a 4ª é Muito rara (80%) ou Especial (20%).</li>
-        <li><b>Garantia:</b> a cada ${PACKS.premium.pity.after} pacotes premium sem Especial, o próximo traz uma.</li>
+        <li><b>Garantia:</b> se ${PACKS.premium.pity.after - 1} pacotes premium seguidos vierem sem Especial, o ${PACKS.premium.pity.after}º traz uma com certeza.</li>
       </ul>
     </div>
-    <p class="fine">Protótipo: valores ilustrativos e pagamento simulado.</p>
+    <div class="shop-orders" data-orders></div>
+    <p class="age-note"><span class="badge-18" aria-hidden="true">${MIN_AGE}+</span><span>Jogo e compras só para maiores de ${MIN_AGE} anos. ${realPayments()
+      ? `Os pacotes entram na conta depois que a InfinitePay confirma o pagamento. Limite de ${fmtMoney(SHOP.limitPerDay)} por dia por conta.`
+      : 'Nesta demonstração nenhuma cobrança é feita.'}</span></p>
   </section>`);
+  fillOrders(node.querySelector('[data-orders]'));
 
   node.addEventListener('click', async e => {
     const b = e.target.closest('button');
     if (!b) return;
-    if (b.dataset.buy) { sfx.tap(); checkout(SHOP.offers.find(o => o.id === b.dataset.buy), app); }
+    if (b.dataset.buy) { sfx.tap(); openCheckout(SHOP.offers.find(o => o.id === b.dataset.buy), app); }
     if (b.hasAttribute('data-earn')) { sfx.tap(); openEarnInfo(); }
     if (b.dataset.coinbuy) {
       const o = SHOP.coinOffers.find(x => x.type === b.dataset.coinbuy);
@@ -618,38 +627,6 @@ export function openMyPacks(app, collectionId) {
   });
 }
 
-function checkout(o, app) {
-  const total = o.packs + (o.bonus || 0);
-  const s = sheet(`
-    <div class="checkout">
-      <h2>Finalizar compra</h2>
-      <div class="co-line"><span>${o.label}${o.bonus ? ` + ${o.bonus} bônus` : ''}</span><b>${fmtMoney(o.price)}</b></div>
-      <div class="co-pay">
-        <label><input type="radio" name="pay" checked><span>Pix</span></label>
-        <label><input type="radio" name="pay"><span>Cartão de crédito</span></label>
-      </div>
-      <button class="btn primary big" data-pay>Pagar ${fmtMoney(o.price)}</button>
-      <p class="fine">Pagamento simulado — nenhuma cobrança é feita.</p>
-    </div>`);
-  s.node.querySelector('[data-pay]').addEventListener('click', async ev => {
-    const b = ev.currentTarget;
-    b.disabled = true; b.innerHTML = '<span class="spinner"></span> Processando…';
-    await wait(1100);
-    try { await buyE(o.id); } catch (err) { b.disabled = false; b.textContent = `Pagar ${fmtMoney(o.price)}`; return toast(err.message, { tone: 'warn' }); }
-    sfx.win(); haptic([20, 30, 50]);
-    s.node.querySelector('.sheet-body').innerHTML = `
-      <div class="claim">
-        <div class="claim-ico ok">${icon.check}</div>
-        <h2>Compra aprovada!</h2>
-        <p class="muted">+${total} pacotes premium na sua conta.</p>
-        <button class="btn primary big" data-now>Abrir agora</button>
-        <button class="link-btn" data-close>Depois</button>
-      </div>`;
-    s.node.querySelector('[data-now]').addEventListener('click', () => { s.close(); app.open(state.lastCollection, 'premium'); });
-    app.refresh();
-  });
-}
-
 // ============================================================
 //  ENTRAR / CRIAR CONTA (servidor) — ou jogar offline (demonstração)
 // ============================================================
@@ -673,6 +650,8 @@ export function authView(onDone) {
       <label class="au-nome"><span>Nome</span><input name="nome" maxlength="40" autocomplete="nickname" placeholder="Como quer ser chamado?"></label>
       <label><span>E-mail</span><input name="email" type="email" autocomplete="email" placeholder="voce@email.com"></label>
       <label><span>Senha</span><input name="senha" type="password" minlength="8" autocomplete="new-password" placeholder="Mínimo de 8 caracteres"></label>
+      <label class="au-nasc"><span>Data de nascimento <small>(só para conferir a idade; não fica guardada)</small></span><input name="nasc" type="date" autocomplete="bday" max="${dayKeyBR()}" min="1900-01-01"></label>
+      <p class="age-note au-18"><span class="badge-18" aria-hidden="true">${MIN_AGE}+</span><span>Jogo para maiores de ${MIN_AGE} anos: tem pacotes de cartas sorteadas que podem ser comprados com dinheiro.</span></p>
       <label class="check au-aceite"><input type="checkbox" name="aceite"><span>Li e aceito os <a href="#" data-terms>termos de uso e a política de privacidade</a>. Meus dados (nome e e-mail) são usados só para a conta do jogo.</span></label>
       <p class="au-err" role="alert"></p>
       <button class="btn primary big au-go" type="submit">Criar conta e ganhar bônus</button>
@@ -689,6 +668,7 @@ export function authView(onDone) {
     $('.au-h1').innerHTML = criar ? 'Crie sua conta <em>grátis</em>' : 'Bem-vindo de <em>volta</em>';
     $('.au-lead').textContent = criar ? 'Sua coleção fica salva na nuvem: jogue em qualquer aparelho, troque cartas e desafie amigos.' : 'Entre para continuar sua coleção.';
     $('.au-nome').hidden = !criar; $('.au-aceite').hidden = !criar; $('.au-perks').hidden = !criar;
+    $('.au-nasc').hidden = !criar; $('.au-18').hidden = !criar;
     form.senha.autocomplete = criar ? 'new-password' : 'current-password';
     $('.au-go').textContent = criar ? 'Criar conta e ganhar bônus' : 'Entrar';
     node.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === mode));
@@ -711,15 +691,20 @@ export function authView(onDone) {
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const btn = $('.au-go');
-    const f = { nome: form.nome.value.trim(), email: form.email.value.trim(), senha: form.senha.value, aceite: form.aceite.checked };
+    const f = { nome: form.nome.value.trim(), email: form.email.value.trim(), senha: form.senha.value, aceite: form.aceite.checked, nascimento: form.nasc.value };
     const err = msg => { $('.au-err').textContent = msg; sfx.ooh(); };
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email)) return err('Informe um e-mail válido.');
     if (f.senha.length < 8) return err('A senha precisa ter pelo menos 8 caracteres.');
     if (mode === 'criar' && f.nome.length < 2) return err('Informe seu nome.');
+    if (mode === 'criar') {
+      const idade = ageOn(f.nascimento);
+      if (idade === null) return err('Informe sua data de nascimento.');
+      if (idade < MIN_AGE) return err(`O Versatte Cards é só para maiores de ${MIN_AGE} anos.`);
+    }
     if (mode === 'criar' && !f.aceite) return err('Para criar a conta, aceite os termos e a política de privacidade.');
     btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Protegendo sua senha…';
     try {
-      if (mode === 'criar') await signup(f); else await login(f);
+      if (mode === 'criar') { await signup(f); markAdultDevice(); } else await login(f);
       sfx.win();
       onDone(mode);
       if (mode === 'criar') setTimeout(() => toast(`${icon.sparkle} Boas-vindas: 1 pacote premium + ${COINS.welcome} moedas!`, { tone: 'ok', ms: 3500 }), 400);
@@ -741,6 +726,9 @@ function openTerms() {
         <li><b>Uso:</b> salvar a coleção, permitir trocas e partidas entre jogadores e liberar brindes. Outros jogadores veem apenas o seu nome e o nome do seu clube.</li>
         <li><b>Seus direitos (LGPD):</b> pedir acesso, correção ou exclusão da conta a qualquer momento pelos canais da Versatte.</li>
         <li><b>Brindes:</b> sujeitos à disponibilidade e às regras da campanha.</li>
+        <li><b>Idade mínima: ${MIN_AGE} anos.</b> O jogo tem pacotes de cartas sorteadas que podem ser comprados com dinheiro e não é destinado a crianças nem a adolescentes. No cadastro, a data de nascimento é usada só para conferir a idade e não é guardada: guardamos apenas o registro de que a conta declarou ser maior de idade.</li>
+        <li><b>Compras:</b> pagas na InfinitePay, por Pix ou cartão de crédito. Os dados do cartão ficam com a InfinitePay e não passam pelo Versatte. Os pacotes entram na conta depois que o pagamento é confirmado. Limite de ${fmtMoney(SHOP.limitPerDay)} por dia por conta. Em caso de estorno, os pacotes ainda não abertos daquela compra são retirados da conta.</li>
+        <li><b>Probabilidades:</b> as chances de cada raridade ficam na Loja, sempre visíveis.</li>
       </ul>
       <button class="btn primary wide" data-close>Entendi</button>
     </div>`);
@@ -774,7 +762,7 @@ export function openProfile(app) {
       ${isOnline()
         ? `<div class="pf-acc"><span><i class="dot-ok"></i> Conta online${onlineMe()?.admin ? ' · administrador' : ''}</span><button class="btn ghost sm" data-logout>Sair da conta</button></div>`
         : `<div class="pf-acc"><span><i class="dot-off"></i> Modo offline (demonstração)</span><button class="btn primary sm" data-login>Entrar / criar conta</button></div>`}
-      <p class="fine">Versatte Cards · protótipo desenvolvido por Beyond Bits</p>
+      <p class="fine"><span class="badge-18" aria-hidden="true">${MIN_AGE}+</span> Versatte Cards · jogo para maiores de ${MIN_AGE} anos · desenvolvido por Beyond Bits</p>
     </div>`);
   s.node.addEventListener('click', e => {
     const lb = e.target.closest('[data-layout]');

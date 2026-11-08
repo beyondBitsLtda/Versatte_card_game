@@ -31,7 +31,7 @@ Com o jogo aberto em `http://127.0.0.1:8765` (por exemplo, `python -m http.serve
    cp .env.example .env    # preencha SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY
    npm run migrar
    ```
-   Aplica `db/001_versatte.sql` e `db/002_partida_ao_vivo.sql`, nessa ordem (as duas são aditivas e podem rodar de novo). Alternativa: colar os arquivos no SQL Editor do Studio.
+   Aplica `db/001_versatte.sql`, `db/002_partida_ao_vivo.sql` e `db/003_pagamentos.sql`, nessa ordem (todas são aditivas e podem rodar de novo). Alternativa: colar os arquivos no SQL Editor do Studio, na mesma ordem.
 3. **Segredos do Worker** (não ficam no repositório):
    ```bash
    npx wrangler login
@@ -46,18 +46,59 @@ Com o jogo aberto em `http://127.0.0.1:8765` (por exemplo, `python -m http.serve
    update versatte_usuarios set admin = true where email = 'seu@email';
    ```
    O usuário precisa entrar de novo para valer.
+7. **Compras com dinheiro (InfinitePay)** — ver a seção abaixo.
 
 Enquanto o servidor não estiver no ar, o jogo mostra "Servidor indisponível" e oferece **Jogar offline (demonstração)**, que funciona como antes.
+
+## Compras com dinheiro (InfinitePay) e 18+
+
+O jogo é **só para maiores de 18 anos** (tem pacotes sorteados vendidos com dinheiro: ECA Digital, Lei 15.211/2025, art. 20). O app mostra o aviso na primeira abertura; o cadastro exige a data de nascimento e o servidor recusa menores. A data **não é guardada**: só `versatte_usuarios.maior_idade_em`. Contas antigas confirmam a idade (`POST /eu/maioridade`) antes da primeira compra.
+
+**Como a compra funciona** (Checkout Integrado da InfinitePay, [documentação](https://www.infinitepay.io/checkout-documentacao)):
+
+1. O app chama `POST /pagamento/criar {oferta, volta}`. O servidor confere idade, oferta e limite do dia (R$ 200, `SHOP.limitPerDay`), grava o pedido (`versatte_pedidos`, status `criado`) e pede o link à InfinitePay (`POST /links`, preço em centavos, `order_nsu` = id do pedido, `redirect_url` = o jogo, `webhook_url` = `/pagamento/webhook`).
+2. O jogador paga na página da InfinitePay (Pix ou cartão; os dados do cartão nunca passam pelo Worker) e volta ao jogo com `order_nsu`, `transaction_nsu`, `slug` e `receipt_url` no endereço.
+3. O app chama `POST /pagamento/confirmar` e, se preciso, consulta `GET /pagamento/:id` por até 2 minutos. A InfinitePay também avisa por webhook.
+4. **Nada é creditado sem o `POST /payment_check`** da InfinitePay, porque o webhook não é assinado. Pago e com o valor certo → `pago` → os pacotes entram no perfil → `creditado`. Cada passo acontece uma vez só: webhook repetido, volta do checkout e consultas não duplicam pacotes.
+5. Estorno: faça na InfinitePay (app ou Conta Web) e depois `POST /admin/pedidos/:id/estornar` com uma conta admin. O pedido vira `estornado` e os pacotes ainda não abertos daquela compra saem do perfil.
+
+**Configurar:**
+
+```bash
+# InfiniteTag da conta de negócios, SEM o "$" (não é segredo): em wrangler.jsonc → vars.INFINITEPAY_HANDLE
+# Opcional (limita cada link a 1 pagamento e 1 hora): chave criada na Conta Web da InfinitePay
+npx wrangler secret put INFINITEPAY_API_KEY
+npm run deploy
+```
+
+- `INFINITEPAY_HANDLE` vazio = compras com dinheiro **desligadas**: a Loja continua com a compra simulada. Com o handle preenchido, a compra simulada é recusada (`410`).
+- `JOGO_URL` (vars): para onde a InfinitePay devolve o jogador. O app manda o próprio endereço e o servidor só aceita se a origem estiver em `CORS_ORIGINS`.
+- `API_PUBLICA_URL` (opcional): endereço público da API para o webhook. Padrão: o próprio domínio do Worker.
+- **Não existe ambiente de teste na InfinitePay**: todo link é real. Teste com a oferta de R$ 4,90 e estorne depois.
+- Testes locais (`npm test`) usam um simulador da InfinitePay (`INFINITEPAY_API_URL`), sem cobrança.
+
+Consultas úteis no SQL Editor:
+
+```sql
+select id, status, valor, metodo, criado_em, pago_em from versatte_pedidos order by criado_em desc limit 50;
+select status, count(*), sum(valor) / 100.0 as reais from versatte_pedidos group by status;
+```
 
 ## Rotas
 
 | Método | Rota | O que faz |
 |---|---|---|
-| POST | `/auth/cadastro` | `{nome, email, chave, aceite}` → token |
+| POST | `/auth/cadastro` | `{nome, email, chave, aceite, nascimento}` → token (recusa menores de 18) |
 | POST | `/auth/entrar` | `{email, chave}` → token |
-| GET | `/eu` | conta + perfil (cartas, moedas, pacotes, clube) |
+| GET | `/eu` | conta (com `maior`) + perfil (cartas, moedas, pacotes, clube) + `pagamentos` (InfinitePay ligada?) |
+| POST | `/eu/maioridade` | `{nascimento}`: conta antiga confirma ter 18+ (a data não é guardada) |
 | POST | `/pacote/abrir` | `{colecao, tipo}`: sorteio feito no servidor |
-| POST | `/loja/trocar` · `/loja/comprar` | moedas → pacote · compra (simulada no protótipo) |
+| POST | `/loja/trocar` · `/loja/comprar` | moedas → pacote · compra simulada (só com a InfinitePay desligada) |
+| POST | `/pagamento/criar` | `{oferta, volta}` → `{pedido, url}`: pedido + link da InfinitePay |
+| POST | `/pagamento/confirmar` | `{pedido, transacao, slug, recibo}`: volta do checkout; confere e credita |
+| GET | `/pagamento/:id` · `/pagamentos` | status de um pedido · últimas compras da conta |
+| POST | `/pagamento/webhook` | aviso da InfinitePay (sem login; sempre conferido no `payment_check`) |
+| POST | `/admin/pedidos/:id/estornar` | estorno (só admin): marca o pedido e tira os pacotes não abertos |
 | POST | `/premio/resgatar` | `{premio}`: confere o marco no servidor |
 | POST | `/recompensa` | moedas de partidas offline do Modo Clube (com limites) |
 | PUT | `/perfil/clube` | clube, campeonatos e troféus |
@@ -79,6 +120,6 @@ Enquanto o servidor não estiver no ar, o jogo mostra "Servidor indisponível" e
 - **Partida online em duas fases** (`db/002_partida_ao_vivo.sql`): ao aceitar, o servidor simula só o 1º tempo; no intervalo cada jogador tem 30 s para substituir; depois o 2º tempo é simulado com uma semente nova. O placar final não existe antes disso, então não há como espiar. O estado interno da simulação nunca sai do servidor. Se ninguém aparecer, a partida se encerra sozinha 5 min após o apito (a caixa de entrada e o GET da partida fecham as vencidas).
 - **Estilo e velocidade** da partida online são escolhidos por quem desafia (ou organiza o torneio) e valem para os dois.
 - **Partidas offline do Modo Clube** ainda são simuladas no aparelho. O servidor só credita as moedas, com limites: no máximo 120 por partida, 1.500 por dia e 3 pacotes por dia, e uma partida a cada 15 s. As partidas **online** são 100% no servidor.
-- **Compra de pacotes é simulada** (máximo de 5 por dia por conta). Integrar um gateway de pagamento antes de cobrar de verdade.
+- **Compras com dinheiro pela InfinitePay**, prontas e testadas com um simulador; ficam desligadas até preencher `INFINITEPAY_HANDLE`. Sem o handle, a compra continua simulada (máximo de 5 por dia por conta).
 - **Rate limit por IP e por conta** é de melhor esforço, por instância do Worker. Para produção, considere o Rate Limiting da Cloudflare.
 - O jogo usa os **mesmos módulos de regra** (`../js/economy-core.js`, `../js/game/*`) no app e no Worker. Ao mudar odds, prêmios ou o motor, publique os dois juntos.

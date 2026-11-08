@@ -11,6 +11,7 @@ import { clubView } from './game/club.js';
 import { burst, sfx, haptic } from './fx.js';
 import { icon, esc, toast, wait, fmtCountdown } from './ui.js';
 import { initDesktop, isDesk } from './desktop.js';
+import { ageGate, resumeCheckout } from './pagamento.js';
 
 const ROUTES = {
   home:   { view: homeView,   label: 'Início',  icon: 'home' },
@@ -135,15 +136,20 @@ const MODE_KEY = 'versatte-modo';
 async function boot({ forceAuth = false } = {}) {
   cleanupView();
   document.body.classList.remove('signed');
+  // jogo para maiores de 18: aviso na primeira abertura deste aparelho
+  await ageGate();
   const offline = !forceAuth && localStorage.getItem(MODE_KEY) === 'offline';
+  const voltouDoPagamento = new URLSearchParams(location.search).has('order_nsu');
 
   // 1) conta online salva neste aparelho
   if (!forceAuth && resumeSession()) {
     enter();
-    try { await refreshProfile(); render(true); }
+    let perfilOk = false;
+    try { await refreshProfile(); render(true); perfilOk = true; }
     catch (e) { toast('Servidor indisponível: mostrando sua coleção salva neste aparelho.', { tone: 'warn', ms: 4000 }); }
     startPolling(); initMultiplayer(app);
-    if (state.settings.intro) await playIntro();
+    if (perfilOk) resumeCheckout(app);          // volta do checkout da InfinitePay (ou compra que ficou pendente)
+    if (state.settings.intro && !voltouDoPagamento) await playIntro();
     return;
   }
   // 2) modo offline (demonstração) já escolhido
@@ -159,6 +165,7 @@ async function boot({ forceAuth = false } = {}) {
     } else {
       localStorage.removeItem(MODE_KEY);
       startPolling(); initMultiplayer(app);
+      setTimeout(() => resumeCheckout(app), 300);   // voltou do pagamento com a sessão expirada: confere depois de entrar
     }
     enter();
   }));

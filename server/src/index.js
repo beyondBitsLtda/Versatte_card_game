@@ -11,16 +11,17 @@
 import { criarToken, lerToken, selarChave, conferirChave, chaveValida } from './crypto.js';
 import {
   normalizeProfile, newProfile, applyOpenPack, applyExchange, applyPurchase, applyClaim, dayKeyBR, EconomyError, addCardTo,
+  paidOffer, applyPaidOrder, revertPaidOrder, ageOn,
 } from '../../js/economy-core.js';
-import { ALL_CARDS, COLLECTION_BY_ID, RARITIES } from '../../js/data.js';
+import { ALL_CARDS, COLLECTION_BY_ID, RARITIES, MIN_AGE, SHOP } from '../../js/data.js';
+import { HttpError, erro } from './erros.js';
+import { pagamentosAtivos, criarLink, conferir, urlInfinitePay } from './pagamentos.js';
 import {
   teamFromProfile, botTeam, serializeTeam, hydrateTeam, playOnline, onlineReward, buildCup, advanceCup, aliveHumans, ONLINE_REWARDS,
   LIVE, normalizeConfig, liveFirstHalf, liveRoster, validSubs, liveSecondHalf, liveForfeit,
 } from '../../js/game/online-core.js';
 
 // ---------------- infraestrutura ----------------
-class HttpError extends Error { constructor(status, code, msg) { super(msg || code); this.status = status; this.code = code; } }
-const erro = (status, code, msg) => { throw new HttpError(status, code, msg); };
 
 function cors(env, req) {
   const origin = req.headers.get('origin') || '';
@@ -87,9 +88,67 @@ async function mudarPerfil(db, uid, fn) {
 
 /** O que o app recebe do perfil (sem os controles internos). */
 const publicoPerfil = p => {
-  const { limites, forceNext, forceCard, ...dados } = p.dados;
+  const { limites, forceNext, forceCard, orders, ...dados } = p.dados;
   return { dados, clube: p.clube, versao: p.versao };
 };
+
+// ---------------- compras com dinheiro (InfinitePay) ----------------
+const PENDENTE_MS = 60 * 60 * 1000;                     // link aberto há menos de 1 h conta no limite do dia
+const ID_PEDIDO = /^[0-9a-f-]{36}$/i;
+const texto = (v, max = 120) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null);
+const inicioDoDiaBR = now => new Date(`${dayKeyBR(now)}T00:00:00-03:00`).toISOString();   // Brasília não tem horário de verão
+const reais = c => (c / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+/** O que o app recebe do pedido. */
+const publicoPedido = p => p && ({
+  id: p.id, status: p.status, descricao: p.descricao, valor: p.valor, metodo: p.metodo || null,
+  parcelas: p.parcelas || null, recibo: p.recibo_url || null, criado_em: p.criado_em, pago_em: p.pago_em || null,
+  conteudo: p.conteudo,
+});
+
+/** Para onde a InfinitePay devolve o jogador: o endereço do jogo que pediu (se for um site liberado) ou JOGO_URL. */
+function enderecoDeVolta(env, pedido) {
+  const liberados = String(env.CORS_ORIGINS || '').split(',').map(s => s.trim()).filter(s => s && s !== '*');
+  let u = null;
+  try {
+    const x = new URL(String(pedido || ''));
+    const local = ['localhost', '127.0.0.1'].includes(x.hostname);
+    if (liberados.includes(x.origin) || (local && String(env.CORS_ORIGINS).includes('*'))) u = x.origin + x.pathname;
+  } catch { /* endereço inválido */ }
+  if (!u && env.JOGO_URL) u = String(env.JOGO_URL);
+  return u;
+}
+
+/**
+ * Leva o pedido até o fim, se der: confere na InfinitePay (criado → pago) e credita os
+ * pacotes no perfil (pago → creditado). Pode ser chamado várias vezes (webhook repetido,
+ * volta do checkout, consulta do app): cada passo só acontece uma vez.
+ */
+async function liquidar(db, env, ped, refs = {}) {
+  if (ped.status === 'criado') {
+    const transacao = refs.transacao || ped.transacao, slug = refs.slug || ped.slug;
+    const c = await conferir(env, { pedido: ped.id, transacao, slug });
+    if (!c.pago) {
+      if (refs.transacao && refs.slug && (refs.transacao !== ped.transacao || refs.slug !== ped.slug)) {
+        await db.rpc('versatte_pedido_ref', { p_id: ped.id, p_slug: refs.slug, p_transacao: refs.transacao });
+      }
+      return ped;
+    }
+    if (c.valor !== ped.valor) {
+      console.error('pedido com valor diferente', ped.id, c.valor, ped.valor);
+      erro(409, 'valor', 'O valor pago não confere com o pedido. Fale com o suporte da Versatte.');
+    }
+    ped = await db.rpc('versatte_pedido_pago', {
+      p_id: ped.id, p_slug: slug, p_transacao: transacao, p_metodo: c.metodo || null,
+      p_valor_pago: c.valorPago || c.valor, p_parcelas: c.parcelas, p_recibo: refs.recibo || null,
+    });
+  }
+  if (ped.status === 'pago') {
+    await mudarPerfil(db, ped.usuario_id, d => applyPaidOrder(d, ped, Date.now()));
+    ped = await db.rpc('versatte_pedido_creditado', { p_id: ped.id });
+  }
+  return ped;
+}
 
 // ---------------- recompensas de partidas offline (anti-trapaça básica) ----------------
 const LIMITES = {
@@ -153,7 +212,22 @@ async function rotear(req, env, db, url) {
   const ip = req.headers.get('cf-connecting-ip') || 'local';
   const today = dayKeyBR(), now = Date.now();
 
-  if (path === '/saude') return { ok: true, servico: 'versatte-api', hora: new Date().toISOString() };
+  if (path === '/saude') return { ok: true, servico: 'versatte-api', hora: new Date().toISOString(), pagamentos: pagamentosAtivos(env) };
+
+  // ---------------- aviso de pagamento da InfinitePay (sem login) ----------------
+  // O aviso não é assinado: só serve para dizer "confira este pedido". Quem decide é o payment_check.
+  if (m === 'POST' && path === '/pagamento/webhook') {
+    limitar(ip, 'webhook', 120, 60 * 1000);
+    if (!pagamentosAtivos(env)) erro(503, 'pagamentos-desligados', 'Pagamentos desligados');
+    const id = texto(body.order_nsu, 64);
+    if (!id || !ID_PEDIDO.test(id)) erro(400, 'pedido', 'order_nsu inválido');
+    const ped = await db.rpc('versatte_pedido', { p_id: id });
+    if (!ped) return { ok: true, ignorado: true };   // não é nosso: nada a fazer (e não pede nova tentativa)
+    if (['estornado', 'cancelado'].includes(ped.status)) return { ok: true, status: ped.status };
+    const r = await liquidar(db, env, ped, { transacao: texto(body.transaction_nsu), slug: texto(body.invoice_slug), recibo: urlInfinitePay(body.receipt_url, env) });
+    if (r.status === 'criado') erro(400, 'nao-confirmado', 'Pagamento ainda não confirmado na InfinitePay');   // 400 = a InfinitePay tenta de novo
+    return { ok: true, status: r.status };
+  }
 
   // ---------------- contas ----------------
   if (m === 'POST' && path === '/auth/cadastro') {
@@ -163,11 +237,16 @@ async function rotear(req, env, db, url) {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) erro(400, 'email', 'E-mail inválido');
     if (nome.length < 2) erro(400, 'nome', 'Informe seu nome');
     if (!chaveValida(body.chave)) erro(400, 'chave', 'Senha inválida');
+    // só maiores de 18: a data de nascimento é conferida aqui e NÃO é guardada (só o registro de que é maior)
+    const idade = ageOn(body.nascimento, today);
+    if (idade === null) erro(400, 'nascimento', 'Informe sua data de nascimento');
+    if (idade < MIN_AGE) erro(403, 'menor', `O Versatte Cards é só para maiores de ${MIN_AGE} anos.`);
     if (!body.aceite) erro(400, 'aceite', 'É preciso aceitar os termos e a política de privacidade');
     const { hash, sal } = await selarChave(body.chave);
     const u = await db.rpc('versatte_usuario_criar', { p_email: email, p_nome: nome, p_hash: hash, p_sal: sal, p_iter: 210000, p_dados: newProfile() });
     if (!u) erro(409, 'email-existe', 'Já existe uma conta com este e-mail');
-    return { token: await criarToken(u, env.VERSATTE_SESSAO_SECRET), usuario: u };
+    await db.rpc('versatte_usuario_maioridade', { p_id: u.id });
+    return { token: await criarToken(u, env.VERSATTE_SESSAO_SECRET), usuario: { ...u, maior: true } };
   }
   if (m === 'POST' && path === '/auth/entrar') {
     limitar(ip, 'entrar', 10, 10 * 60 * 1000);
@@ -190,7 +269,80 @@ async function rotear(req, env, db, url) {
   if (m === 'GET' && path === '/eu') {
     const usuario = await db.rpc('versatte_usuario', { p_id: me });
     if (!usuario) erro(401, 'sessao', 'Conta não encontrada');
-    return { usuario, perfil: publicoPerfil(await lerPerfil(db, me)), hoje: today };
+    usuario.maior = await db.rpc('versatte_usuario_maior', { p_id: me });
+    return { usuario, perfil: publicoPerfil(await lerPerfil(db, me)), hoje: today, pagamentos: pagamentosAtivos(env) };
+  }
+  // contas criadas antes da regra de 18+ confirmam a idade aqui (a data não é guardada)
+  if (m === 'POST' && path === '/eu/maioridade') {
+    limitar(me, 'maioridade', 5, 10 * 60 * 1000);
+    const idade = ageOn(body.nascimento, today);
+    if (idade === null) erro(400, 'nascimento', 'Informe uma data de nascimento válida');
+    if (idade < MIN_AGE) erro(403, 'menor', `O Versatte Cards é só para maiores de ${MIN_AGE} anos.`);
+    await db.rpc('versatte_usuario_maioridade', { p_id: me });
+    return { maior: true };
+  }
+
+  // ---------------- compras com dinheiro (InfinitePay) ----------------
+  if (m === 'POST' && path === '/pagamento/criar') {
+    if (!pagamentosAtivos(env)) erro(503, 'pagamentos-desligados', 'As compras com dinheiro ainda não estão disponíveis.');
+    limitar(me, 'pedido', 10, 10 * 60 * 1000);
+    if (!await db.rpc('versatte_usuario_maior', { p_id: me })) erro(403, 'idade', `Confirme que você tem ${MIN_AGE} anos ou mais para comprar.`);
+    const oferta = paidOffer(body.oferta);
+    if (!oferta) erro(400, 'oferta', 'Oferta inválida');
+    const gasto = await db.rpc('versatte_pedidos_gasto', { p_usuario: me, p_desde: inicioDoDiaBR(now), p_pendentes_desde: new Date(now - PENDENTE_MS).toISOString() });
+    const teto = Math.round((SHOP.limitPerDay || 0) * 100);
+    if (teto && gasto + oferta.valor > teto) {
+      erro(429, 'limite-gasto', `Limite de compras de ${reais(teto)} por dia atingido. Links de pagamento abertos há menos de 1 hora também contam.`);
+    }
+    const volta = enderecoDeVolta(env, body.volta);
+    if (!volta) erro(500, 'config', 'Endereço do jogo (JOGO_URL) não configurado no servidor');
+    const publica = String(env.API_PUBLICA_URL || url.origin).replace(/\/$/, '');
+    const usuario = await db.rpc('versatte_usuario', { p_id: me });
+    const id = crypto.randomUUID();
+    await db.rpc('versatte_pedido_criar', { p_id: id, p_usuario: me, p_oferta: oferta.id, p_descricao: oferta.descricao, p_valor: oferta.valor, p_conteudo: oferta.conteudo });
+    let link;
+    try {
+      link = await criarLink(env, {
+        pedido: id, descricao: oferta.descricao, valor: oferta.valor, volta,
+        webhook: publica.startsWith('https://') ? `${publica}/pagamento/webhook` : null,   // a InfinitePay só alcança endereço público
+        cliente: usuario && { nome: usuario.nome, email: usuario.email },
+      });
+    } catch (e) {
+      await db.rpc('versatte_pedido_cancelar', { p_id: id });
+      throw e;
+    }
+    await db.rpc('versatte_pedido_link', { p_id: id, p_url: link });
+    return { pedido: id, url: link };
+  }
+  // volta do checkout: o app manda o que a InfinitePay pôs no endereço (slug e transaction_nsu)
+  if (m === 'POST' && path === '/pagamento/confirmar') {
+    limitar(me, 'conferir', 30, 60 * 1000);
+    const id = texto(body.pedido, 64);
+    const ped = id && ID_PEDIDO.test(id) ? await db.rpc('versatte_pedido', { p_id: id }) : null;
+    if (!ped || ped.usuario_id !== me) erro(404, 'pedido', 'Pedido não encontrado');
+    const r = await liquidar(db, env, ped, { transacao: texto(body.transacao), slug: texto(body.slug), recibo: urlInfinitePay(body.recibo, env) });
+    return { pedido: publicoPedido(r), perfil: r.status === 'creditado' ? publicoPerfil(await lerPerfil(db, me)) : null };
+  }
+  let mp;
+  if (m === 'GET' && (mp = path.match(/^\/pagamento\/([0-9a-f-]{36})$/i))) {
+    limitar(me, 'conferir', 30, 60 * 1000);
+    let ped = await db.rpc('versatte_pedido', { p_id: mp[1] });
+    if (!ped || ped.usuario_id !== me) erro(404, 'pedido', 'Pedido não encontrado');
+    if (['criado', 'pago'].includes(ped.status) && pagamentosAtivos(env)) ped = await liquidar(db, env, ped);
+    return { pedido: publicoPedido(ped), perfil: ped.status === 'creditado' ? publicoPerfil(await lerPerfil(db, me)) : null };
+  }
+  if (m === 'GET' && path === '/pagamentos') {
+    return { pedidos: (await db.rpc('versatte_pedidos_usuario', { p_usuario: me, p_limite: 10 })).map(publicoPedido) };
+  }
+  // estorno (feito antes no app/conta da InfinitePay): marca o pedido e tira os pacotes ainda não abertos
+  if (m === 'POST' && (mp = path.match(/^\/admin\/pedidos\/([0-9a-f-]{36})\/estornar$/i))) {
+    if (!sess.adm) erro(403, 'admin', 'Só administradores');
+    const ped = await db.rpc('versatte_pedido', { p_id: mp[1] });
+    if (!ped) erro(404, 'pedido', 'Pedido não encontrado');
+    const antes = await db.rpc('versatte_pedido_estornar', { p_id: ped.id });
+    if (!antes) return { pedido: publicoPedido(ped), retirado: null };
+    const { out } = antes === 'creditado' ? await mudarPerfil(db, ped.usuario_id, d => revertPaidOrder(d, ped)) : { out: null };
+    return { pedido: publicoPedido(await db.rpc('versatte_pedido', { p_id: ped.id })), retirado: out };
   }
 
   // ---------------- economia (autoritativa) ----------------
@@ -203,7 +355,8 @@ async function rotear(req, env, db, url) {
     return { perfil: publicoPerfil(perfil) };
   }
   if (m === 'POST' && path === '/loja/comprar') {
-    // protótipo: pagamento simulado (integrar gateway de pagamento antes de produção)
+    // compra SIMULADA: só vale enquanto a InfinitePay não estiver configurada (protótipo/demonstração)
+    if (pagamentosAtivos(env)) erro(410, 'use-checkout', 'As compras agora são pagas pela InfinitePay. Atualize o app.');
     const { perfil } = await mudarPerfil(db, me, d => {
       const n = (d.limites?.compras?.[today]) || 0;
       if (n >= 5) erro(429, 'compras', 'Limite de compras simuladas por dia');

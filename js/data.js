@@ -45,7 +45,7 @@ export const PACKS = {
     dupBias: 0,
     // chance de, sorteada a raridade, a carta vir entre as que FALTAM
     newBoost: 0.15,
-    // garantia: após N pacotes premium sem Especial, o próximo traz uma
+    // garantia: se N−1 pacotes premium seguidos vierem sem Especial, o N-ésimo traz uma (nunca mais de 14 seguidos sem)
     pity: { rarity: 'especial', after: 15 },
   },
   // ---- pacotes trocados por moedas
@@ -86,12 +86,17 @@ export const PACK_STYLE = {
   lendario: { badge: 'LENDÁRIO · 4 CARTAS', short: 'Lendário' },
 };
 
+// O jogo é só para maiores de 18 anos (pacotes com cartas sorteadas: ECA Digital, Lei 15.211/2025, art. 20).
+export const MIN_AGE = 18;
+
 export const SHOP = {
+  // compra com dinheiro (InfinitePay: Pix ou cartão). price em reais; o servidor cobra em centavos.
   offers: [
     { id: 'p1',  packs: 1,  price: 4.90,  label: '1 pacote',   tag: null },
     { id: 'p5',  packs: 5,  price: 19.90, label: '5 pacotes',  tag: 'Mais vendido', bonus: 1 },
     { id: 'p12', packs: 12, price: 39.90, label: '12 pacotes', tag: 'Melhor valor', bonus: 3 },
   ],
+  limitPerDay: 200,   // gasto máximo por conta por dia (R$), contando links de pagamento abertos na última hora
   // troca de moedas por pacotes
   coinOffers: [
     { type: 'basico',   price: 120, desc: '3 cartas · menos repetidas que o diário' },

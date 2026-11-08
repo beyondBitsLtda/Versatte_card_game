@@ -5,37 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Imagens das Cartas</title>
   <link rel="icon" type="image/png" href="assets/icon-192.png">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;500;600;700&display=swap">
+  <meta name="theme-color" content="#F7F3EC">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Figtree:wght@400;500;600;700&family=Mr+Dafoe&display=swap">
   <style>
-    :root { color-scheme: dark; --bg: #04070D; --panel: #0C1626; --line: rgba(150,185,255,.14); --text: #EAF1FF; --muted: #93A3BD; --orange: #FF8A1F; --ok: #3ddc84; --bad: #ff7b7b; }
+    /* mesma identidade do jogo e do site versattesports.com.br */
+    :root { color-scheme: light; --bg: #F7F3EC; --bg-2: #F0E8DB; --surface: #FFFFFF; --ink: #17130F; --ink-2: #3E362E; --muted: #6B6157; --line: rgba(23,19,15,.1); --orange: #EA5B0C; --orange-text: #B3420A; --orange-script: #D9520A; --ok: #1B7A3E; --bad: #B3261E; --gold: #8A5E00;
+      --f-caps: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif; --f-body: 'Figtree', system-ui, sans-serif; --f-script: 'Mr Dafoe', 'Brush Script MT', cursive;
+      --shadow: 0 1px 2px rgba(23,19,15,.05), 0 20px 50px -28px rgba(23,19,15,.35); }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 500 14px/1.45 Barlow, Inter, system-ui, sans-serif; }
-    main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
-    h1 { font: italic 800 34px/1 'Barlow Condensed', sans-serif; text-transform: uppercase; margin: 0 0 6px; }
-    h1 b { color: var(--orange); }
-    p { color: var(--muted); margin: 0 0 10px; }
-    code { background: rgba(255,255,255,.07); padding: 1px 6px; border-radius: 6px; font-size: 12.5px; }
-    .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0; }
-    button { font: 700 13px Barlow, sans-serif; color: var(--text); background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; cursor: pointer; }
-    button.primary { background: linear-gradient(135deg, #FFA048, #FF7A00); color: #1a0b00; border: 0; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 500 14px/1.5 var(--f-body); -webkit-font-smoothing: antialiased; }
+    main { max-width: 1100px; margin: 0 auto; padding: 28px 16px 60px; }
+    h1 { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 .16em; font: 900 clamp(40px, 8vw, 58px)/.9 var(--f-caps); text-transform: uppercase; margin: 0 0 14px; }
+    h1 b { font: 400 1.12em/.8 var(--f-script); text-transform: none; color: var(--orange-script); transform: rotate(-4deg); display: inline-block; padding-right: .1em; }
+    p { color: var(--muted); margin: 0 0 10px; max-width: 72ch; }
+    p b { color: var(--ink); }
+    code { background: var(--bg-2); color: var(--ink-2); padding: 1px 7px; border-radius: 6px; font-size: 12.5px; }
+    .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0; }
+    .bar a { color: var(--orange-text); font-weight: 700; margin-left: auto; padding: 10px 4px; }
+    button { min-height: 44px; font: 700 14px var(--f-body); color: var(--ink); background: var(--surface); border: 1.5px solid rgba(23,19,15,.2); border-radius: 999px; padding: 0 18px; cursor: pointer; transition: transform .2s, background-color .2s; }
+    button:hover { transform: translateY(-2px); }
+    button.primary { background: var(--orange); color: #1A0B03; border-color: transparent; box-shadow: 0 10px 24px -12px rgba(234,91,12,.8); }
+    :focus-visible { outline: 2.5px solid var(--orange); outline-offset: 3px; border-radius: 10px; }
     .sum { display: flex; gap: 10px; flex-wrap: wrap; }
-    .sum div { padding: 10px 14px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); }
-    .sum b { font-size: 20px; display: block; }
-    h2 { font: italic 800 22px 'Barlow Condensed', sans-serif; text-transform: uppercase; margin: 26px 0 8px; }
-    table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-    th, td { padding: 8px 10px; border-top: 1px solid var(--line); text-align: left; vertical-align: middle; }
+    .sum div { padding: 12px 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); color: var(--muted); }
+    .sum b { font: 900 28px/1 var(--f-caps); display: block; color: var(--ink); }
+    .sum .ok b { color: var(--ok); } .sum .found b { color: var(--gold); } .sum .bad b { color: var(--bad); }
+    h2 { display: flex; align-items: center; gap: 10px; font: 700 12.5px var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--orange-text); margin: 30px 0 10px; }
+    h2::before { content: ''; width: 22px; height: 2px; border-radius: 2px; background: currentColor; }
+    table { width: 100%; border-collapse: collapse; background: var(--surface); }
+    th, td { padding: 9px 12px; border-top: 1px solid var(--line); text-align: left; vertical-align: middle; }
     th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-top: 0; }
     td.thumb { width: 64px; }
-    .thumb div { width: 52px; height: 64px; border-radius: 8px; background: repeating-conic-gradient(#1a2233 0 25%, #121a28 0 50%) 0 0 / 12px 12px; display: grid; place-items: center; overflow: hidden; }
+    .thumb div { width: 52px; height: 64px; border-radius: 10px; background: repeating-conic-gradient(#ECE4D7 0 25%, #F7F3EC 0 50%) 0 0 / 12px 12px; display: grid; place-items: center; overflow: hidden; }
     .thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .st { font-weight: 700; font-size: 12.5px; white-space: nowrap; }
-    .st.ok { color: var(--ok); } .st.bad { color: var(--bad); } .st.none { color: var(--muted); } .st.found { color: #FFC940; }
-    .rar { font-size: 12px; font-weight: 700; }
-    .uid { font-family: ui-monospace, Consolas, monospace; font-size: 12px; color: #c9d6ee; }
+    .st.ok { color: var(--ok); } .st.bad { color: var(--bad); } .st.none { color: var(--muted); } .st.found { color: var(--gold); }
+    /* raridade: a cor da raridade escurecida para ler bem no claro */
+    .rar { font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--rc, #6B6157) 45%, var(--ink)); }
+    .uid { font-family: ui-monospace, Consolas, monospace; font-size: 12px; color: var(--ink-2); }
     .path { font-family: ui-monospace, Consolas, monospace; font-size: 11.5px; color: var(--muted); word-break: break-all; }
-    textarea { width: 100%; min-height: 160px; margin-top: 8px; background: #070b14; color: #c9d6ee; border: 1px solid var(--line); border-radius: 12px; padding: 12px; font: 12.5px ui-monospace, Consolas, monospace; }
+    textarea { width: 100%; min-height: 160px; margin-top: 8px; background: var(--surface); color: var(--ink); border: 1.5px solid var(--line); border-radius: 16px; padding: 14px; font: 12.5px ui-monospace, Consolas, monospace; }
     .hide { display: none; }
-    .tw { overflow-x: auto; border-radius: 14px; }
+    .tw { overflow-x: auto; border-radius: 20px; border: 1px solid var(--line); box-shadow: var(--shadow); }
     @media (max-width: 700px) { .path, th:nth-child(5), td:nth-child(5) { display: none; } }
   </style>
 </head>
@@ -48,7 +61,7 @@
   <div class="bar">
     <button class="primary" id="scan">Procurar nos caminhos sugeridos</button>
     <button id="onlyMissing">Mostrar só as que faltam</button>
-    <a href="./" style="color:var(--orange);font-weight:700;margin-left:auto">← Voltar ao jogo</a>
+    <a href="./">← Voltar ao jogo</a>
   </div>
   <div id="snippetBox" class="hide">
     <p><b>Trecho para colar em <code>js/imagens.js</code></b> (substitua as linhas correspondentes):</p>
@@ -71,8 +84,8 @@
     const found = [...status.values()].filter(v => v === 'found').length;
     const bad = [...status.values()].filter(v => v === 'bad').length;
     document.getElementById('sum').innerHTML = `
-      <div><b>${total}</b>cartas</div><div><b style="color:var(--ok)">${ok}</b>com imagem</div>
-      <div><b style="color:#FFC940">${found}</b>encontradas, falta configurar</div><div><b style="color:var(--bad)">${bad}</b>com erro</div>`;
+      <div><b>${total}</b>cartas</div><div class="ok"><b>${ok}</b>com imagem</div>
+      <div class="found"><b>${found}</b>encontradas, falta configurar</div><div class="bad"><b>${bad}</b>com erro</div>`;
     document.getElementById('list').innerHTML = COLLECTIONS.map(col => `
       <h2>${col.name} · ${col.cards.length} cartas</h2>
       <div class="tw"><table>
@@ -83,9 +96,9 @@
           return `<tr>
             <td class="thumb"><div>${src && st !== 'bad' ? `<img src="${src}" alt="">` : ''}</div></td>
             <td>${String(c.number).padStart(2, '0')}</td>
-            <td><b>${c.name}</b><br><span class="rar" style="color:${RARITIES[c.rarity].color}">${c.edition} · ${RARITIES[c.rarity].label}</span></td>
+            <td><b>${c.name}</b><br><span class="rar" style="--rc:${RARITIES[c.rarity].color}">${c.edition} · ${RARITIES[c.rarity].label}</span></td>
             <td class="uid">${c.uid}</td>
-            <td class="path">${srcOf(c.uid) || `<span style="opacity:.6">sugerido: ${suggested(c)}</span>`}</td>
+            <td class="path">${srcOf(c.uid) || `<span style="opacity:.85">sugerido:${suggested(c)}</span>`}</td>
             <td><span class="st ${st}">${{ ok: '✓ carregou', bad: '✗ não encontrada', none: '— arte automática', found: '★ achada no caminho sugerido' }[st]}</span></td>
           </tr>`;
         }).join('')}</tbody>

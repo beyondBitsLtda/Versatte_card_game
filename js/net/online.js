@@ -19,6 +19,16 @@ export const isOnline = () => !!session;
 export const me = () => session?.usuario || null;
 export const isAdmin = () => !!session?.usuario?.admin;
 
+// compras com dinheiro: o servidor diz se a InfinitePay está configurada (GET /eu → pagamentos)
+let payments = false;
+export const paymentsOn = () => payments;
+/** A conta confirmou ter 18+ (POST /eu/maioridade). */
+export function setAdult() {
+  if (!session) return;
+  session.usuario = { ...session.usuario, maior: true };
+  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+}
+
 export class ApiError extends Error {
   constructor(status, code, message) { super(message || code); this.status = status; this.code = code; }
 }
@@ -87,10 +97,11 @@ function startSession(data) {
   useStorage(session.usuario.id);
 }
 
-export async function signup({ nome, email, senha, aceite }) {
+export async function signup({ nome, email, senha, aceite, nascimento }) {
   if (String(senha).length < 8) throw new ApiError(400, 'senha', 'A senha precisa ter pelo menos 8 caracteres');
   const chave = await deriveKey(email, senha);
-  startSession(await api('POST', '/auth/cadastro', { nome, email, chave, aceite }));
+  // a data de nascimento só é conferida no servidor (18+); não fica guardada
+  startSession(await api('POST', '/auth/cadastro', { nome, email, chave, aceite, nascimento }));
   await refreshProfile();
 }
 
@@ -140,6 +151,7 @@ export function applyProfile(perfil, { clube = false } = {}) {
 export async function refreshProfile() {
   const r = await api('GET', '/eu');
   session.usuario = r.usuario;
+  payments = !!r.pagamentos;
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   applyProfile(r.perfil, { clube: true });
   return r;

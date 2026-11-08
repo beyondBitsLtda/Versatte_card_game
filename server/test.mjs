@@ -1,20 +1,49 @@
 // ============================================================
 //  Teste de ponta a ponta da API (Worker + SQL em PGlite)
 //  Dois jogadores: cadastro, login, pacote, loja, troca, amistoso
-//  online ao vivo (intervalo, substituições, desistência) e torneio online. Rode com: node test.mjs
+//  online ao vivo (intervalo, substituições, desistência), torneio online,
+//  maioridade (18+) e compras pela InfinitePay (com um simulador local:
+//  nenhuma cobrança real). Rode com: node test.mjs
 // ============================================================
 import { spawn } from 'node:child_process';
+import http from 'node:http';
 import { webcrypto as crypto } from 'node:crypto';
 
 const PORT = +(process.env.TEST_PORT || 8811);
 const API = `http://127.0.0.1:${PORT}`;
-const srv = spawn(process.execPath, ['dev.mjs'], { cwd: new URL('.', import.meta.url), env: { ...process.env, PORT: String(PORT) }, stdio: ['ignore', 'pipe', 'inherit'] });
+
+// ---- simulador da InfinitePay: /links devolve um link; /payment_check só diz "pago" para o que o teste pagou
+const IP_PORT = PORT + 1, IP_URL = `http://127.0.0.1:${IP_PORT}`;
+const ip = { links: [], pagos: new Map(), checks: 0 };
+const ipSrv = http.createServer(async (req, res) => {
+  let s = ''; for await (const c of req) s += c;
+  const b = JSON.parse(s || '{}');
+  const send = o => { res.writeHead(200, { 'content-type': 'application/json' }); res.end(JSON.stringify(o)); };
+  if (b.handle !== 'versatte-teste') { res.writeHead(403); return res.end('{"error":"handle"}'); }
+  if (req.url === '/links') { ip.links.push(b); return send({ url: `${IP_URL}/checkout/${b.order_nsu}` }); }
+  if (req.url === '/payment_check') {
+    ip.checks++;
+    const p = ip.pagos.get(b.order_nsu);
+    const pago = !!p && p.transacao === b.transaction_nsu && p.slug === b.slug;
+    return send({ success: true, paid: pago, amount: p?.amount ?? 0, paid_amount: p?.amount ?? 0, installments: 1, capture_method: 'pix' });
+  }
+  res.writeHead(404); res.end('{}');
+});
+await new Promise(r => ipSrv.listen(IP_PORT, '127.0.0.1', r));
+
+const srv = spawn(process.execPath, ['dev.mjs'], {
+  cwd: new URL('.', import.meta.url),
+  env: { ...process.env, PORT: String(PORT), INFINITEPAY_HANDLE: 'versatte-teste', INFINITEPAY_API_URL: IP_URL },
+  stdio: ['ignore', 'pipe', 'inherit'],
+});
 await new Promise(r => srv.stdout.on('data', d => String(d).includes('Versatte API') && r()));
 
 let falhas = 0;
 const ok = (c, msg) => { console.log(c ? '✔' : '✘', msg); if (!c) falhas++; };
-const call = async (method, path, body, token) => {
-  const r = await fetch(API + path, { method, headers: { 'content-type': 'application/json', ...(token ? { authorization: 'Bearer ' + token } : {}) }, body: body ? JSON.stringify(body) : undefined });
+const call = async (method, path, body, token, extra = {}) => {
+  // cadastro sem data de nascimento no corpo → um adulto (as contas dos testes antigos)
+  if (path === '/auth/cadastro' && body && !('nascimento' in body)) body = { nascimento: '1990-05-10', ...body };
+  const r = await fetch(API + path, { method, headers: { 'content-type': 'application/json', ...(token ? { authorization: 'Bearer ' + token } : {}), ...extra }, body: body ? JSON.stringify(body) : undefined });
   const j = await r.json(); return { status: r.status, ...j, _: j };
 };
 
@@ -165,7 +194,67 @@ try {
   }
   ok(viuAoVivo, 'rodada do torneio vira partida ao vivo (mata-mata, velocidade do organizador)');
   ok(t.status === 'encerrado' && t.campeao, `torneio encerrado — campeão: ${t.participantes.find(p => p.id === t.campeao)?.nome}`);
+
+  // ---------------- maioridade (18+) ----------------
+  const outroIp = n => ({ 'cf-connecting-ip': `10.0.0.${n}` });   // o cadastro tem limite por IP
+  const hoje = new Date(), menorNasc = `${hoje.getFullYear() - 17}-01-01`;
+  const kc = await chave('carla@x.com', 'senha-da-carla-123');
+  ok((await call('POST', '/auth/cadastro', { email: 'carla@x.com', nome: 'Carla', chave: kc, aceite: true, nascimento: undefined }, null, outroIp(1))).erro === 'nascimento', '18+: cadastro sem data de nascimento → recusado');
+  const menor = await call('POST', '/auth/cadastro', { email: 'carla@x.com', nome: 'Carla', chave: kc, aceite: true, nascimento: menorNasc }, null, outroIp(2));
+  ok(menor.status === 403 && menor.erro === 'menor', '18+: cadastro de menor de idade → 403');
+  ok((await call('POST', '/auth/cadastro', { email: 'carla@x.com', nome: 'Carla', chave: kc, aceite: true, nascimento: '2007-02-30' }, null, outroIp(3))).erro === 'nascimento', '18+: data impossível → recusada');
+  ok((await call('GET', '/eu', null, ta)).usuario.maior === true, '18+: conta criada com data de adulto fica marcada como maior');
+  ok((await call('POST', '/eu/maioridade', { nascimento: menorNasc }, tb)).status === 403, '18+: confirmar idade com data de menor → 403');
+  ok((await call('POST', '/eu/maioridade', { nascimento: '1985-12-01' }, tb)).maior === true, '18+: confirmar idade de adulto');
+
+  // ---------------- compras pela InfinitePay (simulador) ----------------
+  ok((await call('GET', '/saude')).pagamentos === true, 'pagamentos ativos com INFINITEPAY_HANDLE');
+  ok((await call('POST', '/loja/comprar', { oferta: 'p1' }, ta)).status === 410, 'compra simulada desligada quando a InfinitePay está configurada');
+  ok((await call('POST', '/pagamento/criar', { oferta: 'xx' }, ta)).erro === 'oferta', 'oferta inexistente → recusada');
+  const premiumAntes = (await call('GET', '/eu', null, ta)).perfil.dados.premiumPacks;
+  const c1 = await call('POST', '/pagamento/criar', { oferta: 'p5', volta: 'http://127.0.0.1:8765/' }, ta);
+  const enviado = ip.links.at(-1);
+  ok(c1.url === `${IP_URL}/checkout/${c1.pedido}`, 'cria o pedido e devolve o link de pagamento');
+  ok(enviado.order_nsu === c1.pedido && enviado.items[0].price === 1990 && enviado.items[0].quantity === 1 && /6 pacotes premium/.test(enviado.items[0].description),
+    `InfinitePay recebe order_nsu, preço em centavos e descrição (${enviado.items[0].description})`);
+  ok(enviado.redirect_url === 'http://127.0.0.1:8765/' && !enviado.webhook_url && enviado.customer?.name === 'Ana', 'volta para o jogo; sem webhook em endereço que não é https; comprador pré-preenchido');
+  ok((await call('POST', '/pagamento/confirmar', { pedido: c1.pedido }, ta)).pedido.status === 'criado', 'antes de pagar: pedido continua aberto');
+  const falso = await call('POST', '/pagamento/webhook', { order_nsu: c1.pedido, transaction_nsu: 'tx-falsa', invoice_slug: 'slug-falso', amount: 1990 });
+  ok(falso.status === 400 && (await call('GET', '/eu', null, ta)).perfil.dados.premiumPacks === premiumAntes, 'webhook falso (não conferido na InfinitePay) não credita nada');
+  ip.pagos.set(c1.pedido, { transacao: 'tx-1', slug: 'slug-1', amount: 1990 });
+  const wh = await call('POST', '/pagamento/webhook', { order_nsu: c1.pedido, transaction_nsu: 'tx-1', invoice_slug: 'slug-1', amount: 1990, receipt_url: 'https://recibo.infinitepay.io/abc' });
+  ok(wh._.ok === true && wh._.status === 'creditado', 'webhook verdadeiro → conferido no payment_check e creditado');
+  ok((await call('GET', '/eu', null, ta)).perfil.dados.premiumPacks === premiumAntes + 6, '+6 pacotes premium na conta (5 + 1 de bônus)');
+  await call('POST', '/pagamento/webhook', { order_nsu: c1.pedido, transaction_nsu: 'tx-1', invoice_slug: 'slug-1' });
+  const conf = await call('POST', '/pagamento/confirmar', { pedido: c1.pedido, transacao: 'tx-1', slug: 'slug-1' }, ta);
+  ok(conf.pedido.status === 'creditado' && conf.perfil.dados.premiumPacks === premiumAntes + 6, 'webhook repetido e volta do checkout não creditam de novo');
+  ok(conf.pedido.recibo === 'https://recibo.infinitepay.io/abc' && !('orders' in conf.perfil.dados), 'comprovante guardado; controle interno não vai para o app');
+  ok((await call('POST', '/pagamento/confirmar', { pedido: c1.pedido }, tb)).status === 404, 'outro jogador não vê o pedido');
+  ok((await call('POST', '/pagamento/webhook', { order_nsu: crypto.randomUUID() })).ignorado === true, 'webhook de pedido desconhecido é ignorado');
+  // volta do checkout antes do webhook (Pix): o app manda slug e transaction_nsu e o servidor confere
+  const c2 = await call('POST', '/pagamento/criar', { oferta: 'p1', volta: 'http://127.0.0.1:8765/' }, ta);
+  ip.pagos.set(c2.pedido, { transacao: 'tx-2', slug: 'slug-2', amount: 490 });
+  const volta = await call('POST', '/pagamento/confirmar', { pedido: c2.pedido, transacao: 'tx-2', slug: 'slug-2' }, ta);
+  ok(volta.pedido.status === 'creditado' && volta.perfil.dados.premiumPacks === premiumAntes + 7, 'volta do checkout confere e credita sem esperar o webhook');
+  // valor diferente do pedido: não credita
+  const c3 = await call('POST', '/pagamento/criar', { oferta: 'p1', volta: 'http://127.0.0.1:8765/' }, ta);
+  ip.pagos.set(c3.pedido, { transacao: 'tx-3', slug: 'slug-3', amount: 100 });
+  ok((await call('POST', '/pagamento/confirmar', { pedido: c3.pedido, transacao: 'tx-3', slug: 'slug-3' }, ta)).erro === 'valor', 'valor pago diferente do pedido → não credita');
+  // limite do dia: 19,90 + 4,90 pagos + 4,90 aberto + 3 × 39,90 = 149,40; o 5º pedido de 39,90 passaria de R$ 200
+  for (let i = 0; i < 3; i++) await call('POST', '/pagamento/criar', { oferta: 'p12', volta: 'http://127.0.0.1:8765/' }, ta);
+  ok((await call('POST', '/pagamento/criar', { oferta: 'p12', volta: 'http://127.0.0.1:8765/' }, ta)).status === 200, 'dentro do limite de R$ 200 por dia');
+  ok((await call('POST', '/pagamento/criar', { oferta: 'p12', volta: 'http://127.0.0.1:8765/' }, ta)).erro === 'limite-gasto', 'acima de R$ 200 no dia → recusado');
+  const compras = await call('GET', '/pagamentos', null, ta);
+  ok(compras.pedidos.length >= 6 && compras.pedidos.filter(p => p.status === 'creditado').length === 2, `lista de compras da conta (${compras.pedidos.length})`);
+  // estorno (administrador)
+  ok((await call('POST', `/admin/pedidos/${c1.pedido}/estornar`, {}, tb)).status === 403, 'estorno: só administrador');
+  const est = await call('POST', `/admin/pedidos/${c1.pedido}/estornar`, {}, ta);
+  ok(est.pedido.status === 'estornado' && est.retirado.premium === 6, 'estorno marca o pedido e tira os 6 pacotes');
+  ok((await call('GET', '/eu', null, ta)).perfil.dados.premiumPacks === premiumAntes + 1, 'perfil sem os pacotes estornados');
+  ok((await call('POST', '/pagamento/webhook', { order_nsu: c1.pedido, transaction_nsu: 'tx-1', invoice_slug: 'slug-1' }))._.status === 'estornado'
+    && (await call('GET', '/eu', null, ta)).perfil.dados.premiumPacks === premiumAntes + 1, 'webhook depois do estorno não credita de novo');
 } catch (e) { console.error(e); falhas++; }
 srv.kill();
+ipSrv.close();
 console.log(falhas ? `\n${falhas} FALHA(S)` : '\nAPI OK');
 process.exit(falhas ? 1 : 0);

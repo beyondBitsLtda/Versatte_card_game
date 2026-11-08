@@ -1,0 +1,90 @@
+/* ============================================================
+   VERSATTE CARDS — compra com dinheiro (InfinitePay) e aviso de 18+
+   Usa os tokens de cor e fonte definidos em styles.css (com reserva,
+   para nada sumir se um token mudar de nome).
+   ============================================================ */
+
+/* ---------- selo 18+ ---------- */
+.badge-18 {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  min-width: 34px; height: 22px; padding: 0 7px; border-radius: 6px;
+  background: var(--ink, #17130F); color: var(--cream, #F7EFE3);
+  font: 800 13px/1 var(--f-caps, 'Big Shoulders Display', 'Arial Narrow', sans-serif); letter-spacing: .02em;
+  vertical-align: middle;
+}
+/* selo grande: laranja de ação com texto escuro (contraste AA, como os botões do site), levemente inclinado como os selos do site */
+.badge-18.big { min-width: 76px; height: 52px; padding: 0 14px; border-radius: 16px; font-size: 32px; font-weight: 900; background: var(--orange, #EA5B0C); color: var(--orange-ink, #1A0B03); box-shadow: 0 0 0 5px var(--orange-soft, #FCE9DD), 0 14px 30px -14px rgba(234, 91, 12, .8); transform: rotate(-4deg); }
+
+/* ---------- aviso de 18+ na primeira abertura ---------- */
+.age-gate {
+  position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; padding: 20px;
+  background: rgba(12, 11, 10, .72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  animation: ag-in .3s ease both;
+}
+.age-gate.out { animation: ag-out .25s ease both; }
+@keyframes ag-in { from { opacity: 0; } }
+@keyframes ag-out { to { opacity: 0; } }
+.ag-card {
+  width: min(440px, 100%); display: grid; justify-items: center; gap: 14px; text-align: center;
+  padding: 32px 24px 22px; border-radius: var(--r-lg, 28px);
+  background: radial-gradient(80% 40% at 50% 0%, var(--orange-soft, #FCE9DD), transparent 70%), var(--surface, #fff); color: var(--ink, #17130F);
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .6);
+  animation: ag-pop .4s cubic-bezier(.2, .8, .2, 1.1) both;
+}
+@keyframes ag-pop { from { opacity: 0; transform: translateY(14px) scale(.97); } }
+.ag-card h1 { font: 900 clamp(32px, 9vw, 38px)/.95 var(--f-caps, 'Big Shoulders Display', 'Arial Narrow', sans-serif); text-transform: uppercase; letter-spacing: .01em; }
+.ag-card p b { color: var(--ink, #17130F); }
+.ag-card p { margin: 0; color: var(--ink-2, #3E362E); font-size: 15px; line-height: 1.5; }
+.ag-card .fine { color: var(--muted, #6B6157); font-size: 12.5px; }
+.ag-btns { display: grid; gap: 10px; width: 100%; margin-top: 4px; }
+.ag-btns .btn, .ag-card > .btn { width: 100%; justify-content: center; }
+@media (prefers-reduced-motion: reduce) { .age-gate, .age-gate.out, .ag-card { animation: none; } }
+
+/* ---------- avisos na Loja, no cadastro e no perfil ---------- */
+.shop-pay { display: flex; align-items: center; gap: 7px; margin: -4px 2px 12px; font-size: 13px; color: var(--muted, #6B6157); }
+.shop-pay svg { width: 15px; height: 15px; flex: none; }
+.age-note { display: flex; align-items: flex-start; gap: 10px; margin: 18px 0 6px; padding: 12px 14px; border-radius: var(--r-sm, 16px); background: var(--bg-2, #F0E8DB); font-size: 13px; line-height: 1.45; color: var(--ink-2, #3E362E); }
+.age-note .badge-18 { margin-top: 1px; }
+.signup .age-note, .auth .age-note { margin: 2px 0 0; }
+.au-nasc small { font-weight: 500; color: var(--muted, #6B6157); }
+.profile .fine .badge-18 { margin-right: 4px; }
+
+/* ---------- checkout ---------- */
+.checkout.pay .co-line small { font-weight: 500; color: var(--muted, #6B6157); }
+.pay-step { display: grid; gap: 12px; }
+.pay-how { list-style: none; margin: 4px 0 2px; padding: 0; display: grid; gap: 10px; }
+.pay-how li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.45; color: var(--ink-2, #3E362E); }
+.pay-how svg { width: 18px; height: 18px; flex: none; margin-top: 1px; color: var(--orange-text, #B3420A); }
+.pay-step .fine { text-align: center; }
+.pay-step .fine .badge-18, .profile .fine .badge-18 { margin: -2px 6px 0 0; }
+.age-form { display: grid; gap: 12px; }
+.age-form p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-2, #3E362E); }
+.age-form .field { display: grid; gap: 6px; font-size: 13px; font-weight: 600; color: var(--ink-2, #3E362E); }
+.age-form .field > span { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted, #6B6157); }
+.age-form input[type="date"] {
+  width: 100%; height: 52px; padding: 0 16px; border-radius: var(--r-sm, 16px);
+  border: 1.5px solid var(--line, rgba(23, 19, 15, .14)); background: var(--surface, #fff); color: var(--ink, #17130F);
+  font: 500 16px/1 var(--f-body, 'Figtree', system-ui, sans-serif);
+}
+.age-form input[type="date"]:focus { outline: none; border-color: var(--orange, #EA5B0C); box-shadow: 0 0 0 4px rgba(234, 91, 12, .16); }
+.age-form .au-err { min-height: 1.2em; font-size: 13px; color: var(--bad, #B3261E); }
+.spinner.big { width: 34px; height: 34px; border-width: 3px; border-color: rgba(234, 91, 12, .2); border-top-color: var(--orange, #EA5B0C); }
+.pay-wait .claim-ico { display: grid; place-items: center; }
+
+/* ---------- últimas compras ---------- */
+.shop-orders:empty { display: none; }
+.orders { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 8px; }
+.order {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 12px;
+  padding: 12px 14px 12px 16px; border-radius: 18px;
+  background: var(--surface, #fff); border: 1px solid var(--line, rgba(23, 19, 15, .1));
+  box-shadow: var(--panel-shadow, none);
+}
+.or-txt { display: grid; gap: 2px; min-width: 0; }
+.or-txt b { font-size: 14px; color: var(--ink, #17130F); overflow-wrap: anywhere; }
+.or-txt span { font-size: 12.5px; color: var(--muted, #6B6157); }
+.or-st { justify-self: end; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.or-st.ok { background: var(--ok-soft, #E4F3E9); color: var(--ok, #1B7A3E); }
+.or-st.wait { background: var(--orange-soft, #FCE9DD); color: var(--orange-text, #B3420A); }
+.or-st.off { background: rgba(23, 19, 15, .08); color: var(--muted, #6B6157); }
+.order .link-btn { grid-column: 1 / -1; justify-self: start; min-height: 36px; margin: -4px 0 -6px -12px; font-size: 13px; color: var(--orange-text, #B3420A); text-decoration-color: currentColor; }

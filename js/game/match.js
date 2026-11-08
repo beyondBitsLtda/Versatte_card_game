@@ -809,7 +809,7 @@ export function playMatch(opts) {
       });
       [[0, 0], [FW, 0], [0, FL], [FW, FL]].forEach(([x, y]) => { c.beginPath(); c.arc(PX(x), PY(y), 1.2 * sc, 0, Math.PI * 2); c.stroke(); });
       c.shadowBlur = 0;
-      c.fillStyle = 'rgba(255,255,255,.06)'; c.font = `800 ${Math.round(sc * 3)}px 'Barlow Condensed', sans-serif`; c.textAlign = 'center';
+      c.fillStyle = 'rgba(255,255,255,.06)'; c.font = `900 ${Math.round(sc * 3)}px 'Big Shoulders Display', 'Arial Narrow', sans-serif`; c.textAlign = 'center';
       c.save(); c.translate(PX(FW / 2), PY(FL / 2)); if (land) c.rotate(Math.PI / 2);
       c.fillText((home.stadiumName || '').toUpperCase(), 0, sc * 1); c.restore();
     }
@@ -868,7 +868,7 @@ export function playMatch(opts) {
         const hl = hyp(a.hx, a.hy) || 1;
         ctx.fillStyle = 'rgba(255,255,255,.9)';
         ctx.beginPath(); ctx.arc(a.hx / hl * r * 0.78, a.hy / hl * r * 0.78, Math.max(1.6, r * 0.17), 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = textOn(c1); ctx.font = `800 ${Math.round(r * 0.95)}px 'Barlow Condensed', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillStyle = textOn(c1); ctx.font = `900 ${Math.round(r * 1.05)}px 'Big Shoulders Display', 'Arial Narrow', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         if (land) ctx.rotate(Math.PI / 2);
         ctx.fillText(String(a.shirt), 0, 1);
         ctx.restore();
@@ -881,7 +881,7 @@ export function playMatch(opts) {
           const name = a.out ? `${a.name} 🟥` : a.name;
           const s = toScr(cx, cy);                   // a etiqueta é desenhada na tela, sempre de pé
           ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          ctx.font = `700 ${Math.max(10, Math.round(r * 0.8))}px Barlow, sans-serif`;
+          ctx.font = `700 ${Math.max(10, Math.round(r * 0.8))}px Figtree, system-ui, sans-serif`;
           const tw = ctx.measureText(name).width + 10;
           const lx = clamp(s.x, tw / 2 + 2, W - tw / 2 - 2), ly = s.y - r - 12;
           ctx.fillStyle = 'rgba(3,6,12,.78)'; roundRect(lx - tw / 2, ly - 8, tw, 16, 8); ctx.fill();

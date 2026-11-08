@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-  <meta name="theme-color" content="#04070D">
+  <meta name="theme-color" content="#F7F3EC">
   <meta name="description" content="Versatte Cards — colecione cartas dos clubes e ídolos da Série A e troque por brindes. Protótipo por Beyond Bits.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Versatte Cards">
   <title>Versatte Cards</title>
   <link rel="manifest" href="manifest.webmanifest">
@@ -15,7 +15,8 @@
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800;1,900&family=Barlow:wght@400;500;600;700&display=swap">
+  <!-- tipografia do site versattesports.com.br: letreiro de estádio, texto e pincel de assinatura -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:wght@400;500;600;700;800&family=Mr+Dafoe&display=swap">
   <script>
     /* Ajuste de tela: mede a área visível e, se o celular abrir a página com viewport de
        desktop (ex.: "Site para computador"), aplica zoom para tudo voltar ao tamanho real.
@@ -64,13 +65,14 @@
   <link rel="stylesheet" href="css/game.css">
   <link rel="stylesheet" href="css/online.css">
   <link rel="stylesheet" href="css/desktop.css">
+  <link rel="stylesheet" href="css/pagamento.css">
 </head>
 <body>
+  <!-- fundo: creme com dois halos suaves (laranja e azul) e a textura de faixas onduladas do site -->
   <div class="bg" aria-hidden="true">
     <div class="bg-glow g1"></div>
     <div class="bg-glow g2"></div>
     <div class="bg-grid"></div>
-    <img class="bg-wm" src="assets/logo-versatte.png" alt="">
   </div>
 
   <div class="shell">
@@ -98,7 +100,7 @@
       <div class="in-ring"></div>
       <div class="in-ring r2"></div>
       <img src="assets/logo-versatte.png" alt="Versatte">
-      <h1>VERSATTE <b>CARDS</b></h1>
+      <h1>VERSATTE <b>Cards</b></h1>
       <p>Colecione · Complete · Ganhe</p>
       <span class="in-tap">Toque para começar</span>
     </div>

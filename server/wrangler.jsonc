@@ -1,6 +1,7 @@
 // Versatte API — Cloudflare Worker (mesmo padrão do Abacato/Proof no beyond-assist)
 // SUPABASE_URL fica em vars (não é segredo). Segredos: wrangler secret put SUPABASE_SERVICE_ROLE_KEY
 //                                      wrangler secret put VERSATTE_SESSAO_SECRET (já configurado)
+//                                      wrangler secret put INFINITEPAY_API_KEY (opcional)
 {
   "name": "versatte-api",
   // mesma conta do Abacato/Lisa (onde está o domínio beyond.dev.br); id de conta não é segredo
@@ -14,7 +15,12 @@
   "vars": {
     // sites que podem chamar a API (o jogo no GitHub Pages e o desenvolvimento local)
     "CORS_ORIGINS": "https://beyondbitsltda.github.io,http://127.0.0.1:8765,http://localhost:8765",
-    "SUPABASE_URL": "https://banco.beyond.dev.br"
+    "SUPABASE_URL": "https://banco.beyond.dev.br",
+    // compras com dinheiro (InfinitePay): InfiniteTag da conta de negócios, SEM o "$" (não é segredo).
+    // Vazio = compras com dinheiro desligadas (a compra simulada continua só para a demonstração).
+    "INFINITEPAY_HANDLE": "",
+    // para onde a InfinitePay devolve o jogador depois de pagar (endereço do jogo publicado)
+    "JOGO_URL": "https://beyondbitsltda.github.io/Versatte_card_game/"
   },
   "observability": { "enabled": true }
 }
