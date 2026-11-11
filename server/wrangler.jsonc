@@ -18,7 +18,7 @@
     "SUPABASE_URL": "https://banco.beyond.dev.br",
     // compras com dinheiro (InfinitePay): InfiniteTag da conta de negócios, SEM o "$" (não é segredo).
     // Vazio = compras com dinheiro desligadas (a compra simulada continua só para a demonstração).
-    "INFINITEPAY_HANDLE": "",
+    "INFINITEPAY_HANDLE": "versatte_sports-vs",
     // para onde a InfinitePay devolve o jogador depois de pagar (endereço do jogo publicado)
     "JOGO_URL": "https://beyondbitsltda.github.io/Versatte_card_game/"
   },
