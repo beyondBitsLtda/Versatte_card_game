@@ -8,6 +8,7 @@
 /* ---------- jogador: OVR + posição no canto ---------- */
 .f-ovr { display: flex; flex-direction: column; align-items: center; line-height: .9; }
 .f-ovr b { font: 900 10.5cqw/0.9 var(--f-caps); color: #fff; text-shadow: 0 0 3cqw rgba(0,0,0,.8); }
+.f-tec b { font-size: 7cqw; }
 .f-ovr i { font: 800 4.4cqw/1 var(--f-caps); font-style: normal; color: var(--rc); letter-spacing: .08em; }
 .r-especial .f-ovr b { background: linear-gradient(180deg, #fff6d0, #ffc940); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
@@ -22,7 +23,7 @@
 .card.is-live .f-art.mode-cobrir, .card.is-live.k-stadium .f-art { translate: calc((50% - var(--mx)) * .04) calc((50% - var(--my)) * .03); scale: 1.06; }
 .k-stadium .f-art svg { width: 100%; height: 100%; }
 .k-stadium .f-foot { height: 32%; }
-.k-player .f-art { top: 11%; width: 84%; }
+.k-player .f-art, .k-coach .f-art { top: 11%; width: 84%; }
 .k-mascot .f-art { top: 12%; width: 80%; }
 
 /* ---------- edições de clube ---------- */

@@ -5,6 +5,11 @@
 //  com a Versatte sem mexer no motor.
 // ============================================================
 
+import {
+  SA_ELENCO, SA_RETRO, SA_ESCUDOS_HIST, SA_ESTADIOS_HIST, SA_MASCOTES,
+  UCL_TEAMS as UCL_RAW, UCL_ESCUDOS, UCL_ESTADIOS, UCL_JOGADORES,
+} from './colecoes2026.js';
+
 export const RARITIES = {
   comum:    { id: 'comum',    label: 'Comum',      order: 0, color: '#C7D2E0', points: 5   },
   rara:     { id: 'rara',     label: 'Rara',       order: 1, color: '#33B5FF', points: 15  },
@@ -280,31 +285,16 @@ export const ABILITIES = {
 //  Todos os 20 clubes têm carta comum (escudo oficial);
 //  raras, muito raras e especiais são edições especiais.
 // ============================================================
-const CLUB_EDITIONS = [
-  // Uniforme 2 (rara): cores invertidas
-  { team: 'cor', rarity: 'rara', edition: 'Uniforme 2', variant: 'away', fact: 'É o maior campeão do Campeonato Paulista.' },
-  { team: 'sao', rarity: 'rara', edition: 'Uniforme 2', variant: 'away', fact: 'Foi o primeiro clube brasileiro tricampeão da Libertadores (1992, 1993 e 2005).' },
-  { team: 'gre', rarity: 'rara', edition: 'Uniforme 2', variant: 'away', fact: 'O hino do clube, "Até a pé nós iremos", é de Lupicínio Rodrigues, torcedor gremista.' },
-  { team: 'int', rarity: 'rara', edition: 'Uniforme 2', variant: 'away', fact: 'Bicampeão da Libertadores, em 2006 e 2010.' },
-  { team: 'cru', rarity: 'rara', edition: 'Uniforme 2', variant: 'away', fact: 'Bicampeão da Libertadores, em 1976 e 1997.' },
-  { team: 'cam', rarity: 'rara', edition: 'Uniforme 2', variant: 'away', fact: 'Em 2021 venceu Brasileirão e Copa do Brasil na mesma temporada.' },
-  // Histórica (muito rara): visual retrô
-  { team: 'san', rarity: 'muito', edition: 'Histórica', variant: 'retro', fact: 'Foi o primeiro clube brasileiro bicampeão da Libertadores, em 1962 e 1963.' },
-  { team: 'vas', rarity: 'muito', edition: 'Histórica', variant: 'retro', fact: 'Em 1998, ano do seu centenário, conquistou a Libertadores.' },
-  { team: 'bot', rarity: 'muito', edition: 'Histórica', variant: 'retro', fact: 'Garrincha, Nilton Santos, Didi e Zagallo: o Botafogo cedeu titulares à Seleção campeã em 1958 e 1962.' },
-  { team: 'flu', rarity: 'muito', edition: 'Histórica', variant: 'retro', fact: 'O Fla-Flu de 1963 reuniu cerca de 194 mil pessoas no Maracanã, um dos maiores públicos da história.' },
-  // Campeão (especial): dourada
-  { team: 'fla', rarity: 'especial', edition: 'Campeão', variant: 'champ', fact: 'Em 2025 conquistou Brasileirão e Libertadores, tornando-se o primeiro clube do Brasil tetra da América.' },
-  { team: 'pal', rarity: 'especial', edition: 'Campeão', variant: 'champ', fact: 'Bicampeão seguido da Libertadores, em 2020 e 2021.' },
-];
 
+/** Escudo histórico (raro para cima) a partir dos dados da pesquisa. */
+function histCrest(t, e) {
+  const ano = ((e.years || e.name || '').match(/\d{4}/) || [''])[0];
+  return { ...t, id: e.id, team: t.id, rarity: e.rarity, edition: ano ? `Escudo ${ano}` : 'Escudo histórico', variant: 'retro',
+    full: e.name || t.full, years: e.years, fact: e.fact || t.fact, highlight: `${e.name || 'Escudo histórico'}${e.years ? ` (${e.years})` : ''}.` };
+}
 const CLUB_CARDS = [
-  ...TEAMS.map(t => ({ ...t, id: t.id, team: t.id, rarity: 'comum', edition: 'Escudo oficial', variant: 'base' })),
-  ...CLUB_EDITIONS.map(e => {
-    const t = TEAM_BY_ID[e.team];
-    const suffix = { away: 'u2', retro: 'hist', champ: 'camp' }[e.variant];
-    return { ...t, ...e, id: `${t.id}-${suffix}`, name: t.name, highlight: `Edição ${e.edition}: ${t.highlight}` };
-  }),
+  ...TEAMS.map(t => ({ ...t, team: t.id, rarity: 'comum', edition: 'Escudo atual', variant: 'base' })),
+  ...SA_ESCUDOS_HIST.filter(e => TEAM_BY_ID[e.team]).map(e => histCrest(TEAM_BY_ID[e.team], e)),
 ];
 
 // ============================================================
@@ -320,39 +310,19 @@ const COMMON_TIPS = {
   MEI: 'Meias controlam a posse de bola: quem cria mais, ataca mais vezes.',
   ATA: 'Atacantes têm o maior peso na finalização (ATA) e no número de gols.',
 };
-// Ids mantidos dos antigos atletas fictícios para não invalidar coleções já salvas (uid = jog-<id>).
-const COMMON_PLAYERS = [
-  ['davi-rocha', 'Pedro', 'fla', 'ATA', 70, 9, 'Pedro Guilherme Abreu dos Santos'],
-  ['caio-lemos', 'Gustavo Gómez', 'pal', 'ZAG', 69, 15, 'Gustavo Raúl Gómez Portillo'],
-  ['renan-sousa', 'Breno Bidon', 'cor', 'VOL', 67, 7, 'Breno de Souza Bidon'],
-  ['thiago-brandao', 'Rafael', 'sao', 'GOL', 68, 23, 'Rafael Pires Monteiro'],
-  ['kaua-mendes', 'Neymar', 'san', 'ATA', 66, 10, 'Neymar da Silva Santos Júnior'],
-  ['igor-paiva', 'Vitinho', 'bot', 'LAT', 68, 2, 'Victor Alexander da Silva'],
-  ['rafael-teixeira', 'Bernard', 'cam', 'MEI', 68, 11, 'Bernard Anício Caldeira Duarte'],
-  ['lucas-fontes', 'Fabrício Bruno', 'cru', 'ZAG', 67, 15, 'Fabrício Bruno Soares de Faria'],
-  ['matheus-prado', 'Weverton', 'gre', 'GOL', 66, 1, 'Weverton Pereira da Silva'],
-  ['enzo-carvalho', 'Alan Patrick', 'int', 'MEI', 67, 10, 'Alan Patrick Lourenço'],
-  ['pedro-almeida', 'Colidio', 'vas', 'ATA', 66, 9, 'Facundo Colidio'],
-  ['gustavo-neri', 'Arana', 'flu', 'LAT', 66, 13, 'Guilherme Antonio Arana Lopes'],
-  ['icaro-santana', 'Jean Lucas', 'bah', 'VOL', 66, 6, 'Jean Lucas de Souza Oliveira'],
-  ['breno-lacerda', 'Alix Vinicius', 'rbb', 'ZAG', 65, 4, 'Alix Vinicius de Souza Sampaio'],
-  ['jonas-bezerra', 'Walter', 'mir', 'GOL', 65, 22, 'Walter Leandro Capeloza Artune'],
-  ['luan-cerqueira', 'Renato Kayzer', 'vit', 'ATA', 64, 79, 'Renato Kayzer de Souza'],
-  ['henrique-bauer', 'Josué', 'cfc', 'MEI', 64, 10, 'Josué Filipe Soares Pesqueira'],
-  ['felipe-kruger', 'Esquivel', 'cap', 'LAT', 64, 37, 'Lucas Ángel Esquivel'],
-  ['diego-zanella', 'Doma', 'cha', 'ZAG', 63, 3, 'Eduardo Vinicius Domachowski'],
-  ['marlon-siqueira', 'Marlon Siqueira', 'rem', 'VOL', 63, 8, 'Marlon Siqueira (atleta fictício)'],
-].map(([id, name, team, pos, ovr, shirt, full]) => {
-  const fictional = full.endsWith('(atleta fictício)');
-  return {
-    id, name, team, pos, ovr, shirt, full, rarity: 'comum', edition: 'Elenco 2026', era: '2026', fictional,
-    highlight: fictional
-      ? 'Atleta fictício da demonstração: substitua por um jogador licenciado do elenco.'
-      : `Do elenco do ${TEAM_BY_ID[team].name} na temporada 2026.`,
-    fact: COMMON_TIPS[pos],
-  };
-});
-// fim COMMON_PLAYERS
+
+const clampOvr = v => Math.max(55, Math.min(92, Math.round(Number(v) || 68)));
+const ELENCO = SA_ELENCO.filter(p => TEAM_BY_ID[p.team]).map(p => p.kind === 'coach'
+  ? { id: p.id, name: p.name, full: p.full, team: p.team, kind: 'coach', pos: 'TEC', shirt: null, nat: p.nat, rarity: 'comum', edition: 'Elenco 2026', era: '2026',
+      highlight: p.highlight || `Técnico do ${TEAM_BY_ID[p.team].name} na temporada 2026.`,
+      fact: p.fact || 'Os técnicos completam o álbum do elenco 2026.' }
+  : { id: p.id, name: p.name, full: p.full, team: p.team, pos: POSITIONS[p.pos] ? p.pos : 'MEI', ovr: clampOvr(p.ovr), shirt: p.shirt ?? null, nat: p.nat,
+      starter: p.starter, rarity: 'comum', edition: 'Elenco 2026', era: '2026',
+      highlight: p.highlight || `Do elenco do ${TEAM_BY_ID[p.team].name} na temporada 2026.`,
+      fact: p.fact || COMMON_TIPS[POSITIONS[p.pos] ? p.pos : 'MEI'] });
+const retroEdition = r => ({ rara: 'Ídolo', muito: 'Lenda', especial: 'Prime' }[r] || 'Ídolo');
+const RETRO_EXTRA = SA_RETRO.filter(p => TEAM_BY_ID[p.team]).map(p => ({ ...p, pos: POSITIONS[p.pos] ? p.pos : 'MEI', ovr: clampOvr(p.ovr),
+  edition: retroEdition(p.rarity), highlight: p.highlight || `Ídolo histórico do ${TEAM_BY_ID[p.team].name}.`, fact: p.fact || '' }));
 
 const IDOLS = [
   // ---- goleiros
@@ -438,13 +408,19 @@ const PRIMES = [
     highlight: 'Eleito o melhor jogador da Copa do Mundo de 1994.', fact: 'Comemorou o "milésimo gol" da carreira, pela sua contagem, pelo Vasco, em 2007.' },
 ].map(p => ({ ...p, rarity: 'especial', edition: 'Prime' }));
 
-const PLAYER_CARDS = [...COMMON_PLAYERS, ...IDOLS, ...PRIMES]
-  .map(p => ({ ...p, person: p.id.replace(/-prime$/, ''), attrs: playerAttrs(p.id, p.pos, p.ovr) }));
+const PLAYER_CARDS = [...ELENCO, ...IDOLS, ...RETRO_EXTRA, ...PRIMES]
+  .map(p => p.kind === 'coach' ? { ...p, person: p.id } : { ...p, person: p.id.replace(/-(prime|retro)$/, ''), attrs: playerAttrs(p.id, p.pos, p.ovr) });
 
 // ============================================================
 //  COLEÇÃO 3 — ESTÁDIOS
 //  capacity: capacidade aproximada · mando: bônus jogando em casa (Modo Clube)
 // ============================================================
+/** Estádio histórico (raro para cima). */
+function histStadium(t, s) {
+  return { id: s.id, name: s.name, team: t.id, rarity: s.rarity, city: s.city || t.city, opened: s.opened, capacity: s.capacity || 20000,
+    nickname: s.nickname || s.name, full: s.full || s.name, years: s.years, edition: 'Histórico',
+    fact: s.fact || `Palco histórico do ${t.name}.`, highlight: s.highlight || `${s.name}${s.years ? ` (${s.years})` : ''}: casa histórica do ${t.name}.` };
+}
 const STADIUM_CARDS = [
   { id: 'maracana', name: 'Maracanã', team: 'fla', rarity: 'especial', city: 'Rio de Janeiro · RJ', opened: 1950, capacity: 78000, nickname: 'Templo do Futebol',
     full: 'Estádio Jornalista Mário Filho', fact: 'Recebeu duas finais de Copa do Mundo: em 1950 e em 2014.', highlight: 'Casa de Flamengo e Fluminense.' },
@@ -484,7 +460,9 @@ const STADIUM_CARDS = [
     full: 'Estádio José Maria de Campos Maia', fact: 'Pequeno e acolhedor, viu o Mirassol chegar à elite e à Libertadores.', highlight: 'Casa do Mirassol.' },
   { id: 'mangueirao', name: 'Mangueirão', team: 'rem', rarity: 'comum', city: 'Belém · PA', opened: 1978, capacity: 50000, nickname: 'Mangueirão',
     full: 'Estádio Olímpico do Pará', fact: 'Reformado recentemente, recebe os grandes jogos do Remo e o clássico Re-Pa.', highlight: 'Palco dos grandes jogos do Remo.' },
-].map(s => ({ ...s, edition: 'Estádio', mando: STADIUM_BONUS[s.rarity] + (s.capacity >= 60000 ? 1 : 0) }));
+].map(s => ({ ...s, rarity: 'comum', edition: 'Estádio' }))
+  .concat(SA_ESTADIOS_HIST.filter(s => TEAM_BY_ID[s.team]).map(s => histStadium(TEAM_BY_ID[s.team], s)))
+  .map(s => ({ ...s, mando: STADIUM_BONUS[s.rarity] + (s.capacity >= 60000 ? 1 : 0) }));
 
 // ============================================================
 //  COLEÇÃO 4 — MASCOTES (oficiais e versões especiais)
@@ -512,6 +490,10 @@ const MASCOT_BASE = {
   cha: { name: 'Índio Condá', emoji: '🏹', ability: 'raca', fact: 'Homenagem ao cacique Condá, liderança kaingang da região de Chapecó.' },
   rem: { name: 'Leão Azul', emoji: '🦁', ability: 'torcida', fact: 'O Remo é o "Leão Azul" da Amazônia; o rival Paysandu é o "Papão".' },
 };
+for (const m of SA_MASCOTES) {
+  const b = MASCOT_BASE[m.team];
+  if (b && m.name) Object.assign(b, { name: m.name, fact: m.fact || b.fact, highlight: m.highlight || undefined });
+}
 const MASCOT_EDITIONS = [
   { team: 'fla', rarity: 'rara', edition: 'Neon' },
   { team: 'cam', rarity: 'rara', edition: 'Neon' },
@@ -567,6 +549,40 @@ const HERO_CARDS = [
 ].map(h => ({ ...h, edition: h.role, hero: true, power: HERO_POWER[h.rarity] }));
 
 // ============================================================
+//  CHAMPIONS LEAGUE 2026/27 — clubes, jogadores e estádios
+//  Comuns: escudos, craques e estádios atuais · Raras+: escudos e estádios
+//  históricos e lendas retrô de cada clube.
+// ============================================================
+const HEX = /^#[0-9a-f]{6}$/i;
+const PATTERNS = ['solid', 'stripes', 'halves', 'sash', 'hoops', 'tri', 'band'];
+export const UCL_TEAMS = UCL_RAW.filter(t => t.team && t.name).map(t => {
+  const colors = (t.colors || []).filter(c => HEX.test(c));
+  return { id: t.team, name: t.name, abbr: String(t.abbr || t.team).toUpperCase().slice(0, 3), colors: colors.length >= 2 ? colors : ['#0A1A4F', '#FFFFFF'],
+    pattern: PATTERNS.includes(t.pattern) ? t.pattern : 'solid', full: t.full || t.name, city: t.city || t.country || '', country: t.country,
+    founded: t.founded, stadium: t.stadium, nickname: t.nickname || t.name, fact: t.fact || '', highlight: t.highlight || `Na fase de liga da Champions 2026/27.`, power: 82 };
+});
+export const UCL_TEAM_BY_ID = Object.fromEntries(UCL_TEAMS.map(t => [t.id, t]));
+
+const UCL_CLUB_CARDS = UCL_ESCUDOS.filter(e => UCL_TEAM_BY_ID[e.team]).map(e => e.hist
+  ? histCrest(UCL_TEAM_BY_ID[e.team], e)
+  : { ...UCL_TEAM_BY_ID[e.team], id: e.team, team: e.team, rarity: 'comum', edition: 'Escudo atual', variant: 'base' });
+
+const UCL_PLAYER_CARDS = UCL_JOGADORES.filter(p => UCL_TEAM_BY_ID[p.team] && POSITIONS[p.pos]).map(p => {
+  const t = UCL_TEAM_BY_ID[p.team];
+  const base = { id: p.id, name: p.name, full: p.full, team: p.team, pos: p.pos, ovr: clampOvr(p.ovr), shirt: p.shirt ?? null, nat: p.nat };
+  return p.retro
+    ? { ...base, rarity: p.rarity, edition: retroEdition(p.rarity), era: p.era, highlight: p.highlight || `Lenda do ${t.name}.`, fact: p.fact || '' }
+    : { ...base, rarity: 'comum', edition: 'Champions 2026/27', era: '2026/27', highlight: p.highlight || `Do elenco do ${t.name} na Champions 2026/27.`, fact: p.fact || COMMON_TIPS[p.pos] };
+}).map(p => ({ ...p, person: p.id.replace(/-retro$/, ''), attrs: playerAttrs(p.id, p.pos, p.ovr) }));
+
+const UCL_STADIUM_CARDS = UCL_ESTADIOS.filter(s => UCL_TEAM_BY_ID[s.team]).map(s => {
+  const t = UCL_TEAM_BY_ID[s.team];
+  return s.hist ? histStadium(t, s)
+    : { id: s.id, name: s.name, team: s.team, rarity: 'comum', city: s.city || t.city, opened: s.opened, capacity: s.capacity || 30000,
+        nickname: s.nickname || s.name, full: s.full || s.name, edition: 'Estádio', fact: s.fact || `Casa do ${t.name}.`, highlight: s.highlight || `Casa do ${t.name}.` };
+}).map(s => ({ ...s, mando: STADIUM_BONUS[s.rarity] + (s.capacity >= 60000 ? 1 : 0) }));
+
+// ============================================================
 //  Montagem das coleções
 // ============================================================
 const VILLAIN_TEAM = { id: 'vil', name: 'Série Z', abbr: 'Z', colors: ['#3A0F5C', '#3DFF8F'], pattern: 'solid', full: 'Legião do Rebaixamento', city: 'Série Z' };
@@ -582,10 +598,10 @@ function build(collectionId, prefix, list, kind) {
     .map((c, i) => ({
       ...c,
       uid: `${prefix}-${c.id}`,
-      kind,
+      kind: c.kind || kind,
       collection: collectionId,
       number: i + 1,
-      teamData: c.team === 'vil' ? VILLAIN_TEAM : (TEAM_BY_ID[c.team] || c),
+      teamData: c.team === 'vil' ? VILLAIN_TEAM : (TEAM_BY_ID[c.team] || UCL_TEAM_BY_ID[c.team] || c),
     }));
 }
 
@@ -617,6 +633,27 @@ export const COLLECTIONS = [
     packTitle: ['MASCOTES', 'OFICIAIS'],
     theme: { c1: '#8A3A0A', c2: '#FFD15C', glow: '#FF8A1F' },
     cards: build('mascotes', 'masc', MASCOT_CARDS, 'mascot'),
+  },
+  {
+    id: 'ucl-clubes', name: 'Champions · Clubes', short: 'UCL Clubes',
+    tagline: 'Os 36 clubes da Champions 2026/27 e seus escudos históricos',
+    packTitle: ['CHAMPIONS', 'CLUBES'],
+    theme: { c1: '#0A1A4F', c2: '#C9D6FF', glow: '#4F7BFF' },
+    cards: build('ucl-clubes', 'ucl', UCL_CLUB_CARDS, 'team'),
+  },
+  {
+    id: 'ucl-jogadores', name: 'Champions · Jogadores', short: 'UCL Craques',
+    tagline: 'Os craques da Champions 2026/27 e as lendas de cada clube',
+    packTitle: ['CHAMPIONS', 'CRAQUES'],
+    theme: { c1: '#101A3A', c2: '#7FE3FF', glow: '#2EC5FF' },
+    cards: build('ucl-jogadores', 'ujog', UCL_PLAYER_CARDS, 'player'),
+  },
+  {
+    id: 'ucl-estadios', name: 'Champions · Estádios', short: 'UCL Estádios',
+    tagline: 'Os palcos da Champions 2026/27 e os estádios que fizeram história',
+    packTitle: ['CHAMPIONS', 'ESTÁDIOS'],
+    theme: { c1: '#0B2A4A', c2: '#B6F0D2', glow: '#3FD49A' },
+    cards: build('ucl-estadios', 'uest', UCL_STADIUM_CARDS, 'stadium'),
   },
   {
     id: 'juizo-final', name: 'Juízo Final', short: 'Juízo Final',
@@ -672,6 +709,24 @@ export const PRIZES = [
     [0.50, 'star', 'Pôster Juízo Final', 'Pôster exclusivo da Liga dos Mascotes.'],
     [0.75, 'mug', 'Caneca Juízo Final', 'Caneca edição especial.'],
     [1.00, 'shirt', 'Camisa edição Juízo Final', 'Camisa especial da Liga dos Mascotes.'],
+  ]),
+  ...P('ucl-clubes', 'uc', [
+    [0.25, 'ticket', 'Cupom 5% OFF', 'Em qualquer produto da loja.'],
+    [0.50, 'ticket', 'Cupom 10% OFF', 'Em camisas de clubes europeus.'],
+    [0.75, 'mug', 'Caneca Champions', 'Caneca exclusiva da coleção.'],
+    [1.00, 'shirt', 'Camisa de clube europeu', 'Uma camisa de um clube da Champions à sua escolha.'],
+  ]),
+  ...P('ucl-jogadores', 'uj', [
+    [0.25, 'ticket', 'Cupom 5% OFF', 'Em qualquer produto da loja.'],
+    [0.50, 'ticket', 'Cupom 15% OFF', 'Em camisas de clubes europeus.'],
+    [0.75, 'mug', 'Caneca Craques da Europa', 'Caneca exclusiva da coleção.'],
+    [1.00, 'shirt', 'Camisa de um craque europeu', 'Camisa personalizada de um craque da Champions.'],
+  ]),
+  ...P('ucl-estadios', 'ue', [
+    [0.25, 'ticket', 'Cupom 5% OFF', 'Em qualquer produto da loja.'],
+    [0.50, 'ticket', 'Cupom 10% OFF', 'Em acessórios.'],
+    [0.75, 'cap', 'Boné Champions', 'Boné exclusivo da coleção.'],
+    [1.00, 'mug', 'Caneca Palcos da Europa', 'Caneca exclusiva da coleção.'],
   ]),
   { id: 'master', collection: null, at: 1.00, icon: 'trophy', title: 'Kit Lendário Versatte', desc: 'Camisa + caneca + 25% OFF. Para quem completar todas as coleções.' },
 ];

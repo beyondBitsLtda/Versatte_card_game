@@ -13,7 +13,7 @@ const EMOJI_FONT = `'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans
 // ------------------------------------------------------------
 //  Imagens configuradas
 // ------------------------------------------------------------
-const DEFAULT_MODE = { team: 'conter', player: 'jogador', stadium: 'cobrir', mascot: 'conter' };
+const DEFAULT_MODE = { team: 'conter', player: 'jogador', coach: 'jogador', stadium: 'cobrir', mascot: 'conter' };
 
 export function cardImage(card) {
   const raw = IMAGENS[card.uid];
@@ -87,7 +87,7 @@ export function teamArt(t, variant = 'base') {
     <rect x="14" y="92" width="172" height="58" rx="6" fill="url(#${st})" clip-path="url(#${clip})"/>
     <text x="100" y="138" text-anchor="middle" class="art-abbr">${esc(t.abbr)}</text>
     <path d="${STAR}" fill="${champ ? '#FFC940' : '#fff'}" stroke="#05080f" stroke-width="2.5" paint-order="stroke"/>
-    <text x="100" y="186" text-anchor="middle" class="art-year">${retro ? `DESDE ${t.founded}` : t.founded}</text>
+    <text x="100" y="186" text-anchor="middle" class="art-year">${t.founded ? (retro ? `DESDE ${t.founded}` : t.founded) : ""}</text>
     <path d="${SHIELD}" fill="none" stroke="currentColor" stroke-width="5"/>
     <path d="${SHIELD}" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2" transform="translate(10 10) scale(.9)"/>
     ${crownStars}
@@ -120,7 +120,7 @@ export function playerArt(p) {
       </radialGradient>
       <clipPath id="${jc}"><path d="${jerseyPath}"/></clipPath>
     </defs>
-    <text x="100" y="150" text-anchor="middle" class="art-bignum">${p.shirt}</text>
+    <text x="100" y="150" text-anchor="middle" class="art-bignum">${p.shirt ?? ''}</text>
     <path d="M88 112 L112 112 L115 140 L85 140Z" fill="url(#${hg})"/>
     <ellipse cx="100" cy="84" rx="28" ry="33" fill="url(#${hg})" stroke="currentColor" stroke-opacity=".75" stroke-width="2"/>
     <path d="${jerseyPath}" fill="${fill}"/>
@@ -201,7 +201,7 @@ export function mascotArt(m) {
 
 function generatedArt(card) {
   if (card.kind === 'team') return teamArt(card.teamData, card.variant);
-  if (card.kind === 'player') return playerArt(card);
+  if (card.kind === 'player' || card.kind === 'coach') return playerArt(card);
   if (card.kind === 'stadium') return stadiumArt(card);
   return mascotArt(card);
 }
@@ -228,6 +228,7 @@ export function cardSubtitle(card) {
   const t = card.teamData;
   switch (card.kind) {
     case 'player': return `${POSITIONS[card.pos].label} · ${t.name}`;
+    case 'coach': return `Técnico · ${t.name}`;
     case 'stadium': return `${card.city.split(' · ')[0]} · ${Math.round(card.capacity / 1000)} mil`;
     case 'mascot': {
       const a = abilityText(card);
@@ -275,6 +276,7 @@ export function cardHTML(card, { size = 'md', live = false, flipped = false, cou
   const col = COLLECTION_BY_ID[card.collection];
   const corner = card.kind === 'player'
     ? `<span class="f-ovr"><b>${card.ovr}</b><i>${card.pos}</i></span>`
+    : card.kind === 'coach' ? `<span class="f-ovr f-tec"><b>TEC</b></span>`
     : `<span class="f-num">#${String(card.number).padStart(2, '0')}</span>`;
   const classes = [
     'card', `r-${card.rarity}`, `k-${card.kind}`, `s-${size}`,
@@ -319,6 +321,7 @@ const SLOT_SIL = {
   stadium: `<path d="M20 150 Q100 80 180 150 L180 200 Q100 236 20 200Z" fill="none" stroke="currentColor" stroke-width="7" stroke-dasharray="12 9"/><text x="100" y="186" text-anchor="middle">?</text>`,
   mascot: `<circle cx="100" cy="112" r="80" fill="none" stroke="currentColor" stroke-width="7" stroke-dasharray="12 9"/><text x="100" y="146" text-anchor="middle">?</text>`,
 };
+SLOT_SIL.coach = SLOT_SIL.player;
 export function slotHTML(card) {
   const R = RARITIES[card.rarity];
   return `

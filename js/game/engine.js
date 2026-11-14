@@ -199,7 +199,7 @@ export function aiTeam(teamId, season = 1, formation) {
   const players = lines.map((line, i) => ({ name: name(i), shirt: [1, 4, 8, 10, 9][i], line, rating: rating(line, delta[line] + ((seed + i) % 5) - 2) }));
   const bench = ['DEF', 'MEI', 'ATA'].map((line, i) => ({ name: name(i + 6), shirt: 12 + i, line, rating: rating(line, -5) }));
   const mascot = CARD_BY_UID[`masc-${teamId}`] || null;
-  const stadiumCard = Object.values(CARD_BY_UID).find(c => c.kind === 'stadium' && c.team === teamId) || null;
+  const stadiumCard = ALL_CARDS.find(c => c.kind === 'stadium' && c.team === teamId && c.rarity === 'comum') || ALL_CARDS.find(c => c.kind === 'stadium' && c.team === teamId) || null;
   return {
     id: teamId, user: false, name: t.name, abbr: t.abbr, colors: t.colors, pattern: t.pattern,
     crest: CARD_BY_UID[`clube-${teamId}`], stadium: stadiumCard, mascot, formation: form, players, bench,

@@ -338,6 +338,7 @@ export function openDetail(uid) {
   const facts = {
     team: () => [['Nome oficial', c.full], ['Cidade', c.city], ['Fundação', c.founded], ['Estádio', c.stadium], ['Apelido', c.nickname], ['Edição', c.edition]],
     player: () => [['Nome completo', c.full], ['Clube', t.full], ['Posição', POSITIONS[c.pos].label], ['Período', c.era], ['Camisa', c.shirt ?? '—'], ['Versão', c.edition]],
+    coach: () => [['Nome completo', c.full], ['Clube', t.full], ['Função', 'Técnico'], ['Nacionalidade', c.nat || '—'], ['Temporada', c.era], ['Versão', c.edition]],
     stadium: () => [['Nome oficial', c.full], ['Cidade', c.city], ['Inauguração', c.opened ?? '—'], ['Capacidade', `~${c.capacity.toLocaleString('pt-BR')}`], ['Apelido', c.nickname], ['Clube', t.name]],
     mascot: () => c.hero
       ? [['Papel', c.role], ['Inspirado no', t.name], ['Habilidade', abilityText(c).label], ['Força', `+${c.power}`]]
@@ -352,6 +353,7 @@ export function openDetail(uid) {
     }
     const line = {
       team: `Como escudo do seu clube: <b>moral +${CREST_MORAL[c.rarity]}</b> em todos os setores e <b>química</b> com jogadores do ${esc(t.name)}.`,
+      coach: `Técnico do ${esc(t.name)}: carta de coleção, ainda sem efeito no Modo Clube.`,
       stadium: `Como estádio do seu clube: <b>+${c.mando} de mando</b> em todos os setores nos jogos em casa.`,
       mascot: () => `Como mascote do seu clube: <b>${esc(abilityText(c).label)}</b> — ${esc(abilityText(c).desc)}.`,
     }[c.kind];
