@@ -459,15 +459,15 @@ export function openLineup(app, onClose = null) {
         const v = expectedLoan(benchSlot ? null : line, isOwned)[benchSlot ? 'MEI' : line];
         return `
         <button class="tk loan-slot" data-slot="${benchSlot ? 'b' : 's'}${idx}">
-          <div class="tk-card-wrap">
-            <div class="tk-card-fake loan">
-              <span class="tk-loan">EMP</span>
-              <span class="tk-fake-ico">🎲</span>
+          <div class="tk-card-box">
+            <div class="tk-fake-card loan">
+              <span class="tk-loan-tag">EMP</span>
+              <span class="tk-fake-icon">🎲</span>
               <span class="tk-fake-val">~${v}</span>
               <span class="tk-fake-name">Sorteio</span>
             </div>
           </div>
-          <span class="tk-p">${benchSlot ? 'RES' : line}</span>
+          <span class="tk-pos-label">${benchSlot ? 'RES' : line}</span>
         </button>`;
       }
       const card = uid ? CARD_BY_UID[uid] : null;
@@ -477,24 +477,24 @@ export function openLineup(app, onClose = null) {
       if (card) {
         return `
         <button class="tk ${off ? 'off' : ''} ${loan ? 'loan' : ''}" data-slot="${benchSlot ? 'b' : 's'}${idx}">
-          <div class="tk-card-wrap">
+          <div class="tk-card-box">
             ${cardHTML(card, { size: 'sm', live: true })}
-            <span class="tk-badge-val ${off ? 'off' : ''}">${v}</span>
-            ${off ? '<span class="tk-badge-off" title="Fora de posição">⚠</span>' : ''}
-            ${loan ? '<span class="tk-loan">EMP</span>' : ''}
+            <span class="tk-attr-badge ${off ? 'off' : ''}">${v}</span>
+            ${off ? '<span class="tk-off-badge" title="Fora de posição">⚠</span>' : ''}
+            ${loan ? '<span class="tk-loan-tag">EMP</span>' : ''}
           </div>
-          <span class="tk-p">${benchSlot ? card.pos : line}${off ? ' ⚠' : ''}</span>
+          <span class="tk-pos-label">${benchSlot ? card.pos : line}${off ? ' ⚠' : ''}</span>
         </button>`;
       }
       return `
         <button class="tk empty" data-slot="${benchSlot ? 'b' : 's'}${idx}">
-          <div class="tk-card-wrap">
-            <div class="tk-card-fake empty-base">
+          <div class="tk-card-box">
+            <div class="tk-fake-card empty-base">
               <span class="tk-fake-val">${v}</span>
               <span class="tk-fake-name">Base</span>
             </div>
           </div>
-          <span class="tk-p">${benchSlot ? '—' : line}</span>
+          <span class="tk-pos-label">${benchSlot ? '—' : line}</span>
         </button>`;
     };
     const rows = ['ATA', 'MEI', 'DEF', 'GOL'].map(l => lines.map((x, i) => [x, i]).filter(([x]) => x === l));
