@@ -77,7 +77,7 @@ export const IMAGENS = {
   'clube-vas': 'assets/cartas/clubes/clube-vas.png',  // #46 Vasco · Escudo atual · Comum
   'clube-vit': 'assets/cartas/clubes/clube-vit.png',  // #47 Vitória · Escudo atual · Comum
 
-  // ---------- Jogadores (357 cartas)
+  // ---------- Jogadores (356 cartas)
   'jog-garrincha-prime': 'assets/cartas/jogadores/jog-garrincha-prime.jpg',  // #01 Garrincha · Prime · Especial
   'jog-pele-prime': 'assets/cartas/jogadores/jog-pele-prime.jpg',  // #02 Pelé · Prime · Especial
   'jog-romario-prime': 'assets/cartas/jogadores/jog-romario-prime.jpg',  // #03 Romário · Prime · Especial
@@ -145,14 +145,14 @@ export const IMAGENS = {
   'jog-artur': 'assets/cartas/jogadores/jog-artur.jpg',  // #65 Artur · Elenco 2026 · Comum
   'jog-artur-jorge': 'assets/cartas/jogadores/jog-artur-jorge.jpg',  // #66 Artur Jorge · Elenco 2026 · Comum
   'jog-ayrton-lucas': 'assets/cartas/jogadores/jog-ayrton-lucas.jpg',  // #67 Ayrton Lucas · Elenco 2026 · Comum
-  'jog-balbuena': '',  // #68 Balbuena · Elenco 2026 · Comum
+  'jog-balbuena': 'assets/cartas/jogadores/jog-balbuena.jpg',  // #68 Balbuena · Elenco 2026 · Comum
   'jog-baralhas': 'assets/cartas/jogadores/jog-baralhas.jpg',  // #69 Baralhas · Elenco 2026 · Comum
   'jog-barboza': 'assets/cartas/jogadores/jog-barboza.jpg',  // #70 Barboza · Elenco 2026 · Comum
   'jog-barreal': 'assets/cartas/jogadores/jog-barreal.jpg',  // #71 Barreal · Elenco 2026 · Comum
   'jog-bernabei': 'assets/cartas/jogadores/jog-bernabei.jpg',  // #72 Bernabei · Elenco 2026 · Comum
   'jog-bernard': 'assets/cartas/jogadores/jog-bernard.jpg',  // #73 Bernard · Elenco 2026 · Comum
   'jog-bobadilla': 'assets/cartas/jogadores/jog-bobadilla.jpg',  // #74 Bobadilla · Elenco 2026 · Comum
-  'jog-dylan-borrero': '',  // #75 Borrero · Elenco 2026 · Comum
+  'jog-dylan-borrero': 'assets/cartas/jogadores/jog-dylan-borrero.jpg',  // #75 Borrero · Elenco 2026 · Comum
   'jog-braithwaite': 'assets/cartas/jogadores/jog-braithwaite.jpg',  // #76 Braithwaite · Elenco 2026 · Comum
   'jog-breno-bidon': 'assets/cartas/jogadores/jog-breno-bidon.jpg',  // #77 Breno Bidon · Elenco 2026 · Comum
   'jog-breno-lopes': 'assets/cartas/jogadores/jog-breno-lopes.jpg',  // #78 Breno Lopes · Elenco 2026 · Comum
@@ -162,7 +162,7 @@ export const IMAGENS = {
   'jog-bruno-melo': 'assets/cartas/jogadores/jog-bruno-melo.jpg',  // #82 Bruno Melo · Elenco 2026 · Comum
   'jog-bruno-pacheco': 'assets/cartas/jogadores/jog-bruno-pacheco.jpg',  // #83 Bruno Pacheco · Elenco 2026 · Comum
   'jog-bruno-santos': 'assets/cartas/jogadores/jog-bruno-santos.jpg',  // #84 Bruno Santos · Elenco 2026 · Comum
-  'jog-bruno-tubarao': '',  // #85 Bruno Tubarão · Elenco 2026 · Comum
+  'jog-bruno-tubarao': 'assets/cartas/jogadores/jog-bruno-tubarao.jpg',  // #85 Bruno Tubarão · Elenco 2026 · Comum
   'jog-bustos': 'assets/cartas/jogadores/jog-bustos.jpg',  // #86 Bustos · Elenco 2026 · Comum
   'jog-caca': 'assets/cartas/jogadores/jog-caca.jpg',  // #87 Cacá · Elenco 2026 · Comum
   'jog-caique-goncalves': 'assets/cartas/jogadores/jog-caique-goncalves.jpg',  // #88 Caíque Gonçalves · Elenco 2026 · Comum
@@ -183,7 +183,7 @@ export const IMAGENS = {
   'jog-cuiabano': 'assets/cartas/jogadores/jog-cuiabano.jpg',  // #103 Cuiabano · Elenco 2026 · Comum
   'jog-danilo': 'assets/cartas/jogadores/jog-danilo.jpg',  // #104 Danilo · Elenco 2026 · Comum
   'jog-dantas': 'assets/cartas/jogadores/jog-dantas.jpg',  // #105 Dantas · Elenco 2026 · Comum
-  'jog-david-braga': '',  // #106 David Braga · Elenco 2026 · Comum
+  'jog-david-braga': 'assets/cartas/jogadores/jog-david-braga.jpg',  // #106 David Braga · Elenco 2026 · Comum
   'jog-david-duarte': 'assets/cartas/jogadores/jog-david-duarte.jpg',  // #107 David Duarte · Elenco 2026 · Comum
   'jog-denilson': 'assets/cartas/jogadores/jog-denilson.jpg',  // #108 Denilson · Elenco 2026 · Comum
   'jog-diego-tarzia': 'assets/cartas/jogadores/jog-diego-tarzia.jpg',  // #109 Diego Tarzia · Elenco 2026 · Comum
@@ -245,7 +245,7 @@ export const IMAGENS = {
   'jog-hugo-souza': 'assets/cartas/jogadores/jog-hugo-souza.jpg',  // #165 Hugo Souza · Elenco 2026 · Comum
   'jog-huguinho': 'assets/cartas/jogadores/jog-huguinho.jpg',  // #166 Huguinho · Elenco 2026 · Comum
   'jog-hulk': 'assets/cartas/jogadores/jog-hulk.jpg',  // #167 Hulk · Elenco 2026 · Comum
-  'jog-iago': '',  // #168 Iago · Elenco 2026 · Comum
+  'jog-iago': 'assets/cartas/jogadores/jog-iago.jpg',  // #168 Iago · Elenco 2026 · Comum
   'jog-ignacio': 'assets/cartas/jogadores/jog-ignacio.jpg',  // #169 Ignácio · Elenco 2026 · Comum
   'jog-igor-formiga': 'assets/cartas/jogadores/jog-igor-formiga.jpg',  // #170 Igor Formiga · Elenco 2026 · Comum
   'jog-isidro-pitta': 'assets/cartas/jogadores/jog-isidro-pitta.jpg',  // #171 Isidro Pitta · Elenco 2026 · Comum
@@ -258,183 +258,182 @@ export const IMAGENS = {
   'jog-joao-alencar': 'assets/cartas/jogadores/jog-joao-alencar.jpg',  // #178 João Alencar · Elenco 2026 · Comum
   'jog-joao-cruz': 'assets/cartas/jogadores/jog-joao-cruz.jpg',  // #179 João Cruz · Elenco 2026 · Comum
   'jog-joao-marcelo': 'assets/cartas/jogadores/jog-joao-marcelo.jpg',  // #180 João Marcelo · Elenco 2026 · Comum
-  'jog-joao-paulo': '',  // #181 João Paulo · Elenco 2026 · Comum
-  'jog-joao-schmidt': 'assets/cartas/jogadores/jog-joao-schmidt.jpg',  // #182 João Schmidt · Elenco 2026 · Comum
-  'jog-joao-victor': 'assets/cartas/jogadores/jog-joao-victor.jpg',  // #183 João Victor · Elenco 2026 · Comum
-  'jog-jonathan-jesus': 'assets/cartas/jogadores/jog-jonathan-jesus.jpg',  // #184 Jonathan Jesus · Elenco 2026 · Comum
-  'jog-jorginho': 'assets/cartas/jogadores/jog-jorginho.jpg',  // #185 Jorginho · Elenco 2026 · Comum
-  'jog-jose-herrera': 'assets/cartas/jogadores/jog-jose-herrera.jpg',  // #186 José Herrera · Elenco 2026 · Comum
-  'jog-josue': 'assets/cartas/jogadores/jog-josue.jpg',  // #187 Josué · Elenco 2026 · Comum
-  'jog-juninho': 'assets/cartas/jogadores/jog-juninho.jpg',  // #188 Juninho · Elenco 2026 · Comum
-  'jog-juninho-capixaba': 'assets/cartas/jogadores/jog-juninho-capixaba.jpg',  // #189 Juninho Capixaba · Elenco 2026 · Comum
-  'jog-justino': 'assets/cartas/jogadores/jog-justino.jpg',  // #190 Justino · Elenco 2026 · Comum
-  'jog-kaio-cesar': 'assets/cartas/jogadores/jog-kaio-cesar.jpg',  // #191 Kaio César · Elenco 2026 · Comum
-  'jog-kaio-jorge': 'assets/cartas/jogadores/jog-kaio-jorge.jpg',  // #192 Kaio Jorge · Elenco 2026 · Comum
-  'jog-kannemann': 'assets/cartas/jogadores/jog-kannemann.jpg',  // #193 Kannemann · Elenco 2026 · Comum
-  'jog-kanu': 'assets/cartas/jogadores/jog-kanu.jpg',  // #194 Kanu · Elenco 2026 · Comum
-  'jog-kauan': 'assets/cartas/jogadores/jog-kauan.jpg',  // #195 Kauan · Elenco 2026 · Comum
-  'jog-kauan-faria': 'assets/cartas/jogadores/jog-kauan-faria.jpg',  // #196 Kauan Faria · Elenco 2026 · Comum
-  'jog-keny-arroyo': 'assets/cartas/jogadores/jog-keny-arroyo.jpg',  // #197 Keny Arroyo · Elenco 2026 · Comum
-  'jog-kerwin-vargas': 'assets/cartas/jogadores/jog-kerwin-vargas.jpg',  // #198 Kerwin Vargas · Elenco 2026 · Comum
-  'jog-kevin-castano': 'assets/cartas/jogadores/jog-kevin-castano.jpg',  // #199 Kevin Castaño · Elenco 2026 · Comum
-  'jog-kike-olivera': 'assets/cartas/jogadores/jog-kike-olivera.jpg',  // #200 Kike Olivera · Elenco 2026 · Comum
-  'jog-krovinovic': 'assets/cartas/jogadores/jog-krovinovic.jpg',  // #201 Krovinović · Elenco 2026 · Comum
-  'jog-lavega': 'assets/cartas/jogadores/jog-lavega.jpg',  // #202 Lavega · Elenco 2026 · Comum
-  'jog-leo-jardim': 'assets/cartas/jogadores/jog-leo-jardim.jpg',  // #203 Léo Jardim · Elenco 2026 · Comum
-  'jog-leo-ortiz': 'assets/cartas/jogadores/jog-leo-ortiz.jpg',  // #204 Léo Ortiz · Elenco 2026 · Comum
-  'jog-leo-pereira': 'assets/cartas/jogadores/jog-leo-pereira.jpg',  // #205 Léo Pereira · Elenco 2026 · Comum
-  'jog-leonardo-jardim': 'assets/cartas/jogadores/jog-leonardo-jardim.jpg',  // #206 Leonardo Jardim · Elenco 2026 · Comum
-  'jog-leozinho': 'assets/cartas/jogadores/jog-leozinho.jpg',  // #207 Leozinho · Elenco 2026 · Comum
-  'jog-lescano': 'assets/cartas/jogadores/jog-lescano.jpg',  // #208 Lescano · Elenco 2026 · Comum
-  'jog-lingard': 'assets/cartas/jogadores/jog-lingard.jpg',  // #209 Lingard · Elenco 2026 · Comum
-  'jog-luan-candido': 'assets/cartas/jogadores/jog-luan-candido.jpg',  // #210 Luan Cândido · Elenco 2026 · Comum
-  'jog-luan-peres': 'assets/cartas/jogadores/jog-luan-peres.jpg',  // #211 Luan Peres · Elenco 2026 · Comum
-  'jog-lucas-arcanjo': 'assets/cartas/jogadores/jog-lucas-arcanjo.jpg',  // #212 Lucas Arcanjo · Elenco 2026 · Comum
-  'jog-lucas-barbosa': 'assets/cartas/jogadores/jog-lucas-barbosa.jpg',  // #213 Lucas Barbosa · Elenco 2026 · Comum
-  'jog-lucas-evangelista': 'assets/cartas/jogadores/jog-lucas-evangelista.jpg',  // #214 Lucas Evangelista · Elenco 2026 · Comum
-  'jog-lucas-moura': 'assets/cartas/jogadores/jog-lucas-moura.jpg',  // #215 Lucas Moura · Elenco 2026 · Comum
-  'jog-lucas-oliveira': 'assets/cartas/jogadores/jog-lucas-oliveira.jpg',  // #216 Lucas Oliveira · Elenco 2026 · Comum
-  'jog-lucas-romero': 'assets/cartas/jogadores/jog-lucas-romero.jpg',  // #217 Lucas Romero · Elenco 2026 · Comum
-  'jog-lucas-verissimo': 'assets/cartas/jogadores/jog-lucas-verissimo.jpg',  // #218 Lucas Veríssimo · Elenco 2026 · Comum
-  'jog-lucho-acosta': 'assets/cartas/jogadores/jog-lucho-acosta.jpg',  // #219 Lucho Acosta · Elenco 2026 · Comum
-  'jog-luciano': 'assets/cartas/jogadores/jog-luciano.jpg',  // #220 Luciano · Elenco 2026 · Comum
-  'jog-luciano-juba': 'assets/cartas/jogadores/jog-luciano-juba.jpg',  // #221 Luciano Juba · Elenco 2026 · Comum
-  'jog-luiz-gustavo': 'assets/cartas/jogadores/jog-luiz-gustavo.jpg',  // #222 Luiz Gustavo · Elenco 2026 · Comum
-  'jog-lyanco': 'assets/cartas/jogadores/jog-lyanco.jpg',  // #223 Lyanco · Elenco 2026 · Comum
-  'jog-marcal': 'assets/cartas/jogadores/jog-marcal.jpg',  // #224 Marçal · Elenco 2026 · Comum
-  'jog-marcao': 'assets/cartas/jogadores/jog-marcao.jpg',  // #225 Marcão · Elenco 2026 · Comum
-  'jog-marcelinho': 'assets/cartas/jogadores/jog-marcelinho.jpg',  // #226 Marcelinho · Elenco 2026 · Comum
-  'jog-marcelo-rangel': 'assets/cartas/jogadores/jog-marcelo-rangel.jpg',  // #227 Marcelo Rangel · Elenco 2026 · Comum
-  'jog-marcinho': 'assets/cartas/jogadores/jog-marcinho.jpg',  // #228 Marcinho · Elenco 2026 · Comum
-  'jog-marcos-antonio': 'assets/cartas/jogadores/jog-marcos-antonio.jpg',  // #229 Marcos Antônio · Elenco 2026 · Comum
-  'jog-marcos-victor': 'assets/cartas/jogadores/jog-marcos-victor.jpg',  // #230 Marcos Victor · Elenco 2026 · Comum
-  'jog-maripan': '',  // #231 Maripán · Elenco 2026 · Comum
-  'jog-marllon': 'assets/cartas/jogadores/jog-marllon.jpg',  // #232 Marllon · Elenco 2026 · Comum
-  'jog-marlon': 'assets/cartas/jogadores/jog-marlon.jpg',  // #233 Marlon · Elenco 2026 · Comum
-  'jog-marlon-2': 'assets/cartas/jogadores/jog-marlon-2.jpg',  // #234 Marlon · Elenco 2026 · Comum
-  'jog-marlon-freitas': 'assets/cartas/jogadores/jog-marlon-freitas.jpg',  // #235 Marlon Freitas · Elenco 2026 · Comum
-  'jog-martinelli': 'assets/cartas/jogadores/jog-martinelli.jpg',  // #236 Martinelli · Elenco 2026 · Comum
-  'jog-mateus-silva': 'assets/cartas/jogadores/jog-mateus-silva.jpg',  // #237 Mateus Silva · Elenco 2026 · Comum
-  'jog-matheus-bahia': 'assets/cartas/jogadores/jog-matheus-bahia.jpg',  // #238 Matheus Bahia · Elenco 2026 · Comum
-  'jog-matheus-bidu': 'assets/cartas/jogadores/jog-matheus-bidu.jpg',  // #239 Matheus Bidu · Elenco 2026 · Comum
-  'jog-matheus-henrique': 'assets/cartas/jogadores/jog-matheus-henrique.jpg',  // #240 Matheus Henrique · Elenco 2026 · Comum
-  'jog-matheus-martins': 'assets/cartas/jogadores/jog-matheus-martins.jpg',  // #241 Matheus Martins · Elenco 2026 · Comum
-  'jog-matheus-pereira': 'assets/cartas/jogadores/jog-matheus-pereira.jpg',  // #242 Matheus Pereira · Elenco 2026 · Comum
-  'jog-matheuzinho': 'assets/cartas/jogadores/jog-matheuzinho.jpg',  // #243 Matheuzinho · Elenco 2026 · Comum
-  'jog-matheuzinho-2': 'assets/cartas/jogadores/jog-matheuzinho-2.jpg',  // #244 Matheuzinho · Elenco 2026 · Comum
-  'jog-mauricio': 'assets/cartas/jogadores/jog-mauricio.jpg',  // #245 Maurício · Elenco 2026 · Comum
-  'jog-maycon': 'assets/cartas/jogadores/jog-maycon.jpg',  // #246 Maycon · Elenco 2026 · Comum
-  'jog-memphis': 'assets/cartas/jogadores/jog-memphis.jpg',  // #247 Memphis · Elenco 2026 · Comum
-  'jog-mendoza': 'assets/cartas/jogadores/jog-mendoza.jpg',  // #248 Mendoza · Elenco 2026 · Comum
-  'jog-mercado': 'assets/cartas/jogadores/jog-mercado.jpg',  // #249 Mercado · Elenco 2026 · Comum
-  'jog-montoro': 'assets/cartas/jogadores/jog-montoro.jpg',  // #250 Montoro · Elenco 2026 · Comum
-  'jog-murilo': 'assets/cartas/jogadores/jog-murilo.jpg',  // #251 Murilo · Elenco 2026 · Comum
-  'jog-mycael': 'assets/cartas/jogadores/jog-mycael.jpg',  // #252 Mycael · Elenco 2026 · Comum
-  'jog-natanael': 'assets/cartas/jogadores/jog-natanael.jpg',  // #253 Natanael · Elenco 2026 · Comum
-  'jog-neto-moura': 'assets/cartas/jogadores/jog-neto-moura.jpg',  // #254 Neto Moura · Elenco 2026 · Comum
-  'jog-newton': 'assets/cartas/jogadores/jog-newton.jpg',  // #255 Newton · Elenco 2026 · Comum
-  'jog-neymar': 'assets/cartas/jogadores/jog-neymar.jpg',  // #256 Neymar · Elenco 2026 · Comum
-  'jog-nicolas-fonseca': 'assets/cartas/jogadores/jog-nicolas-fonseca.jpg',  // #257 Nicolás Fonseca · Elenco 2026 · Comum
-  'jog-nonato': 'assets/cartas/jogadores/jog-nonato.jpg',  // #258 Nonato · Elenco 2026 · Comum
-  'jog-noriega': 'assets/cartas/jogadores/jog-noriega.jpg',  // #259 Noriega · Elenco 2026 · Comum
-  'jog-odair-hellmann': 'assets/cartas/jogadores/jog-odair-hellmann.jpg',  // #260 Odair Hellmann · Elenco 2026 · Comum
-  'jog-osorio': 'assets/cartas/jogadores/jog-osorio.jpg',  // #261 Osorio · Elenco 2026 · Comum
-  'jog-otavio': 'assets/cartas/jogadores/jog-otavio.jpg',  // #262 Otávio · Elenco 2026 · Comum
-  'jog-pablo-maia': 'assets/cartas/jogadores/jog-pablo-maia.jpg',  // #263 Pablo Maia · Elenco 2026 · Comum
-  'jog-paqueta': 'assets/cartas/jogadores/jog-paqueta.jpg',  // #264 Paquetá · Elenco 2026 · Comum
-  'jog-patrick': 'assets/cartas/jogadores/jog-patrick.jpg',  // #265 Patrick · Elenco 2026 · Comum
-  'jog-paulo-henrique': 'assets/cartas/jogadores/jog-paulo-henrique.jpg',  // #266 Paulo Henrique · Elenco 2026 · Comum
-  'jog-paulo-roberto': 'assets/cartas/jogadores/jog-paulo-roberto.jpg',  // #267 Paulo Roberto · Elenco 2026 · Comum
-  'jog-pavon': 'assets/cartas/jogadores/jog-pavon.jpg',  // #268 Pavón · Elenco 2026 · Comum
-  'jog-pedro': 'assets/cartas/jogadores/jog-pedro.jpg',  // #269 Pedro · Elenco 2026 · Comum
-  'jog-pedro-emanuel': 'assets/cartas/jogadores/jog-pedro-emanuel.jpg',  // #270 Pedro Emanuel · Elenco 2026 · Comum
-  'jog-pedro-lima': 'assets/cartas/jogadores/jog-pedro-lima.jpg',  // #271 Pedro Lima · Elenco 2026 · Comum
-  'jog-pedro-milans': 'assets/cartas/jogadores/jog-pedro-milans.jpg',  // #272 Pedro Milans · Elenco 2026 · Comum
-  'jog-pedro-morisco': 'assets/cartas/jogadores/jog-pedro-morisco.jpg',  // #273 Pedro Morisco · Elenco 2026 · Comum
-  'jog-pedro-rangel': 'assets/cartas/jogadores/jog-pedro-rangel.jpg',  // #274 Pedro Rangel · Elenco 2026 · Comum
-  'jog-pedro-rocha': 'assets/cartas/jogadores/jog-pedro-rocha.jpg',  // #275 Pedro Rocha · Elenco 2026 · Comum
-  'jog-coutinho': 'assets/cartas/jogadores/jog-coutinho.jpg',  // #276 Philippe Coutinho · Elenco 2026 · Comum
-  'jog-picco': 'assets/cartas/jogadores/jog-picco.jpg',  // #277 Picco · Elenco 2026 · Comum
-  'jog-piquerez': 'assets/cartas/jogadores/jog-piquerez.jpg',  // #278 Piquerez · Elenco 2026 · Comum
-  'jog-plata': 'assets/cartas/jogadores/jog-plata.jpg',  // #279 Plata · Elenco 2026 · Comum
-  'jog-pulgar': 'assets/cartas/jogadores/jog-pulgar.jpg',  // #280 Pulgar · Elenco 2026 · Comum
-  'jog-puma-rodriguez': 'assets/cartas/jogadores/jog-puma-rodriguez.jpg',  // #281 Puma Rodríguez · Elenco 2026 · Comum
-  'jog-rafael': 'assets/cartas/jogadores/jog-rafael.jpg',  // #282 Rafael · Elenco 2026 · Comum
-  'jog-rafael-guanaes': 'assets/cartas/jogadores/jog-rafael-guanaes.jpg',  // #283 Rafael Guanaes · Elenco 2026 · Comum
-  'jog-rafael-lacerda': 'assets/cartas/jogadores/jog-rafael-lacerda.jpg',  // #284 Rafael Lacerda · Elenco 2026 · Comum
-  'jog-rafael-toloi': 'assets/cartas/jogadores/jog-rafael-toloi.jpg',  // #285 Rafael Tolói · Elenco 2026 · Comum
-  'jog-ramon': 'assets/cartas/jogadores/jog-ramon.jpg',  // #286 Ramon · Elenco 2026 · Comum
-  'jog-ramon-sosa': 'assets/cartas/jogadores/jog-ramon-sosa.jpg',  // #287 Ramón Sosa · Elenco 2026 · Comum
-  'jog-raniele': 'assets/cartas/jogadores/jog-raniele.jpg',  // #288 Raniele · Elenco 2026 · Comum
-  'jog-reinaldo-2': 'assets/cartas/jogadores/jog-reinaldo-2.jpg',  // #289 Reinaldo · Elenco 2026 · Comum
-  'jog-reinier': 'assets/cartas/jogadores/jog-reinier.jpg',  // #290 Reinier · Elenco 2026 · Comum
-  'jog-renan-lodi': 'assets/cartas/jogadores/jog-renan-lodi.jpg',  // #291 Renan Lodi · Elenco 2026 · Comum
-  'jog-renato-gaucho': 'assets/cartas/jogadores/jog-renato-gaucho.jpg',  // #292 Renato Gaúcho · Elenco 2026 · Comum
-  'jog-renato-kayzer': 'assets/cartas/jogadores/jog-renato-kayzer.jpg',  // #293 Renato Kayzer · Elenco 2026 · Comum
-  'jog-rene': 'assets/cartas/jogadores/jog-rene.jpg',  // #294 Renê · Elenco 2026 · Comum
-  'jog-rene-2': 'assets/cartas/jogadores/jog-rene-2.jpg',  // #295 Renê · Elenco 2026 · Comum
-  'jog-robert-renan': 'assets/cartas/jogadores/jog-robert-renan.jpg',  // #296 Robert Renan · Elenco 2026 · Comum
-  'jog-rodinei': 'assets/cartas/jogadores/jog-rodinei.jpg',  // #297 Rodinei · Elenco 2026 · Comum
-  'jog-rodrigo-nestor': 'assets/cartas/jogadores/jog-rodrigo-nestor.jpg',  // #298 Rodrigo Nestor · Elenco 2026 · Comum
-  'jog-rogerio-ceni': 'assets/cartas/jogadores/jog-rogerio-ceni.jpg',  // #299 Rogério Ceni · Elenco 2026 · Comum
-  'jog-rollheiser': 'assets/cartas/jogadores/jog-rollheiser.jpg',  // #300 Rollheiser · Elenco 2026 · Comum
-  'jog-roman-gomez': 'assets/cartas/jogadores/jog-roman-gomez.jpg',  // #301 Román Gómez · Elenco 2026 · Comum
-  'jog-ronaldo': 'assets/cartas/jogadores/jog-ronaldo.jpg',  // #302 Ronaldo · Elenco 2026 · Comum
-  'jog-rossi': 'assets/cartas/jogadores/jog-rossi.jpg',  // #303 Rossi · Elenco 2026 · Comum
-  'jog-ryan-augusto': 'assets/cartas/jogadores/jog-ryan-augusto.jpg',  // #304 Ryan Augusto · Elenco 2026 · Comum
-  'jog-saldivia': 'assets/cartas/jogadores/jog-saldivia.jpg',  // #305 Saldivia · Elenco 2026 · Comum
-  'jog-samuel-lino': 'assets/cartas/jogadores/jog-samuel-lino.jpg',  // #306 Samuel Lino · Elenco 2026 · Comum
-  'jog-santos': 'assets/cartas/jogadores/jog-santos.jpg',  // #307 Santos · Elenco 2026 · Comum
-  'jog-savarino': 'assets/cartas/jogadores/jog-savarino.jpg',  // #308 Savarino · Elenco 2026 · Comum
-  'jog-sebastian-gomez': '',  // #309 Sebastián Gómez · Elenco 2026 · Comum
-  'jog-seedorf': 'assets/cartas/jogadores/jog-seedorf.jpg',  // #310 Seedorf · Elenco 2026 · Comum
-  'jog-serna': 'assets/cartas/jogadores/jog-serna.jpg',  // #311 Serna · Elenco 2026 · Comum
-  'jog-shaylon': 'assets/cartas/jogadores/jog-shaylon.jpg',  // #312 Shaylon · Elenco 2026 · Comum
-  'jog-sosa': 'assets/cartas/jogadores/jog-sosa.jpg',  // #313 Sosa · Elenco 2026 · Comum
-  'jog-taliari': '',  // #314 Taliari · Elenco 2026 · Comum
-  'jog-tchamba': 'assets/cartas/jogadores/jog-tchamba.jpg',  // #315 Tchamba · Elenco 2026 · Comum
-  'jog-thiago-carpini': 'assets/cartas/jogadores/jog-thiago-carpini.jpg',  // #316 Thiago Carpini · Elenco 2026 · Comum
-  'jog-thiago-maia': 'assets/cartas/jogadores/jog-thiago-maia.jpg',  // #317 Thiago Maia · Elenco 2026 · Comum
-  'jog-thiago-mendes': 'assets/cartas/jogadores/jog-thiago-mendes.jpg',  // #318 Thiago Mendes · Elenco 2026 · Comum
-  'jog-thiago-santos': 'assets/cartas/jogadores/jog-thiago-santos.jpg',  // #319 Thiago Santos · Elenco 2026 · Comum
-  'jog-thiago-silva': 'assets/cartas/jogadores/jog-thiago-silva.jpg',  // #320 Thiago Silva · Elenco 2026 · Comum
-  'jog-tiago-coser': 'assets/cartas/jogadores/jog-tiago-coser.jpg',  // #321 Tiago Cóser · Elenco 2026 · Comum
-  'jog-tiago-volpi': 'assets/cartas/jogadores/jog-tiago-volpi.jpg',  // #322 Tiago Volpi · Elenco 2026 · Comum
-  'jog-tinga': 'assets/cartas/jogadores/jog-tinga.jpg',  // #323 Tinga · Elenco 2026 · Comum
-  'jog-tiquinho-soares': 'assets/cartas/jogadores/jog-tiquinho-soares.jpg',  // #324 Tiquinho Soares · Elenco 2026 · Comum
-  'jog-tite': 'assets/cartas/jogadores/jog-tite.jpg',  // #325 Tite · Elenco 2026 · Comum
-  'jog-cuello': 'assets/cartas/jogadores/jog-cuello.jpg',  // #326 Tomás Cuello · Elenco 2026 · Comum
-  'jog-tulio-eduardo': 'assets/cartas/jogadores/jog-tulio-eduardo.jpg',  // #327 Túlio Eduardo · Elenco 2026 · Comum
-  'jog-vagner-mancini': 'assets/cartas/jogadores/jog-vagner-mancini.jpg',  // #328 Vagner Mancini · Elenco 2026 · Comum
-  'jog-varela': 'assets/cartas/jogadores/jog-varela.jpg',  // #329 Varela · Elenco 2026 · Comum
-  'jog-victor-caetano': 'assets/cartas/jogadores/jog-victor-caetano.jpg',  // #330 Victor Caetano · Elenco 2026 · Comum
-  'jog-villagra': 'assets/cartas/jogadores/jog-villagra.jpg',  // #331 Villagra · Elenco 2026 · Comum
-  'jog-villalba': 'assets/cartas/jogadores/jog-villalba.jpg',  // #332 Villalba · Elenco 2026 · Comum
-  'jog-villasanti': 'assets/cartas/jogadores/jog-villasanti.jpg',  // #333 Villasanti · Elenco 2026 · Comum
-  'jog-vinicius-bergantin': 'assets/cartas/jogadores/jog-vinicius-bergantin.jpg',  // #334 Vinícius Bergantin · Elenco 2026 · Comum
-  'jog-vitao': 'assets/cartas/jogadores/jog-vitao.jpg',  // #335 Vitão · Elenco 2026 · Comum
-  'jog-vitinho': 'assets/cartas/jogadores/jog-vitinho.jpg',  // #336 Vitinho · Elenco 2026 · Comum
-  'jog-vitinho-2': 'assets/cartas/jogadores/jog-vitinho-2.jpg',  // #337 Vitinho · Elenco 2026 · Comum
-  'jog-vitor-bueno': 'assets/cartas/jogadores/jog-vitor-bueno.jpg',  // #338 Vitor Bueno · Elenco 2026 · Comum
-  'jog-vitor-roque': 'assets/cartas/jogadores/jog-vitor-roque.jpg',  // #339 Vitor Roque · Elenco 2026 · Comum
-  'jog-viveros': 'assets/cartas/jogadores/jog-viveros.jpg',  // #340 Viveros · Elenco 2026 · Comum
-  'jog-wallace': 'assets/cartas/jogadores/jog-wallace.jpg',  // #341 Wallace · Elenco 2026 · Comum
-  'jog-wallace-yan': 'assets/cartas/jogadores/jog-wallace-yan.jpg',  // #342 Wallace Yan · Elenco 2026 · Comum
-  'jog-wallisson': 'assets/cartas/jogadores/jog-wallisson.jpg',  // #343 Wallisson · Elenco 2026 · Comum
-  'jog-walter': 'assets/cartas/jogadores/jog-walter.jpg',  // #344 Walter · Elenco 2026 · Comum
-  'jog-weverton': 'assets/cartas/jogadores/jog-weverton.jpg',  // #345 Weverton · Elenco 2026 · Comum
-  'jog-william': 'assets/cartas/jogadores/jog-william.jpg',  // #346 William · Elenco 2026 · Comum
-  'jog-willian-jose': 'assets/cartas/jogadores/jog-willian-jose.jpg',  // #347 Willian José · Elenco 2026 · Comum
-  'jog-willian-machado': 'assets/cartas/jogadores/jog-willian-machado.jpg',  // #348 Willian Machado · Elenco 2026 · Comum
-  'jog-yago-felipe': '',  // #349 Yago Felipe · Elenco 2026 · Comum
-  'jog-yago-pikachu': 'assets/cartas/jogadores/jog-yago-pikachu.jpg',  // #350 Yago Pikachu · Elenco 2026 · Comum
-  'jog-yuri-alberto': 'assets/cartas/jogadores/jog-yuri-alberto.jpg',  // #351 Yuri Alberto · Elenco 2026 · Comum
-  'jog-zapelli': 'assets/cartas/jogadores/jog-zapelli.jpg',  // #352 Zapelli · Elenco 2026 · Comum
-  'jog-ze-lucas': 'assets/cartas/jogadores/jog-ze-lucas.jpg',  // #353 Zé Lucas · Elenco 2026 · Comum
-  'jog-ze-ricardo': 'assets/cartas/jogadores/jog-ze-ricardo.jpg',  // #354 Zé Ricardo · Elenco 2026 · Comum
-  'jog-ze-vitor': 'assets/cartas/jogadores/jog-ze-vitor.jpg',  // #355 Zé Vitor · Elenco 2026 · Comum
-  'jog-ze-welison': 'assets/cartas/jogadores/jog-ze-welison.jpg',  // #356 Zé Welison · Elenco 2026 · Comum
-  'jog-ziyech': 'assets/cartas/jogadores/jog-ziyech.jpg',  // #357 Ziyech · Elenco 2026 · Comum
+  'jog-joao-schmidt': 'assets/cartas/jogadores/jog-joao-schmidt.jpg',  // #181 João Schmidt · Elenco 2026 · Comum
+  'jog-joao-victor': 'assets/cartas/jogadores/jog-joao-victor.jpg',  // #182 João Victor · Elenco 2026 · Comum
+  'jog-jonathan-jesus': 'assets/cartas/jogadores/jog-jonathan-jesus.jpg',  // #183 Jonathan Jesus · Elenco 2026 · Comum
+  'jog-jorginho': 'assets/cartas/jogadores/jog-jorginho.jpg',  // #184 Jorginho · Elenco 2026 · Comum
+  'jog-jose-herrera': 'assets/cartas/jogadores/jog-jose-herrera.jpg',  // #185 José Herrera · Elenco 2026 · Comum
+  'jog-josue': 'assets/cartas/jogadores/jog-josue.jpg',  // #186 Josué · Elenco 2026 · Comum
+  'jog-juninho': 'assets/cartas/jogadores/jog-juninho.jpg',  // #187 Juninho · Elenco 2026 · Comum
+  'jog-juninho-capixaba': 'assets/cartas/jogadores/jog-juninho-capixaba.jpg',  // #188 Juninho Capixaba · Elenco 2026 · Comum
+  'jog-justino': 'assets/cartas/jogadores/jog-justino.jpg',  // #189 Justino · Elenco 2026 · Comum
+  'jog-kaio-cesar': 'assets/cartas/jogadores/jog-kaio-cesar.jpg',  // #190 Kaio César · Elenco 2026 · Comum
+  'jog-kaio-jorge': 'assets/cartas/jogadores/jog-kaio-jorge.jpg',  // #191 Kaio Jorge · Elenco 2026 · Comum
+  'jog-kannemann': 'assets/cartas/jogadores/jog-kannemann.jpg',  // #192 Kannemann · Elenco 2026 · Comum
+  'jog-kanu': 'assets/cartas/jogadores/jog-kanu.jpg',  // #193 Kanu · Elenco 2026 · Comum
+  'jog-kauan': 'assets/cartas/jogadores/jog-kauan.jpg',  // #194 Kauan · Elenco 2026 · Comum
+  'jog-kauan-faria': 'assets/cartas/jogadores/jog-kauan-faria.jpg',  // #195 Kauan Faria · Elenco 2026 · Comum
+  'jog-keny-arroyo': 'assets/cartas/jogadores/jog-keny-arroyo.jpg',  // #196 Keny Arroyo · Elenco 2026 · Comum
+  'jog-kerwin-vargas': 'assets/cartas/jogadores/jog-kerwin-vargas.jpg',  // #197 Kerwin Vargas · Elenco 2026 · Comum
+  'jog-kevin-castano': 'assets/cartas/jogadores/jog-kevin-castano.jpg',  // #198 Kevin Castaño · Elenco 2026 · Comum
+  'jog-kike-olivera': 'assets/cartas/jogadores/jog-kike-olivera.jpg',  // #199 Kike Olivera · Elenco 2026 · Comum
+  'jog-krovinovic': 'assets/cartas/jogadores/jog-krovinovic.jpg',  // #200 Krovinović · Elenco 2026 · Comum
+  'jog-lavega': 'assets/cartas/jogadores/jog-lavega.jpg',  // #201 Lavega · Elenco 2026 · Comum
+  'jog-leo-jardim': 'assets/cartas/jogadores/jog-leo-jardim.jpg',  // #202 Léo Jardim · Elenco 2026 · Comum
+  'jog-leo-ortiz': 'assets/cartas/jogadores/jog-leo-ortiz.jpg',  // #203 Léo Ortiz · Elenco 2026 · Comum
+  'jog-leo-pereira': 'assets/cartas/jogadores/jog-leo-pereira.jpg',  // #204 Léo Pereira · Elenco 2026 · Comum
+  'jog-leonardo-jardim': 'assets/cartas/jogadores/jog-leonardo-jardim.jpg',  // #205 Leonardo Jardim · Elenco 2026 · Comum
+  'jog-leozinho': 'assets/cartas/jogadores/jog-leozinho.jpg',  // #206 Leozinho · Elenco 2026 · Comum
+  'jog-lescano': 'assets/cartas/jogadores/jog-lescano.jpg',  // #207 Lescano · Elenco 2026 · Comum
+  'jog-lingard': 'assets/cartas/jogadores/jog-lingard.jpg',  // #208 Lingard · Elenco 2026 · Comum
+  'jog-luan-candido': 'assets/cartas/jogadores/jog-luan-candido.jpg',  // #209 Luan Cândido · Elenco 2026 · Comum
+  'jog-luan-peres': 'assets/cartas/jogadores/jog-luan-peres.jpg',  // #210 Luan Peres · Elenco 2026 · Comum
+  'jog-lucas-arcanjo': 'assets/cartas/jogadores/jog-lucas-arcanjo.jpg',  // #211 Lucas Arcanjo · Elenco 2026 · Comum
+  'jog-lucas-barbosa': 'assets/cartas/jogadores/jog-lucas-barbosa.jpg',  // #212 Lucas Barbosa · Elenco 2026 · Comum
+  'jog-lucas-evangelista': 'assets/cartas/jogadores/jog-lucas-evangelista.jpg',  // #213 Lucas Evangelista · Elenco 2026 · Comum
+  'jog-lucas-moura': 'assets/cartas/jogadores/jog-lucas-moura.jpg',  // #214 Lucas Moura · Elenco 2026 · Comum
+  'jog-lucas-oliveira': 'assets/cartas/jogadores/jog-lucas-oliveira.jpg',  // #215 Lucas Oliveira · Elenco 2026 · Comum
+  'jog-lucas-romero': 'assets/cartas/jogadores/jog-lucas-romero.jpg',  // #216 Lucas Romero · Elenco 2026 · Comum
+  'jog-lucas-verissimo': 'assets/cartas/jogadores/jog-lucas-verissimo.jpg',  // #217 Lucas Veríssimo · Elenco 2026 · Comum
+  'jog-lucho-acosta': 'assets/cartas/jogadores/jog-lucho-acosta.jpg',  // #218 Lucho Acosta · Elenco 2026 · Comum
+  'jog-luciano': 'assets/cartas/jogadores/jog-luciano.jpg',  // #219 Luciano · Elenco 2026 · Comum
+  'jog-luciano-juba': 'assets/cartas/jogadores/jog-luciano-juba.jpg',  // #220 Luciano Juba · Elenco 2026 · Comum
+  'jog-luiz-gustavo': 'assets/cartas/jogadores/jog-luiz-gustavo.jpg',  // #221 Luiz Gustavo · Elenco 2026 · Comum
+  'jog-lyanco': 'assets/cartas/jogadores/jog-lyanco.jpg',  // #222 Lyanco · Elenco 2026 · Comum
+  'jog-marcal': 'assets/cartas/jogadores/jog-marcal.jpg',  // #223 Marçal · Elenco 2026 · Comum
+  'jog-marcao': 'assets/cartas/jogadores/jog-marcao.jpg',  // #224 Marcão · Elenco 2026 · Comum
+  'jog-marcelinho': 'assets/cartas/jogadores/jog-marcelinho.jpg',  // #225 Marcelinho · Elenco 2026 · Comum
+  'jog-marcelo-rangel': 'assets/cartas/jogadores/jog-marcelo-rangel.jpg',  // #226 Marcelo Rangel · Elenco 2026 · Comum
+  'jog-marcinho': 'assets/cartas/jogadores/jog-marcinho.jpg',  // #227 Marcinho · Elenco 2026 · Comum
+  'jog-marcos-antonio': 'assets/cartas/jogadores/jog-marcos-antonio.jpg',  // #228 Marcos Antônio · Elenco 2026 · Comum
+  'jog-marcos-victor': 'assets/cartas/jogadores/jog-marcos-victor.jpg',  // #229 Marcos Victor · Elenco 2026 · Comum
+  'jog-maripan': 'assets/cartas/jogadores/jog-maripan.jpg',  // #230 Maripán · Elenco 2026 · Comum
+  'jog-marllon': 'assets/cartas/jogadores/jog-marllon.jpg',  // #231 Marllon · Elenco 2026 · Comum
+  'jog-marlon': 'assets/cartas/jogadores/jog-marlon.jpg',  // #232 Marlon · Elenco 2026 · Comum
+  'jog-marlon-2': 'assets/cartas/jogadores/jog-marlon-2.jpg',  // #233 Marlon · Elenco 2026 · Comum
+  'jog-marlon-freitas': 'assets/cartas/jogadores/jog-marlon-freitas.jpg',  // #234 Marlon Freitas · Elenco 2026 · Comum
+  'jog-martinelli': 'assets/cartas/jogadores/jog-martinelli.jpg',  // #235 Martinelli · Elenco 2026 · Comum
+  'jog-mateus-silva': 'assets/cartas/jogadores/jog-mateus-silva.jpg',  // #236 Mateus Silva · Elenco 2026 · Comum
+  'jog-matheus-bahia': 'assets/cartas/jogadores/jog-matheus-bahia.jpg',  // #237 Matheus Bahia · Elenco 2026 · Comum
+  'jog-matheus-bidu': 'assets/cartas/jogadores/jog-matheus-bidu.jpg',  // #238 Matheus Bidu · Elenco 2026 · Comum
+  'jog-matheus-henrique': 'assets/cartas/jogadores/jog-matheus-henrique.jpg',  // #239 Matheus Henrique · Elenco 2026 · Comum
+  'jog-matheus-martins': 'assets/cartas/jogadores/jog-matheus-martins.jpg',  // #240 Matheus Martins · Elenco 2026 · Comum
+  'jog-matheus-pereira': 'assets/cartas/jogadores/jog-matheus-pereira.jpg',  // #241 Matheus Pereira · Elenco 2026 · Comum
+  'jog-matheuzinho': 'assets/cartas/jogadores/jog-matheuzinho.jpg',  // #242 Matheuzinho · Elenco 2026 · Comum
+  'jog-matheuzinho-2': 'assets/cartas/jogadores/jog-matheuzinho-2.jpg',  // #243 Matheuzinho · Elenco 2026 · Comum
+  'jog-mauricio': 'assets/cartas/jogadores/jog-mauricio.jpg',  // #244 Maurício · Elenco 2026 · Comum
+  'jog-maycon': 'assets/cartas/jogadores/jog-maycon.jpg',  // #245 Maycon · Elenco 2026 · Comum
+  'jog-memphis': 'assets/cartas/jogadores/jog-memphis.jpg',  // #246 Memphis · Elenco 2026 · Comum
+  'jog-mendoza': 'assets/cartas/jogadores/jog-mendoza.jpg',  // #247 Mendoza · Elenco 2026 · Comum
+  'jog-mercado': 'assets/cartas/jogadores/jog-mercado.jpg',  // #248 Mercado · Elenco 2026 · Comum
+  'jog-montoro': 'assets/cartas/jogadores/jog-montoro.jpg',  // #249 Montoro · Elenco 2026 · Comum
+  'jog-murilo': 'assets/cartas/jogadores/jog-murilo.jpg',  // #250 Murilo · Elenco 2026 · Comum
+  'jog-mycael': 'assets/cartas/jogadores/jog-mycael.jpg',  // #251 Mycael · Elenco 2026 · Comum
+  'jog-natanael': 'assets/cartas/jogadores/jog-natanael.jpg',  // #252 Natanael · Elenco 2026 · Comum
+  'jog-neto-moura': 'assets/cartas/jogadores/jog-neto-moura.jpg',  // #253 Neto Moura · Elenco 2026 · Comum
+  'jog-newton': 'assets/cartas/jogadores/jog-newton.jpg',  // #254 Newton · Elenco 2026 · Comum
+  'jog-neymar': 'assets/cartas/jogadores/jog-neymar.jpg',  // #255 Neymar · Elenco 2026 · Comum
+  'jog-nicolas-fonseca': 'assets/cartas/jogadores/jog-nicolas-fonseca.jpg',  // #256 Nicolás Fonseca · Elenco 2026 · Comum
+  'jog-nonato': 'assets/cartas/jogadores/jog-nonato.jpg',  // #257 Nonato · Elenco 2026 · Comum
+  'jog-noriega': 'assets/cartas/jogadores/jog-noriega.jpg',  // #258 Noriega · Elenco 2026 · Comum
+  'jog-odair-hellmann': 'assets/cartas/jogadores/jog-odair-hellmann.jpg',  // #259 Odair Hellmann · Elenco 2026 · Comum
+  'jog-osorio': 'assets/cartas/jogadores/jog-osorio.jpg',  // #260 Osorio · Elenco 2026 · Comum
+  'jog-otavio': 'assets/cartas/jogadores/jog-otavio.jpg',  // #261 Otávio · Elenco 2026 · Comum
+  'jog-pablo-maia': 'assets/cartas/jogadores/jog-pablo-maia.jpg',  // #262 Pablo Maia · Elenco 2026 · Comum
+  'jog-paqueta': 'assets/cartas/jogadores/jog-paqueta.jpg',  // #263 Paquetá · Elenco 2026 · Comum
+  'jog-patrick': 'assets/cartas/jogadores/jog-patrick.jpg',  // #264 Patrick · Elenco 2026 · Comum
+  'jog-paulo-henrique': 'assets/cartas/jogadores/jog-paulo-henrique.jpg',  // #265 Paulo Henrique · Elenco 2026 · Comum
+  'jog-paulo-roberto': 'assets/cartas/jogadores/jog-paulo-roberto.jpg',  // #266 Paulo Roberto · Elenco 2026 · Comum
+  'jog-pavon': 'assets/cartas/jogadores/jog-pavon.jpg',  // #267 Pavón · Elenco 2026 · Comum
+  'jog-pedro': 'assets/cartas/jogadores/jog-pedro.jpg',  // #268 Pedro · Elenco 2026 · Comum
+  'jog-pedro-emanuel': 'assets/cartas/jogadores/jog-pedro-emanuel.jpg',  // #269 Pedro Emanuel · Elenco 2026 · Comum
+  'jog-pedro-lima': 'assets/cartas/jogadores/jog-pedro-lima.jpg',  // #270 Pedro Lima · Elenco 2026 · Comum
+  'jog-pedro-milans': 'assets/cartas/jogadores/jog-pedro-milans.jpg',  // #271 Pedro Milans · Elenco 2026 · Comum
+  'jog-pedro-morisco': 'assets/cartas/jogadores/jog-pedro-morisco.jpg',  // #272 Pedro Morisco · Elenco 2026 · Comum
+  'jog-pedro-rangel': 'assets/cartas/jogadores/jog-pedro-rangel.jpg',  // #273 Pedro Rangel · Elenco 2026 · Comum
+  'jog-pedro-rocha': 'assets/cartas/jogadores/jog-pedro-rocha.jpg',  // #274 Pedro Rocha · Elenco 2026 · Comum
+  'jog-coutinho': 'assets/cartas/jogadores/jog-coutinho.jpg',  // #275 Philippe Coutinho · Elenco 2026 · Comum
+  'jog-picco': 'assets/cartas/jogadores/jog-picco.jpg',  // #276 Picco · Elenco 2026 · Comum
+  'jog-piquerez': 'assets/cartas/jogadores/jog-piquerez.jpg',  // #277 Piquerez · Elenco 2026 · Comum
+  'jog-plata': 'assets/cartas/jogadores/jog-plata.jpg',  // #278 Plata · Elenco 2026 · Comum
+  'jog-pulgar': 'assets/cartas/jogadores/jog-pulgar.jpg',  // #279 Pulgar · Elenco 2026 · Comum
+  'jog-puma-rodriguez': 'assets/cartas/jogadores/jog-puma-rodriguez.jpg',  // #280 Puma Rodríguez · Elenco 2026 · Comum
+  'jog-rafael': 'assets/cartas/jogadores/jog-rafael.jpg',  // #281 Rafael · Elenco 2026 · Comum
+  'jog-rafael-guanaes': 'assets/cartas/jogadores/jog-rafael-guanaes.jpg',  // #282 Rafael Guanaes · Elenco 2026 · Comum
+  'jog-rafael-lacerda': 'assets/cartas/jogadores/jog-rafael-lacerda.jpg',  // #283 Rafael Lacerda · Elenco 2026 · Comum
+  'jog-rafael-toloi': 'assets/cartas/jogadores/jog-rafael-toloi.jpg',  // #284 Rafael Tolói · Elenco 2026 · Comum
+  'jog-ramon': 'assets/cartas/jogadores/jog-ramon.jpg',  // #285 Ramon · Elenco 2026 · Comum
+  'jog-ramon-sosa': 'assets/cartas/jogadores/jog-ramon-sosa.jpg',  // #286 Ramón Sosa · Elenco 2026 · Comum
+  'jog-raniele': 'assets/cartas/jogadores/jog-raniele.jpg',  // #287 Raniele · Elenco 2026 · Comum
+  'jog-reinaldo-2': 'assets/cartas/jogadores/jog-reinaldo-2.jpg',  // #288 Reinaldo · Elenco 2026 · Comum
+  'jog-reinier': 'assets/cartas/jogadores/jog-reinier.jpg',  // #289 Reinier · Elenco 2026 · Comum
+  'jog-renan-lodi': 'assets/cartas/jogadores/jog-renan-lodi.jpg',  // #290 Renan Lodi · Elenco 2026 · Comum
+  'jog-renato-gaucho': 'assets/cartas/jogadores/jog-renato-gaucho.jpg',  // #291 Renato Gaúcho · Elenco 2026 · Comum
+  'jog-renato-kayzer': 'assets/cartas/jogadores/jog-renato-kayzer.jpg',  // #292 Renato Kayzer · Elenco 2026 · Comum
+  'jog-rene': 'assets/cartas/jogadores/jog-rene.jpg',  // #293 Renê · Elenco 2026 · Comum
+  'jog-rene-2': 'assets/cartas/jogadores/jog-rene-2.jpg',  // #294 Renê · Elenco 2026 · Comum
+  'jog-robert-renan': 'assets/cartas/jogadores/jog-robert-renan.jpg',  // #295 Robert Renan · Elenco 2026 · Comum
+  'jog-rodinei': 'assets/cartas/jogadores/jog-rodinei.jpg',  // #296 Rodinei · Elenco 2026 · Comum
+  'jog-rodrigo-nestor': 'assets/cartas/jogadores/jog-rodrigo-nestor.jpg',  // #297 Rodrigo Nestor · Elenco 2026 · Comum
+  'jog-rogerio-ceni': 'assets/cartas/jogadores/jog-rogerio-ceni.jpg',  // #298 Rogério Ceni · Elenco 2026 · Comum
+  'jog-rollheiser': 'assets/cartas/jogadores/jog-rollheiser.jpg',  // #299 Rollheiser · Elenco 2026 · Comum
+  'jog-roman-gomez': 'assets/cartas/jogadores/jog-roman-gomez.jpg',  // #300 Román Gómez · Elenco 2026 · Comum
+  'jog-ronaldo': 'assets/cartas/jogadores/jog-ronaldo.jpg',  // #301 Ronaldo · Elenco 2026 · Comum
+  'jog-rossi': 'assets/cartas/jogadores/jog-rossi.jpg',  // #302 Rossi · Elenco 2026 · Comum
+  'jog-ryan-augusto': 'assets/cartas/jogadores/jog-ryan-augusto.jpg',  // #303 Ryan Augusto · Elenco 2026 · Comum
+  'jog-saldivia': 'assets/cartas/jogadores/jog-saldivia.jpg',  // #304 Saldivia · Elenco 2026 · Comum
+  'jog-samuel-lino': 'assets/cartas/jogadores/jog-samuel-lino.jpg',  // #305 Samuel Lino · Elenco 2026 · Comum
+  'jog-santos': 'assets/cartas/jogadores/jog-santos.jpg',  // #306 Santos · Elenco 2026 · Comum
+  'jog-savarino': 'assets/cartas/jogadores/jog-savarino.jpg',  // #307 Savarino · Elenco 2026 · Comum
+  'jog-sebastian-gomez': 'assets/cartas/jogadores/jog-sebastian-gomez.jpg',  // #308 Sebastián Gómez · Elenco 2026 · Comum
+  'jog-seedorf': 'assets/cartas/jogadores/jog-seedorf.jpg',  // #309 Seedorf · Elenco 2026 · Comum
+  'jog-serna': 'assets/cartas/jogadores/jog-serna.jpg',  // #310 Serna · Elenco 2026 · Comum
+  'jog-shaylon': 'assets/cartas/jogadores/jog-shaylon.jpg',  // #311 Shaylon · Elenco 2026 · Comum
+  'jog-sosa': 'assets/cartas/jogadores/jog-sosa.jpg',  // #312 Sosa · Elenco 2026 · Comum
+  'jog-taliari': 'assets/cartas/jogadores/jog-taliari.jpg',  // #313 Taliari · Elenco 2026 · Comum
+  'jog-tchamba': 'assets/cartas/jogadores/jog-tchamba.jpg',  // #314 Tchamba · Elenco 2026 · Comum
+  'jog-thiago-carpini': 'assets/cartas/jogadores/jog-thiago-carpini.jpg',  // #315 Thiago Carpini · Elenco 2026 · Comum
+  'jog-thiago-maia': 'assets/cartas/jogadores/jog-thiago-maia.jpg',  // #316 Thiago Maia · Elenco 2026 · Comum
+  'jog-thiago-mendes': 'assets/cartas/jogadores/jog-thiago-mendes.jpg',  // #317 Thiago Mendes · Elenco 2026 · Comum
+  'jog-thiago-santos': 'assets/cartas/jogadores/jog-thiago-santos.jpg',  // #318 Thiago Santos · Elenco 2026 · Comum
+  'jog-thiago-silva': 'assets/cartas/jogadores/jog-thiago-silva.jpg',  // #319 Thiago Silva · Elenco 2026 · Comum
+  'jog-tiago-coser': 'assets/cartas/jogadores/jog-tiago-coser.jpg',  // #320 Tiago Cóser · Elenco 2026 · Comum
+  'jog-tiago-volpi': 'assets/cartas/jogadores/jog-tiago-volpi.jpg',  // #321 Tiago Volpi · Elenco 2026 · Comum
+  'jog-tinga': 'assets/cartas/jogadores/jog-tinga.jpg',  // #322 Tinga · Elenco 2026 · Comum
+  'jog-tiquinho-soares': 'assets/cartas/jogadores/jog-tiquinho-soares.jpg',  // #323 Tiquinho Soares · Elenco 2026 · Comum
+  'jog-tite': 'assets/cartas/jogadores/jog-tite.jpg',  // #324 Tite · Elenco 2026 · Comum
+  'jog-cuello': 'assets/cartas/jogadores/jog-cuello.jpg',  // #325 Tomás Cuello · Elenco 2026 · Comum
+  'jog-tulio-eduardo': 'assets/cartas/jogadores/jog-tulio-eduardo.jpg',  // #326 Túlio Eduardo · Elenco 2026 · Comum
+  'jog-vagner-mancini': 'assets/cartas/jogadores/jog-vagner-mancini.jpg',  // #327 Vagner Mancini · Elenco 2026 · Comum
+  'jog-varela': 'assets/cartas/jogadores/jog-varela.jpg',  // #328 Varela · Elenco 2026 · Comum
+  'jog-victor-caetano': 'assets/cartas/jogadores/jog-victor-caetano.jpg',  // #329 Victor Caetano · Elenco 2026 · Comum
+  'jog-villagra': 'assets/cartas/jogadores/jog-villagra.jpg',  // #330 Villagra · Elenco 2026 · Comum
+  'jog-villalba': 'assets/cartas/jogadores/jog-villalba.jpg',  // #331 Villalba · Elenco 2026 · Comum
+  'jog-villasanti': 'assets/cartas/jogadores/jog-villasanti.jpg',  // #332 Villasanti · Elenco 2026 · Comum
+  'jog-vinicius-bergantin': 'assets/cartas/jogadores/jog-vinicius-bergantin.jpg',  // #333 Vinícius Bergantin · Elenco 2026 · Comum
+  'jog-vitao': 'assets/cartas/jogadores/jog-vitao.jpg',  // #334 Vitão · Elenco 2026 · Comum
+  'jog-vitinho': 'assets/cartas/jogadores/jog-vitinho.jpg',  // #335 Vitinho · Elenco 2026 · Comum
+  'jog-vitinho-2': 'assets/cartas/jogadores/jog-vitinho-2.jpg',  // #336 Vitinho · Elenco 2026 · Comum
+  'jog-vitor-bueno': 'assets/cartas/jogadores/jog-vitor-bueno.jpg',  // #337 Vitor Bueno · Elenco 2026 · Comum
+  'jog-vitor-roque': 'assets/cartas/jogadores/jog-vitor-roque.jpg',  // #338 Vitor Roque · Elenco 2026 · Comum
+  'jog-viveros': 'assets/cartas/jogadores/jog-viveros.jpg',  // #339 Viveros · Elenco 2026 · Comum
+  'jog-wallace': 'assets/cartas/jogadores/jog-wallace.jpg',  // #340 Wallace · Elenco 2026 · Comum
+  'jog-wallace-yan': 'assets/cartas/jogadores/jog-wallace-yan.jpg',  // #341 Wallace Yan · Elenco 2026 · Comum
+  'jog-wallisson': 'assets/cartas/jogadores/jog-wallisson.jpg',  // #342 Wallisson · Elenco 2026 · Comum
+  'jog-walter': 'assets/cartas/jogadores/jog-walter.jpg',  // #343 Walter · Elenco 2026 · Comum
+  'jog-weverton': 'assets/cartas/jogadores/jog-weverton.jpg',  // #344 Weverton · Elenco 2026 · Comum
+  'jog-william': 'assets/cartas/jogadores/jog-william.jpg',  // #345 William · Elenco 2026 · Comum
+  'jog-willian-jose': 'assets/cartas/jogadores/jog-willian-jose.jpg',  // #346 Willian José · Elenco 2026 · Comum
+  'jog-willian-machado': 'assets/cartas/jogadores/jog-willian-machado.jpg',  // #347 Willian Machado · Elenco 2026 · Comum
+  'jog-yago-felipe': 'assets/cartas/jogadores/jog-yago-felipe.jpg',  // #348 Yago Felipe · Elenco 2026 · Comum
+  'jog-yago-pikachu': 'assets/cartas/jogadores/jog-yago-pikachu.jpg',  // #349 Yago Pikachu · Elenco 2026 · Comum
+  'jog-yuri-alberto': 'assets/cartas/jogadores/jog-yuri-alberto.jpg',  // #350 Yuri Alberto · Elenco 2026 · Comum
+  'jog-zapelli': 'assets/cartas/jogadores/jog-zapelli.jpg',  // #351 Zapelli · Elenco 2026 · Comum
+  'jog-ze-lucas': 'assets/cartas/jogadores/jog-ze-lucas.jpg',  // #352 Zé Lucas · Elenco 2026 · Comum
+  'jog-ze-ricardo': 'assets/cartas/jogadores/jog-ze-ricardo.jpg',  // #353 Zé Ricardo · Elenco 2026 · Comum
+  'jog-ze-vitor': 'assets/cartas/jogadores/jog-ze-vitor.jpg',  // #354 Zé Vitor · Elenco 2026 · Comum
+  'jog-ze-welison': 'assets/cartas/jogadores/jog-ze-welison.jpg',  // #355 Zé Welison · Elenco 2026 · Comum
+  'jog-ziyech': 'assets/cartas/jogadores/jog-ziyech.jpg',  // #356 Ziyech · Elenco 2026 · Comum
 
   // ---------- Estádios (49 cartas)
   'estadio-fla-maracana-1950': 'assets/cartas/estadios/estadio-fla-maracana-1950.jpg',  // #01 Maracanã 1950 · Histórico · Especial
@@ -448,7 +447,7 @@ export const IMAGENS = {
   'estadio-pal-palestra-italia-1958': 'assets/cartas/estadios/estadio-pal-palestra-italia-1958.jpg',  // #09 Palestra Itália 1958 · Histórico · Muito rara
   'estadio-cam-antonio-carlos': 'assets/cartas/estadios/estadio-cam-antonio-carlos.jpg',  // #10 Antônio Carlos 1943 · Histórico · Rara
   'estadio-cha-arena-conda-2016': 'assets/cartas/estadios/estadio-cha-arena-conda-2016.jpg',  // #11 Arena Condá 2016 · Histórico · Rara
-  'estadio-rem-baenao': '',  // #12 Baenão antigo · Histórico · Rara
+  'estadio-rem-baenao': 'assets/cartas/estadios/estadio-rem-baenao.jpg',  // #12 Baenão antigo · Histórico · Rara
   'estadio-cap-baixada-madeira': 'assets/cartas/estadios/estadio-cap-baixada-madeira.jpg',  // #13 Baixada de madeira · Histórico · Rara
   'estadio-vit-barradao-2006': 'assets/cartas/estadios/estadio-vit-barradao-2006.jpg',  // #14 Barradão 2006 · Histórico · Rara
   'estadio-cfc-belfort-duarte': 'assets/cartas/estadios/estadio-cfc-belfort-duarte.jpg',  // #15 Belfort Duarte em obras · Histórico · Rara
@@ -518,7 +517,7 @@ export const IMAGENS = {
   'masc-fla': 'assets/cartas/mascotes/masc-fla.jpg',  // #28 Urubão · Oficial · Comum
   'masc-cfc': 'assets/cartas/mascotes/masc-cfc.jpg',  // #29 Vovô Coxa · Oficial · Comum
 
-  // ---------- Champions · Clubes (72 cartas)
+  // ---------- Champions · Clubes (70 cartas)
   'ucl-ars-1949': 'assets/cartas/ucl-clubes/ucl-ars-1949.png',  // #01 Arsenal · Escudo 1949 · Especial
   'ucl-rom-1979': 'assets/cartas/ucl-clubes/ucl-rom-1979.png',  // #02 AS Roma · Escudo 1979 · Especial
   'ucl-bar-1899': 'assets/cartas/ucl-clubes/ucl-bar-1899.png',  // #03 Barcelona · Escudo 1899 · Especial
@@ -542,58 +541,56 @@ export const IMAGENS = {
   'ucl-slo-1969': 'assets/cartas/ucl-clubes/ucl-slo-1969.png',  // #21 Slovan Bratislava · Escudo 1969 · Muito rara
   'ucl-vil-1923': 'assets/cartas/ucl-clubes/ucl-vil-1923.png',  // #22 Villarreal · Escudo 1920 · Muito rara
   'ucl-aek-1924': 'assets/cartas/ucl-clubes/ucl-aek-1924.png',  // #23 AEK Atenas · Escudo 1924 · Rara
-  'ucl-bod-antigo': '',  // #24 Bodø/Glimt · Escudo histórico · Rara
-  'ucl-bru-1891': 'assets/cartas/ucl-clubes/ucl-bru-1891.png',  // #25 Club Brugge · Escudo histórico · Rara
-  'ucl-com-1950': 'assets/cartas/ucl-clubes/ucl-com-1950.png',  // #26 Como · Escudo 1950 · Rara
-  'ucl-lsk-antigo': 'assets/cartas/ucl-clubes/ucl-lsk-antigo.png',  // #27 LASK · Escudo 2023 · Rara
-  'ucl-lil-1981': 'assets/cartas/ucl-clubes/ucl-lil-1981.png',  // #28 LOSC Lille · Escudo 1981 · Rara
-  'ucl-psv-1982': 'assets/cartas/ucl-clubes/ucl-psv-1982.png',  // #29 PSV Eindhoven · Escudo 1982 · Rara
-  'ucl-rbl-2009': 'assets/cartas/ucl-clubes/ucl-rbl-2009.png',  // #30 RB Leipzig · Escudo 2009 · Rara
-  'ucl-len-1979': 'assets/cartas/ucl-clubes/ucl-len-1979.png',  // #31 RC Lens · Escudo 1979 · Rara
-  'ucl-sab-2017': '',  // #32 Sabah · Escudo 2017 · Rara
-  'ucl-sla-1923': 'assets/cartas/ucl-clubes/ucl-sla-1923.png',  // #33 Slavia Praha · Escudo 1923 · Rara
-  'ucl-scp-1930': 'assets/cartas/ucl-clubes/ucl-scp-1930.png',  // #34 Sporting CP · Escudo 1930 · Rara
-  'ucl-vfb-1998': 'assets/cartas/ucl-clubes/ucl-vfb-1998.png',  // #35 VfB Stuttgart · Escudo 1998 · Rara
-  'ucl-vik-1926': 'assets/cartas/ucl-clubes/ucl-vik-1926.png',  // #36 Viking · Escudo 2020 · Rara
-  'ucl-aek': 'assets/cartas/ucl-clubes/ucl-aek.png',  // #37 AEK Atenas · Escudo atual · Comum
-  'ucl-ars': 'assets/cartas/ucl-clubes/ucl-ars.png',  // #38 Arsenal · Escudo atual · Comum
-  'ucl-rom': 'assets/cartas/ucl-clubes/ucl-rom.png',  // #39 AS Roma · Escudo atual · Comum
-  'ucl-avl': 'assets/cartas/ucl-clubes/ucl-avl.png',  // #40 Aston Villa · Escudo atual · Comum
-  'ucl-atm': 'assets/cartas/ucl-clubes/ucl-atm.png',  // #41 Atlético de Madrid · Escudo atual · Comum
-  'ucl-bar': 'assets/cartas/ucl-clubes/ucl-bar.png',  // #42 Barcelona · Escudo atual · Comum
-  'ucl-bay': 'assets/cartas/ucl-clubes/ucl-bay.png',  // #43 Bayern de Munique · Escudo atual · Comum
-  'ucl-bod': 'assets/cartas/ucl-clubes/ucl-bod.png',  // #44 Bodø/Glimt · Escudo atual · Comum
-  'ucl-bvb': 'assets/cartas/ucl-clubes/ucl-bvb.png',  // #45 Borussia Dortmund · Escudo atual · Comum
-  'ucl-bru': 'assets/cartas/ucl-clubes/ucl-bru.png',  // #46 Club Brugge · Escudo atual · Comum
-  'ucl-com': 'assets/cartas/ucl-clubes/ucl-com.png',  // #47 Como · Escudo atual · Comum
-  'ucl-por': 'assets/cartas/ucl-clubes/ucl-por.png',  // #48 FC Porto · Escudo atual · Comum
-  'ucl-fen': 'assets/cartas/ucl-clubes/ucl-fen.png',  // #49 Fenerbahçe · Escudo atual · Comum
-  'ucl-fey': 'assets/cartas/ucl-clubes/ucl-fey.png',  // #50 Feyenoord · Escudo atual · Comum
-  'ucl-gal': 'assets/cartas/ucl-clubes/ucl-gal.png',  // #51 Galatasaray · Escudo atual · Comum
-  'ucl-inm': 'assets/cartas/ucl-clubes/ucl-inm.png',  // #52 Inter de Milão · Escudo atual · Comum
-  'ucl-lsk': 'assets/cartas/ucl-clubes/ucl-lsk.png',  // #53 LASK · Escudo atual · Comum
-  'ucl-liv': 'assets/cartas/ucl-clubes/ucl-liv.png',  // #54 Liverpool · Escudo atual · Comum
-  'ucl-lil': 'assets/cartas/ucl-clubes/ucl-lil.png',  // #55 LOSC Lille · Escudo atual · Comum
-  'ucl-mci': 'assets/cartas/ucl-clubes/ucl-mci.png',  // #56 Manchester City · Escudo atual · Comum
-  'ucl-mun': 'assets/cartas/ucl-clubes/ucl-mun.png',  // #57 Manchester United · Escudo atual · Comum
-  'ucl-nap': 'assets/cartas/ucl-clubes/ucl-nap.png',  // #58 Napoli · Escudo atual · Comum
-  'ucl-psg': 'assets/cartas/ucl-clubes/ucl-psg.png',  // #59 Paris Saint-Germain · Escudo atual · Comum
-  'ucl-psv': 'assets/cartas/ucl-clubes/ucl-psv.png',  // #60 PSV Eindhoven · Escudo atual · Comum
-  'ucl-rbl': 'assets/cartas/ucl-clubes/ucl-rbl.png',  // #61 RB Leipzig · Escudo atual · Comum
-  'ucl-len': 'assets/cartas/ucl-clubes/ucl-len.png',  // #62 RC Lens · Escudo atual · Comum
-  'ucl-bet': 'assets/cartas/ucl-clubes/ucl-bet.png',  // #63 Real Betis · Escudo atual · Comum
-  'ucl-rma': 'assets/cartas/ucl-clubes/ucl-rma.png',  // #64 Real Madrid · Escudo atual · Comum
-  'ucl-sab': 'assets/cartas/ucl-clubes/ucl-sab.png',  // #65 Sabah · Escudo atual · Comum
-  'ucl-sha': 'assets/cartas/ucl-clubes/ucl-sha.png',  // #66 Shakhtar Donetsk · Escudo atual · Comum
-  'ucl-sla': 'assets/cartas/ucl-clubes/ucl-sla.png',  // #67 Slavia Praha · Escudo atual · Comum
-  'ucl-slo': 'assets/cartas/ucl-clubes/ucl-slo.png',  // #68 Slovan Bratislava · Escudo atual · Comum
-  'ucl-scp': 'assets/cartas/ucl-clubes/ucl-scp.png',  // #69 Sporting CP · Escudo atual · Comum
-  'ucl-vfb': 'assets/cartas/ucl-clubes/ucl-vfb.png',  // #70 VfB Stuttgart · Escudo atual · Comum
-  'ucl-vik': 'assets/cartas/ucl-clubes/ucl-vik.png',  // #71 Viking · Escudo atual · Comum
-  'ucl-vil': 'assets/cartas/ucl-clubes/ucl-vil.png',  // #72 Villarreal · Escudo atual · Comum
+  'ucl-bru-1891': 'assets/cartas/ucl-clubes/ucl-bru-1891.png',  // #24 Club Brugge · Escudo histórico · Rara
+  'ucl-com-1950': 'assets/cartas/ucl-clubes/ucl-com-1950.png',  // #25 Como · Escudo 1950 · Rara
+  'ucl-lsk-antigo': 'assets/cartas/ucl-clubes/ucl-lsk-antigo.png',  // #26 LASK · Escudo 2023 · Rara
+  'ucl-lil-1981': 'assets/cartas/ucl-clubes/ucl-lil-1981.png',  // #27 LOSC Lille · Escudo 1981 · Rara
+  'ucl-psv-1982': 'assets/cartas/ucl-clubes/ucl-psv-1982.png',  // #28 PSV Eindhoven · Escudo 1982 · Rara
+  'ucl-rbl-2009': 'assets/cartas/ucl-clubes/ucl-rbl-2009.png',  // #29 RB Leipzig · Escudo 2009 · Rara
+  'ucl-len-1979': 'assets/cartas/ucl-clubes/ucl-len-1979.png',  // #30 RC Lens · Escudo 1979 · Rara
+  'ucl-sla-1923': 'assets/cartas/ucl-clubes/ucl-sla-1923.png',  // #31 Slavia Praha · Escudo 1923 · Rara
+  'ucl-scp-1930': 'assets/cartas/ucl-clubes/ucl-scp-1930.png',  // #32 Sporting CP · Escudo 1930 · Rara
+  'ucl-vfb-1998': 'assets/cartas/ucl-clubes/ucl-vfb-1998.png',  // #33 VfB Stuttgart · Escudo 1998 · Rara
+  'ucl-vik-1926': 'assets/cartas/ucl-clubes/ucl-vik-1926.png',  // #34 Viking · Escudo 2020 · Rara
+  'ucl-aek': 'assets/cartas/ucl-clubes/ucl-aek.png',  // #35 AEK Atenas · Escudo atual · Comum
+  'ucl-ars': 'assets/cartas/ucl-clubes/ucl-ars.png',  // #36 Arsenal · Escudo atual · Comum
+  'ucl-rom': 'assets/cartas/ucl-clubes/ucl-rom.png',  // #37 AS Roma · Escudo atual · Comum
+  'ucl-avl': 'assets/cartas/ucl-clubes/ucl-avl.png',  // #38 Aston Villa · Escudo atual · Comum
+  'ucl-atm': 'assets/cartas/ucl-clubes/ucl-atm.png',  // #39 Atlético de Madrid · Escudo atual · Comum
+  'ucl-bar': 'assets/cartas/ucl-clubes/ucl-bar.png',  // #40 Barcelona · Escudo atual · Comum
+  'ucl-bay': 'assets/cartas/ucl-clubes/ucl-bay.png',  // #41 Bayern de Munique · Escudo atual · Comum
+  'ucl-bod': 'assets/cartas/ucl-clubes/ucl-bod.png',  // #42 Bodø/Glimt · Escudo atual · Comum
+  'ucl-bvb': 'assets/cartas/ucl-clubes/ucl-bvb.png',  // #43 Borussia Dortmund · Escudo atual · Comum
+  'ucl-bru': 'assets/cartas/ucl-clubes/ucl-bru.png',  // #44 Club Brugge · Escudo atual · Comum
+  'ucl-com': 'assets/cartas/ucl-clubes/ucl-com.png',  // #45 Como · Escudo atual · Comum
+  'ucl-por': 'assets/cartas/ucl-clubes/ucl-por.png',  // #46 FC Porto · Escudo atual · Comum
+  'ucl-fen': 'assets/cartas/ucl-clubes/ucl-fen.png',  // #47 Fenerbahçe · Escudo atual · Comum
+  'ucl-fey': 'assets/cartas/ucl-clubes/ucl-fey.png',  // #48 Feyenoord · Escudo atual · Comum
+  'ucl-gal': 'assets/cartas/ucl-clubes/ucl-gal.png',  // #49 Galatasaray · Escudo atual · Comum
+  'ucl-inm': 'assets/cartas/ucl-clubes/ucl-inm.png',  // #50 Inter de Milão · Escudo atual · Comum
+  'ucl-lsk': 'assets/cartas/ucl-clubes/ucl-lsk.png',  // #51 LASK · Escudo atual · Comum
+  'ucl-liv': 'assets/cartas/ucl-clubes/ucl-liv.png',  // #52 Liverpool · Escudo atual · Comum
+  'ucl-lil': 'assets/cartas/ucl-clubes/ucl-lil.png',  // #53 LOSC Lille · Escudo atual · Comum
+  'ucl-mci': 'assets/cartas/ucl-clubes/ucl-mci.png',  // #54 Manchester City · Escudo atual · Comum
+  'ucl-mun': 'assets/cartas/ucl-clubes/ucl-mun.png',  // #55 Manchester United · Escudo atual · Comum
+  'ucl-nap': 'assets/cartas/ucl-clubes/ucl-nap.png',  // #56 Napoli · Escudo atual · Comum
+  'ucl-psg': 'assets/cartas/ucl-clubes/ucl-psg.png',  // #57 Paris Saint-Germain · Escudo atual · Comum
+  'ucl-psv': 'assets/cartas/ucl-clubes/ucl-psv.png',  // #58 PSV Eindhoven · Escudo atual · Comum
+  'ucl-rbl': 'assets/cartas/ucl-clubes/ucl-rbl.png',  // #59 RB Leipzig · Escudo atual · Comum
+  'ucl-len': 'assets/cartas/ucl-clubes/ucl-len.png',  // #60 RC Lens · Escudo atual · Comum
+  'ucl-bet': 'assets/cartas/ucl-clubes/ucl-bet.png',  // #61 Real Betis · Escudo atual · Comum
+  'ucl-rma': 'assets/cartas/ucl-clubes/ucl-rma.png',  // #62 Real Madrid · Escudo atual · Comum
+  'ucl-sab': 'assets/cartas/ucl-clubes/ucl-sab.png',  // #63 Sabah · Escudo atual · Comum
+  'ucl-sha': 'assets/cartas/ucl-clubes/ucl-sha.png',  // #64 Shakhtar Donetsk · Escudo atual · Comum
+  'ucl-sla': 'assets/cartas/ucl-clubes/ucl-sla.png',  // #65 Slavia Praha · Escudo atual · Comum
+  'ucl-slo': 'assets/cartas/ucl-clubes/ucl-slo.png',  // #66 Slovan Bratislava · Escudo atual · Comum
+  'ucl-scp': 'assets/cartas/ucl-clubes/ucl-scp.png',  // #67 Sporting CP · Escudo atual · Comum
+  'ucl-vfb': 'assets/cartas/ucl-clubes/ucl-vfb.png',  // #68 VfB Stuttgart · Escudo atual · Comum
+  'ucl-vik': 'assets/cartas/ucl-clubes/ucl-vik.png',  // #69 Viking · Escudo atual · Comum
+  'ucl-vil': 'assets/cartas/ucl-clubes/ucl-vil.png',  // #70 Villarreal · Escudo atual · Comum
 
-  // ---------- Champions · Jogadores (187 cartas)
-  'ujog-beckenbauer-retro': '',  // #01 Beckenbauer · Prime · Especial
+  // ---------- Champions · Jogadores (185 cartas)
+  'ujog-beckenbauer-retro': 'assets/cartas/ucl-jogadores/ujog-beckenbauer-retro.jpg',  // #01 Beckenbauer · Prime · Especial
   'ujog-cristiano-ronaldo-retro': 'assets/cartas/ucl-jogadores/ujog-cristiano-ronaldo-retro.jpg',  // #02 Cristiano Ronaldo · Prime · Especial
   'ujog-cristiano-ronaldo-retro-2': 'assets/cartas/ucl-jogadores/ujog-cristiano-ronaldo-retro-2.jpg',  // #03 Cristiano Ronaldo · Prime · Especial
   'ujog-cruyff-retro': 'assets/cartas/ucl-jogadores/ujog-cruyff-retro.jpg',  // #04 Cruyff · Prime · Especial
@@ -609,8 +606,8 @@ export const IMAGENS = {
   'ujog-david-silva-retro': 'assets/cartas/ucl-jogadores/ujog-david-silva-retro.jpg',  // #14 David Silva · Lenda · Muito rara
   'ujog-de-rossi-retro': 'assets/cartas/ucl-jogadores/ujog-de-rossi-retro.jpg',  // #15 De Rossi · Lenda · Muito rara
   'ujog-fernando-torres-retro': 'assets/cartas/ucl-jogadores/ujog-fernando-torres-retro.jpg',  // #16 Fernando Torres · Lenda · Muito rara
-  'ujog-gerd-muller-retro': '',  // #17 Gerd Müller · Lenda · Muito rara
-  'ujog-henry-retro': '',  // #18 Henry · Lenda · Muito rara
+  'ujog-gerd-muller-retro': 'assets/cartas/ucl-jogadores/ujog-gerd-muller-retro.jpg',  // #17 Gerd Müller · Lenda · Muito rara
+  'ujog-henry-retro': 'assets/cartas/ucl-jogadores/ujog-henry-retro.jpg',  // #18 Henry · Lenda · Muito rara
   'ujog-ibrahimovic-retro': 'assets/cartas/ucl-jogadores/ujog-ibrahimovic-retro.jpg',  // #19 Ibrahimović · Lenda · Muito rara
   'ujog-joaquin-retro': 'assets/cartas/ucl-jogadores/ujog-joaquin-retro.jpg',  // #20 Joaquín · Lenda · Muito rara
   'ujog-moulijn-retro': 'assets/cartas/ucl-jogadores/ujog-moulijn-retro.jpg',  // #21 Moulijn · Lenda · Muito rara
@@ -643,7 +640,7 @@ export const IMAGENS = {
   'ujog-bruno-fernandes': 'assets/cartas/ucl-jogadores/ujog-bruno-fernandes.jpg',  // #48 Bruno Fernandes · Champions 2026/27 · Comum
   'ujog-buendia': 'assets/cartas/ucl-jogadores/ujog-buendia.jpg',  // #49 Buendía · Champions 2026/27 · Comum
   'ujog-camavinga': 'assets/cartas/ucl-jogadores/ujog-camavinga.jpg',  // #50 Camavinga · Champions 2026/27 · Comum
-  'ujog-forbs': '',  // #51 Carlos Forbs · Champions 2026/27 · Comum
+  'ujog-forbs': 'assets/cartas/ucl-jogadores/ujog-forbs.jpg',  // #51 Carlos Forbs · Champions 2026/27 · Comum
   'ujog-cherki': 'assets/cartas/ucl-jogadores/ujog-cherki.jpg',  // #52 Cherki · Champions 2026/27 · Comum
   'ujog-chytil': 'assets/cartas/ucl-jogadores/ujog-chytil.jpg',  // #53 Chytil · Champions 2026/27 · Comum
   'ujog-cucho-hernandez': 'assets/cartas/ucl-jogadores/ujog-cucho-hernandez.jpg',  // #54 Cucho Hernández · Champions 2026/27 · Comum
@@ -656,132 +653,130 @@ export const IMAGENS = {
   'ujog-doku': 'assets/cartas/ucl-jogadores/ujog-doku.jpg',  // #61 Doku · Champions 2026/27 · Comum
   'ujog-dybala': 'assets/cartas/ucl-jogadores/ujog-dybala.jpg',  // #62 Dybala · Champions 2026/27 · Comum
   'ujog-ederson': 'assets/cartas/ucl-jogadores/ujog-ederson.jpg',  // #63 Ederson · Champions 2026/27 · Comum
-  'ujog-eguinaldo': '',  // #64 Eguinaldo · Champions 2026/27 · Comum
-  'ujog-el-khannouss': 'assets/cartas/ucl-jogadores/ujog-el-khannouss.jpg',  // #65 El Khannouss · Champions 2026/27 · Comum
-  'ujog-enzo-fernandez': 'assets/cartas/ucl-jogadores/ujog-enzo-fernandez.jpg',  // #66 Enzo Fernández · Champions 2026/27 · Comum
-  'ujog-falchener': 'assets/cartas/ucl-jogadores/ujog-falchener.jpg',  // #67 Falchener · Champions 2026/27 · Comum
-  'ujog-frenkie-de-jong': 'assets/cartas/ucl-jogadores/ujog-frenkie-de-jong.jpg',  // #68 Frenkie de Jong · Champions 2026/27 · Comum
-  'ujog-froholdt': 'assets/cartas/ucl-jogadores/ujog-froholdt.jpg',  // #69 Froholdt · Champions 2026/27 · Comum
-  'ujog-geny-catamo': '',  // #70 Geny Catamo · Champions 2026/27 · Comum
-  'ujog-gerard-moreno': 'assets/cartas/ucl-jogadores/ujog-gerard-moreno.jpg',  // #71 Gerard Moreno · Champions 2026/27 · Comum
-  'ujog-giuliano-simeone': '',  // #72 Giuliano Simeone · Champions 2026/27 · Comum
-  'ujog-goncalo-inacio': 'assets/cartas/ucl-jogadores/ujog-goncalo-inacio.jpg',  // #73 Gonçalo Inácio · Champions 2026/27 · Comum
-  'ujog-guirassy': 'assets/cartas/ucl-jogadores/ujog-guirassy.jpg',  // #74 Guirassy · Champions 2026/27 · Comum
-  'ujog-gyokeres': 'assets/cartas/ucl-jogadores/ujog-gyokeres.jpg',  // #75 Gyökeres · Champions 2026/27 · Comum
-  'ujog-haaland': 'assets/cartas/ucl-jogadores/ujog-haaland.jpg',  // #76 Haaland · Champions 2026/27 · Comum
-  'ujog-hadj-moussa': '',  // #77 Hadj Moussa · Champions 2026/27 · Comum
-  'ujog-haikin': 'assets/cartas/ucl-jogadores/ujog-haikin.jpg',  // #78 Haikin · Champions 2026/27 · Comum
-  'ujog-hakimi': 'assets/cartas/ucl-jogadores/ujog-hakimi.jpg',  // #79 Hakimi · Champions 2026/27 · Comum
-  'ujog-haraldsson': 'assets/cartas/ucl-jogadores/ujog-haraldsson.jpg',  // #80 Haraldsson · Champions 2026/27 · Comum
-  'ujog-hauge': 'assets/cartas/ucl-jogadores/ujog-hauge.jpg',  // #81 Hauge · Champions 2026/27 · Comum
-  'ujog-holes': 'assets/cartas/ucl-jogadores/ujog-holes.jpg',  // #82 Holeš · Champions 2026/27 · Comum
-  'ujog-horvath': 'assets/cartas/ucl-jogadores/ujog-horvath.jpg',  // #83 Horvath · Champions 2026/27 · Comum
-  'ujog-isak': 'assets/cartas/ucl-jogadores/ujog-isak.jpg',  // #84 Isak · Champions 2026/27 · Comum
-  'ujog-isco': 'assets/cartas/ucl-jogadores/ujog-isco.jpg',  // #85 Isco · Champions 2026/27 · Comum
-  'ujog-jesus-rodriguez': '',  // #86 Jesús Rodríguez · Champions 2026/27 · Comum
-  'ujog-joao-neves': 'assets/cartas/ucl-jogadores/ujog-joao-neves.jpg',  // #87 João Neves · Champions 2026/27 · Comum
-  'ujog-jobe-bellingham': 'assets/cartas/ucl-jogadores/ujog-jobe-bellingham.jpg',  // #88 Jobe Bellingham · Champions 2026/27 · Comum
-  'ujog-joe-bell': 'assets/cartas/ucl-jogadores/ujog-joe-bell.jpg',  // #89 Joe Bell · Champions 2026/27 · Comum
-  'ujog-jovic': '',  // #90 Jović · Champions 2026/27 · Comum
-  'ujog-julian-alvarez': 'assets/cartas/ucl-jogadores/ujog-julian-alvarez.jpg',  // #91 Julián Álvarez · Champions 2026/27 · Comum
-  'ujog-jurasek': 'assets/cartas/ucl-jogadores/ujog-jurasek.jpg',  // #92 Jurásek · Champions 2026/27 · Comum
-  'ujog-kalajdzic': 'assets/cartas/ucl-jogadores/ujog-kalajdzic.jpg',  // #93 Kalajdžić · Champions 2026/27 · Comum
-  'ujog-kane': 'assets/cartas/ucl-jogadores/ujog-kane.jpg',  // #94 Kane · Champions 2026/27 · Comum
-  'ujog-kante': 'assets/cartas/ucl-jogadores/ujog-kante.jpg',  // #95 Kanté · Champions 2026/27 · Comum
-  'ujog-kean': '',  // #96 Kean · Champions 2026/27 · Comum
-  'ujog-kerem': 'assets/cartas/ucl-jogadores/ujog-kerem.jpg',  // #97 Kerem Aktürkoğlu · Champions 2026/27 · Comum
-  'ujog-kimmich': 'assets/cartas/ucl-jogadores/ujog-kimmich.jpg',  // #98 Kimmich · Champions 2026/27 · Comum
-  'ujog-kjaergaard': 'assets/cartas/ucl-jogadores/ujog-kjaergaard.jpg',  // #99 Kjærgaard · Champions 2026/27 · Comum
-  'ujog-kobel': 'assets/cartas/ucl-jogadores/ujog-kobel.jpg',  // #100 Kobel · Champions 2026/27 · Comum
-  'ujog-koita': '',  // #101 Koïta · Champions 2026/27 · Comum
-  'ujog-koke': '',  // #102 Koke · Champions 2026/27 · Comum
-  'ujog-kone': 'assets/cartas/ucl-jogadores/ujog-kone.jpg',  // #103 Koné · Champions 2026/27 · Comum
-  'ujog-kukharevych': 'assets/cartas/ucl-jogadores/ujog-kukharevych.jpg',  // #104 Kukharevych · Champions 2026/27 · Comum
-  'ujog-kvaratskhelia': 'assets/cartas/ucl-jogadores/ujog-kvaratskhelia.jpg',  // #105 Kvaratskhelia · Champions 2026/27 · Comum
-  'ujog-lamine-yamal': 'assets/cartas/ucl-jogadores/ujog-lamine-yamal.jpg',  // #106 Lamine Yamal · Champions 2026/27 · Comum
-  'ujog-lautaro': 'assets/cartas/ucl-jogadores/ujog-lautaro.jpg',  // #107 Lautaro Martínez · Champions 2026/27 · Comum
-  'ujog-ljubicic': 'assets/cartas/ucl-jogadores/ujog-ljubicic.jpg',  // #108 Ljubičić · Champions 2026/27 · Comum
-  'ujog-lookman': '',  // #109 Lookman · Champions 2026/27 · Comum
-  'ujog-luis-diaz': 'assets/cartas/ucl-jogadores/ujog-luis-diaz.jpg',  // #110 Luis Díaz · Champions 2026/27 · Comum
-  'ujog-luis-suarez': 'assets/cartas/ucl-jogadores/ujog-luis-suarez.jpg',  // #111 Luis Suárez · Champions 2026/27 · Comum
-  'ujog-lukeba': '',  // #112 Lukeba · Champions 2026/27 · Comum
-  'ujog-mac-allister': 'assets/cartas/ucl-jogadores/ujog-mac-allister.jpg',  // #113 Mac Allister · Champions 2026/27 · Comum
-  'ujog-mainoo': 'assets/cartas/ucl-jogadores/ujog-mainoo.jpg',  // #114 Mainoo · Champions 2026/27 · Comum
-  'ujog-majer': '',  // #115 Majer · Champions 2026/27 · Comum
-  'ujog-malen': 'assets/cartas/ucl-jogadores/ujog-malen.jpg',  // #116 Malen · Champions 2026/27 · Comum
-  'ujog-marcelli': 'assets/cartas/ucl-jogadores/ujog-marcelli.jpg',  // #117 Marcelli · Champions 2026/27 · Comum
-  'ujog-cunha': 'assets/cartas/ucl-jogadores/ujog-cunha.jpg',  // #118 Matheus Cunha · Champions 2026/27 · Comum
-  'ujog-matviyenko': 'assets/cartas/ucl-jogadores/ujog-matviyenko.jpg',  // #119 Matviyenko · Champions 2026/27 · Comum
-  'ujog-mauro-junior': 'assets/cartas/ucl-jogadores/ujog-mauro-junior.jpg',  // #120 Mauro Júnior · Champions 2026/27 · Comum
-  'ujog-maxi-araujo': '',  // #121 Maxi Araújo · Champions 2026/27 · Comum
-  'ujog-mbappe': 'assets/cartas/ucl-jogadores/ujog-mbappe.jpg',  // #122 Mbappé · Champions 2026/27 · Comum
-  'ujog-mbeumo': 'assets/cartas/ucl-jogadores/ujog-mbeumo.jpg',  // #123 Mbeumo · Champions 2026/27 · Comum
-  'ujog-mcginn': 'assets/cartas/ucl-jogadores/ujog-mcginn.jpg',  // #124 McGinn · Champions 2026/27 · Comum
-  'ujog-mctominay': 'assets/cartas/ucl-jogadores/ujog-mctominay.jpg',  // #125 McTominay · Champions 2026/27 · Comum
-  'ujog-mickels': 'assets/cartas/ucl-jogadores/ujog-mickels.jpg',  // #126 Mickels · Champions 2026/27 · Comum
-  'ujog-godts': 'assets/cartas/ucl-jogadores/ujog-godts.jpg',  // #127 Mika Godts · Champions 2026/27 · Comum
-  'ujog-mikautadze': '',  // #128 Mikautadze · Champions 2026/27 · Comum
-  'ujog-milinkovic-savic': 'assets/cartas/ucl-jogadores/ujog-milinkovic-savic.jpg',  // #129 Milinković-Savić · Champions 2026/27 · Comum
-  'ujog-moleiro': '',  // #130 Moleiro · Champions 2026/27 · Comum
-  'ujog-musiala': 'assets/cartas/ucl-jogadores/ujog-musiala.jpg',  // #131 Musiala · Champions 2026/27 · Comum
-  'ujog-nico-paz': '',  // #132 Nico Paz · Champions 2026/27 · Comum
-  'ujog-nicolas-jackson': 'assets/cartas/ucl-jogadores/ujog-nicolas-jackson.jpg',  // #133 Nicolas Jackson · Champions 2026/27 · Comum
-  'ujog-nmecha': 'assets/cartas/ucl-jogadores/ujog-nmecha.jpg',  // #134 Nmecha · Champions 2026/27 · Comum
-  'ujog-noa-lang': 'assets/cartas/ucl-jogadores/ujog-noa-lang.jpg',  // #135 Noa Lang · Champions 2026/27 · Comum
-  'ujog-nusa': '',  // #136 Nusa · Champions 2026/27 · Comum
-  'ujog-oblak': 'assets/cartas/ucl-jogadores/ujog-oblak.jpg',  // #137 Oblak · Champions 2026/27 · Comum
-  'ujog-odegaard': 'assets/cartas/ucl-jogadores/ujog-odegaard.jpg',  // #138 Ødegaard · Champions 2026/27 · Comum
-  'ujog-edouard': 'assets/cartas/ucl-jogadores/ujog-edouard.jpg',  // #139 Odsonne Édouard · Champions 2026/27 · Comum
-  'ujog-olise': 'assets/cartas/ucl-jogadores/ujog-olise.jpg',  // #140 Olise · Champions 2026/27 · Comum
-  'ujog-osimhen': 'assets/cartas/ucl-jogadores/ujog-osimhen.jpg',  // #141 Osimhen · Champions 2026/27 · Comum
-  'ujog-berg': 'assets/cartas/ucl-jogadores/ujog-berg.jpg',  // #142 Patrick Berg · Champions 2026/27 · Comum
-  'ujog-pau-torres': 'assets/cartas/ucl-jogadores/ujog-pau-torres.jpg',  // #143 Pau Torres · Champions 2026/27 · Comum
-  'ujog-paul-wanner': 'assets/cartas/ucl-jogadores/ujog-paul-wanner.jpg',  // #144 Paul Wanner · Champions 2026/27 · Comum
-  'ujog-pedri': 'assets/cartas/ucl-jogadores/ujog-pedri.jpg',  // #145 Pedri · Champions 2026/27 · Comum
-  'ujog-pedrinho': 'assets/cartas/ucl-jogadores/ujog-pedrinho.jpg',  // #146 Pedrinho · Champions 2026/27 · Comum
-  'ujog-pepe': 'assets/cartas/ucl-jogadores/ujog-pepe.jpg',  // #147 Pépé · Champions 2026/27 · Comum
-  'ujog-perisic': 'assets/cartas/ucl-jogadores/ujog-perisic.jpg',  // #148 Perišić · Champions 2026/27 · Comum
-  'ujog-perrone': '',  // #149 Perrone · Champions 2026/27 · Comum
-  'ujog-pokatilov': 'assets/cartas/ucl-jogadores/ujog-pokatilov.jpg',  // #150 Pokatilov · Champions 2026/27 · Comum
-  'ujog-provod': 'assets/cartas/ucl-jogadores/ujog-provod.jpg',  // #151 Provod · Champions 2026/27 · Comum
-  'ujog-puchacz': 'assets/cartas/ucl-jogadores/ujog-puchacz.jpg',  // #152 Puchacz · Champions 2026/27 · Comum
-  'ujog-rafael-leao': 'assets/cartas/ucl-jogadores/ujog-rafael-leao.jpg',  // #153 Rafael Leão · Champions 2026/27 · Comum
-  'ujog-raphinha': 'assets/cartas/ucl-jogadores/ujog-raphinha.jpg',  // #154 Raphinha · Champions 2026/27 · Comum
-  'ujog-raum': '',  // #155 Raum · Champions 2026/27 · Comum
-  'ujog-risser': 'assets/cartas/ucl-jogadores/ujog-risser.jpg',  // #156 Risser · Champions 2026/27 · Comum
-  'ujog-riznyk': 'assets/cartas/ucl-jogadores/ujog-riznyk.jpg',  // #157 Riznyk · Champions 2026/27 · Comum
-  'ujog-rodri': 'assets/cartas/ucl-jogadores/ujog-rodri.jpg',  // #158 Rodri · Champions 2026/27 · Comum
-  'ujog-ruben-dias': 'assets/cartas/ucl-jogadores/ujog-ruben-dias.jpg',  // #159 Rúben Dias · Champions 2026/27 · Comum
-  'ujog-saka': 'assets/cartas/ucl-jogadores/ujog-saka.jpg',  // #160 Saka · Champions 2026/27 · Comum
-  'ujog-saliba': 'assets/cartas/ucl-jogadores/ujog-saliba.jpg',  // #161 Saliba · Champions 2026/27 · Comum
-  'ujog-samu': 'assets/cartas/ucl-jogadores/ujog-samu.jpg',  // #162 Samu · Champions 2026/27 · Comum
-  'ujog-leroy-sane': '',  // #163 Sané · Champions 2026/27 · Comum
-  'ujog-abdulhamid': 'assets/cartas/ucl-jogadores/ujog-abdulhamid.jpg',  // #164 Saud Abdulhamid · Champions 2026/27 · Comum
-  'ujog-schlotterbeck': 'assets/cartas/ucl-jogadores/ujog-schlotterbeck.jpg',  // #165 Schlotterbeck · Champions 2026/27 · Comum
-  'ujog-schouten': 'assets/cartas/ucl-jogadores/ujog-schouten.jpg',  // #166 Schouten · Champions 2026/27 · Comum
-  'ujog-sesko': 'assets/cartas/ucl-jogadores/ujog-sesko.jpg',  // #167 Šeško · Champions 2026/27 · Comum
-  'ujog-simic': 'assets/cartas/ucl-jogadores/ujog-simic.jpg',  // #168 Simić · Champions 2026/27 · Comum
-  'ujog-sommer': '',  // #169 Sommer · Champions 2026/27 · Comum
-  'ujog-sporar': 'assets/cartas/ucl-jogadores/ujog-sporar.jpg',  // #170 Šporar · Champions 2026/27 · Comum
-  'ujog-steijn': '',  // #171 Steijn · Champions 2026/27 · Comum
-  'ujog-stiller': 'assets/cartas/ucl-jogadores/ujog-stiller.jpg',  // #172 Stiller · Champions 2026/27 · Comum
-  'ujog-strakosha': '',  // #173 Strakosha · Champions 2026/27 · Comum
-  'ujog-svilar': 'assets/cartas/ucl-jogadores/ujog-svilar.jpg',  // #174 Svilar · Champions 2026/27 · Comum
-  'ujog-thauvin': 'assets/cartas/ucl-jogadores/ujog-thauvin.jpg',  // #175 Thauvin · Champions 2026/27 · Comum
-  'ujog-thuram': 'assets/cartas/ucl-jogadores/ujog-thuram.jpg',  // #176 Thuram · Champions 2026/27 · Comum
-  'ujog-tresoldi': '',  // #177 Tresoldi · Champions 2026/27 · Comum
-  'ujog-tripic': 'assets/cartas/ucl-jogadores/ujog-tripic.jpg',  // #178 Tripić · Champions 2026/27 · Comum
-  'ujog-undav': 'assets/cartas/ucl-jogadores/ujog-undav.jpg',  // #179 Undav · Champions 2026/27 · Comum
-  'ujog-valente': 'assets/cartas/ucl-jogadores/ujog-valente.jpg',  // #180 Valente · Champions 2026/27 · Comum
-  'ujog-valverde': 'assets/cartas/ucl-jogadores/ujog-valverde.jpg',  // #181 Valverde · Champions 2026/27 · Comum
-  'ujog-van-dijk': 'assets/cartas/ucl-jogadores/ujog-van-dijk.jpg',  // #182 Van Dijk · Champions 2026/27 · Comum
-  'ujog-vanaken': 'assets/cartas/ucl-jogadores/ujog-vanaken.jpg',  // #183 Vanaken · Champions 2026/27 · Comum
-  'ujog-vinicius-junior': 'assets/cartas/ucl-jogadores/ujog-vinicius-junior.jpg',  // #184 Vinícius Júnior · Champions 2026/27 · Comum
-  'ujog-watanabe': '',  // #185 Watanabe · Champions 2026/27 · Comum
-  'ujog-wirtz': 'assets/cartas/ucl-jogadores/ujog-wirtz.jpg',  // #186 Wirtz · Champions 2026/27 · Comum
-  'ujog-rodrigo-zalazar': '',  // #187 Zalazar · Champions 2026/27 · Comum
+  'ujog-el-khannouss': 'assets/cartas/ucl-jogadores/ujog-el-khannouss.jpg',  // #64 El Khannouss · Champions 2026/27 · Comum
+  'ujog-enzo-fernandez': 'assets/cartas/ucl-jogadores/ujog-enzo-fernandez.jpg',  // #65 Enzo Fernández · Champions 2026/27 · Comum
+  'ujog-falchener': 'assets/cartas/ucl-jogadores/ujog-falchener.jpg',  // #66 Falchener · Champions 2026/27 · Comum
+  'ujog-frenkie-de-jong': 'assets/cartas/ucl-jogadores/ujog-frenkie-de-jong.jpg',  // #67 Frenkie de Jong · Champions 2026/27 · Comum
+  'ujog-froholdt': 'assets/cartas/ucl-jogadores/ujog-froholdt.jpg',  // #68 Froholdt · Champions 2026/27 · Comum
+  'ujog-geny-catamo': 'assets/cartas/ucl-jogadores/ujog-geny-catamo.jpg',  // #69 Geny Catamo · Champions 2026/27 · Comum
+  'ujog-gerard-moreno': 'assets/cartas/ucl-jogadores/ujog-gerard-moreno.jpg',  // #70 Gerard Moreno · Champions 2026/27 · Comum
+  'ujog-giuliano-simeone': 'assets/cartas/ucl-jogadores/ujog-giuliano-simeone.jpg',  // #71 Giuliano Simeone · Champions 2026/27 · Comum
+  'ujog-goncalo-inacio': 'assets/cartas/ucl-jogadores/ujog-goncalo-inacio.jpg',  // #72 Gonçalo Inácio · Champions 2026/27 · Comum
+  'ujog-guirassy': 'assets/cartas/ucl-jogadores/ujog-guirassy.jpg',  // #73 Guirassy · Champions 2026/27 · Comum
+  'ujog-gyokeres': 'assets/cartas/ucl-jogadores/ujog-gyokeres.jpg',  // #74 Gyökeres · Champions 2026/27 · Comum
+  'ujog-haaland': 'assets/cartas/ucl-jogadores/ujog-haaland.jpg',  // #75 Haaland · Champions 2026/27 · Comum
+  'ujog-hadj-moussa': 'assets/cartas/ucl-jogadores/ujog-hadj-moussa.jpg',  // #76 Hadj Moussa · Champions 2026/27 · Comum
+  'ujog-haikin': 'assets/cartas/ucl-jogadores/ujog-haikin.jpg',  // #77 Haikin · Champions 2026/27 · Comum
+  'ujog-hakimi': 'assets/cartas/ucl-jogadores/ujog-hakimi.jpg',  // #78 Hakimi · Champions 2026/27 · Comum
+  'ujog-haraldsson': 'assets/cartas/ucl-jogadores/ujog-haraldsson.jpg',  // #79 Haraldsson · Champions 2026/27 · Comum
+  'ujog-hauge': 'assets/cartas/ucl-jogadores/ujog-hauge.jpg',  // #80 Hauge · Champions 2026/27 · Comum
+  'ujog-holes': 'assets/cartas/ucl-jogadores/ujog-holes.jpg',  // #81 Holeš · Champions 2026/27 · Comum
+  'ujog-horvath': 'assets/cartas/ucl-jogadores/ujog-horvath.jpg',  // #82 Horvath · Champions 2026/27 · Comum
+  'ujog-isak': 'assets/cartas/ucl-jogadores/ujog-isak.jpg',  // #83 Isak · Champions 2026/27 · Comum
+  'ujog-isco': 'assets/cartas/ucl-jogadores/ujog-isco.jpg',  // #84 Isco · Champions 2026/27 · Comum
+  'ujog-joao-neves': 'assets/cartas/ucl-jogadores/ujog-joao-neves.jpg',  // #85 João Neves · Champions 2026/27 · Comum
+  'ujog-jobe-bellingham': 'assets/cartas/ucl-jogadores/ujog-jobe-bellingham.jpg',  // #86 Jobe Bellingham · Champions 2026/27 · Comum
+  'ujog-joe-bell': 'assets/cartas/ucl-jogadores/ujog-joe-bell.jpg',  // #87 Joe Bell · Champions 2026/27 · Comum
+  'ujog-jovic': 'assets/cartas/ucl-jogadores/ujog-jovic.jpg',  // #88 Jović · Champions 2026/27 · Comum
+  'ujog-julian-alvarez': 'assets/cartas/ucl-jogadores/ujog-julian-alvarez.jpg',  // #89 Julián Álvarez · Champions 2026/27 · Comum
+  'ujog-jurasek': 'assets/cartas/ucl-jogadores/ujog-jurasek.jpg',  // #90 Jurásek · Champions 2026/27 · Comum
+  'ujog-kalajdzic': 'assets/cartas/ucl-jogadores/ujog-kalajdzic.jpg',  // #91 Kalajdžić · Champions 2026/27 · Comum
+  'ujog-kane': 'assets/cartas/ucl-jogadores/ujog-kane.jpg',  // #92 Kane · Champions 2026/27 · Comum
+  'ujog-kante': 'assets/cartas/ucl-jogadores/ujog-kante.jpg',  // #93 Kanté · Champions 2026/27 · Comum
+  'ujog-kean': 'assets/cartas/ucl-jogadores/ujog-kean.jpg',  // #94 Kean · Champions 2026/27 · Comum
+  'ujog-kerem': 'assets/cartas/ucl-jogadores/ujog-kerem.jpg',  // #95 Kerem Aktürkoğlu · Champions 2026/27 · Comum
+  'ujog-kimmich': 'assets/cartas/ucl-jogadores/ujog-kimmich.jpg',  // #96 Kimmich · Champions 2026/27 · Comum
+  'ujog-kjaergaard': 'assets/cartas/ucl-jogadores/ujog-kjaergaard.jpg',  // #97 Kjærgaard · Champions 2026/27 · Comum
+  'ujog-kobel': 'assets/cartas/ucl-jogadores/ujog-kobel.jpg',  // #98 Kobel · Champions 2026/27 · Comum
+  'ujog-koita': 'assets/cartas/ucl-jogadores/ujog-koita.jpg',  // #99 Koïta · Champions 2026/27 · Comum
+  'ujog-koke': 'assets/cartas/ucl-jogadores/ujog-koke.jpg',  // #100 Koke · Champions 2026/27 · Comum
+  'ujog-kone': 'assets/cartas/ucl-jogadores/ujog-kone.jpg',  // #101 Koné · Champions 2026/27 · Comum
+  'ujog-kukharevych': 'assets/cartas/ucl-jogadores/ujog-kukharevych.jpg',  // #102 Kukharevych · Champions 2026/27 · Comum
+  'ujog-kvaratskhelia': 'assets/cartas/ucl-jogadores/ujog-kvaratskhelia.jpg',  // #103 Kvaratskhelia · Champions 2026/27 · Comum
+  'ujog-lamine-yamal': 'assets/cartas/ucl-jogadores/ujog-lamine-yamal.jpg',  // #104 Lamine Yamal · Champions 2026/27 · Comum
+  'ujog-lautaro': 'assets/cartas/ucl-jogadores/ujog-lautaro.jpg',  // #105 Lautaro Martínez · Champions 2026/27 · Comum
+  'ujog-ljubicic': 'assets/cartas/ucl-jogadores/ujog-ljubicic.jpg',  // #106 Ljubičić · Champions 2026/27 · Comum
+  'ujog-lookman': 'assets/cartas/ucl-jogadores/ujog-lookman.jpg',  // #107 Lookman · Champions 2026/27 · Comum
+  'ujog-luis-diaz': 'assets/cartas/ucl-jogadores/ujog-luis-diaz.jpg',  // #108 Luis Díaz · Champions 2026/27 · Comum
+  'ujog-luis-suarez': 'assets/cartas/ucl-jogadores/ujog-luis-suarez.jpg',  // #109 Luis Suárez · Champions 2026/27 · Comum
+  'ujog-lukeba': 'assets/cartas/ucl-jogadores/ujog-lukeba.jpg',  // #110 Lukeba · Champions 2026/27 · Comum
+  'ujog-mac-allister': 'assets/cartas/ucl-jogadores/ujog-mac-allister.jpg',  // #111 Mac Allister · Champions 2026/27 · Comum
+  'ujog-mainoo': 'assets/cartas/ucl-jogadores/ujog-mainoo.jpg',  // #112 Mainoo · Champions 2026/27 · Comum
+  'ujog-majer': 'assets/cartas/ucl-jogadores/ujog-majer.jpg',  // #113 Majer · Champions 2026/27 · Comum
+  'ujog-malen': 'assets/cartas/ucl-jogadores/ujog-malen.jpg',  // #114 Malen · Champions 2026/27 · Comum
+  'ujog-marcelli': 'assets/cartas/ucl-jogadores/ujog-marcelli.jpg',  // #115 Marcelli · Champions 2026/27 · Comum
+  'ujog-cunha': 'assets/cartas/ucl-jogadores/ujog-cunha.jpg',  // #116 Matheus Cunha · Champions 2026/27 · Comum
+  'ujog-matviyenko': 'assets/cartas/ucl-jogadores/ujog-matviyenko.jpg',  // #117 Matviyenko · Champions 2026/27 · Comum
+  'ujog-mauro-junior': 'assets/cartas/ucl-jogadores/ujog-mauro-junior.jpg',  // #118 Mauro Júnior · Champions 2026/27 · Comum
+  'ujog-maxi-araujo': 'assets/cartas/ucl-jogadores/ujog-maxi-araujo.jpg',  // #119 Maxi Araújo · Champions 2026/27 · Comum
+  'ujog-mbappe': 'assets/cartas/ucl-jogadores/ujog-mbappe.jpg',  // #120 Mbappé · Champions 2026/27 · Comum
+  'ujog-mbeumo': 'assets/cartas/ucl-jogadores/ujog-mbeumo.jpg',  // #121 Mbeumo · Champions 2026/27 · Comum
+  'ujog-mcginn': 'assets/cartas/ucl-jogadores/ujog-mcginn.jpg',  // #122 McGinn · Champions 2026/27 · Comum
+  'ujog-mctominay': 'assets/cartas/ucl-jogadores/ujog-mctominay.jpg',  // #123 McTominay · Champions 2026/27 · Comum
+  'ujog-mickels': 'assets/cartas/ucl-jogadores/ujog-mickels.jpg',  // #124 Mickels · Champions 2026/27 · Comum
+  'ujog-godts': 'assets/cartas/ucl-jogadores/ujog-godts.jpg',  // #125 Mika Godts · Champions 2026/27 · Comum
+  'ujog-mikautadze': 'assets/cartas/ucl-jogadores/ujog-mikautadze.jpg',  // #126 Mikautadze · Champions 2026/27 · Comum
+  'ujog-milinkovic-savic': 'assets/cartas/ucl-jogadores/ujog-milinkovic-savic.jpg',  // #127 Milinković-Savić · Champions 2026/27 · Comum
+  'ujog-moleiro': 'assets/cartas/ucl-jogadores/ujog-moleiro.jpg',  // #128 Moleiro · Champions 2026/27 · Comum
+  'ujog-musiala': 'assets/cartas/ucl-jogadores/ujog-musiala.jpg',  // #129 Musiala · Champions 2026/27 · Comum
+  'ujog-nico-paz': 'assets/cartas/ucl-jogadores/ujog-nico-paz.jpg',  // #130 Nico Paz · Champions 2026/27 · Comum
+  'ujog-nicolas-jackson': 'assets/cartas/ucl-jogadores/ujog-nicolas-jackson.jpg',  // #131 Nicolas Jackson · Champions 2026/27 · Comum
+  'ujog-nmecha': 'assets/cartas/ucl-jogadores/ujog-nmecha.jpg',  // #132 Nmecha · Champions 2026/27 · Comum
+  'ujog-noa-lang': 'assets/cartas/ucl-jogadores/ujog-noa-lang.jpg',  // #133 Noa Lang · Champions 2026/27 · Comum
+  'ujog-nusa': 'assets/cartas/ucl-jogadores/ujog-nusa.jpg',  // #134 Nusa · Champions 2026/27 · Comum
+  'ujog-oblak': 'assets/cartas/ucl-jogadores/ujog-oblak.jpg',  // #135 Oblak · Champions 2026/27 · Comum
+  'ujog-odegaard': 'assets/cartas/ucl-jogadores/ujog-odegaard.jpg',  // #136 Ødegaard · Champions 2026/27 · Comum
+  'ujog-edouard': 'assets/cartas/ucl-jogadores/ujog-edouard.jpg',  // #137 Odsonne Édouard · Champions 2026/27 · Comum
+  'ujog-olise': 'assets/cartas/ucl-jogadores/ujog-olise.jpg',  // #138 Olise · Champions 2026/27 · Comum
+  'ujog-osimhen': 'assets/cartas/ucl-jogadores/ujog-osimhen.jpg',  // #139 Osimhen · Champions 2026/27 · Comum
+  'ujog-berg': 'assets/cartas/ucl-jogadores/ujog-berg.jpg',  // #140 Patrick Berg · Champions 2026/27 · Comum
+  'ujog-pau-torres': 'assets/cartas/ucl-jogadores/ujog-pau-torres.jpg',  // #141 Pau Torres · Champions 2026/27 · Comum
+  'ujog-paul-wanner': 'assets/cartas/ucl-jogadores/ujog-paul-wanner.jpg',  // #142 Paul Wanner · Champions 2026/27 · Comum
+  'ujog-pedri': 'assets/cartas/ucl-jogadores/ujog-pedri.jpg',  // #143 Pedri · Champions 2026/27 · Comum
+  'ujog-pedrinho': 'assets/cartas/ucl-jogadores/ujog-pedrinho.jpg',  // #144 Pedrinho · Champions 2026/27 · Comum
+  'ujog-pepe': 'assets/cartas/ucl-jogadores/ujog-pepe.jpg',  // #145 Pépé · Champions 2026/27 · Comum
+  'ujog-perisic': 'assets/cartas/ucl-jogadores/ujog-perisic.jpg',  // #146 Perišić · Champions 2026/27 · Comum
+  'ujog-perrone': 'assets/cartas/ucl-jogadores/ujog-perrone.jpg',  // #147 Perrone · Champions 2026/27 · Comum
+  'ujog-pokatilov': 'assets/cartas/ucl-jogadores/ujog-pokatilov.jpg',  // #148 Pokatilov · Champions 2026/27 · Comum
+  'ujog-provod': 'assets/cartas/ucl-jogadores/ujog-provod.jpg',  // #149 Provod · Champions 2026/27 · Comum
+  'ujog-puchacz': 'assets/cartas/ucl-jogadores/ujog-puchacz.jpg',  // #150 Puchacz · Champions 2026/27 · Comum
+  'ujog-rafael-leao': 'assets/cartas/ucl-jogadores/ujog-rafael-leao.jpg',  // #151 Rafael Leão · Champions 2026/27 · Comum
+  'ujog-raphinha': 'assets/cartas/ucl-jogadores/ujog-raphinha.jpg',  // #152 Raphinha · Champions 2026/27 · Comum
+  'ujog-raum': 'assets/cartas/ucl-jogadores/ujog-raum.jpg',  // #153 Raum · Champions 2026/27 · Comum
+  'ujog-risser': 'assets/cartas/ucl-jogadores/ujog-risser.jpg',  // #154 Risser · Champions 2026/27 · Comum
+  'ujog-riznyk': 'assets/cartas/ucl-jogadores/ujog-riznyk.jpg',  // #155 Riznyk · Champions 2026/27 · Comum
+  'ujog-rodri': 'assets/cartas/ucl-jogadores/ujog-rodri.jpg',  // #156 Rodri · Champions 2026/27 · Comum
+  'ujog-ruben-dias': 'assets/cartas/ucl-jogadores/ujog-ruben-dias.jpg',  // #157 Rúben Dias · Champions 2026/27 · Comum
+  'ujog-saka': 'assets/cartas/ucl-jogadores/ujog-saka.jpg',  // #158 Saka · Champions 2026/27 · Comum
+  'ujog-saliba': 'assets/cartas/ucl-jogadores/ujog-saliba.jpg',  // #159 Saliba · Champions 2026/27 · Comum
+  'ujog-samu': 'assets/cartas/ucl-jogadores/ujog-samu.jpg',  // #160 Samu · Champions 2026/27 · Comum
+  'ujog-leroy-sane': 'assets/cartas/ucl-jogadores/ujog-leroy-sane.jpg',  // #161 Sané · Champions 2026/27 · Comum
+  'ujog-abdulhamid': 'assets/cartas/ucl-jogadores/ujog-abdulhamid.jpg',  // #162 Saud Abdulhamid · Champions 2026/27 · Comum
+  'ujog-schlotterbeck': 'assets/cartas/ucl-jogadores/ujog-schlotterbeck.jpg',  // #163 Schlotterbeck · Champions 2026/27 · Comum
+  'ujog-schouten': 'assets/cartas/ucl-jogadores/ujog-schouten.jpg',  // #164 Schouten · Champions 2026/27 · Comum
+  'ujog-sesko': 'assets/cartas/ucl-jogadores/ujog-sesko.jpg',  // #165 Šeško · Champions 2026/27 · Comum
+  'ujog-simic': 'assets/cartas/ucl-jogadores/ujog-simic.jpg',  // #166 Simić · Champions 2026/27 · Comum
+  'ujog-sommer': 'assets/cartas/ucl-jogadores/ujog-sommer.jpg',  // #167 Sommer · Champions 2026/27 · Comum
+  'ujog-sporar': 'assets/cartas/ucl-jogadores/ujog-sporar.jpg',  // #168 Šporar · Champions 2026/27 · Comum
+  'ujog-steijn': 'assets/cartas/ucl-jogadores/ujog-steijn.jpg',  // #169 Steijn · Champions 2026/27 · Comum
+  'ujog-stiller': 'assets/cartas/ucl-jogadores/ujog-stiller.jpg',  // #170 Stiller · Champions 2026/27 · Comum
+  'ujog-strakosha': 'assets/cartas/ucl-jogadores/ujog-strakosha.jpg',  // #171 Strakosha · Champions 2026/27 · Comum
+  'ujog-svilar': 'assets/cartas/ucl-jogadores/ujog-svilar.jpg',  // #172 Svilar · Champions 2026/27 · Comum
+  'ujog-thauvin': 'assets/cartas/ucl-jogadores/ujog-thauvin.jpg',  // #173 Thauvin · Champions 2026/27 · Comum
+  'ujog-thuram': 'assets/cartas/ucl-jogadores/ujog-thuram.jpg',  // #174 Thuram · Champions 2026/27 · Comum
+  'ujog-tresoldi': 'assets/cartas/ucl-jogadores/ujog-tresoldi.jpg',  // #175 Tresoldi · Champions 2026/27 · Comum
+  'ujog-tripic': 'assets/cartas/ucl-jogadores/ujog-tripic.jpg',  // #176 Tripić · Champions 2026/27 · Comum
+  'ujog-undav': 'assets/cartas/ucl-jogadores/ujog-undav.jpg',  // #177 Undav · Champions 2026/27 · Comum
+  'ujog-valente': 'assets/cartas/ucl-jogadores/ujog-valente.jpg',  // #178 Valente · Champions 2026/27 · Comum
+  'ujog-valverde': 'assets/cartas/ucl-jogadores/ujog-valverde.jpg',  // #179 Valverde · Champions 2026/27 · Comum
+  'ujog-van-dijk': 'assets/cartas/ucl-jogadores/ujog-van-dijk.jpg',  // #180 Van Dijk · Champions 2026/27 · Comum
+  'ujog-vanaken': 'assets/cartas/ucl-jogadores/ujog-vanaken.jpg',  // #181 Vanaken · Champions 2026/27 · Comum
+  'ujog-vinicius-junior': 'assets/cartas/ucl-jogadores/ujog-vinicius-junior.jpg',  // #182 Vinícius Júnior · Champions 2026/27 · Comum
+  'ujog-watanabe': 'assets/cartas/ucl-jogadores/ujog-watanabe.jpg',  // #183 Watanabe · Champions 2026/27 · Comum
+  'ujog-wirtz': 'assets/cartas/ucl-jogadores/ujog-wirtz.jpg',  // #184 Wirtz · Champions 2026/27 · Comum
+  'ujog-rodrigo-zalazar': 'assets/cartas/ucl-jogadores/ujog-rodrigo-zalazar.jpg',  // #185 Zalazar · Champions 2026/27 · Comum
 
-  // ---------- Champions · Estádios (72 cartas)
+  // ---------- Champions · Estádios (71 cartas)
   'uest-liv-kop-1983': 'assets/cartas/ucl-estadios/uest-liv-kop-1983.jpg',  // #01 Anfield (Kop, 1983) · Histórico · Especial
   'uest-bar-camp-nou-antigo': 'assets/cartas/ucl-estadios/uest-bar-camp-nou-antigo.jpg',  // #02 Camp Nou (antes da reforma) · Histórico · Especial
   'uest-rom-testaccio': 'assets/cartas/ucl-estadios/uest-rom-testaccio.jpg',  // #03 Campo Testaccio · Histórico · Especial
@@ -807,53 +802,52 @@ export const IMAGENS = {
   'uest-sab-bank-respublika-arena': 'assets/cartas/ucl-estadios/uest-sab-bank-respublika-arena.jpg',  // #23 Bank Respublika Arena · Histórico · Rara
   'uest-bru-de-klokke': 'assets/cartas/ucl-estadios/uest-bru-de-klokke.jpg',  // #24 De Klokke · Histórico · Rara
   'uest-vil-el-madrigal': 'assets/cartas/ucl-estadios/uest-vil-el-madrigal.jpg',  // #25 El Madrigal · Histórico · Rara
-  'uest-aek-nikos-goumas': '',  // #26 Estádio Nikos Goumas · Histórico · Rara
-  'uest-vfb-gottlieb-daimler-stadion': 'assets/cartas/ucl-estadios/uest-vfb-gottlieb-daimler-stadion.jpg',  // #27 Gottlieb-Daimler-Stadion · Histórico · Rara
-  'uest-lsk-linzer-stadion': 'assets/cartas/ucl-estadios/uest-lsk-linzer-stadion.jpg',  // #28 Linzer Stadion (Gugl) · Histórico · Rara
-  'uest-psv-philips-stadion-1982': 'assets/cartas/ucl-estadios/uest-psv-philips-stadion-1982.jpg',  // #29 Philips Stadion (1982) · Histórico · Rara
-  'uest-com-sinigaglia-lago': 'assets/cartas/ucl-estadios/uest-com-sinigaglia-lago.jpg',  // #30 Sinigaglia (antes da reforma) · Histórico · Rara
-  'uest-sla-letna-1933': 'assets/cartas/ucl-estadios/uest-sla-letna-1933.jpg',  // #31 Slavia em Letná (1933) · Histórico · Rara
-  'uest-len-felix-bollaert': 'assets/cartas/ucl-estadios/uest-len-felix-bollaert.jpg',  // #32 Stade Félix-Bollaert · Histórico · Rara
-  'uest-lil-grimonprez-jooris': 'assets/cartas/ucl-estadios/uest-lil-grimonprez-jooris.jpg',  // #33 Stade Grimonprez-Jooris · Histórico · Rara
-  'uest-fen-sukru-saracoglu-antigo': 'assets/cartas/ucl-estadios/uest-fen-sukru-saracoglu-antigo.jpg',  // #34 Şükrü Saracoğlu (anos 2010) · Histórico · Rara
-  'uest-slo-tehelne-pole-2009': 'assets/cartas/ucl-estadios/uest-slo-tehelne-pole-2009.jpg',  // #35 Tehelné pole antigo · Histórico · Rara
-  'uest-rbl-zentralstadion': 'assets/cartas/ucl-estadios/uest-rbl-zentralstadion.jpg',  // #36 Zentralstadion · Histórico · Rara
-  'uest-bay-allianz-arena': 'assets/cartas/ucl-estadios/uest-bay-allianz-arena.jpg',  // #37 Allianz Arena · Estádio · Comum
-  'uest-aek-allwyn-arena': 'assets/cartas/ucl-estadios/uest-aek-allwyn-arena.jpg',  // #38 Allwyn Arena · Estádio · Comum
-  'uest-liv-anfield': 'assets/cartas/ucl-estadios/uest-liv-anfield.jpg',  // #39 Anfield · Estádio · Comum
-  'uest-bod-aspmyra': 'assets/cartas/ucl-estadios/uest-bod-aspmyra.jpg',  // #40 Aspmyra Stadion · Estádio · Comum
-  'uest-fen-sukru-saracoglu': 'assets/cartas/ucl-estadios/uest-fen-sukru-saracoglu.jpg',  // #41 Chobani Stadyumu Fenerbahçe Şükrü Saracoğlu · Estádio · Comum
-  'uest-fey-de-kuip': 'assets/cartas/ucl-estadios/uest-fey-de-kuip.jpg',  // #42 De Kuip · Estádio · Comum
-  'uest-lil-pierre-mauroy': 'assets/cartas/ucl-estadios/uest-lil-pierre-mauroy.jpg',  // #43 Decathlon Arena – Stade Pierre-Mauroy · Estádio · Comum
-  'uest-ars-emirates': 'assets/cartas/ucl-estadios/uest-ars-emirates.jpg',  // #44 Emirates Stadium · Estádio · Comum
-  'uest-bet-la-cartuja': 'assets/cartas/ucl-estadios/uest-bet-la-cartuja.jpg',  // #45 Estadio de La Cartuja · Estádio · Comum
-  'uest-vil-ceramica': 'assets/cartas/ucl-estadios/uest-vil-ceramica.jpg',  // #46 Estadio de la Cerámica · Estádio · Comum
-  'uest-por-dragao': 'assets/cartas/ucl-estadios/uest-por-dragao.jpg',  // #47 Estádio do Dragão · Estádio · Comum
-  'uest-scp-alvalade': 'assets/cartas/ucl-estadios/uest-scp-alvalade.jpg',  // #48 Estádio José Alvalade · Estádio · Comum
-  'uest-sab-olimpico-baku': 'assets/cartas/ucl-estadios/uest-sab-olimpico-baku.jpg',  // #49 Estádio Olímpico de Baku · Estádio · Comum
-  'uest-mci-etihad': 'assets/cartas/ucl-estadios/uest-mci-etihad.jpg',  // #50 Etihad Stadium · Estádio · Comum
-  'uest-sla-fortuna-arena': 'assets/cartas/ucl-estadios/uest-sla-fortuna-arena.jpg',  // #51 Fortuna Arena · Estádio · Comum
-  'uest-bru-jan-breydel': 'assets/cartas/ucl-estadios/uest-bru-jan-breydel.jpg',  // #52 Jan Breydel Stadium · Estádio · Comum
-  'uest-vfb-mhparena': 'assets/cartas/ucl-estadios/uest-vfb-mhparena.jpg',  // #53 MHPArena · Estádio · Comum
-  'uest-mun-old-trafford': 'assets/cartas/ucl-estadios/uest-mun-old-trafford.jpg',  // #54 Old Trafford · Estádio · Comum
-  'uest-psg-parc-des-princes': 'assets/cartas/ucl-estadios/uest-psg-parc-des-princes.jpg',  // #55 Parc des Princes · Estádio · Comum
-  'uest-psv-philips-stadion': 'assets/cartas/ucl-estadios/uest-psv-philips-stadion.jpg',  // #56 Philips Stadion · Estádio · Comum
-  'uest-lsk-raiffeisen-arena': 'assets/cartas/ucl-estadios/uest-lsk-raiffeisen-arena.jpg',  // #57 Raiffeisen Arena · Estádio · Comum
-  'uest-gal-rams-park': 'assets/cartas/ucl-estadios/uest-gal-rams-park.jpg',  // #58 RAMS Park · Estádio · Comum
-  'uest-rbl-red-bull-arena': 'assets/cartas/ucl-estadios/uest-rbl-red-bull-arena.jpg',  // #59 Red Bull Arena · Estádio · Comum
-  'uest-atm-metropolitano': 'assets/cartas/ucl-estadios/uest-atm-metropolitano.jpg',  // #60 Riyadh Air Metropolitano · Estádio · Comum
-  'uest-inm-san-siro': 'assets/cartas/ucl-estadios/uest-inm-san-siro.jpg',  // #61 San Siro · Estádio · Comum
-  'uest-rma-bernabeu': 'assets/cartas/ucl-estadios/uest-rma-bernabeu.jpg',  // #62 Santiago Bernabéu · Estádio · Comum
-  'uest-bvb-signal-iduna-park': 'assets/cartas/ucl-estadios/uest-bvb-signal-iduna-park.jpg',  // #63 Signal Iduna Park · Estádio · Comum
-  'uest-bar-spotify-camp-nou': 'assets/cartas/ucl-estadios/uest-bar-spotify-camp-nou.jpg',  // #64 Spotify Camp Nou · Estádio · Comum
-  'uest-len-bollaert-delelis': 'assets/cartas/ucl-estadios/uest-len-bollaert-delelis.jpg',  // #65 Stade Bollaert-Delelis · Estádio · Comum
-  'uest-nap-maradona': 'assets/cartas/ucl-estadios/uest-nap-maradona.jpg',  // #66 Stadio Diego Armando Maradona · Estádio · Comum
-  'uest-com-sinigaglia': 'assets/cartas/ucl-estadios/uest-com-sinigaglia.jpg',  // #67 Stadio Giuseppe Sinigaglia · Estádio · Comum
-  'uest-rom-olimpico': 'assets/cartas/ucl-estadios/uest-rom-olimpico.jpg',  // #68 Stadio Olimpico · Estádio · Comum
-  'uest-sha-stamford-bridge': 'assets/cartas/ucl-estadios/uest-sha-stamford-bridge.jpg',  // #69 Stamford Bridge · Estádio · Comum
-  'uest-slo-tehelne-pole': 'assets/cartas/ucl-estadios/uest-slo-tehelne-pole.jpg',  // #70 Tehelné pole · Estádio · Comum
-  'uest-vik-viking-stadion': 'assets/cartas/ucl-estadios/uest-vik-viking-stadion.jpg',  // #71 Viking Stadion · Estádio · Comum
-  'uest-avl-villa-park': 'assets/cartas/ucl-estadios/uest-avl-villa-park.jpg',  // #72 Villa Park · Estádio · Comum
+  'uest-vfb-gottlieb-daimler-stadion': 'assets/cartas/ucl-estadios/uest-vfb-gottlieb-daimler-stadion.jpg',  // #26 Gottlieb-Daimler-Stadion · Histórico · Rara
+  'uest-lsk-linzer-stadion': 'assets/cartas/ucl-estadios/uest-lsk-linzer-stadion.jpg',  // #27 Linzer Stadion (Gugl) · Histórico · Rara
+  'uest-psv-philips-stadion-1982': 'assets/cartas/ucl-estadios/uest-psv-philips-stadion-1982.jpg',  // #28 Philips Stadion (1982) · Histórico · Rara
+  'uest-com-sinigaglia-lago': 'assets/cartas/ucl-estadios/uest-com-sinigaglia-lago.jpg',  // #29 Sinigaglia (antes da reforma) · Histórico · Rara
+  'uest-sla-letna-1933': 'assets/cartas/ucl-estadios/uest-sla-letna-1933.jpg',  // #30 Slavia em Letná (1933) · Histórico · Rara
+  'uest-len-felix-bollaert': 'assets/cartas/ucl-estadios/uest-len-felix-bollaert.jpg',  // #31 Stade Félix-Bollaert · Histórico · Rara
+  'uest-lil-grimonprez-jooris': 'assets/cartas/ucl-estadios/uest-lil-grimonprez-jooris.jpg',  // #32 Stade Grimonprez-Jooris · Histórico · Rara
+  'uest-fen-sukru-saracoglu-antigo': 'assets/cartas/ucl-estadios/uest-fen-sukru-saracoglu-antigo.jpg',  // #33 Şükrü Saracoğlu (anos 2010) · Histórico · Rara
+  'uest-slo-tehelne-pole-2009': 'assets/cartas/ucl-estadios/uest-slo-tehelne-pole-2009.jpg',  // #34 Tehelné pole antigo · Histórico · Rara
+  'uest-rbl-zentralstadion': 'assets/cartas/ucl-estadios/uest-rbl-zentralstadion.jpg',  // #35 Zentralstadion · Histórico · Rara
+  'uest-bay-allianz-arena': 'assets/cartas/ucl-estadios/uest-bay-allianz-arena.jpg',  // #36 Allianz Arena · Estádio · Comum
+  'uest-aek-allwyn-arena': 'assets/cartas/ucl-estadios/uest-aek-allwyn-arena.jpg',  // #37 Allwyn Arena · Estádio · Comum
+  'uest-liv-anfield': 'assets/cartas/ucl-estadios/uest-liv-anfield.jpg',  // #38 Anfield · Estádio · Comum
+  'uest-bod-aspmyra': 'assets/cartas/ucl-estadios/uest-bod-aspmyra.jpg',  // #39 Aspmyra Stadion · Estádio · Comum
+  'uest-fen-sukru-saracoglu': 'assets/cartas/ucl-estadios/uest-fen-sukru-saracoglu.jpg',  // #40 Chobani Stadyumu Fenerbahçe Şükrü Saracoğlu · Estádio · Comum
+  'uest-fey-de-kuip': 'assets/cartas/ucl-estadios/uest-fey-de-kuip.jpg',  // #41 De Kuip · Estádio · Comum
+  'uest-lil-pierre-mauroy': 'assets/cartas/ucl-estadios/uest-lil-pierre-mauroy.jpg',  // #42 Decathlon Arena – Stade Pierre-Mauroy · Estádio · Comum
+  'uest-ars-emirates': 'assets/cartas/ucl-estadios/uest-ars-emirates.jpg',  // #43 Emirates Stadium · Estádio · Comum
+  'uest-bet-la-cartuja': 'assets/cartas/ucl-estadios/uest-bet-la-cartuja.jpg',  // #44 Estadio de La Cartuja · Estádio · Comum
+  'uest-vil-ceramica': 'assets/cartas/ucl-estadios/uest-vil-ceramica.jpg',  // #45 Estadio de la Cerámica · Estádio · Comum
+  'uest-por-dragao': 'assets/cartas/ucl-estadios/uest-por-dragao.jpg',  // #46 Estádio do Dragão · Estádio · Comum
+  'uest-scp-alvalade': 'assets/cartas/ucl-estadios/uest-scp-alvalade.jpg',  // #47 Estádio José Alvalade · Estádio · Comum
+  'uest-sab-olimpico-baku': 'assets/cartas/ucl-estadios/uest-sab-olimpico-baku.jpg',  // #48 Estádio Olímpico de Baku · Estádio · Comum
+  'uest-mci-etihad': 'assets/cartas/ucl-estadios/uest-mci-etihad.jpg',  // #49 Etihad Stadium · Estádio · Comum
+  'uest-sla-fortuna-arena': 'assets/cartas/ucl-estadios/uest-sla-fortuna-arena.jpg',  // #50 Fortuna Arena · Estádio · Comum
+  'uest-bru-jan-breydel': 'assets/cartas/ucl-estadios/uest-bru-jan-breydel.jpg',  // #51 Jan Breydel Stadium · Estádio · Comum
+  'uest-vfb-mhparena': 'assets/cartas/ucl-estadios/uest-vfb-mhparena.jpg',  // #52 MHPArena · Estádio · Comum
+  'uest-mun-old-trafford': 'assets/cartas/ucl-estadios/uest-mun-old-trafford.jpg',  // #53 Old Trafford · Estádio · Comum
+  'uest-psg-parc-des-princes': 'assets/cartas/ucl-estadios/uest-psg-parc-des-princes.jpg',  // #54 Parc des Princes · Estádio · Comum
+  'uest-psv-philips-stadion': 'assets/cartas/ucl-estadios/uest-psv-philips-stadion.jpg',  // #55 Philips Stadion · Estádio · Comum
+  'uest-lsk-raiffeisen-arena': 'assets/cartas/ucl-estadios/uest-lsk-raiffeisen-arena.jpg',  // #56 Raiffeisen Arena · Estádio · Comum
+  'uest-gal-rams-park': 'assets/cartas/ucl-estadios/uest-gal-rams-park.jpg',  // #57 RAMS Park · Estádio · Comum
+  'uest-rbl-red-bull-arena': 'assets/cartas/ucl-estadios/uest-rbl-red-bull-arena.jpg',  // #58 Red Bull Arena · Estádio · Comum
+  'uest-atm-metropolitano': 'assets/cartas/ucl-estadios/uest-atm-metropolitano.jpg',  // #59 Riyadh Air Metropolitano · Estádio · Comum
+  'uest-inm-san-siro': 'assets/cartas/ucl-estadios/uest-inm-san-siro.jpg',  // #60 San Siro · Estádio · Comum
+  'uest-rma-bernabeu': 'assets/cartas/ucl-estadios/uest-rma-bernabeu.jpg',  // #61 Santiago Bernabéu · Estádio · Comum
+  'uest-bvb-signal-iduna-park': 'assets/cartas/ucl-estadios/uest-bvb-signal-iduna-park.jpg',  // #62 Signal Iduna Park · Estádio · Comum
+  'uest-bar-spotify-camp-nou': 'assets/cartas/ucl-estadios/uest-bar-spotify-camp-nou.jpg',  // #63 Spotify Camp Nou · Estádio · Comum
+  'uest-len-bollaert-delelis': 'assets/cartas/ucl-estadios/uest-len-bollaert-delelis.jpg',  // #64 Stade Bollaert-Delelis · Estádio · Comum
+  'uest-nap-maradona': 'assets/cartas/ucl-estadios/uest-nap-maradona.jpg',  // #65 Stadio Diego Armando Maradona · Estádio · Comum
+  'uest-com-sinigaglia': 'assets/cartas/ucl-estadios/uest-com-sinigaglia.jpg',  // #66 Stadio Giuseppe Sinigaglia · Estádio · Comum
+  'uest-rom-olimpico': 'assets/cartas/ucl-estadios/uest-rom-olimpico.jpg',  // #67 Stadio Olimpico · Estádio · Comum
+  'uest-sha-stamford-bridge': 'assets/cartas/ucl-estadios/uest-sha-stamford-bridge.jpg',  // #68 Stamford Bridge · Estádio · Comum
+  'uest-slo-tehelne-pole': 'assets/cartas/ucl-estadios/uest-slo-tehelne-pole.jpg',  // #69 Tehelné pole · Estádio · Comum
+  'uest-vik-viking-stadion': 'assets/cartas/ucl-estadios/uest-vik-viking-stadion.jpg',  // #70 Viking Stadion · Estádio · Comum
+  'uest-avl-villa-park': 'assets/cartas/ucl-estadios/uest-avl-villa-park.jpg',  // #71 Villa Park · Estádio · Comum
 
   // ---------- Juízo Final (12 cartas)
   'jf-doutor-rebaixamento': '',  // #01 Doutor Rebaixamento · Vilão · Especial
