@@ -29,33 +29,33 @@
 export const IMAGENS = {
 
   // ---------- Clubes Série A (47 cartas)
-  'clube-cap-1924': '',  // #01 Athletico-PR · Escudo 1924 · Especial
-  'clube-cam-1910': '',  // #02 Atlético-MG · Escudo 1910 · Especial
-  'clube-bah-1931': '',  // #03 Bahia · Escudo 1931 · Especial
-  'clube-bot-1904': '',  // #04 Botafogo · Escudo 1904 · Especial
+  'clube-cap-1924': 'assets/cartas/clubes/clube-cap-1924.png',  // #01 Athletico-PR · Escudo 1924 · Especial
+  'clube-cam-1910': 'assets/cartas/clubes/clube-cam-1910.png',  // #02 Atlético-MG · Escudo 1910 · Especial
+  'clube-bah-1931': 'assets/cartas/clubes/clube-bah-1931.png',  // #03 Bahia · Escudo 1931 · Especial
+  'clube-bot-1904': 'assets/cartas/clubes/clube-bot-1904.png',  // #04 Botafogo · Escudo 1904 · Especial
   'clube-cor-1913': 'assets/cartas/clubes/clube-cor-1913.png',  // #05 Corinthians · Escudo 1913 · Especial
-  'clube-cfc-1909': '',  // #06 Coritiba · Escudo 1909 · Especial
+  'clube-cfc-1909': 'assets/cartas/clubes/clube-cfc-1909.png',  // #06 Coritiba · Escudo 1909 · Especial
   'clube-cru-1921': 'assets/cartas/clubes/clube-cru-1921.png',  // #07 Cruzeiro · Escudo 1921 · Especial
-  'clube-fla-1895': '',  // #08 Flamengo · Escudo 1895 · Especial
-  'clube-flu-1902': '',  // #09 Fluminense · Escudo 1902 · Especial
+  'clube-fla-1895': 'assets/cartas/clubes/clube-fla-1895.png',  // #08 Flamengo · Escudo 1895 · Especial
+  'clube-flu-1902': 'assets/cartas/clubes/clube-flu-1902.png',  // #09 Fluminense · Escudo 1902 · Especial
   'clube-gre-1903': 'assets/cartas/clubes/clube-gre-1903.png',  // #10 Grêmio · Escudo 1903 · Especial
-  'clube-int-1909': '',  // #11 Internacional · Escudo 1909 · Especial
+  'clube-int-1909': 'assets/cartas/clubes/clube-int-1909.png',  // #11 Internacional · Escudo 1909 · Especial
   'clube-pal-1914': 'assets/cartas/clubes/clube-pal-1914.png',  // #12 Palmeiras · Escudo 1914 · Especial
-  'clube-san-1912': '',  // #13 Santos · Escudo 1912 · Especial
-  'clube-sao-1930': '',  // #14 São Paulo · Escudo 1930 · Especial
-  'clube-vas-1898': '',  // #15 Vasco · Escudo 1898 · Especial
+  'clube-san-1912': 'assets/cartas/clubes/clube-san-1912.png',  // #13 Santos · Escudo 1912 · Especial
+  'clube-sao-1930': 'assets/cartas/clubes/clube-sao-1930.png',  // #14 São Paulo · Escudo 1930 · Especial
+  'clube-vas-1898': 'assets/cartas/clubes/clube-vas-1898.png',  // #15 Vasco · Escudo 1898 · Especial
   'clube-gre-1911': 'assets/cartas/clubes/clube-gre-1911.png',  // #16 Grêmio · Escudo 1911 · Muito rara
   'clube-pal-1942': 'assets/cartas/clubes/clube-pal-1942.png',  // #17 Palmeiras · Escudo 1942 · Muito rara
-  'clube-cap-2002': '',  // #18 Athletico-PR · Escudo 2002 · Rara
-  'clube-rbb-1995': '',  // #19 Bragantino · Escudo 1995 · Rara
-  'clube-cha-1961': '',  // #20 Chapecoense · Escudo 1961 · Rara
-  'clube-cru-1942': '',  // #21 Cruzeiro · Escudo 1942 · Rara
-  'clube-flu-1930': '',  // #22 Fluminense · Escudo 1930 · Rara
+  'clube-cap-2002': 'assets/cartas/clubes/clube-cap-2002.png',  // #18 Athletico-PR · Escudo 2002 · Rara
+  'clube-rbb-1995': 'assets/cartas/clubes/clube-rbb-1995.png',  // #19 Bragantino · Escudo 1995 · Rara
+  'clube-cha-1961': 'assets/cartas/clubes/clube-cha-1961.png',  // #20 Chapecoense · Escudo 1961 · Rara
+  'clube-cru-1942': 'assets/cartas/clubes/clube-cru-1942.png',  // #21 Cruzeiro · Escudo 1942 · Rara
+  'clube-flu-1930': 'assets/cartas/clubes/clube-flu-1930.png',  // #22 Fluminense · Escudo 1930 · Rara
   'clube-gre-1936': 'assets/cartas/clubes/clube-gre-1936.png',  // #23 Grêmio · Escudo 1936 · Rara
-  'clube-mir-1964': '',  // #24 Mirassol · Escudo 1964 · Rara
+  'clube-mir-1964': 'assets/cartas/clubes/clube-mir-1964.png',  // #24 Mirassol · Escudo 1964 · Rara
   'clube-pal-1919': 'assets/cartas/clubes/clube-pal-1919.png',  // #25 Palmeiras · Escudo 1919 · Rara
-  'clube-rem-1950': '',  // #26 Remo · Escudo 1940 · Rara
-  'clube-vit-1934': '',  // #27 Vitória · Escudo 1934 · Rara
+  'clube-rem-1950': 'assets/cartas/clubes/clube-rem-1950.png',  // #26 Remo · Escudo 1940 · Rara
+  'clube-vit-1934': 'assets/cartas/clubes/clube-vit-1934.png',  // #27 Vitória · Escudo 1934 · Rara
   'clube-cap': 'assets/cartas/clubes/clube-cap.png',  // #28 Athletico-PR · Escudo atual · Comum
   'clube-cam': 'assets/cartas/clubes/clube-cam.png',  // #29 Atlético-MG · Escudo atual · Comum
   'clube-bah': 'assets/cartas/clubes/clube-bah.png',  // #30 Bahia · Escudo atual · Comum
@@ -520,7 +520,7 @@ export const IMAGENS = {
 
   // ---------- Champions · Clubes (72 cartas)
   'ucl-ars-1949': 'assets/cartas/ucl-clubes/ucl-ars-1949.png',  // #01 Arsenal · Escudo 1949 · Especial
-  'ucl-rom-1979': '',  // #02 AS Roma · Escudo 1979 · Especial
+  'ucl-rom-1979': 'assets/cartas/ucl-clubes/ucl-rom-1979.png',  // #02 AS Roma · Escudo 1979 · Especial
   'ucl-bar-1899': 'assets/cartas/ucl-clubes/ucl-bar-1899.png',  // #03 Barcelona · Escudo 1899 · Especial
   'ucl-bay-1954': 'assets/cartas/ucl-clubes/ucl-bay-1954.png',  // #04 Bayern de Munique · Escudo 1954 · Especial
   'ucl-inm-1908': 'assets/cartas/ucl-clubes/ucl-inm-1908.png',  // #05 Inter de Milão · Escudo 1908 · Especial
@@ -536,11 +536,11 @@ export const IMAGENS = {
   'ucl-liv-1987': 'assets/cartas/ucl-clubes/ucl-liv-1987.png',  // #15 Liverpool · Escudo 1987 · Muito rara
   'ucl-mci-1972': 'assets/cartas/ucl-clubes/ucl-mci-1972.png',  // #16 Manchester City · Escudo 1972 · Muito rara
   'ucl-nap-1926': 'assets/cartas/ucl-clubes/ucl-nap-1926.png',  // #17 Napoli · Escudo 1926 · Muito rara
-  'ucl-psg-1972': '',  // #18 Paris Saint-Germain · Escudo 1972 · Muito rara
-  'ucl-bet-1931': '',  // #19 Real Betis · Escudo 1931 · Muito rara
-  'ucl-sha-1960': '',  // #20 Shakhtar Donetsk · Escudo 1960 · Muito rara
-  'ucl-slo-1969': '',  // #21 Slovan Bratislava · Escudo 1969 · Muito rara
-  'ucl-vil-1923': '',  // #22 Villarreal · Escudo 1920 · Muito rara
+  'ucl-psg-1972': 'assets/cartas/ucl-clubes/ucl-psg-1972.png',  // #18 Paris Saint-Germain · Escudo 1972 · Muito rara
+  'ucl-bet-1931': 'assets/cartas/ucl-clubes/ucl-bet-1931.png',  // #19 Real Betis · Escudo 1931 · Muito rara
+  'ucl-sha-1960': 'assets/cartas/ucl-clubes/ucl-sha-1960.png',  // #20 Shakhtar Donetsk · Escudo 1960 · Muito rara
+  'ucl-slo-1969': 'assets/cartas/ucl-clubes/ucl-slo-1969.png',  // #21 Slovan Bratislava · Escudo 1969 · Muito rara
+  'ucl-vil-1923': 'assets/cartas/ucl-clubes/ucl-vil-1923.png',  // #22 Villarreal · Escudo 1920 · Muito rara
   'ucl-aek-1924': 'assets/cartas/ucl-clubes/ucl-aek-1924.png',  // #23 AEK Atenas · Escudo 1924 · Rara
   'ucl-bod-antigo': '',  // #24 Bodø/Glimt · Escudo histórico · Rara
   'ucl-bru-1891': 'assets/cartas/ucl-clubes/ucl-bru-1891.png',  // #25 Club Brugge · Escudo histórico · Rara
@@ -551,13 +551,13 @@ export const IMAGENS = {
   'ucl-rbl-2009': 'assets/cartas/ucl-clubes/ucl-rbl-2009.png',  // #30 RB Leipzig · Escudo 2009 · Rara
   'ucl-len-1979': 'assets/cartas/ucl-clubes/ucl-len-1979.png',  // #31 RC Lens · Escudo 1979 · Rara
   'ucl-sab-2017': '',  // #32 Sabah · Escudo 2017 · Rara
-  'ucl-sla-1923': '',  // #33 Slavia Praha · Escudo 1923 · Rara
-  'ucl-scp-1930': '',  // #34 Sporting CP · Escudo 1930 · Rara
-  'ucl-vfb-1998': '',  // #35 VfB Stuttgart · Escudo 1998 · Rara
-  'ucl-vik-1926': '',  // #36 Viking · Escudo 2020 · Rara
+  'ucl-sla-1923': 'assets/cartas/ucl-clubes/ucl-sla-1923.png',  // #33 Slavia Praha · Escudo 1923 · Rara
+  'ucl-scp-1930': 'assets/cartas/ucl-clubes/ucl-scp-1930.png',  // #34 Sporting CP · Escudo 1930 · Rara
+  'ucl-vfb-1998': 'assets/cartas/ucl-clubes/ucl-vfb-1998.png',  // #35 VfB Stuttgart · Escudo 1998 · Rara
+  'ucl-vik-1926': 'assets/cartas/ucl-clubes/ucl-vik-1926.png',  // #36 Viking · Escudo 2020 · Rara
   'ucl-aek': 'assets/cartas/ucl-clubes/ucl-aek.png',  // #37 AEK Atenas · Escudo atual · Comum
   'ucl-ars': 'assets/cartas/ucl-clubes/ucl-ars.png',  // #38 Arsenal · Escudo atual · Comum
-  'ucl-rom': '',  // #39 AS Roma · Escudo atual · Comum
+  'ucl-rom': 'assets/cartas/ucl-clubes/ucl-rom.png',  // #39 AS Roma · Escudo atual · Comum
   'ucl-avl': 'assets/cartas/ucl-clubes/ucl-avl.png',  // #40 Aston Villa · Escudo atual · Comum
   'ucl-atm': 'assets/cartas/ucl-clubes/ucl-atm.png',  // #41 Atlético de Madrid · Escudo atual · Comum
   'ucl-bar': 'assets/cartas/ucl-clubes/ucl-bar.png',  // #42 Barcelona · Escudo atual · Comum
@@ -582,15 +582,15 @@ export const IMAGENS = {
   'ucl-rbl': 'assets/cartas/ucl-clubes/ucl-rbl.png',  // #61 RB Leipzig · Escudo atual · Comum
   'ucl-len': 'assets/cartas/ucl-clubes/ucl-len.png',  // #62 RC Lens · Escudo atual · Comum
   'ucl-bet': 'assets/cartas/ucl-clubes/ucl-bet.png',  // #63 Real Betis · Escudo atual · Comum
-  'ucl-rma': '',  // #64 Real Madrid · Escudo atual · Comum
-  'ucl-sab': '',  // #65 Sabah · Escudo atual · Comum
-  'ucl-sha': '',  // #66 Shakhtar Donetsk · Escudo atual · Comum
-  'ucl-sla': '',  // #67 Slavia Praha · Escudo atual · Comum
-  'ucl-slo': '',  // #68 Slovan Bratislava · Escudo atual · Comum
-  'ucl-scp': '',  // #69 Sporting CP · Escudo atual · Comum
-  'ucl-vfb': '',  // #70 VfB Stuttgart · Escudo atual · Comum
-  'ucl-vik': '',  // #71 Viking · Escudo atual · Comum
-  'ucl-vil': '',  // #72 Villarreal · Escudo atual · Comum
+  'ucl-rma': 'assets/cartas/ucl-clubes/ucl-rma.png',  // #64 Real Madrid · Escudo atual · Comum
+  'ucl-sab': 'assets/cartas/ucl-clubes/ucl-sab.png',  // #65 Sabah · Escudo atual · Comum
+  'ucl-sha': 'assets/cartas/ucl-clubes/ucl-sha.png',  // #66 Shakhtar Donetsk · Escudo atual · Comum
+  'ucl-sla': 'assets/cartas/ucl-clubes/ucl-sla.png',  // #67 Slavia Praha · Escudo atual · Comum
+  'ucl-slo': 'assets/cartas/ucl-clubes/ucl-slo.png',  // #68 Slovan Bratislava · Escudo atual · Comum
+  'ucl-scp': 'assets/cartas/ucl-clubes/ucl-scp.png',  // #69 Sporting CP · Escudo atual · Comum
+  'ucl-vfb': 'assets/cartas/ucl-clubes/ucl-vfb.png',  // #70 VfB Stuttgart · Escudo atual · Comum
+  'ucl-vik': 'assets/cartas/ucl-clubes/ucl-vik.png',  // #71 Viking · Escudo atual · Comum
+  'ucl-vil': 'assets/cartas/ucl-clubes/ucl-vil.png',  // #72 Villarreal · Escudo atual · Comum
 
   // ---------- Champions · Jogadores (187 cartas)
   'ujog-beckenbauer-retro': '',  // #01 Beckenbauer · Prime · Especial
@@ -782,41 +782,41 @@ export const IMAGENS = {
   'ujog-rodrigo-zalazar': '',  // #187 Zalazar · Champions 2026/27 · Comum
 
   // ---------- Champions · Estádios (72 cartas)
-  'uest-liv-kop-1983': '',  // #01 Anfield (Kop, 1983) · Histórico · Especial
+  'uest-liv-kop-1983': 'assets/cartas/ucl-estadios/uest-liv-kop-1983.jpg',  // #01 Anfield (Kop, 1983) · Histórico · Especial
   'uest-bar-camp-nou-antigo': 'assets/cartas/ucl-estadios/uest-bar-camp-nou-antigo.jpg',  // #02 Camp Nou (antes da reforma) · Histórico · Especial
-  'uest-rom-testaccio': '',  // #03 Campo Testaccio · Histórico · Especial
-  'uest-por-antas-1952': '',  // #04 Estádio das Antas (1952) · Histórico · Especial
+  'uest-rom-testaccio': 'assets/cartas/ucl-estadios/uest-rom-testaccio.jpg',  // #03 Campo Testaccio · Histórico · Especial
+  'uest-por-antas-1952': 'assets/cartas/ucl-estadios/uest-por-antas-1952.jpg',  // #04 Estádio das Antas (1952) · Histórico · Especial
   'uest-ars-highbury': 'assets/cartas/ucl-estadios/uest-ars-highbury.jpg',  // #05 Highbury · Histórico · Especial
   'uest-bay-olympiastadion': 'assets/cartas/ucl-estadios/uest-bay-olympiastadion.jpg',  // #06 Olympiastadion München · Histórico · Especial
   'uest-inm-san-siro-1960': 'assets/cartas/ucl-estadios/uest-inm-san-siro-1960.jpg',  // #07 San Siro (1960) · Histórico · Especial
   'uest-gal-ali-sami-yen': 'assets/cartas/ucl-estadios/uest-gal-ali-sami-yen.jpg',  // #08 Ali Sami Yen · Histórico · Muito rara
-  'uest-bet-benito-villamarin': '',  // #09 Benito Villamarín · Histórico · Muito rara
-  'uest-rma-bernabeu-2007': '',  // #10 Bernabéu antes da reforma · Histórico · Muito rara
+  'uest-bet-benito-villamarin': 'assets/cartas/ucl-estadios/uest-bet-benito-villamarin.jpg',  // #09 Benito Villamarín · Histórico · Muito rara
+  'uest-rma-bernabeu-2007': 'assets/cartas/ucl-estadios/uest-rma-bernabeu-2007.jpg',  // #10 Bernabéu antes da reforma · Histórico · Muito rara
   'uest-fey-de-kuip-1982': 'assets/cartas/ucl-estadios/uest-fey-de-kuip-1982.jpg',  // #11 De Kuip (1982) · Histórico · Muito rara
-  'uest-sha-donbas-arena': '',  // #12 Donbas Arena · Histórico · Muito rara
-  'uest-scp-alvalade-1956': '',  // #13 Estádio José Alvalade (1956) · Histórico · Muito rara
-  'uest-mci-maine-road': '',  // #14 Maine Road · Histórico · Muito rara
-  'uest-mun-old-trafford-1992': '',  // #15 Old Trafford (1992) · Histórico · Muito rara
-  'uest-psg-parc-des-princes-1972': '',  // #16 Parc des Princes (1972) · Histórico · Muito rara
-  'uest-nap-san-paolo-1963': '',  // #17 Stadio San Paolo (1963) · Histórico · Muito rara
+  'uest-sha-donbas-arena': 'assets/cartas/ucl-estadios/uest-sha-donbas-arena.jpg',  // #12 Donbas Arena · Histórico · Muito rara
+  'uest-scp-alvalade-1956': 'assets/cartas/ucl-estadios/uest-scp-alvalade-1956.jpg',  // #13 Estádio José Alvalade (1956) · Histórico · Muito rara
+  'uest-mci-maine-road': 'assets/cartas/ucl-estadios/uest-mci-maine-road.jpg',  // #14 Maine Road · Histórico · Muito rara
+  'uest-mun-old-trafford-1992': 'assets/cartas/ucl-estadios/uest-mun-old-trafford-1992.jpg',  // #15 Old Trafford (1992) · Histórico · Muito rara
+  'uest-psg-parc-des-princes-1972': 'assets/cartas/ucl-estadios/uest-psg-parc-des-princes-1972.jpg',  // #16 Parc des Princes (1972) · Histórico · Muito rara
+  'uest-nap-san-paolo-1963': 'assets/cartas/ucl-estadios/uest-nap-san-paolo-1963.jpg',  // #17 Stadio San Paolo (1963) · Histórico · Muito rara
   'uest-bvb-rote-erde': 'assets/cartas/ucl-estadios/uest-bvb-rote-erde.jpg',  // #18 Stadion Rote Erde · Histórico · Muito rara
-  'uest-vik-stavanger-stadion': '',  // #19 Stavanger Stadion · Histórico · Muito rara
+  'uest-vik-stavanger-stadion': 'assets/cartas/ucl-estadios/uest-vik-stavanger-stadion.jpg',  // #19 Stavanger Stadion · Histórico · Muito rara
   'uest-atm-vicente-calderon': 'assets/cartas/ucl-estadios/uest-atm-vicente-calderon.jpg',  // #20 Vicente Calderón · Histórico · Muito rara
   'uest-avl-villa-park-1907': 'assets/cartas/ucl-estadios/uest-avl-villa-park-1907.jpg',  // #21 Villa Park (1907) · Histórico · Muito rara
   'uest-bod-aspmyra-1966': 'assets/cartas/ucl-estadios/uest-bod-aspmyra-1966.jpg',  // #22 Aspmyra (1966) · Histórico · Rara
-  'uest-sab-bank-respublika-arena': '',  // #23 Bank Respublika Arena · Histórico · Rara
+  'uest-sab-bank-respublika-arena': 'assets/cartas/ucl-estadios/uest-sab-bank-respublika-arena.jpg',  // #23 Bank Respublika Arena · Histórico · Rara
   'uest-bru-de-klokke': 'assets/cartas/ucl-estadios/uest-bru-de-klokke.jpg',  // #24 De Klokke · Histórico · Rara
-  'uest-vil-el-madrigal': '',  // #25 El Madrigal · Histórico · Rara
+  'uest-vil-el-madrigal': 'assets/cartas/ucl-estadios/uest-vil-el-madrigal.jpg',  // #25 El Madrigal · Histórico · Rara
   'uest-aek-nikos-goumas': '',  // #26 Estádio Nikos Goumas · Histórico · Rara
-  'uest-vfb-gottlieb-daimler-stadion': '',  // #27 Gottlieb-Daimler-Stadion · Histórico · Rara
+  'uest-vfb-gottlieb-daimler-stadion': 'assets/cartas/ucl-estadios/uest-vfb-gottlieb-daimler-stadion.jpg',  // #27 Gottlieb-Daimler-Stadion · Histórico · Rara
   'uest-lsk-linzer-stadion': 'assets/cartas/ucl-estadios/uest-lsk-linzer-stadion.jpg',  // #28 Linzer Stadion (Gugl) · Histórico · Rara
-  'uest-psv-philips-stadion-1978': '',  // #29 Philips Stadion (1978) · Histórico · Rara
+  'uest-psv-philips-stadion-1982': 'assets/cartas/ucl-estadios/uest-psv-philips-stadion-1982.jpg',  // #29 Philips Stadion (1982) · Histórico · Rara
   'uest-com-sinigaglia-lago': 'assets/cartas/ucl-estadios/uest-com-sinigaglia-lago.jpg',  // #30 Sinigaglia (antes da reforma) · Histórico · Rara
-  'uest-sla-letna-1933': '',  // #31 Slavia em Letná (1933) · Histórico · Rara
+  'uest-sla-letna-1933': 'assets/cartas/ucl-estadios/uest-sla-letna-1933.jpg',  // #31 Slavia em Letná (1933) · Histórico · Rara
   'uest-len-felix-bollaert': 'assets/cartas/ucl-estadios/uest-len-felix-bollaert.jpg',  // #32 Stade Félix-Bollaert · Histórico · Rara
   'uest-lil-grimonprez-jooris': 'assets/cartas/ucl-estadios/uest-lil-grimonprez-jooris.jpg',  // #33 Stade Grimonprez-Jooris · Histórico · Rara
   'uest-fen-sukru-saracoglu-antigo': 'assets/cartas/ucl-estadios/uest-fen-sukru-saracoglu-antigo.jpg',  // #34 Şükrü Saracoğlu (anos 2010) · Histórico · Rara
-  'uest-slo-tehelne-pole-2009': '',  // #35 Tehelné pole antigo · Histórico · Rara
+  'uest-slo-tehelne-pole-2009': 'assets/cartas/ucl-estadios/uest-slo-tehelne-pole-2009.jpg',  // #35 Tehelné pole antigo · Histórico · Rara
   'uest-rbl-zentralstadion': 'assets/cartas/ucl-estadios/uest-rbl-zentralstadion.jpg',  // #36 Zentralstadion · Histórico · Rara
   'uest-bay-allianz-arena': 'assets/cartas/ucl-estadios/uest-bay-allianz-arena.jpg',  // #37 Allianz Arena · Estádio · Comum
   'uest-aek-allwyn-arena': 'assets/cartas/ucl-estadios/uest-aek-allwyn-arena.jpg',  // #38 Allwyn Arena · Estádio · Comum
@@ -826,33 +826,33 @@ export const IMAGENS = {
   'uest-fey-de-kuip': 'assets/cartas/ucl-estadios/uest-fey-de-kuip.jpg',  // #42 De Kuip · Estádio · Comum
   'uest-lil-pierre-mauroy': 'assets/cartas/ucl-estadios/uest-lil-pierre-mauroy.jpg',  // #43 Decathlon Arena – Stade Pierre-Mauroy · Estádio · Comum
   'uest-ars-emirates': 'assets/cartas/ucl-estadios/uest-ars-emirates.jpg',  // #44 Emirates Stadium · Estádio · Comum
-  'uest-bet-la-cartuja': '',  // #45 Estadio de La Cartuja · Estádio · Comum
-  'uest-vil-ceramica': '',  // #46 Estadio de la Cerámica · Estádio · Comum
-  'uest-por-dragao': '',  // #47 Estádio do Dragão · Estádio · Comum
-  'uest-scp-alvalade': '',  // #48 Estádio José Alvalade · Estádio · Comum
-  'uest-sab-olimpico-baku': '',  // #49 Estádio Olímpico de Baku · Estádio · Comum
-  'uest-mci-etihad': '',  // #50 Etihad Stadium · Estádio · Comum
-  'uest-sla-fortuna-arena': '',  // #51 Fortuna Arena · Estádio · Comum
+  'uest-bet-la-cartuja': 'assets/cartas/ucl-estadios/uest-bet-la-cartuja.jpg',  // #45 Estadio de La Cartuja · Estádio · Comum
+  'uest-vil-ceramica': 'assets/cartas/ucl-estadios/uest-vil-ceramica.jpg',  // #46 Estadio de la Cerámica · Estádio · Comum
+  'uest-por-dragao': 'assets/cartas/ucl-estadios/uest-por-dragao.jpg',  // #47 Estádio do Dragão · Estádio · Comum
+  'uest-scp-alvalade': 'assets/cartas/ucl-estadios/uest-scp-alvalade.jpg',  // #48 Estádio José Alvalade · Estádio · Comum
+  'uest-sab-olimpico-baku': 'assets/cartas/ucl-estadios/uest-sab-olimpico-baku.jpg',  // #49 Estádio Olímpico de Baku · Estádio · Comum
+  'uest-mci-etihad': 'assets/cartas/ucl-estadios/uest-mci-etihad.jpg',  // #50 Etihad Stadium · Estádio · Comum
+  'uest-sla-fortuna-arena': 'assets/cartas/ucl-estadios/uest-sla-fortuna-arena.jpg',  // #51 Fortuna Arena · Estádio · Comum
   'uest-bru-jan-breydel': 'assets/cartas/ucl-estadios/uest-bru-jan-breydel.jpg',  // #52 Jan Breydel Stadium · Estádio · Comum
-  'uest-vfb-mhparena': '',  // #53 MHPArena · Estádio · Comum
-  'uest-mun-old-trafford': '',  // #54 Old Trafford · Estádio · Comum
-  'uest-psg-parc-des-princes': '',  // #55 Parc des Princes · Estádio · Comum
-  'uest-psv-philips-stadion': '',  // #56 Philips Stadion · Estádio · Comum
+  'uest-vfb-mhparena': 'assets/cartas/ucl-estadios/uest-vfb-mhparena.jpg',  // #53 MHPArena · Estádio · Comum
+  'uest-mun-old-trafford': 'assets/cartas/ucl-estadios/uest-mun-old-trafford.jpg',  // #54 Old Trafford · Estádio · Comum
+  'uest-psg-parc-des-princes': 'assets/cartas/ucl-estadios/uest-psg-parc-des-princes.jpg',  // #55 Parc des Princes · Estádio · Comum
+  'uest-psv-philips-stadion': 'assets/cartas/ucl-estadios/uest-psv-philips-stadion.jpg',  // #56 Philips Stadion · Estádio · Comum
   'uest-lsk-raiffeisen-arena': 'assets/cartas/ucl-estadios/uest-lsk-raiffeisen-arena.jpg',  // #57 Raiffeisen Arena · Estádio · Comum
   'uest-gal-rams-park': 'assets/cartas/ucl-estadios/uest-gal-rams-park.jpg',  // #58 RAMS Park · Estádio · Comum
   'uest-rbl-red-bull-arena': 'assets/cartas/ucl-estadios/uest-rbl-red-bull-arena.jpg',  // #59 Red Bull Arena · Estádio · Comum
   'uest-atm-metropolitano': 'assets/cartas/ucl-estadios/uest-atm-metropolitano.jpg',  // #60 Riyadh Air Metropolitano · Estádio · Comum
   'uest-inm-san-siro': 'assets/cartas/ucl-estadios/uest-inm-san-siro.jpg',  // #61 San Siro · Estádio · Comum
-  'uest-rma-bernabeu': '',  // #62 Santiago Bernabéu · Estádio · Comum
+  'uest-rma-bernabeu': 'assets/cartas/ucl-estadios/uest-rma-bernabeu.jpg',  // #62 Santiago Bernabéu · Estádio · Comum
   'uest-bvb-signal-iduna-park': 'assets/cartas/ucl-estadios/uest-bvb-signal-iduna-park.jpg',  // #63 Signal Iduna Park · Estádio · Comum
   'uest-bar-spotify-camp-nou': 'assets/cartas/ucl-estadios/uest-bar-spotify-camp-nou.jpg',  // #64 Spotify Camp Nou · Estádio · Comum
   'uest-len-bollaert-delelis': 'assets/cartas/ucl-estadios/uest-len-bollaert-delelis.jpg',  // #65 Stade Bollaert-Delelis · Estádio · Comum
-  'uest-nap-maradona': '',  // #66 Stadio Diego Armando Maradona · Estádio · Comum
+  'uest-nap-maradona': 'assets/cartas/ucl-estadios/uest-nap-maradona.jpg',  // #66 Stadio Diego Armando Maradona · Estádio · Comum
   'uest-com-sinigaglia': 'assets/cartas/ucl-estadios/uest-com-sinigaglia.jpg',  // #67 Stadio Giuseppe Sinigaglia · Estádio · Comum
-  'uest-rom-olimpico': '',  // #68 Stadio Olimpico · Estádio · Comum
-  'uest-sha-stamford-bridge': '',  // #69 Stamford Bridge · Estádio · Comum
-  'uest-slo-tehelne-pole': '',  // #70 Tehelné pole · Estádio · Comum
-  'uest-vik-viking-stadion': '',  // #71 Viking Stadion · Estádio · Comum
+  'uest-rom-olimpico': 'assets/cartas/ucl-estadios/uest-rom-olimpico.jpg',  // #68 Stadio Olimpico · Estádio · Comum
+  'uest-sha-stamford-bridge': 'assets/cartas/ucl-estadios/uest-sha-stamford-bridge.jpg',  // #69 Stamford Bridge · Estádio · Comum
+  'uest-slo-tehelne-pole': 'assets/cartas/ucl-estadios/uest-slo-tehelne-pole.jpg',  // #70 Tehelné pole · Estádio · Comum
+  'uest-vik-viking-stadion': 'assets/cartas/ucl-estadios/uest-vik-viking-stadion.jpg',  // #71 Viking Stadion · Estádio · Comum
   'uest-avl-villa-park': 'assets/cartas/ucl-estadios/uest-avl-villa-park.jpg',  // #72 Villa Park · Estádio · Comum
 
   // ---------- Juízo Final (12 cartas)

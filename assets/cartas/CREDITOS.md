@@ -178,14 +178,33 @@ Teste autorizado pelo dono do projeto: imagens sem licença livre (marcadas "nã
 
 | Carta | Arquivo | Fonte | Autor | Licença | Livre |
 |---|---|---|---|---|---|
+| clube-bah-1931 | clube-bah-1931.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Esporte_Clube_Bahia_logo_(1931%E2%80%931940).svg) | Esporte Clube Bahia | Public domain | sim |
+| clube-bot-1904 | clube-bot-1904.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:BotafogoFC1904.jpg) | Basílio Vianna Jr. | Public domain | sim |
+| clube-cam-1910 | clube-cam-1910.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Atl%C3%A9tico_Mineiro_crest_1910.svg) | Clube Atlético Mineiro | Public domain | sim |
+| clube-cap-1924 | clube-cap-1924.png | [en.wikipedia.org](https://commons.wikimedia.org/wiki/File:S%C3%ADmbolo_1924.png) | Gargamel1983 | CC BY-SA 4.0 | sim |
+| clube-cap-2002 | clube-cap-2002.png | [en.wikipedia.org](https://commons.wikimedia.org/wiki/File:Simbolo_2002.png) | Gargamel1983 | CC BY-SA 4.0 | sim |
+| clube-cfc-1909 | clube-cfc-1909.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:ECFC1.png) | https://www.futbox.com/pt | CC BY-SA 4.0 | sim |
+| clube-cha-1961 | clube-cha-1961.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Escudo_do_Atl%C3%A9tico_Clube_Chapecoense.png) | Associação Chapecoense de Futebol | Public domain | sim |
 | clube-cor-1913 | clube-cor-1913.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:SCCorinthians_Paulista_1910.png) | desconhecido | PD-textlogo | sim |
 | clube-cru-1921 | clube-cru-1921.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Società-Sportiva-Palestra-Italia-primo-stemma.png) | Danilo13cruz | CC BY-SA 4.0 | sim |
+| clube-cru-1942 | clube-cru-1942.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Escudo_Cruzeiro_1942.png) | Cruzeiro Esporte Clube | CC BY-SA 4.0 | sim |
+| clube-fla-1895 | clube-fla-1895.png | [en.wikipedia.org](https://en.wikipedia.org/wiki/File:Flamengo_rowing_shield.svg) |  | Fair use | não |
+| clube-flu-1902 | clube-flu-1902.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:FLU_E320-2.png) | Millerjmatos | CC BY-SA 4.0 | sim |
+| clube-flu-1930 | clube-flu-1930.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:FLU_E320-1.png) | Millerjmatos | CC BY-SA 4.0 | sim |
 | clube-gre-1903 | clube-gre-1903.png | [Gremiopedia](https://www.gremiopedia.com/wiki/Arquivo:Escudo_Gremio_1903.png) | Gremiopedia | não informada | não |
 | clube-gre-1911 | clube-gre-1911.png | [Gremiopedia](https://www.gremiopedia.com/wiki/Arquivo:Escudo_Gremio_1911.png) | Gremiopedia | não informada | não |
 | clube-gre-1936 | clube-gre-1936.png | [Gremiopedia](https://www.gremiopedia.com/wiki/Arquivo:Escudo_Gremio_1936.png) | Gremiopedia | não informada | não |
+| clube-int-1909 | clube-int-1909.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Sport_Club_Internacional_logo_(1909-1957).svg) | Sport Club Internacional | Public domain | sim |
+| clube-mir-1964 | clube-mir-1964.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Mirassol_Atletico_Clube.png) | Julimar, O Único | Public domain | sim |
 | clube-pal-1914 | clube-pal-1914.png | [Site oficial do Palmeiras](https://www.palmeiras.com.br/pt-br/escudos) | SE Palmeiras | não informada (site do clube) | não |
 | clube-pal-1919 | clube-pal-1919.png | [Site oficial do Palmeiras](https://www.palmeiras.com.br/pt-br/escudos) | SE Palmeiras | não informada (site do clube) | não |
 | clube-pal-1942 | clube-pal-1942.png | [Site oficial do Palmeiras](https://www.palmeiras.com.br/pt-br/escudos) | SE Palmeiras | não informada (site do clube) | não |
+| clube-rbb-1995 | clube-rbb-1995.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Clube_Atl%C3%A9tico_Bragantino_logo_(1995%E2%80%932020).svg) | Clube Atlético Bragantino | Public domain | sim |
+| clube-rem-1950 | clube-rem-1950.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Clube-do-remo-1914-1960.png) | Clube do Remo | CC BY-SA 4.0 | sim |
+| clube-san-1912 | clube-san-1912.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Santos_FC_1912.png) | Santos Futebol Clube | CC BY-SA 4.0 | sim |
+| clube-sao-1930 | clube-sao-1930.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Escudo_do_SPFC_1930-1935.png) | BAUDOSAOPAULO | CC BY-SA 4.0 | sim |
+| clube-vas-1898 | clube-vas-1898.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:Escudo_Vasco_1898.png) | Club de Regatas Vasco da Gama | Public domain | sim |
+| clube-vit-1934 | clube-vit-1934.png | [commons.wikimedia.org](https://commons.wikimedia.org/wiki/File:SCVit%C3%B3ria1934.jpg) | Wikimineboy | CC0 | sim |
 | estadio-bah-fonte-nova | estadio-bah-fonte-nova.jpg | [Wikimedia Commons (Agência Brasil)](https://commons.wikimedia.org/wiki/File:Vista_parcial_e_a%C3%A9rea_do_Est%C3%A1dio_da_Fonte_Nova.jpg) | Roosewelt Pinheiro/ABr | CC BY 3.0 BR | sim |
 | estadio-bot-general-severiano | estadio-bot-general-severiano.jpg | [Wikimedia Commons (Arquivo Nacional)](https://commons.wikimedia.org/wiki/File:Botafogo_x_Portuguesa-RJ_em_General_Severiano.jpg) | Autor desconhecido (Arquivo Nacional) | Domínio público | sim |
 | estadio-bot-general-severiano-1915 | estadio-bot-general-severiano-1915.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:General_Severiano_em_1915.jpg) | Autor desconhecido | Domínio público | sim |
@@ -559,6 +578,7 @@ Teste autorizado pelo dono do projeto: imagens sem licença livre (marcadas "nã
 | ucl-bay | ucl-bay.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:FC_Bayern_M%C3%BCnchen_logo_(2024).svg) | FC Bayern Munich | Public domain | sim |
 | ucl-bay-1954 | ucl-bay-1954.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Logo_Bayern_Munchen(1954-1996).svg) | Desconhecido | Public domain | sim |
 | ucl-bet | ucl-bet.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AReal_Betis_2022_logo.svg) | Real Betis Balompié | Fair use (en.wikipedia) / marca registrada | não |
+| ucl-bet-1931 | ucl-bet-1931.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AEscudo_del_Betis_Balompi%C3%A9_entre_1931-1932.svg) | Nachorc1988 | CC BY-SA 4.0 | sim |
 | ucl-bod | ucl-bod.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File:FK_Bodo_Glimt_logo.svg) | Fotballklubben Bodø/Glimt | PD | não |
 | ucl-bru | ucl-bru.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File:Club_Brugge_KV_logo.svg) | Desconhecido (marca do clube) | Fair use | não |
 | ucl-bru-1891 | ucl-bru-1891.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Club_Brugge_mens_sana_1891.jpg) | Le Fou | CC BY-SA 3.0 | sim |
@@ -583,7 +603,7 @@ Teste autorizado pelo dono do projeto: imagens sem licença livre (marcadas "nã
 | ucl-lsk | ucl-lsk.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:LASK-Logo_2023.svg) | LASK Linz | Public domain | sim |
 | ucl-lsk-antigo | ucl-lsk-antigo.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File:LASK_logo.svg) | Desconhecido (marca do clube) | Fair use | não |
 | ucl-mci | ucl-mci.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AManchester_City_FC_badge.svg) | Manchester City FC | Fair use (en.wikipedia) / marca registrada | não |
-| ucl-mci-1972 | ucl-mci-1972.png | [1000logos.net](https://1000logos.net/manchester-city-logo/) | Braveheart | CC BY-SA 4.0 | sim |
+| ucl-mci-1972 | ucl-mci-1972.png | [1000logos.net](https://1000logos.net/manchester-city-logo/) | Manchester City FC (reprodução 1000logos.net) | Desconhecida (1000logos.net, uso em teste) / marca registrada | não |
 | ucl-mun | ucl-mun.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AManchester_United_FC_crest.svg) | Manchester United FC | Fair use (en.wikipedia) / marca registrada | não |
 | ucl-mun-1973 | ucl-mun-1973.png | [1000logos.net](https://1000logos.net/manchester-united-logo/) | Manchester United FC (reprodução 1000logos.net) | Desconhecida (1000logos.net, uso em teste) / marca registrada | não |
 | ucl-nap | ucl-nap.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASSC_Napoli_2025_%28white_and_azure%29.svg) | Logo: SSC Napoli S.p.A.; upload: The White Lion | Public domain (Commons; PD-textlogo) / marca registrada | sim |
@@ -591,11 +611,30 @@ Teste autorizado pelo dono do projeto: imagens sem licença livre (marcadas "nã
 | ucl-por | ucl-por.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AFC_Porto.svg) | FC Porto | Fair use (en.wikipedia) / marca registrada | não |
 | ucl-por-1922 | ucl-por-1922.png | [1000logos.net](https://1000logos.net/porto-logo/) | FC Porto (reprodução 1000logos.net) | Desconhecida (1000logos.net, uso em teste) / marca registrada | não |
 | ucl-psg | ucl-psg.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AParis_Saint-Germain_F.C..svg) | Paris Saint-Germain Football Club | PD (en.wikipedia) / marca registrada | não |
+| ucl-psg-1972 | ucl-psg-1972.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AParis_Saint-Germain_logo_%281972%E2%80%931982%2C_1990%E2%80%931992%29.svg) | Paris Saint-Germain Football Club | PD (en.wikipedia) / marca registrada | não |
 | ucl-psv | ucl-psv.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3APSV_Eindhoven.svg) | PSV | Fair use (en.wikipedia) / marca registrada | não |
 | ucl-psv-1982 | ucl-psv-1982.png | [1000logos.net](https://1000logos.net/psv-logo/) | PSV (reprodução 1000logos.net) | Desconhecida (1000logos.net, uso em teste) / marca registrada | não |
 | ucl-rbl | ucl-rbl.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File:RB_Leipzig_2014_logo.svg) | Desconhecido (marca do clube) | Fair use | não |
 | ucl-rbl-2009 | ucl-rbl-2009.png | [1000logos.net](https://1000logos.net/rb-leipzig-logo/) | Desconhecido (marca do clube) | Desconhecida (logo do clube; reprodução de 1000logos.net) | não |
+| ucl-rma | ucl-rma.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AReal_Madrid_CF.svg) | Real Madrid CF | Fair use (en.wikipedia) / marca registrada | não |
 | ucl-rma-1931 | ucl-rma-1931.png | [1000logos.net](https://1000logos.net/real-madrid-logo/) | Madrid FC (reprodução 1000logos.net) | Desconhecida (1000logos.net, uso em teste) | não |
+| ucl-rom | ucl-rom.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AAS_Roma_logo_%282017%29.svg) | AS Roma | Fair use (en.wikipedia) / marca registrada | não |
+| ucl-rom-1979 | ucl-rom-1979.png | [Wikipedia (it)](https://it.wikipedia.org/wiki/File%3ALupettoAnni80.svg) | AS Roma (desenho de Piero Gratton) | Marchio (it.wikipedia) / marca registrada | não |
+| ucl-sab | ucl-sab.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3ASabah_FK_%28Azerbaijan%29_logo.svg) | Sabah FK | Fair use (en.wikipedia) / marca registrada | não |
+| ucl-scp | ucl-scp.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3ASporting_Clube_de_Portugal_logo_%282026%29.svg) | Sporting Clube de Portugal | Fair use (en.wikipedia) / marca registrada | não |
+| ucl-scp-1930 | ucl-scp-1930.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASporting_CP_logo_crest_1930-1945.png) | Earl of Gotland | CC BY 4.0 | sim |
+| ucl-sha | ucl-sha.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AFC_Shakhtar_Donetsk.svg) | FK Shakhtar Donetsk | PD (en.wikipedia) / marca registrada | não |
+| ucl-sha-1960 | ucl-sha-1960.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3A%D0%95%D0%BC%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0_%D0%A4%D0%9A_%D0%A8%D0%B0%D1%85%D1%82%D0%B0%D1%80_1960%D1%82%D1%96.svg) | Glibthomash (reconstrução vetorial) | Public domain | sim |
+| ucl-sla | ucl-sla.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASK_Slavia_Praha_full_logo.svg) | SK Slavia Praha & eSports.cz & JT Design | Public domain (Commons) / marca registrada | sim |
+| ucl-sla-1923 | ucl-sla-1923.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASK_Slavia_Praha_emblem_%281923%29.svg) | ThecentreCZ (reconstrução vetorial) | Public domain | sim |
+| ucl-slo | ucl-slo.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASK_Slovan_Bratislava_logo.svg) | ŠK Slovan Bratislava | Public domain (Commons) / marca registrada | sim |
+| ucl-slo-1969 | ucl-slo-1969.png | [Wikipedia (de)](https://de.wikipedia.org/wiki/Datei%3ASK_Slovan_Bratislava_%281969-84%29.gif) | ŠK Slovan Bratislava | Logo (de.wikipedia) / marca registrada | não |
+| ucl-vfb | ucl-vfb.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AVfB_Stuttgart_1893_Logo.svg) | VfB Stuttgart | Public domain (Commons) / marca registrada | sim |
+| ucl-vfb-1998 | ucl-vfb-1998.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AVfB_Stuttgart_Logo.svg) | Autor desconhecido | Public domain | sim |
+| ucl-vik | ucl-vik.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AViking_FK_logo_2020.svg) | Viking FK | Fair use (en.wikipedia) / marca registrada | não |
+| ucl-vik-1926 | ucl-vik-1926.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AViking_Logo.png) | Viking Fotballklubb | Public domain | sim |
+| ucl-vil | ucl-vil.png | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AVillarreal_CF_logo-en.svg) | Villarreal CF | Fair use (en.wikipedia) / marca registrada | não |
+| ucl-vil-1923 | ucl-vil-1923.png | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ACD_Villareal_-_Escut.png) | Xavicoleta9101 | CC0 | sim |
 | uest-aek-allwyn-arena | uest-aek-allwyn-arena.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:AEK_fans_during_AEK-Marseille_game.jpg) | Demian vi | CC BY-SA 4.0 | sim |
 | uest-ars-emirates | uest-ars-emirates.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:London_Emirates_Stadium_arsenal.jpg) | Arne Müseler | CC BY-SA 3.0 de | sim |
 | uest-ars-highbury | uest-ars-highbury.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Arsenal_SheffieldWednesday2000a.jpg) | Johnmaxmena2 | CC0 | sim |
@@ -607,6 +646,8 @@ Teste autorizado pelo dono do projeto: imagens sem licença livre (marcadas "nã
 | uest-bar-spotify-camp-nou | uest-bar-spotify-camp-nou.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Camp_Nou_under_renovation_-_Sept._21,_2025.jpg) | SimpleObjects-9ei | CC BY-SA 4.0 | sim |
 | uest-bay-allianz-arena | uest-bay-allianz-arena.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Allianz_Arena_2008-02-09.jpg) | 2015 Michael 2015 | CC BY-SA 4.0 | sim |
 | uest-bay-olympiastadion | uest-bay-olympiastadion.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:2022-08-21_Olympiapark_M%C3%BCnchen_by_Sandro_Halank%E2%80%93025.jpg) | Sandro Halank, Wikimedia Commons | CC BY-SA 4.0 | sim |
+| uest-bet-benito-villamarin | uest-bet-benito-villamarin.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AEstadio_Benito_Villamar%C3%ADn_2018001.jpg) | Anual | CC BY-SA 4.0 | sim |
+| uest-bet-la-cartuja | uest-bet-la-cartuja.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ALa_Cartuja_%28Betis_vs_Sevilla%29.jpg) | LuisMora4B | CC BY-SA 4.0 | sim |
 | uest-bod-aspmyra | uest-bod-aspmyra.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Aspmyra_stadion.jpg) | Røed | CC BY-SA 2.5 | sim |
 | uest-bod-aspmyra-1966 | uest-bod-aspmyra-1966.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Aspmyra_stadium_1966.jpg) | Desconhecido | Public domain | sim |
 | uest-bru-de-klokke | uest-bru-de-klokke.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:De-Klokke.png) | Stadsarchief Brugge / Jaak A. Rau | CC BY-SA 3.0 | sim |
@@ -628,10 +669,43 @@ Teste autorizado pelo dono do projeto: imagens sem licença livre (marcadas "nã
 | uest-lil-grimonprez-jooris | uest-lil-grimonprez-jooris.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Grimonprez_Jooris.jpg) | Liondartois | CC BY-SA 3.0 | sim |
 | uest-lil-pierre-mauroy | uest-lil-pierre-mauroy.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lille_vs_PSG_2019_-_Stade_Pierre_Mauroy.jpg) | Liondartois | CC BY-SA 4.0 | sim |
 | uest-liv-anfield | uest-liv-anfield.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ALiverpool_anfield_road_stadium.jpg) | Arne Müseler | CC BY-SA 3.0 de | sim |
+| uest-liv-kop-1983 | uest-liv-kop-1983.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AA_full_Kop_End_in_1983_-_geograph.org.uk_-_2999368.jpg) | Steve Daniels (geograph.org.uk) | CC BY-SA 2.0 | sim |
 | uest-lsk-linzer-stadion | uest-lsk-linzer-stadion.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Gugl.jpg) | de:Benutzer:BikeMike | Copyrighted free use | não |
 | uest-lsk-raiffeisen-arena | uest-lsk-raiffeisen-arena.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Raiffeisen-Arena_Linz_01.jpg) | Werner100359 | CC BY-SA 4.0 | sim |
+| uest-mci-etihad | uest-mci-etihad.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ACity_of_Manchester_Stadium_2023_cropped.jpg) | Arne Müseler (recorte de Blackcat) | CC BY-SA 3.0 de | sim |
+| uest-mci-maine-road | uest-mci-maine-road.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AMaine_Road%2C_December_1975.jpg) | Braveheart | CC BY-SA 4.0 | sim |
+| uest-mun-old-trafford | uest-mun-old-trafford.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3A2023_07_31_arne_mueseler_00060-Verbessert-RR_%2853106651455%29.jpg) | Arne Müseler | CC BY-SA 2.0 | sim |
+| uest-mun-old-trafford-1992 | uest-mun-old-trafford-1992.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AStretford_end_1992.JPG) | Øyvind Vik | Public domain | sim |
+| uest-nap-maradona | uest-nap-maradona.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AStadio_Maradona_Serie_A.jpg) | Gaetano Capaldo | CC BY 4.0 | sim |
+| uest-nap-san-paolo-1963 | uest-nap-san-paolo-1963.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AStadio_di_Fuorigrotta_-_Napoli_1963.jpg) | Autor desconhecido | Public domain | sim |
+| uest-por-antas-1952 | uest-por-antas-1952.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3APorto%2C_Domingos_Alv%C3%A3o_10_%289292239868%29.jpg) | Photographia Portuense (Domingos Alvão) | Public domain | sim |
+| uest-por-dragao | uest-por-dragao.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AEst%C3%A1dio_do_Drag%C3%A3o_-_Porto_-_Portugal_%285338381781%29.jpg) | Vitor Oliveira | CC BY-SA 2.0 | sim |
+| uest-psg-parc-des-princes | uest-psg-parc-des-princes.jpg | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3AParis_Le_Parc_des_Princes.jpg) | Arne Müseler | CC BY-SA 3.0 | sim |
+| uest-psg-parc-des-princes-1972 | uest-psg-parc-des-princes-1972.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AGrasmat_wordt_gelegd_in_Parc_des_Princes_in_Parijs%2C_Bestanddeelnr_925-4988.jpg) | Bert Verhoeff / Anefo (Nationaal Archief) | CC0 | sim |
+| uest-psv-philips-stadion | uest-psv-philips-stadion.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3APsv_stadion_2019.jpg) | Dutchlad1985 | CC BY-SA 4.0 | sim |
+| uest-psv-philips-stadion-1982 | uest-psv-philips-stadion-1982.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AOptreden_van_Paul_van_Vliet_als_majoor_Kees_voor_aanvang_van_de_wedstrijd%2C_Bestanddeelnr_932-3580.jpg) | Rob Bogaerts / Anefo (Nationaal Archief) | CC0 | sim |
 | uest-rbl-red-bull-arena | uest-rbl-red-bull-arena.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Leipzig_stadium.jpg) | Arne Müseler | CC BY-SA 3.0 de | sim |
 | uest-rbl-zentralstadion | uest-rbl-zentralstadion.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-40000-0069,_Leipzig,_Zentralstadion.jpg) | Desconhecido | CC BY-SA 3.0 de | sim |
+| uest-rma-bernabeu | uest-rma-bernabeu.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AEstadio_Santiago_Bernab%C3%A9u_%E2%80%94_Real_Madrid_Juvenil_A_-_Santiago_Wanderers_Sub-20_%28Intercontinental_Sub-20_2026%29_%E2%80%94_R%C3%A9cord_de_asistencia_en_un_partido_de_juveniles.jpg) | Badefa | CC0 | sim |
+| uest-rma-bernabeu-2007 | uest-rma-bernabeu-2007.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASantiagobernabeupanoramav2.jpg) | Daniel Schroeder (Yaddayadda) | CC BY-SA 2.5 | sim |
+| uest-rom-olimpico | uest-rom-olimpico.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AStadio_Olimpico_2024.jpg) | Messapi (recorte de Blackcat) | CC BY-SA 4.0 | sim |
+| uest-rom-testaccio | uest-rom-testaccio.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ARoma_Campo_Testaccio_1930s.jpg) | Autor desconhecido | Public domain | sim |
+| uest-sab-bank-respublika-arena | uest-sab-bank-respublika-arena.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ABank_Respubika_Arena.jpg) | Assessoria de imprensa da Presidência do Azerbaijão | CC BY 4.0 | sim |
+| uest-sab-olimpico-baku | uest-sab-olimpico-baku.jpg | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3ABaku_National_Stadium_2015-06.jpg) | Kremlin.ru (Pressa da Presidência da Rússia) | CC BY 4.0 | sim |
+| uest-scp-alvalade | uest-scp-alvalade.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AEst%C3%A1dio_Jos%C3%A9_Alvalade_antes_do_jogo_Sporting_-_Arouca.jpg) | Megutim | CC BY 4.0 | sim |
+| uest-scp-alvalade-1956 | uest-scp-alvalade-1956.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AAntigo_Est%C3%A1dio_Jos%C3%A9_Alvalade.jpg) | Sacavem (presumido) | Public domain | sim |
+| uest-sha-donbas-arena | uest-sha-donbas-arena.jpg | [Wikipedia (en)](https://en.wikipedia.org/wiki/File%3ADonetsk_Donbass_Arena_30.jpg) | Валерий Дед | CC BY 3.0 | sim |
+| uest-sha-stamford-bridge | uest-sha-stamford-bridge.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ALondon_Stamford_Bridge.jpg) | Arne Müseler | CC BY-SA 3.0 de | sim |
+| uest-sla-fortuna-arena | uest-sla-fortuna-arena.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3APraha%2C_Slavia%2C_fotbalov%C3%BD_stadion_%282%29.jpg) | Jan Polák | CC BY 4.0 | sim |
+| uest-sla-letna-1933 | uest-sla-letna-1933.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASlavia-%C5%BDi%C5%BEkov_liga_1933.jpg) | Autor desconhecido | Public domain | sim |
+| uest-slo-tehelne-pole | uest-slo-tehelne-pole.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASlovakia_bratislava_N%C3%A1rodn%C3%BD_futbalov%C3%BD_%C5%A1tadi%C3%B3n.jpg) | Arne Müseler | CC BY-SA 3.0 de | sim |
+| uest-slo-tehelne-pole-2009 | uest-slo-tehelne-pole-2009.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3ASlovan_Bratislava_vs._Olympiakos_FC%2C_2009.jpg) | Marián 2 | Public domain | sim |
+| uest-vfb-gottlieb-daimler-stadion | uest-vfb-gottlieb-daimler-stadion.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3A1993_World_Championships_in_Athletics.jpg) | Larsz | CC BY-SA 2.0 | sim |
+| uest-vfb-mhparena | uest-vfb-mhparena.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AStuttgart_stadium.jpg) | Arne Müseler | CC BY-SA 3.0 de | sim |
+| uest-vik-stavanger-stadion | uest-vik-stavanger-stadion.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AViking_vs_United_30._juli_1991.JPG) | Autor do upload (foto própria) | Public domain | sim |
+| uest-vik-viking-stadion | uest-vik-viking-stadion.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AVinking_FK_Stadion_IMG_20230724_204804.jpg) | Timmietovenaar | CC BY-SA 4.0 | sim |
+| uest-vil-ceramica | uest-vil-ceramica.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AESTADIO3.jpg) | Frank94Rock | CC BY-SA 4.0 | sim |
+| uest-vil-el-madrigal | uest-vil-el-madrigal.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File%3AVillarreal_CF_-_UD_Almer%C3%ADa_%282012-13%29.JPG) | Millars | CC BY-SA 3.0 | sim |
 | ujog-abde | ujog-abde.jpg | [realbetisbalompie.es](https://www.realbetisbalompie.es/) | realbetisbalompie.es | Direitos reservados ao clube (uso de teste autorizado pelo dono do pro | não |
 | ujog-abdulhamid | ujog-abdulhamid.jpg | [RC Lens (rclens.fr)](https://www.rclens.fr/fr/equipe-premiere/effectif/joueurs/saud-abdulhamid) | RC Lens | Todos os direitos reservados (uso de teste autorizado pelo dono do pro | não |
 | ujog-adeniran | ujog-adeniran.jpg | [LASK (lask.at)](https://www.lask.at/de/m/news/spielbericht-lask-celtic) | LASK | Todos os direitos reservados (uso de teste autorizado pelo dono do pro | não |

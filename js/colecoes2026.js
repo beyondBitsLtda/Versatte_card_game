@@ -6421,9 +6421,9 @@ export const UCL_ESCUDOS = [
   "team": "nap",
   "hist": true,
   "name": "Associazione Calcio Napoli (1926)",
-  "years": "1926",
+  "years": "1926–1927",
   "rarity": "muito",
-  "fact": "O primeiro símbolo trazia o cavalo rampante, antigo emblema de Nápoles; depois virou o \"ciuccio\"."
+  "fact": "O primeiro escudo trazia o cavalo rampante, símbolo de Nápoles; durou só uma temporada."
  },
  {
   "id": "psg",
@@ -6475,7 +6475,7 @@ export const UCL_ESCUDOS = [
   "team": "psv",
   "hist": true,
   "name": "PSV (anos 1980)",
-  "years": "1982–",
+  "years": "1982–1990",
   "rarity": "rara",
   "fact": "Versão da flâmula da época em que o PSV conquistou a Europa, em 1988."
  },
@@ -7464,20 +7464,20 @@ export const UCL_ESTADIOS = [
   "highlight": "Recebeu a final da Copa da UEFA de 2006."
  },
  {
-  "id": "psv-philips-stadion-1978",
+  "id": "psv-philips-stadion-1982",
   "team": "psv",
   "hist": true,
-  "name": "Philips Stadion (1978)",
+  "name": "Philips Stadion (1982)",
   "full": "Philips Stadion",
   "city": "Eindhoven",
   "country": "Países Baixos",
   "opened": 1910,
   "capacity": 20000,
-  "nickname": "Philips Stadion (1978)",
-  "years": "1978",
+  "nickname": "Philips Stadion (1982)",
+  "years": "1982",
   "rarity": "rara",
-  "fact": "Semifinal da Copa da UEFA de 1978: PSV 3 a 0 Barcelona, a caminho do título.",
-  "highlight": "Foto de 29 de março de 1978, gol de Harry Lubse."
+  "fact": "Arquibancadas lotadas antes de PSV 4 x 0 Ajax, em 9 de outubro de 1982.",
+  "highlight": "Na frente, o humorista Paul van Vliet como \"majoor Kees\", atração antes do jogo."
  },
  {
   "id": "bet-la-cartuja",
@@ -7829,7 +7829,7 @@ export const UCL_ESTADIOS = [
   "years": "1925–2017",
   "rarity": "rara",
   "fact": "Com esse nome, viu o Villarreal chegar à semifinal da Champions de 2006.",
-  "highlight": "Foto de 2005, da época de Riquelme e Forlán."
+  "highlight": "Foto de junho de 2013: festa do acesso de volta à primeira divisão."
  }
 ];
 export const UCL_JOGADORES = [
