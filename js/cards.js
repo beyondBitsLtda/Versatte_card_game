@@ -1,6 +1,6 @@
 // Renderização das cartas.
 // Se a carta tiver imagem em js/imagens.js, usa o PNG; senão (ou se falhar), usa a arte gerada em SVG.
-import { RARITIES, COLLECTION_BY_ID, POSITIONS, ABILITIES } from './data.js';
+import { RARITIES, COLLECTION_BY_ID, CARD_BY_UID, POSITIONS, ABILITIES } from './data.js';
 import { IMAGENS } from './imagens.js';
 import { esc } from './ui.js';
 
@@ -206,15 +206,33 @@ function generatedArt(card) {
   return mascotArt(card);
 }
 
-function artBlock(card) {
+// Miniatura da carta pequena (gerada por tools/gerar-miniaturas.py):
+//   assets/cartas/jogadores/x.jpg -> assets/cartas-mini/jogadores/x.webp
+const MINI = /^assets\/cartas\/(.+)\.(png|jpe?g|webp)$/i;
+const miniOf = src => (MINI.test(src) ? src.replace(MINI, 'assets/cartas-mini/$1.webp') : null);
+
+function artBlock(card, size) {
   const img = cardImage(card);
   if (!img) return `<div class="f-art">${generatedArt(card)}</div>`;
+  // carta pequena (álbum, grades) usa a miniatura: a foto original tem até 630x880 e decodificar
+  // centenas delas travava a rolagem. A arte automática só é gerada se a imagem falhar.
+  const mini = size === 'sm' ? miniOf(img.src) : null;
   return `
     <div class="f-art has-img mode-${img.modo}" style="--img-s:${img.escala};--img-y:${img.y}">
-      <img class="art-img" src="${esc(img.src)}" alt="" draggable="false" loading="lazy" onerror="this.parentNode.classList.add('img-fail')">
-      <div class="art-fallback">${generatedArt(card)}</div>
+      <img class="art-img" src="${esc(mini || img.src)}"${mini ? ` data-full="${esc(img.src)}"` : ''} alt="" draggable="false" loading="lazy" decoding="async" onerror="versatteImgFail(this)">
     </div>`;
 }
+
+/** Imagem da carta não carregou: sem miniatura, tenta a foto original; sem foto, arte automática. */
+window.versatteImgFail = img => {
+  const full = img.dataset.full;
+  if (full) { img.removeAttribute('data-full'); img.src = full; return; }
+  const art = img.parentNode;
+  if (!art || art.classList.contains('img-fail')) return;
+  art.classList.add('img-fail');
+  const card = CARD_BY_UID[img.closest('.card')?.dataset.uid];
+  if (card) art.insertAdjacentHTML('beforeend', `<div class="art-fallback">${generatedArt(card)}</div>`);
+};
 
 // ------------------------------------------------------------
 //  Textos de apoio (usados na carta e no detalhe)
@@ -269,11 +287,14 @@ export function cardBack() {
 /**
  * HTML de uma carta.
  * opts: size sm|md|lg · live (efeitos animados) · flipped (mostra o verso) · count
+ * Carta sem live nem flipped (álbum, listas) é "parada": vai sem verso e sem camadas 3D
+ * (classe is-flat). Com centenas de cartas na tela, cada face 3D vira uma camada de GPU.
  */
 export function cardHTML(card, { size = 'md', live = false, flipped = false, count = 0, extraClass = '' } = {}) {
   const R = RARITIES[card.rarity];
   const t = card.teamData;
   const col = COLLECTION_BY_ID[card.collection];
+  const flat = !live && !flipped;
   const corner = card.kind === 'player'
     ? `<span class="f-ovr"><b>${card.ovr}</b><i>${card.pos}</i></span>`
     : card.kind === 'coach' ? `<span class="f-ovr f-tec"><b>TEC</b></span>`
@@ -281,7 +302,7 @@ export function cardHTML(card, { size = 'md', live = false, flipped = false, cou
   const classes = [
     'card', `r-${card.rarity}`, `k-${card.kind}`, `s-${size}`,
     card.variant ? `v-${card.variant}` : '', card.hero ? 'k-hero' : '', card.team === 'vil' ? 'is-villain' : '',
-    live ? 'is-live' : '', flipped ? 'flipped' : '', extraClass,
+    live ? 'is-live' : '', flipped ? 'flipped' : '', flat ? 'is-flat' : '', extraClass,
   ].filter(Boolean).join(' ');
   return `
   <div class="${classes}" data-uid="${card.uid}" style="--c1:${t.colors[0]};--c2:${t.colors[1]};--rc:${R.color}">
@@ -290,7 +311,7 @@ export function cardHTML(card, { size = 'md', live = false, flipped = false, cou
         <div class="face front">
           <div class="f-bg"></div>
           <div class="f-rays"></div>
-          ${artBlock(card)}
+          ${artBlock(card, size)}
           <img class="f-wm" src="assets/logo-versatte.png" alt="" draggable="false">
           <div class="f-top">
             ${corner}
@@ -307,11 +328,79 @@ export function cardHTML(card, { size = 'md', live = false, flipped = false, cou
           <div class="f-frame"></div>
           <div class="f-glare"></div>
         </div>
-        ${cardBack()}
+        ${flat ? '' : cardBack()}
       </div>
     </div>
     ${count > 1 ? `<span class="count-badge">×${count}</span>` : ''}
   </div>`;
+}
+
+/**
+ * Listas grandes (álbum, minhas cartas, troca, identidade do clube): cada item vem vazio,
+ * com data-lazy="<uid>", e a carta só é montada quando chega perto da área visível.
+ * Com todas as cartas liberadas são 800+ cartas — montar tudo de uma vez travava o site.
+ *   render(uid, item) → HTML da carta (entra no começo do item)
+ *   root    → elemento que rola · axis → 'y' (grade) ou 'x' (fileira/vitrine)
+ *   margin  → monta quando chega a essa distância (px) da área visível
+ *   unmount → desmonta quando passa dessa distância (o item volta a ser o espaço vazio do
+ *             mesmo tamanho): o DOM fica pequeno mesmo depois de rolar a lista inteira
+ * Sem IntersectionObserver de propósito: com centenas de alvos ele recalculava todos a cada
+ * quadro em que algo na tela animava. Aqui as posições são medidas uma vez (os itens têm
+ * tamanho fixo) e cada rolagem acha a faixa visível por busca binária; parado, custo zero.
+ * Devolve { fill(item), stop() }: fill monta um item na hora; stop desliga tudo.
+ */
+export function lazyCards(container, render, { root, axis = 'y', margin = 1600, unmount = 4000 } = {}) {
+  const items = [...container.querySelectorAll('[data-lazy]')];
+  const uidOf = new WeakMap(items.map(it => [it, it.dataset.lazy]));
+  const indexOf = new Map(items.map((it, i) => [it, i]));
+  const mounted = new Set();
+  const fill = item => {
+    if (!item?.hasAttribute('data-lazy')) return;
+    item.removeAttribute('data-lazy');
+    item.insertAdjacentHTML('afterbegin', render(uidOf.get(item), item));
+    mounted.add(item);
+  };
+  const empty = item => {
+    if (item.classList.contains('center')) return;     // a carta central da vitrine fica
+    item.querySelector(':scope > .card')?.remove();
+    item.setAttribute('data-lazy', uidOf.get(item));
+    mounted.delete(item);
+  };
+  if (!root || !items.length) { items.forEach(fill); return { fill, stop() {} }; }
+
+  const Y = axis === 'y';
+  let pos = null, raf = 0, alive = true;               // pos[i] = [início, fim] na rolagem do root
+  const origin = () => { const b = root.getBoundingClientRect(); return Y ? root.scrollTop - b.top - root.clientTop : root.scrollLeft - b.left - root.clientLeft; };
+  const span = (it, o) => { const r = it.getBoundingClientRect(); return Y ? [r.top + o, r.bottom + o] : [r.left + o, r.right + o]; };
+  const measure = () => { const o = origin(); pos = items.map(it => span(it, o)); };
+  // o layout acima da lista mudou (fonte carregou, etc.)? confere pelo centro do 1º item
+  const moved = () => { const [a, b] = span(items[0], origin()); return Math.abs((a + b) / 2 - (pos[0][0] + pos[0][1]) / 2) > 2; };
+  const update = () => {
+    raf = 0;
+    if (!alive || !container.isConnected) return;
+    const len = Y ? root.clientHeight : root.clientWidth;
+    if (!len) return;                                   // escondido (ex.: <details> fechado)
+    if (!pos || moved()) measure();
+    const s = Y ? root.scrollTop : root.scrollLeft;
+    let a = 0, b = items.length;                        // 1º item que termina depois de (s - margin)
+    while (a < b) { const m = (a + b) >> 1; if (pos[m][1] < s - margin) a = m + 1; else b = m; }
+    for (let i = a; i < items.length && pos[i][0] <= s + len + margin; i++) fill(items[i]);
+    if (unmount) for (const it of mounted) {
+      const [p0, p1] = pos[indexOf.get(it)];
+      if (p1 < s - unmount || p0 > s + len + unmount) empty(it);
+    }
+  };
+  const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
+  root.addEventListener('scroll', schedule, { passive: true });
+  const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(() => { pos = null; schedule(); }) : null;
+  ro?.observe(root);
+  // as que já estão na tela entram antes do primeiro desenho (sem piscar vazio):
+  // o microtask roda depois que a tela é inserida na página
+  queueMicrotask(update);
+  return {
+    fill,
+    stop() { alive = false; root.removeEventListener('scroll', schedule); ro?.disconnect(); cancelAnimationFrame(raf); },
+  };
 }
 
 /** Espaço vazio do álbum (carta que falta). */

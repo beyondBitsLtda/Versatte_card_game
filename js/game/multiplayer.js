@@ -5,7 +5,7 @@
 // ============================================================
 import { CARD_BY_UID, ALL_CARDS, RARITIES, COLLECTIONS } from '../data.js';
 import { state } from '../state.js';
-import { cardHTML } from '../cards.js';
+import { cardHTML, lazyCards } from '../cards.js';
 import { api, me, isOnline, onInbox, getInbox, pollNow, pollFastMode, applyProfile, refreshProfile, syncClubNow } from '../net/online.js';
 import { hydrateTeam, cupStandings, cupRoundName, ONLINE_REWARDS, LIVE } from './online-core.js';
 import { replaySource } from './live.js';
@@ -373,10 +373,10 @@ export async function openTrade(id) {
   openTradeId = id;
   pollFastMode(true);
   const myId = me().id;
-  let t = null, myOffer = [], dirty = false, sending = 0, closed = false, filter = 'all';
+  let t = null, myOffer = [], dirty = false, sending = 0, closed = false, filter = 'all', lazy = null;
   const ov = overlay(`<button class="icon-btn ov-x" aria-label="Fechar">${icon.close}</button><div class="trd"></div>`, 'detail-ov trade-ov');
   const root = ov.node.querySelector('.trd');
-  const close = () => { closed = true; openTradeId = null; pollFastMode(false); ov.close(); appRef?.refresh(); };
+  const close = () => { closed = true; openTradeId = null; pollFastMode(false); lazy?.stop(); ov.close(); appRef?.refresh(); };
   ov.node.querySelector('.ov-x').addEventListener('click', () => { sfx.tap(); close(); });
 
   const mine = () => (t.a === myId ? { offer: t.oferta_a, ok: t.ok_a, name: t.nome_a } : { offer: t.oferta_b, ok: t.ok_b, name: t.nome_b });
@@ -421,9 +421,12 @@ export async function openTrade(id) {
       <div class="album-grid tr-mine">
         ${cards.map(c => {
           const have = state.owned[c.uid].n, used = countIn(c.uid);
-          return `<button class="slot-owned tr-pick ${used ? 'used' : ''}" data-poe="${c.uid}" ${used >= have ? 'disabled' : ''}>${cardHTML(c, { size: 'sm', count: have - used })}${used ? `<span class="tr-in">na mesa ×${used}</span>` : ''}</button>`;
+          return `<button class="slot-owned tr-pick ${used ? 'used' : ''}" data-poe="${c.uid}" data-lazy="${c.uid}" ${used >= have ? 'disabled' : ''}>${used ? `<span class="tr-in">na mesa ×${used}</span>` : ''}</button>`;
         }).join('') || '<p class="muted">Você ainda não tem cartas.</p>'}
       </div>`;
+    // a coleção inteira é redesenhada a cada mudança na mesa: as cartas entram sob demanda
+    lazy?.stop();
+    lazy = lazyCards(root, uid => cardHTML(CARD_BY_UID[uid], { size: 'sm', count: state.owned[uid].n - countIn(uid) }), { root: ov.node });
   }
 
   async function sendOffer() {
@@ -450,7 +453,7 @@ export async function openTrade(id) {
   async function finish() {
     if (closed) return;
     const gave = mine().offer, got = theirs().offer, name = theirs().name;
-    closed = true; openTradeId = null; pollFastMode(false);
+    closed = true; openTradeId = null; pollFastMode(false); lazy?.stop();
     ov.close();
     await tradeAnimation(gave, got, name);
     await refreshProfile().catch(() => {});

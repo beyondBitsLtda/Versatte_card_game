@@ -453,6 +453,10 @@ body:not(.signed) .tabbar { display: none; }
 .card.flipped .card-flip { transform: rotateY(180deg); }
 .face { position: absolute; inset: 0; border-radius: 4.8cqw; overflow: hidden; -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: translateZ(.1px); box-shadow: 0 4cqw 10cqw -5cqw rgba(23,19,15,.55); }
 .face.back { transform: rotateY(180deg) translateZ(.1px); }
+/* carta parada (álbum e listas): sem verso e sem 3D. Cada face com translateZ vira uma camada
+   de GPU; com todas as cartas liberadas eram ~4.800 camadas e o site travava. */
+.card.is-flat .card-tilt, .card.is-flat .card-flip { transform-style: flat; }
+.card.is-flat .face { transform: none; -webkit-backface-visibility: visible; backface-visibility: visible; }
 
 /* frente */
 .f-bg { position: absolute; inset: 0; background: radial-gradient(115% 72% at 50% 34%, color-mix(in srgb, var(--c1) 48%, #0b1426) 0%, #070b14 74%); }
@@ -509,7 +513,6 @@ body:not(.signed) .tabbar { display: none; }
   background-image: radial-gradient(circle, #fff 0 .5cqw, transparent .8cqw), radial-gradient(circle, #fff 0 .35cqw, transparent .6cqw);
   background-size: 11cqw 13cqw, 7cqw 9cqw; background-position: 0 0, 3cqw 4cqw;
   -webkit-mask: radial-gradient(circle at var(--mx) var(--my), #000 0%, transparent 50%); mask: radial-gradient(circle at var(--mx) var(--my), #000 0%, transparent 50%);
-  animation: twinkle 2.4s ease-in-out infinite;
 }
 .r-muito .f-rays { opacity: .5; background: repeating-conic-gradient(from 0deg, rgba(184,102,255,.16) 0 6deg, transparent 6deg 20deg); -webkit-mask: radial-gradient(circle, #000 15%, transparent 60%); mask: radial-gradient(circle, #000 15%, transparent 60%); }
 .r-especial .f-rays { opacity: 1; background: repeating-conic-gradient(from 0deg, rgba(255,201,64,.24) 0 5deg, transparent 5deg 15deg); -webkit-mask: radial-gradient(circle, #000 10%, transparent 62%); mask: radial-gradient(circle, #000 10%, transparent 62%); }
@@ -523,11 +526,18 @@ body:not(.signed) .tabbar { display: none; }
 .r-especial .f-sparkle { background-image: radial-gradient(circle, #fff3c4 0 .55cqw, transparent .9cqw), radial-gradient(circle, #ffc940 0 .4cqw, transparent .7cqw); }
 .r-especial .f-name { background: linear-gradient(100deg, #fff3c4 15%, #ffc940 38%, #fff 50%, #ffb21e 62%, #fff3c4 85%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 2cqw rgba(255,201,64,.45)); }
 
-/* animações só quando a carta está "viva" (grande/ativa) ou é especial */
-.card.is-live.r-especial .f-frame, .card.is-live.r-especial .f-holo, .card.s-sm.r-especial .f-frame { animation: spin-ang 4s linear infinite; }
+/* animações infinitas só na carta "viva" (detalhe, abertura, centro da vitrine). Em lista,
+   cada animação repinta a carta a cada quadro — com centenas delas o site engasgava.
+   No computador, a moldura da especial volta a girar ao passar o mouse. */
+.card.is-live.r-especial .f-frame, .card.is-live.r-especial .f-holo,
+html.desk .slot-owned:hover .card.r-especial .f-frame { animation: spin-ang 4s linear infinite; }
 .card.is-live.r-especial .f-rays, .card.is-live.r-muito .f-rays { animation: rot 24s linear infinite; }
 .card.is-live.r-especial .f-name { animation: shine 3.2s linear infinite; }
+.card.is-live:not(.s-sm):is(.r-muito, .r-especial) .f-sparkle { animation: twinkle 2.4s ease-in-out infinite; }
 .card.s-sm .f-sparkle { -webkit-mask: none; mask: none; opacity: .25; animation: none; }
+
+/* item de lista ainda não montado (lazyCards): já ocupa o tamanho da carta */
+.slot-owned[data-lazy], .sc-item[data-lazy], .pk-slot[data-lazy] { aspect-ratio: 63 / 88; border-radius: 12px; background: rgba(23,19,15,.06); }
 
 .count-badge { position: absolute; top: -7px; right: -7px; z-index: 2; padding: 3px 8px; border-radius: 99px; background: var(--orange); color: var(--orange-ink); font: 800 12px var(--f-body); box-shadow: 0 0 0 2px var(--bg), 0 4px 10px rgba(23,19,15,.35); }
 

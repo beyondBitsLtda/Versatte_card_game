@@ -3,7 +3,7 @@ import { COLLECTIONS, COLLECTION_BY_ID, CARD_BY_UID, RARITIES, RARITY_ORDER, PRI
 import { ageOn, dayKeyBR } from './economy-core.js';
 import { openCheckout, realPayments, fillOrders, markAdultDevice } from './pagamento.js';
 import { state, save, progress, ownedCount, freeAvailable, msToNextFree, prizeStatus, claimPrize, packCount, addPacks, totalPacks } from './state.js';
-import { cardHTML, slotHTML, rarityTag, gem, abilityText } from './cards.js';
+import { cardHTML, slotHTML, rarityTag, gem, abilityText, lazyCards } from './cards.js';
 import { packHTML } from './pack.js';
 import { packOdds } from './gacha.js';
 import { attachTilt, sfx, haptic, confetti, enableGyro, centerOf, burst } from './fx.js';
@@ -15,6 +15,10 @@ import { carNavHtml, bindCarNav, isDesk } from './desktop.js';
 const ui = { album: { col: COLLECTIONS[0].id, filter: 'all', rarity: null }, cards: { mode: 'showcase', sort: 'rarity', col: 'all' } };
 let cleanups = [];
 export function cleanupView() { cleanups.forEach(fn => fn()); cleanups = []; }
+
+// grade de cartas (álbum e "Minhas cartas"): montadas sob demanda, conforme a rolagem
+const ownedSm = uid => cardHTML(CARD_BY_UID[uid], { size: 'sm', count: ownedCount(uid) });
+const lazyGrid = node => { const lz = lazyCards(node, ownedSm, { root: document.getElementById('view') }); cleanups.push(lz.stop); };
 
 // ============================================================
 //  INÍCIO
@@ -204,7 +208,7 @@ export function albumView(app) {
 
     <div class="album-grid">
       ${cards.length ? cards.map(c => ownedCount(c.uid) > 0
-        ? `<button class="slot-owned" data-uid="${c.uid}">${cardHTML(c, { size: 'sm', count: ownedCount(c.uid) })}</button>`
+        ? `<button class="slot-owned" data-uid="${c.uid}" data-lazy="${c.uid}"></button>`
         : slotHTML(c)).join('')
         : `<div class="empty">${a.filter === 'missing' ? `${icon.check}<b>Nada faltando aqui!</b>` : `${icon.pack}<b>Nenhuma carta neste filtro.</b><span>Abra pacotes para preencher o álbum.</span>`}</div>`}
     </div>
@@ -218,6 +222,7 @@ export function albumView(app) {
     if (b.dataset.rar) { a.rarity = a.rarity === b.dataset.rar ? null : b.dataset.rar; sfx.tap(); return app.refresh(); }
     if (b.dataset.uid) { sfx.tap(); openDetail(b.dataset.uid); }
   });
+  lazyGrid(node);
   return node;
 }
 
@@ -266,12 +271,12 @@ export function cardsView(app) {
     : u.mode === 'showcase' ? `
       <div class="showcase">
         <div class="sc-spacer"></div>
-        ${list.map(c => `<div class="sc-item" data-uid="${c.uid}">${cardHTML(c, { size: 'lg', count: ownedCount(c.uid) })}</div>`).join('')}
+        ${list.map(c => `<div class="sc-item" data-uid="${c.uid}" data-lazy="${c.uid}"></div>`).join('')}
         <div class="sc-spacer"></div>
       </div>
       ${carNavHtml('carta')}
       <div class="sc-caption"></div>`
-    : `<div class="album-grid">${list.map(c => `<button class="slot-owned" data-uid="${c.uid}">${cardHTML(c, { size: 'sm', count: ownedCount(c.uid) })}</button>`).join('')}</div>`}
+    : `<div class="album-grid">${list.map(c => `<button class="slot-owned" data-uid="${c.uid}" data-lazy="${c.uid}"></button>`).join('')}</div>`}
   </section>`);
 
   node.addEventListener('click', e => {
@@ -294,18 +299,30 @@ export function cardsView(app) {
   const sc = node.querySelector('.showcase');
   if (sc) {
     const caption = node.querySelector('.sc-caption');
-    let stop = null, centerEl = null;
+    const items = [...sc.querySelectorAll('.sc-item')];
+    const lazy = lazyCards(sc, uid => cardHTML(CARD_BY_UID[uid], { size: 'lg', count: ownedCount(uid) }), { root: sc, axis: 'x', margin: 1200 });
+    cleanups.push(lazy.stop);
+    let stop = null, centerEl = null, step = 0, queued = false;
+    const onResize = () => { step = 0; };
+    addEventListener('resize', onResize);
+    cleanups.push(() => removeEventListener('resize', onResize));
+    // a carta central sai da posição da rolagem (passo fixo entre cartas) e só as vizinhas
+    // são medidas — antes media todas as cartas a cada evento de rolagem
+    const centerX = it => { const r = it.getBoundingClientRect(); return r.left + r.width / 2; };   // o scale da vitrine não move o centro
     const update = () => {
+      queued = false;
+      if (!items.length) return;
+      if (!step) step = items.length > 1 ? centerX(items[1]) - centerX(items[0]) : 1;
       const mid = sc.getBoundingClientRect().left + sc.clientWidth / 2;
-      let best = null, bd = Infinity;
-      sc.querySelectorAll('.sc-item').forEach(it => {
-        const r = it.getBoundingClientRect();
-        const d = Math.abs(r.left + r.width / 2 - mid);
-        if (d < bd) { bd = d; best = it; }
-      });
+      const dist = i => Math.abs(centerX(items[i]) - mid);
+      let i = Math.max(0, Math.min(items.length - 1, Math.round(sc.scrollLeft / (step || 1)))), d = dist(i);
+      while (i > 0 && dist(i - 1) < d) d = dist(--i);
+      while (i < items.length - 1 && dist(i + 1) < d) d = dist(++i);
+      const best = items[i];
       if (best && best !== centerEl) {
+        lazy.fill(best);
         centerEl && centerEl.classList.remove('center');
-        centerEl && centerEl.querySelector('.card').classList.remove('is-live');
+        centerEl && centerEl.querySelector('.card')?.classList.remove('is-live');
         stop && stop();
         centerEl = best;
         best.classList.add('center');
@@ -316,11 +333,11 @@ export function cardsView(app) {
         caption.innerHTML = `${rarityTag(c.rarity)}<b>${esc(c.name)}</b><span>${esc(COLLECTION_BY_ID[c.collection].name)} · #${String(c.number).padStart(2, '0')} · ×${ownedCount(c.uid)}</span><small>${isDesk() ? 'Clique na carta para ver detalhes · ← → para navegar' : 'Toque na carta para ver detalhes e curiosidades'}</small>`;
       }
     };
-    sc.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    sc.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
     bindCarNav(node, sc, '.sc-item');
     requestAnimationFrame(update);
     cleanups.push(() => stop && stop());
-  }
+  } else if (list.length) lazyGrid(node);
   return node;
 }
 

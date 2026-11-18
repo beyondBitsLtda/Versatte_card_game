@@ -5,7 +5,7 @@
 // ============================================================
 import { ALL_CARDS, CARD_BY_UID, TEAM_BY_ID, POSITIONS, RARITIES, CREST_MORAL, ABILITIES, LOAN, COINS, PACK_STYLE, COMPETITIONS } from '../data.js';
 import { state, save, ownedCount, addPacks } from '../state.js';
-import { cardHTML, gem, abilityText } from '../cards.js';
+import { cardHTML, gem, abilityText, lazyCards } from '../cards.js';
 import {
   FORMATIONS, LINE_LABEL, autoLineup, userTeam, aiTeam, teamRatings, simulateMatch, predict, naturalFor,
   standings, matchReward,
@@ -382,7 +382,7 @@ function openIdentity(app, creating) {
   };
   const tile = (card, key, loan) => `
     <button class="pk-card ${sel[key] === card.uid ? 'on' : ''} ${loan ? 'is-loan' : ''}" data-uid="${card.uid}">
-      ${cardHTML(card, { size: 'sm' })}
+      <div class="pk-slot" data-lazy="${card.uid}"></div>
       ${loan ? '<span class="pk-loan">EMPRÉSTIMO</span>' : ''}
       <small>${esc(bonusLabel(card, loan))}</small>
     </button>`;
@@ -413,7 +413,10 @@ function openIdentity(app, creating) {
       <button class="btn primary big wide" data-save>${creating ? 'Fundar clube' : 'Salvar'}</button>
     </div>`, 'detail-ov ident-ov');
   const node = ov.node;
-  node.querySelector('.ov-x').addEventListener('click', () => { sfx.tap(); ov.close(); });
+  // com todas as cartas liberadas são centenas de escudos/estádios: cada fileira monta sob demanda
+  const lazies = [...node.querySelectorAll('.pk-row')].map(row => lazyCards(row, uid => cardHTML(CARD_BY_UID[uid], { size: 'sm' }), { root: row, axis: 'x' }));
+  const closeIdent = () => { lazies.forEach(l => l.stop()); ov.close(); };
+  node.querySelector('.ov-x').addEventListener('click', () => { sfx.tap(); closeIdent(); });
   node.querySelectorAll('.pk').forEach(pk => pk.addEventListener('click', e => {
     const b = e.target.closest('.pk-row > button'); if (!b) return;
     const key = b.closest('.pk-row').dataset.key;
@@ -430,7 +433,7 @@ function openIdentity(app, creating) {
     } else {
       Object.assign(state.club, { name, abbr, ...sel });
     }
-    save(); ov.close();
+    save(); closeIdent();
     if (creating) {
       sfx.win(); confetti(['#EA5B0C', '#FFC940', '#1F5C99', '#17130F']);
       const loans = loanCount(state.club);
