@@ -535,6 +535,13 @@ html.desk .slot-owned:hover .card.r-especial .f-frame { animation: spin-ang 4s l
 .card.is-live.r-especial .f-name { animation: shine 3.2s linear infinite; }
 .card.is-live:not(.s-sm):is(.r-muito, .r-especial) .f-sparkle { animation: twinkle 2.4s ease-in-out infinite; }
 .card.s-sm .f-sparkle { -webkit-mask: none; mask: none; opacity: .25; animation: none; }
+/* carta parada em lista: sem reflexo/faixa holográfica (parados, sem o mouse, são só um realce
+   fixo) e sem sombra na arte. Mistura de cores e drop-shadow obrigam a GPU a desenhar cada carta
+   em camadas extras; com dezenas na tela a primeira rolagem do álbum caía pela metade. */
+.card.is-flat:not(.is-live) :is(.f-glare, .f-holo) { display: none; }
+.card.is-flat:not(.is-live) .f-sparkle { mix-blend-mode: normal; }
+.card.is-flat:not(.is-live) :is(.f-art, .f-gem) { filter: none; }
+.card.is-flat:not(.is-live).v-retro .f-art { filter: sepia(.55) contrast(1.08); }
 
 /* item de lista ainda não montado (lazyCards): já ocupa o tamanho da carta */
 .slot-owned[data-lazy], .sc-item[data-lazy], .pk-slot[data-lazy] { aspect-ratio: 63 / 88; border-radius: 12px; background: rgba(23,19,15,.06); }
