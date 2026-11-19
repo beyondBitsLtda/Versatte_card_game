@@ -18,7 +18,8 @@
 .f-art.has-img:not(.img-fail) .art-fallback { display: none; }
 .f-art.img-fail .art-img { display: none; }
 .f-art.mode-jogador .art-img { object-position: center bottom; }
-.f-art.mode-cobrir, .k-stadium .f-art { left: 0; top: 0; width: 100%; height: 100%; translate: none; aspect-ratio: auto; filter: none; }
+/* modo cobrir: a arte ocupa a carta inteira (vence o enquadramento de mascote/jogador, ex.: arte de quadrinho da DOOMSDAY) */
+.card .f-art.mode-cobrir, .k-stadium .f-art { left: 0; top: 0; width: 100%; height: 100%; translate: none; aspect-ratio: auto; filter: none; }
 .f-art.mode-cobrir .art-img { object-fit: cover; }
 .card.is-live .f-art.mode-cobrir, .card.is-live.k-stadium .f-art { translate: calc((50% - var(--mx)) * .04) calc((50% - var(--my)) * .03); scale: 1.06; }
 .k-stadium .f-art svg { width: 100%; height: 100%; }

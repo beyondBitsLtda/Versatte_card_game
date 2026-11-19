@@ -31,10 +31,10 @@ O servidor é um Cloudflare Worker que usa o **mesmo banco Postgres do beyond-as
 | **Jogadores** | 56 | 20 atletas do elenco 2026, um por clube, todas as posições | 18 ídolos | 13 lendas | 5 versões Prime |
 | **Estádios** | 19 | 6 | 9 | 3 | Maracanã |
 | **Mascotes** | 29 | os 20 mascotes oficiais | 4 × Neon | 3 × Lendário | 2 × Supremo |
-| **DOOMSDAY** | 20 | 7 | 6 | 4 | 3 (Doutor Destino, Senhor Fantástico, Wolverine) |
+| **DOOMSDAY** | 20 | 7 | 6 | 4 | 3 (Urubu von Doom, Senhor Raposástico, Galoverine) |
 
 - **Jogadores comuns (teste):** 19 dos 20 são atletas reais do elenco 2026, e só Marlon Siqueira (Remo) é fictício. Antes do lançamento é preciso licenciar o nome e a imagem dos atletas em atividade, ou trocá-los de volta por fictícios em [js/data.js](js/data.js) (`COMMON_PLAYERS`).
-- **DOOMSDAY** (antiga Juízo Final) só sai em pacotes premium ou lendários (a coleção inteira, não só as especiais). Cada mascote da Série A vira um personagem da Marvel: o Urubu (Flamengo) é o **Doutor Destino**, a maior ameaça; o Raposão (Cruzeiro) é o **Senhor Fantástico** e o Galo (Atlético-MG) é o **Wolverine**, as três especiais. Magneto (Coritiba) e Dentes-de-Sabre (Mirassol) também são vilões. Cada carta usa a foto do mascote do próprio clube.
+- **DOOMSDAY** (antiga Juízo Final) só sai em pacotes premium ou lendários (a coleção inteira, não só as especiais). Cada mascote da Série A vira um personagem da Marvel, com nome de trocadilho (mascote + personagem): o Urubu (Flamengo) é o **Urubu von Doom** (Doutor Destino), a maior ameaça; o Raposão (Cruzeiro) é o **Senhor Raposástico** (Senhor Fantástico) e o Galo (Atlético-MG) é o **Galoverine** (Wolverine), as três especiais. Magnetovô (Coritiba) e Dentes-de-Caipira (Mirassol) também são vilões. O nome real do personagem aparece no detalhe da carta. Cada carta usa a foto do mascote do próprio clube.
   - **⚠ Marcas de terceiros:** os nomes dos personagens são marcas da Marvel/Disney. **Não publique esta coleção com venda de pacotes sem licença**; antes do lançamento, leve o caso ao Jurídico/Compliance ou troque por nomes originais em [js/data.js](js/data.js) (`HERO_CARDS`).
   - O id interno continua `juizo-final` (prefixo `jf`): progresso, prêmios e cartas já guardados continuam valendo. As cartas da versão antiga passam sozinhas para o personagem do mesmo clube (`LEGACY_UIDS`, aplicado no aparelho e no servidor). Publique o app e o servidor juntos.
 

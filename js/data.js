@@ -518,8 +518,10 @@ const MASCOT_CARDS = [
 
 // ============================================================
 //  COLEÇÃO 5 — DOOMSDAY (especial, só premium)
-//  Os mascotes da Série A viram personagens da Marvel: o Urubu é o
-//  Doutor Destino, a maior ameaça; Raposão e Galo lideram os heróis.
+//  Os mascotes da Série A viram personagens da Marvel, com nome de
+//  trocadilho (mascote + personagem; o nome real fica em `character`):
+//  o Urubu é o Urubu von Doom (Doutor Destino), a maior ameaça;
+//  Raposão e Galo (Senhor Raposástico e Galoverine) lideram os heróis.
 //  ATENÇÃO: nomes de personagens Marvel são marcas da Marvel/Disney.
 //  Só para protótipo — não publicar com venda de pacotes sem licença.
 //  (id interno 'juizo-final' e prefixo 'jf' mantidos: progresso,
@@ -527,49 +529,49 @@ const MASCOT_CARDS = [
 // ============================================================
 const HERO_CARDS = [
   // ---- as mais raras: o vilão supremo e os dois líderes dos heróis
-  { id: 'doutor-destino', name: 'Doutor Destino', team: 'fla', mascot: 'Urubu', rarity: 'especial', emoji: '🦅', ability: 'caos', role: 'Vilão supremo', villain: true,
+  { id: 'doutor-destino', name: 'Urubu von Doom', character: 'Doutor Destino', team: 'fla', mascot: 'Urubu', rarity: 'especial', emoji: '🦅', ability: 'caos', role: 'Vilão supremo', villain: true,
     highlight: 'A maior ameaça da coleção: todos os outros heróis se unem para detê-lo.', fact: 'A estética sombria do Urubu combina com o manto e a armadura de Victor Von Doom.' },
-  { id: 'senhor-fantastico', name: 'Senhor Fantástico', team: 'cru', mascot: 'Raposão', rarity: 'especial', emoji: '🦊', ability: 'meio', role: 'Líder dos heróis',
-    highlight: 'O grande estrategista e rival direto do Doutor Destino.', fact: 'A astúcia da Raposa e o uniforme azul clássico fazem de Reed Richards o contraponto moral do vilão.' },
-  { id: 'wolverine', name: 'Wolverine', team: 'cam', mascot: 'Galo Doido', rarity: 'especial', emoji: '🐓', ability: 'raca', role: 'Linha de frente',
+  { id: 'senhor-fantastico', name: 'Senhor Raposástico', character: 'Senhor Fantástico', team: 'cru', mascot: 'Raposão', rarity: 'especial', emoji: '🦊', ability: 'meio', role: 'Líder dos heróis',
+    highlight: 'O grande estrategista e rival direto do Urubu von Doom.', fact: 'A astúcia da Raposa e o uniforme azul clássico fazem de Reed Richards o contraponto moral do vilão.' },
+  { id: 'wolverine', name: 'Galoverine', character: 'Wolverine', team: 'cam', mascot: 'Galo Doido', rarity: 'especial', emoji: '🐓', ability: 'raca', role: 'Linha de frente',
     highlight: 'O herói mais feroz e imprevisível da batalha final.', fact: 'Como o Galo, Logan não foge de briga, tem garras afiadas e é o motor de raça dos heróis.' },
   // ---- muito raras
-  { id: 'hulk', name: 'Hulk', team: 'pal', mascot: 'Porco', rarity: 'muito', emoji: '🐷', ability: 'ataque', role: 'Força bruta',
+  { id: 'hulk', name: 'Incrível Porcão', character: 'Hulk', team: 'pal', mascot: 'Porco', rarity: 'muito', emoji: '🐷', ability: 'ataque', role: 'Força bruta',
     highlight: 'Força verde imparável que esmaga as linhas inimigas.', fact: 'O Porco encarna a potência física de Bruce Banner; o Periquito traz a agilidade.' },
-  { id: 'homem-aranha', name: 'Homem-Aranha', team: 'bot', mascot: 'Biriba', rarity: 'muito', emoji: '🕷️', ability: 'contra', role: 'Herói ágil',
+  { id: 'homem-aranha', name: 'Homem-Biriba', character: 'Homem-Aranha', team: 'bot', mascot: 'Biriba', rarity: 'muito', emoji: '🕷️', ability: 'contra', role: 'Herói ágil',
     highlight: 'Sempre subestimado pelos vilões, mas decisivo nos momentos críticos.', fact: 'Ágil e carismático como o Biriba e o Manequinho, Peter Parker decide a batalha.' },
-  { id: 'capitao-america', name: 'Capitão América', team: 'cor', mascot: 'Mosqueteiro', rarity: 'muito', emoji: '🛡️', ability: 'muralha', role: 'Capitão',
+  { id: 'capitao-america', name: 'Capitão Mosquetérica', character: 'Capitão América', team: 'cor', mascot: 'Mosqueteiro', rarity: 'muito', emoji: '🛡️', ability: 'muralha', role: 'Capitão',
     highlight: 'Símbolo de resistência e liderança popular.', fact: 'Sam Wilson luta com escudo e lâmina até o fim, como o Mosqueteiro corintiano.' },
-  { id: 'thor', name: 'Thor', team: 'flu', mascot: 'Guerreirinho', rarity: 'muito', emoji: '⚡', ability: 'pressao', role: 'Guerreiro nobre',
+  { id: 'thor', name: 'Thorreirinho', character: 'Thor', team: 'flu', mascot: 'Guerreirinho', rarity: 'muito', emoji: '⚡', ability: 'pressao', role: 'Guerreiro nobre',
     highlight: 'Traz o poder dos trovões para o campo de batalha.', fact: 'O guerreiro de armadura clássica, ligado à realeza e à tradição, como o Guerreirinho tricolor.' },
   // ---- raras
-  { id: 'doutor-estranho', name: 'Doutor Estranho', team: 'sao', mascot: 'Santo Paulo', rarity: 'rara', emoji: '🔮', ability: 'sorte', role: 'Mago supremo',
+  { id: 'doutor-estranho', name: 'Santo Estranho', character: 'Doutor Estranho', team: 'sao', mascot: 'Santo Paulo', rarity: 'rara', emoji: '🔮', ability: 'sorte', role: 'Mago supremo',
     highlight: 'Mestre das artes místicas que guarda o equilíbrio do multiverso.', fact: 'A figura sábia de barba branca e manto lembra o Santo Paulo, que abre portais para o tricolor.' },
-  { id: 'magneto', name: 'Magneto', team: 'cfc', mascot: 'Vovô Coxa', rarity: 'rara', emoji: '🧲', ability: 'caos', role: 'Vilão', villain: true,
+  { id: 'magneto', name: 'Magnetovô', character: 'Magneto', team: 'cfc', mascot: 'Vovô Coxa', rarity: 'rara', emoji: '🧲', ability: 'caos', role: 'Vilão', villain: true,
     highlight: 'Mestre estrategista que manipula o campo de batalha a seu favor.', fact: 'Veterano de cabelos brancos e aura imponente, como o Vovô Coxa do clube de 1909.' },
-  { id: 'pantera-negra', name: 'Pantera Negra', team: 'vit', mascot: 'Leão da Barra', rarity: 'rara', emoji: '🐆', ability: 'torcida', role: 'Realeza',
+  { id: 'pantera-negra', name: 'Pantera da Barra', character: 'Pantera Negra', team: 'vit', mascot: 'Leão da Barra', rarity: 'rara', emoji: '🐆', ability: 'torcida', role: 'Realeza',
     highlight: 'Velocidade letal, garras de vibranium e proteção ancestral do território.', fact: 'Realeza felina que defende sua casa, como o Leão da Barra no Barradão.' },
-  { id: 'namor', name: 'Namor', team: 'vas', mascot: 'Almirante', rarity: 'rara', emoji: '🔱', ability: 'muralha', role: 'Anti-herói',
+  { id: 'namor', name: 'Namirante', character: 'Namor', team: 'vas', mascot: 'Almirante', rarity: 'rara', emoji: '🔱', ability: 'muralha', role: 'Anti-herói',
     highlight: 'O soberano dos mares que luta para proteger seu reino.', fact: 'Comandante naval orgulhoso, como o Almirante que homenageia Vasco da Gama.' },
-  { id: 'soldado-invernal', name: 'Soldado Invernal', team: 'gre', mascot: 'Mosqueteiro', rarity: 'rara', emoji: '🦾', ability: 'contra', role: 'Anti-herói',
+  { id: 'soldado-invernal', name: 'Mosqueteiro Invernal', character: 'Soldado Invernal', team: 'gre', mascot: 'Mosqueteiro', rarity: 'rara', emoji: '🦾', ability: 'contra', role: 'Anti-herói',
     highlight: 'Combatente implacável, frio e tático, com armamento pesado.', fact: 'Bucky Barnes veste tons escuros e azulados, como o Mosqueteiro gremista.' },
-  { id: 'surfista-prateado', name: 'Surfista Prateado', team: 'san', mascot: 'Baleia', rarity: 'rara', emoji: '🏄', ability: 'pressao', role: 'Arauto cósmico',
+  { id: 'surfista-prateado', name: 'Baleia Prateada', character: 'Surfista Prateado', team: 'san', mascot: 'Baleia', rarity: 'rara', emoji: '🏄', ability: 'pressao', role: 'Arauto cósmico',
     highlight: 'Cruza os céus anunciando a chegada de ameaças maiores.', fact: 'Surfa entre o mar e as estrelas, como a Baleia santista.' },
   // ---- comuns
-  { id: 'noturno', name: 'Noturno', team: 'int', mascot: 'Saci', rarity: 'comum', emoji: '🌀', ability: 'sorte', role: 'Teleportador',
+  { id: 'noturno', name: 'Saciturno', character: 'Noturno', team: 'int', mascot: 'Saci', rarity: 'comum', emoji: '🌀', ability: 'sorte', role: 'Teleportador',
     highlight: 'Some numa nuvem de fumaça vermelha para confundir os inimigos.', fact: 'Kurt Wagner é travesso e ágil como o Saci de gorro vermelho.' },
-  { id: 'ciclope', name: 'Ciclope', team: 'bah', mascot: 'Super-Homem Tricolor', rarity: 'comum', emoji: '🕶️', ability: 'meio', role: 'Comandante',
+  { id: 'ciclope', name: 'Ciclope Tricolor', character: 'Ciclope', team: 'bah', mascot: 'Super-Homem Tricolor', rarity: 'comum', emoji: '🕶️', ability: 'meio', role: 'Comandante',
     highlight: 'Comandante tático dos mutantes em campo.', fact: 'Scott Summers veste azul e dispara rajadas vermelhas de precisão, as cores do Esquadrão de Aço.' },
-  { id: 'tocha-humana', name: 'Tocha Humana', team: 'cap', mascot: 'Furacão', rarity: 'comum', emoji: '🔥', ability: 'pressao', role: 'Velocista',
+  { id: 'tocha-humana', name: 'Tocha Furacana', character: 'Tocha Humana', team: 'cap', mascot: 'Furacão', rarity: 'comum', emoji: '🔥', ability: 'pressao', role: 'Velocista',
     highlight: 'Pura energia em alta velocidade, criando redemoinhos de fogo pelo céu.', fact: 'Johnny Storm transforma o Furacão rubro-negro em chamas.' },
-  { id: 'capita-marvel', name: 'Capitã Marvel', team: 'rem', mascot: 'Leão Azul', rarity: 'comum', emoji: '⭐', ability: 'ataque', role: 'Força cósmica',
+  { id: 'capita-marvel', name: 'Leoa Marvel', character: 'Capitã Marvel', team: 'rem', mascot: 'Leão Azul', rarity: 'comum', emoji: '⭐', ability: 'ataque', role: 'Força cósmica',
     highlight: 'Força cósmica radiante capaz de atravessar naves inteiras.', fact: 'Carol Danvers dá ao Leão Azul da Amazônia um poder vindo das estrelas.' },
-  { id: 'coisa', name: 'Coisa', team: 'rbb', mascot: 'Toro Loko', rarity: 'comum', emoji: '🪨', ability: 'muralha', role: 'Muralha',
+  { id: 'coisa', name: 'Coisa Loka', character: 'Coisa', team: 'rbb', mascot: 'Toro Loko', rarity: 'comum', emoji: '🪨', ability: 'muralha', role: 'Muralha',
     highlight: 'A muralha de pedra inabalável do Quarteto Fantástico.', fact: 'Ben Grimm é pura força de impacto, como o Toro Loko do Massa Bruta.' },
-  { id: 'gaviao-arqueiro', name: 'Gavião Arqueiro', team: 'cha', mascot: 'Índio Condá', rarity: 'comum', emoji: '🏹', ability: 'contra', role: 'Atirador',
+  { id: 'gaviao-arqueiro', name: 'Gavião Condá', character: 'Gavião Arqueiro', team: 'cha', mascot: 'Índio Condá', rarity: 'comum', emoji: '🏹', ability: 'contra', role: 'Atirador',
     highlight: 'Precisão cirúrgica à distância para apoiar os aliados.', fact: 'O arco do Índio Condá vira a arma de Clint Barton.' },
-  { id: 'dentes-de-sabre', name: 'Dentes-de-Sabre', team: 'mir', mascot: 'Leão Caipira', rarity: 'comum', emoji: '🐯', ability: 'ataque', role: 'Vilão', villain: true,
-    highlight: 'Predador feroz, rival direto do Wolverine nas cenas mais brutais.', fact: 'Um felino amarelo e implacável, como o Leão Caipira de Mirassol.' },
+  { id: 'dentes-de-sabre', name: 'Dentes-de-Caipira', character: 'Dentes-de-Sabre', team: 'mir', mascot: 'Leão Caipira', rarity: 'comum', emoji: '🐯', ability: 'ataque', role: 'Vilão', villain: true,
+    highlight: 'Predador feroz, rival direto do Galoverine nas cenas mais brutais.', fact: 'Um felino amarelo e implacável, como o Leão Caipira de Mirassol.' },
 ].map(h => ({ ...h, edition: h.role, hero: true, power: HERO_POWER[h.rarity] }));
 
 /** Cartas da versão Juízo Final → personagem do mesmo clube (o vilão Série Z vira o Doutor Destino). */
@@ -687,7 +689,7 @@ export const COLLECTIONS = [
   },
   {
     id: 'juizo-final', name: 'DOOMSDAY', short: 'DOOMSDAY',
-    tagline: 'Os mascotes viram heróis contra o Doutor Destino',
+    tagline: 'Os mascotes viram heróis contra o Urubu von Doom',
     packTitle: ['MASCOTES', 'DOOMSDAY'], packTitleScale: .8,   // letras largas: menor para caber no pacote
     premiumOnly: true,
     theme: { c1: '#2A0B45', c2: '#3DFF8F', glow: '#7B2CFF' },

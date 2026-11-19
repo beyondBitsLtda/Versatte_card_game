@@ -901,3 +901,14 @@ Teste autorizado pelo dono do projeto: imagens sem licença livre (marcadas "nã
 | ujog-wirtz | ujog-wirtz.jpg | [Liverpool FC (liverpoolfc.com)](https://www.liverpoolfc.com/news/alisson-and-wirtz-included-in-premier-league-fan-team-of-the-week) | Liverpool FC | Todos os direitos reservados (uso de teste autorizado pelo dono do pro | não |
 | ujog-zanetti-retro | ujog-zanetti-retro.jpg | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Javier_Zanetti_-_Inter_Mailand_(3).jpg) | Steindy | CC BY-SA 3.0 | sim |
 | ujog-zidane-retro | ujog-zidane-retro.jpg | [realmadrid.com](https://www.realmadrid.com/en-US/the-club/history/football-legends/zinedine-zidane) | realmadrid.com | Direitos reservados ao clube (uso de teste autorizado pelo dono do pro | não |
+
+## Rodada 4 (novembro de 2026): artes em quadrinho da DOOMSDAY
+
+Artes enviadas pela equipe do projeto em 19/11/2026, recortadas na proporção da carta (63:88) e usadas na carta inteira.
+Autoria e direitos não informados: confirme antes do lançamento. Os personagens (Wolverine, Senhor Fantástico/Quarteto
+Fantástico) são marcas da Marvel/Disney; a arte da raposa trazia a faixa "THE FANTASTIC FOUR PIN-UP PAGE!", removida no recorte.
+
+| Carta | Arquivo | Fonte | Autor | Licença |
+|---|---|---|---|---|
+| Galoverine (Wolverine) · Especial | `doomsday/doomsday-galoverine.jpg` | Arte enviada pela equipe do projeto | não informado | não informada (somente teste) |
+| Senhor Raposástico (Senhor Fantástico) · Especial | `doomsday/doomsday-senhor-raposastico.jpg` | Arte enviada pela equipe do projeto ("Mister Cabuloso") | não informado | não informada (somente teste) |

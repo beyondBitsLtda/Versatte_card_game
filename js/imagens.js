@@ -849,25 +849,25 @@ export const IMAGENS = {
   'uest-vik-viking-stadion': 'assets/cartas/ucl-estadios/uest-vik-viking-stadion.jpg',  // #70 Viking Stadion · Estádio · Comum
   'uest-avl-villa-park': 'assets/cartas/ucl-estadios/uest-avl-villa-park.jpg',  // #71 Villa Park · Estádio · Comum
 
-  // ---------- DOOMSDAY (20 cartas: personagem Marvel + foto do mascote do clube)
-  'jf-doutor-destino': 'assets/cartas/mascotes/masc-fla.jpg',  // #01 Doutor Destino · Vilão supremo · Especial
-  'jf-senhor-fantastico': 'assets/cartas/mascotes/masc-cru.jpg',  // #02 Senhor Fantástico · Líder dos heróis · Especial
-  'jf-wolverine': 'assets/cartas/mascotes/masc-cam.jpg',  // #03 Wolverine · Linha de frente · Especial
-  'jf-capitao-america': 'assets/cartas/mascotes/masc-cor.jpg',  // #04 Capitão América · Capitão · Muito rara
-  'jf-homem-aranha': 'assets/cartas/mascotes/masc-bot.jpg',  // #05 Homem-Aranha · Herói ágil · Muito rara
-  'jf-hulk': 'assets/cartas/mascotes/masc-pal.jpg',  // #06 Hulk · Força bruta · Muito rara
-  'jf-thor': 'assets/cartas/mascotes/masc-flu.jpg',  // #07 Thor · Guerreiro nobre · Muito rara
-  'jf-doutor-estranho': 'assets/cartas/mascotes/masc-sao.jpg',  // #08 Doutor Estranho · Mago supremo · Rara
-  'jf-magneto': 'assets/cartas/mascotes/masc-cfc.jpg',  // #09 Magneto · Vilão · Rara
-  'jf-namor': 'assets/cartas/mascotes/masc-vas.jpg',  // #10 Namor · Anti-herói · Rara
-  'jf-pantera-negra': 'assets/cartas/mascotes/masc-vit.jpg',  // #11 Pantera Negra · Realeza · Rara
-  'jf-soldado-invernal': 'assets/cartas/mascotes/masc-gre.jpg',  // #12 Soldado Invernal · Anti-herói · Rara
-  'jf-surfista-prateado': 'assets/cartas/mascotes/masc-san.jpg',  // #13 Surfista Prateado · Arauto cósmico · Rara
-  'jf-capita-marvel': 'assets/cartas/mascotes/masc-rem.jpg',  // #14 Capitã Marvel · Força cósmica · Comum
-  'jf-ciclope': 'assets/cartas/mascotes/masc-bah.jpg',  // #15 Ciclope · Comandante · Comum
-  'jf-coisa': 'assets/cartas/mascotes/masc-rbb.jpg',  // #16 Coisa · Muralha · Comum
-  'jf-dentes-de-sabre': 'assets/cartas/mascotes/masc-mir.jpg',  // #17 Dentes-de-Sabre · Vilão · Comum
-  'jf-gaviao-arqueiro': 'assets/cartas/mascotes/masc-cha.jpg',  // #18 Gavião Arqueiro · Atirador · Comum
-  'jf-noturno': 'assets/cartas/mascotes/masc-int.jpg',  // #19 Noturno · Teleportador · Comum
-  'jf-tocha-humana': 'assets/cartas/mascotes/masc-cap.jpg',  // #20 Tocha Humana · Velocista · Comum
+  // ---------- DOOMSDAY (20 cartas: trocadilho mascote + personagem Marvel, foto do mascote do clube)
+  'jf-wolverine': { src: 'assets/cartas/doomsday/doomsday-galoverine.jpg', modo: 'cobrir' },  // #01 Galoverine (Wolverine) · Linha de frente · Especial · arte em quadrinho, carta inteira
+  'jf-senhor-fantastico': { src: 'assets/cartas/doomsday/doomsday-senhor-raposastico.jpg', modo: 'cobrir', y: '9%' },  // #02 Senhor Raposástico (Senhor Fantástico) · Líder dos heróis · Especial · arte em quadrinho, carta inteira
+  'jf-doutor-destino': 'assets/cartas/mascotes/masc-fla.jpg',  // #03 Urubu von Doom (Doutor Destino) · Vilão supremo · Especial
+  'jf-capitao-america': 'assets/cartas/mascotes/masc-cor.jpg',  // #04 Capitão Mosquetérica (Capitão América) · Capitão · Muito rara
+  'jf-homem-aranha': 'assets/cartas/mascotes/masc-bot.jpg',  // #05 Homem-Biriba (Homem-Aranha) · Herói ágil · Muito rara
+  'jf-hulk': 'assets/cartas/mascotes/masc-pal.jpg',  // #06 Incrível Porcão (Hulk) · Força bruta · Muito rara
+  'jf-thor': 'assets/cartas/mascotes/masc-flu.jpg',  // #07 Thorreirinho (Thor) · Guerreiro nobre · Muito rara
+  'jf-surfista-prateado': 'assets/cartas/mascotes/masc-san.jpg',  // #08 Baleia Prateada (Surfista Prateado) · Arauto cósmico · Rara
+  'jf-magneto': 'assets/cartas/mascotes/masc-cfc.jpg',  // #09 Magnetovô (Magneto) · Vilão · Rara
+  'jf-soldado-invernal': 'assets/cartas/mascotes/masc-gre.jpg',  // #10 Mosqueteiro Invernal (Soldado Invernal) · Anti-herói · Rara
+  'jf-namor': 'assets/cartas/mascotes/masc-vas.jpg',  // #11 Namirante (Namor) · Anti-herói · Rara
+  'jf-pantera-negra': 'assets/cartas/mascotes/masc-vit.jpg',  // #12 Pantera da Barra (Pantera Negra) · Realeza · Rara
+  'jf-doutor-estranho': 'assets/cartas/mascotes/masc-sao.jpg',  // #13 Santo Estranho (Doutor Estranho) · Mago supremo · Rara
+  'jf-ciclope': 'assets/cartas/mascotes/masc-bah.jpg',  // #14 Ciclope Tricolor (Ciclope) · Comandante · Comum
+  'jf-coisa': 'assets/cartas/mascotes/masc-rbb.jpg',  // #15 Coisa Loka (Coisa) · Muralha · Comum
+  'jf-dentes-de-sabre': 'assets/cartas/mascotes/masc-mir.jpg',  // #16 Dentes-de-Caipira (Dentes-de-Sabre) · Vilão · Comum
+  'jf-gaviao-arqueiro': 'assets/cartas/mascotes/masc-cha.jpg',  // #17 Gavião Condá (Gavião Arqueiro) · Atirador · Comum
+  'jf-capita-marvel': 'assets/cartas/mascotes/masc-rem.jpg',  // #18 Leoa Marvel (Capitã Marvel) · Força cósmica · Comum
+  'jf-noturno': 'assets/cartas/mascotes/masc-int.jpg',  // #19 Saciturno (Noturno) · Teleportador · Comum
+  'jf-tocha-humana': 'assets/cartas/mascotes/masc-cap.jpg',  // #20 Tocha Furacana (Tocha Humana) · Velocista · Comum
 };
