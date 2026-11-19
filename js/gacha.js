@@ -1,6 +1,6 @@
 // Sorteio: a regra fica em economy-core.js (compartilhada com o servidor); aqui ficam
 // a aplicação no estado local (modo offline) e a simulação Monte Carlo do debug.
-import { PACKS, RARITIES, RARITY_ORDER, COLLECTION_BY_ID, SHOP, CARD_BY_UID } from './data.js';
+import { PACKS, RARITIES, RARITY_ORDER, COLLECTION_BY_ID, SHOP, CARD_BY_UID, LEGACY_UIDS } from './data.js';
 import { state, save, dayKey, now } from './state.js';
 import { rollPack, applyOpenPack } from './economy-core.js';
 
@@ -17,7 +17,8 @@ export function openPack(collectionId, type) {
 
 /** Converte o resultado ({uid,...}) para o formato da tela de abertura ({card,...}), do menor para o maior. */
 export function decorate(r) {
-  const cards = r.cards.map(c => ({ ...c, card: CARD_BY_UID[c.uid] }));
+  // servidor ainda com o catálogo antigo pode devolver ids que mudaram (ex.: Juízo Final → DOOMSDAY)
+  const cards = r.cards.map(c => { const uid = LEGACY_UIDS[c.uid] || c.uid; return { ...c, uid, card: CARD_BY_UID[uid] }; });
   cards.sort((a, b) => RARITIES[a.card.rarity].order - RARITIES[b.card.rarity].order);
   return { cards, points: r.points };
 }
