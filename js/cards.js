@@ -172,7 +172,7 @@ export function mascotArt(m) {
   const [c1, c2] = m.teamData.colors;
   const g = nid('mg');
   if (m.hero) {
-    const villain = m.team === 'vil';
+    const villain = !!m.villain;
     const burst = Array.from({ length: 16 }, (_, i) => {
       const a = (i / 16) * Math.PI * 2, r = i % 2 ? 62 : 92;
       return `${100 + Math.cos(a) * r},${112 + Math.sin(a) * r}`;
@@ -301,7 +301,7 @@ export function cardHTML(card, { size = 'md', live = false, flipped = false, cou
     : `<span class="f-num">#${String(card.number).padStart(2, '0')}</span>`;
   const classes = [
     'card', `r-${card.rarity}`, `k-${card.kind}`, `s-${size}`,
-    card.variant ? `v-${card.variant}` : '', card.hero ? 'k-hero' : '', card.team === 'vil' ? 'is-villain' : '',
+    card.variant ? `v-${card.variant}` : '', card.hero ? 'k-hero' : '', card.villain ? 'is-villain' : '',
     live ? 'is-live' : '', flipped ? 'flipped' : '', flat ? 'is-flat' : '', extraClass,
   ].filter(Boolean).join(' ');
   return `

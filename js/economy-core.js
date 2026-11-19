@@ -8,15 +8,28 @@
 //    inv:{basico,lendario}, lastFreeDay, pity, forceNext, forceCard,
 //    claimed:{prizeId:{code,at}}, stats:{opened,free,premium,cards,spent} }
 // ============================================================
-import { PACKS, RARITIES, RARITY_ORDER, COLLECTION_BY_ID, COLLECTIONS, PRIZES, SHOP, COINS } from './data.js';
+import { PACKS, RARITIES, RARITY_ORDER, COLLECTION_BY_ID, COLLECTIONS, PRIZES, SHOP, COINS, LEGACY_UIDS } from './data.js';
 
 export class EconomyError extends Error {
   constructor(code, message) { super(message || code); this.code = code; }
 }
 
+/** Cartas que mudaram de id (ex.: Juízo Final → DOOMSDAY): as cópias passam para a carta nova. */
+export function migrateOwned(owned) {
+  for (const [old, uid] of Object.entries(LEGACY_UIDS)) {
+    const o = owned[old];
+    if (!o) continue;
+    const n = owned[uid];
+    const when = (a, b, f) => (a == null ? b : b == null ? a : f(a, b));
+    owned[uid] = n ? { n: (n.n || 0) + (o.n || 0), first: when(n.first, o.first, Math.min), last: when(n.last, o.last, Math.max) } : o;
+    delete owned[old];
+  }
+  return owned;
+}
+
 /** Garante os campos do perfil (perfis novos ou antigos). */
 export function normalizeProfile(p = {}) {
-  p.owned = p.owned || {};
+  p.owned = migrateOwned(p.owned || {});
   p.coins = p.coins || 0;
   p.premiumPacks = p.premiumPacks || 0;
   p.inv = { basico: 0, lendario: 0, ...(p.inv || {}) };

@@ -31,10 +31,12 @@ O servidor é um Cloudflare Worker que usa o **mesmo banco Postgres do beyond-as
 | **Jogadores** | 56 | 20 atletas do elenco 2026, um por clube, todas as posições | 18 ídolos | 13 lendas | 5 versões Prime |
 | **Estádios** | 19 | 6 | 9 | 3 | Maracanã |
 | **Mascotes** | 29 | os 20 mascotes oficiais | 4 × Neon | 3 × Lendário | 2 × Supremo |
-| **Juízo Final** | 12 | 4 | 3 | 3 | 2 |
+| **DOOMSDAY** | 20 | 7 | 6 | 4 | 3 (Doutor Destino, Senhor Fantástico, Wolverine) |
 
 - **Jogadores comuns (teste):** 19 dos 20 são atletas reais do elenco 2026, e só Marlon Siqueira (Remo) é fictício. Antes do lançamento é preciso licenciar o nome e a imagem dos atletas em atividade, ou trocá-los de volta por fictícios em [js/data.js](js/data.js) (`COMMON_PLAYERS`).
-- **Juízo Final** só sai em pacotes premium ou lendários (a coleção inteira, não só as especiais). É a "Liga dos Mascotes" contra o vilão **Doutor Rebaixamento**. É inspirada em grandes sagas de super-heróis, mas os personagens, nomes e artes são originais, sem marcas de terceiros.
+- **DOOMSDAY** (antiga Juízo Final) só sai em pacotes premium ou lendários (a coleção inteira, não só as especiais). Cada mascote da Série A vira um personagem da Marvel: o Urubu (Flamengo) é o **Doutor Destino**, a maior ameaça; o Raposão (Cruzeiro) é o **Senhor Fantástico** e o Galo (Atlético-MG) é o **Wolverine**, as três especiais. Magneto (Coritiba) e Dentes-de-Sabre (Mirassol) também são vilões. Cada carta usa a foto do mascote do próprio clube.
+  - **⚠ Marcas de terceiros:** os nomes dos personagens são marcas da Marvel/Disney. **Não publique esta coleção com venda de pacotes sem licença**; antes do lançamento, leve o caso ao Jurídico/Compliance ou troque por nomes originais em [js/data.js](js/data.js) (`HERO_CARDS`).
+  - O id interno continua `juizo-final` (prefixo `jf`): progresso, prêmios e cartas já guardados continuam valendo. As cartas da versão antiga passam sozinhas para o personagem do mesmo clube (`LEGACY_UIDS`, aplicado no aparelho e no servidor). Publique o app e o servidor juntos.
 
 ## Imagens das cartas
 
@@ -55,7 +57,7 @@ Arquivo editável: [js/imagens.js](js/imagens.js). Ele traz uma linha por carta 
   - **Mascote:** PNG transparente, 600×600.
 - A página **`imagens.html`** (ex.: `https://…/Versatte_card_game/imagens.html`) lista todas as cartas, mostra quais já têm imagem e procura PNGs salvos nos caminhos sugeridos (`assets/cartas/<coleção>/<id>.png`). Ela também gera o trecho pronto para colar no `imagens.js`.
 - **Miniaturas (desempenho):** as cartas pequenas (álbum, grades, troca, identidade do clube) usam uma versão leve da imagem em `assets/cartas-mini/` (WebP com até 360 px de largura). As cartas grandes (detalhe, vitrine, abertura de pacote) continuam com a original. Depois de adicionar ou trocar imagens, rode `python tools/gerar-miniaturas.py` (precisa de Python 3 com Pillow) e faça commit da pasta `assets/cartas-mini/`. Se a miniatura de alguma imagem faltar, a carta usa a original sozinha: nada quebra, só fica mais pesado.
-- **Teste de imagens reais:** escudos, estádios, jogadores (fotos em ação) e mascotes já têm imagens. Os heróis do Juízo Final usam a imagem do mascote do clube que os inspira. Parte vem do Wikimedia Commons (licença livre) e parte de sites de clubes e de notícias **sem licença livre**, incluída só para teste. Fonte, autor e licença de cada imagem estão em [assets/cartas/CREDITOS.md](assets/cartas/CREDITOS.md). Antes do lançamento, troque as não livres e faça o licenciamento de marcas, mascotes e direito de imagem.
+- **Teste de imagens reais:** escudos, estádios, jogadores (fotos em ação) e mascotes já têm imagens. Os personagens da DOOMSDAY usam a imagem do mascote do próprio clube. Parte vem do Wikimedia Commons (licença livre) e parte de sites de clubes e de notícias **sem licença livre**, incluída só para teste. Fonte, autor e licença de cada imagem estão em [assets/cartas/CREDITOS.md](assets/cartas/CREDITOS.md). Antes do lançamento, troque as não livres e faça o licenciamento de marcas, mascotes e direito de imagem.
 
 ## Modo Clube (aba "Jogar")
 

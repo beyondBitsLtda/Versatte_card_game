@@ -10,6 +10,7 @@
 // ============================================================
 import { API_URLS, POLL_MS } from '../config.js';
 import { state, save, onChange, useStorage } from '../state.js';
+import { migrateOwned } from '../economy-core.js';
 
 const SESSION_KEY = 'versatte-sessao';
 let session = null;          // { token, usuario }
@@ -134,6 +135,7 @@ export function applyProfile(perfil, { clube = false } = {}) {
   applying = true;
   const d = perfil.dados || {};
   ECON.forEach(k => { if (d[k] !== undefined) state[k] = d[k]; });
+  if (state.owned) migrateOwned(state.owned);   // servidor ainda sem a versão nova do catálogo
   state.inv = { basico: 0, lendario: 0, ...(d.inv || {}) };
   if (clube && perfil.clube) {
     const c = perfil.clube;

@@ -849,17 +849,25 @@ export const IMAGENS = {
   'uest-vik-viking-stadion': 'assets/cartas/ucl-estadios/uest-vik-viking-stadion.jpg',  // #70 Viking Stadion · Estádio · Comum
   'uest-avl-villa-park': 'assets/cartas/ucl-estadios/uest-avl-villa-park.jpg',  // #71 Villa Park · Estádio · Comum
 
-  // ---------- Juízo Final (12 cartas)
-  'jf-doutor-rebaixamento': '',  // #01 Doutor Rebaixamento · Vilão · Especial
-  'jf-urubu-infinito': 'assets/cartas/mascotes/masc-fla.jpg',  // #02 Urubu Infinito · Líder da Liga · Especial
-  'jf-galo-trovao': 'assets/cartas/mascotes/masc-cam.jpg',  // #03 Galo do Trovão · Força · Muito rara
-  'jf-porco-blindado': 'assets/cartas/mascotes/masc-pal.jpg',  // #04 Porco Blindado · Defensor · Muito rara
-  'jf-raposa-sombria': 'assets/cartas/mascotes/masc-cru.jpg',  // #05 Raposa Sombria · Estrategista · Muito rara
-  'jf-leao-colossal': 'assets/cartas/mascotes/masc-rem.jpg',  // #06 Leão Colossal · Gigante · Rara
-  'jf-mosqueteiro-escudo': 'assets/cartas/mascotes/masc-cor.jpg',  // #07 Mosqueteiro Escudo · Capitão · Rara
-  'jf-saci-mistico': 'assets/cartas/mascotes/masc-int.jpg',  // #08 Saci Místico · Feiticeiro · Rara
-  'jf-almirante-tempestade': 'assets/cartas/mascotes/masc-vas.jpg',  // #09 Almirante Tempestade · Navegador · Comum
-  'jf-baleia-tsunami': 'assets/cartas/mascotes/masc-san.jpg',  // #10 Baleia Tsunami · Maré · Comum
-  'jf-furacao-veloz': 'assets/cartas/mascotes/masc-cap.jpg',  // #11 Furacão Veloz · Velocista · Comum
-  'jf-touro-implacavel': 'assets/cartas/mascotes/masc-rbb.jpg',  // #12 Touro Implacável · Aríete · Comum
+  // ---------- DOOMSDAY (20 cartas: personagem Marvel + foto do mascote do clube)
+  'jf-doutor-destino': 'assets/cartas/mascotes/masc-fla.jpg',  // #01 Doutor Destino · Vilão supremo · Especial
+  'jf-senhor-fantastico': 'assets/cartas/mascotes/masc-cru.jpg',  // #02 Senhor Fantástico · Líder dos heróis · Especial
+  'jf-wolverine': 'assets/cartas/mascotes/masc-cam.jpg',  // #03 Wolverine · Linha de frente · Especial
+  'jf-capitao-america': 'assets/cartas/mascotes/masc-cor.jpg',  // #04 Capitão América · Capitão · Muito rara
+  'jf-homem-aranha': 'assets/cartas/mascotes/masc-bot.jpg',  // #05 Homem-Aranha · Herói ágil · Muito rara
+  'jf-hulk': 'assets/cartas/mascotes/masc-pal.jpg',  // #06 Hulk · Força bruta · Muito rara
+  'jf-thor': 'assets/cartas/mascotes/masc-flu.jpg',  // #07 Thor · Guerreiro nobre · Muito rara
+  'jf-doutor-estranho': 'assets/cartas/mascotes/masc-sao.jpg',  // #08 Doutor Estranho · Mago supremo · Rara
+  'jf-magneto': 'assets/cartas/mascotes/masc-cfc.jpg',  // #09 Magneto · Vilão · Rara
+  'jf-namor': 'assets/cartas/mascotes/masc-vas.jpg',  // #10 Namor · Anti-herói · Rara
+  'jf-pantera-negra': 'assets/cartas/mascotes/masc-vit.jpg',  // #11 Pantera Negra · Realeza · Rara
+  'jf-soldado-invernal': 'assets/cartas/mascotes/masc-gre.jpg',  // #12 Soldado Invernal · Anti-herói · Rara
+  'jf-surfista-prateado': 'assets/cartas/mascotes/masc-san.jpg',  // #13 Surfista Prateado · Arauto cósmico · Rara
+  'jf-capita-marvel': 'assets/cartas/mascotes/masc-rem.jpg',  // #14 Capitã Marvel · Força cósmica · Comum
+  'jf-ciclope': 'assets/cartas/mascotes/masc-bah.jpg',  // #15 Ciclope · Comandante · Comum
+  'jf-coisa': 'assets/cartas/mascotes/masc-rbb.jpg',  // #16 Coisa · Muralha · Comum
+  'jf-dentes-de-sabre': 'assets/cartas/mascotes/masc-mir.jpg',  // #17 Dentes-de-Sabre · Vilão · Comum
+  'jf-gaviao-arqueiro': 'assets/cartas/mascotes/masc-cha.jpg',  // #18 Gavião Arqueiro · Atirador · Comum
+  'jf-noturno': 'assets/cartas/mascotes/masc-int.jpg',  // #19 Noturno · Teleportador · Comum
+  'jf-tocha-humana': 'assets/cartas/mascotes/masc-cap.jpg',  // #20 Tocha Humana · Velocista · Comum
 };

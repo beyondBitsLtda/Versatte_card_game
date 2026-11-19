@@ -65,8 +65,10 @@ São 5 coleções, com 148 cartas no total:
     versões "prime" dos craques.
   - Estádios (19 cartas): os principais estádios do país.
   - Mascotes (29 cartas): mascotes dos clubes, com versões raras.
-  - Juízo Final (12 cartas): coleção especial temática, que só sai
-    em pacotes premium ou lendários.
+  - DOOMSDAY (20 cartas): coleção especial temática em que os
+    mascotes viram personagens da Marvel (o Urubu é o Doutor
+    Destino); só sai em pacotes premium ou lendários. Os nomes são
+    marcas da Marvel/Disney: precisa de licença antes de vender.
 
 Cada carta tem 4 raridades, cada uma com efeitos visuais próprios:
 Comum, Rara, Muito rara e Especial. As cartas trazem curiosidades e

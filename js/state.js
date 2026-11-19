@@ -2,6 +2,7 @@
 // Modo offline: é a fonte da verdade. Modo online: é um espelho do perfil do servidor
 // (cartas, moedas e pacotes vêm da API; cada conta tem a sua chave de armazenamento).
 import { COLLECTIONS, PRIZES, CARD_BY_UID } from './data.js';
+import { migrateOwned } from './economy-core.js';
 
 const OFFLINE_KEY = 'versatte-cards:v2';
 let KEY = OFFLINE_KEY;
@@ -40,6 +41,7 @@ function load() {
     const s = JSON.parse(raw);
     const base = fresh();
     if (s.coins == null && s.points != null) s.coins = s.points;
+    if (s.owned) migrateOwned(s.owned);
     return { ...base, ...s, trophies: { ...base.trophies, ...s.trophies }, editions: { ...base.editions, ...s.editions }, inv: { ...base.inv, ...s.inv }, stats: { ...base.stats, ...s.stats }, settings: { ...base.settings, ...s.settings }, game: { ...base.game, ...s.game } };
   } catch {
     return fresh();

@@ -3,7 +3,7 @@
 //  Cartas que o jogador não tem podem ser EMPRESTADAS do baralho,
 //  sempre com desempenho reduzido (regras em LOAN, js/data.js).
 // ============================================================
-import { ALL_CARDS, CARD_BY_UID, TEAM_BY_ID, POSITIONS, RARITIES, CREST_MORAL, ABILITIES, LOAN, COINS, PACK_STYLE, COMPETITIONS } from '../data.js';
+import { ALL_CARDS, CARD_BY_UID, TEAM_BY_ID, POSITIONS, RARITIES, CREST_MORAL, ABILITIES, LOAN, COINS, PACK_STYLE, COMPETITIONS, LEGACY_UIDS } from '../data.js';
 import { state, save, ownedCount, addPacks } from '../state.js';
 import { cardHTML, gem, abilityText, lazyCards } from '../cards.js';
 import {
@@ -48,7 +48,7 @@ const loanCount = club => loanSlots(club);
 function sanitizeClub() {
   const c = state.club; if (!c) return;
   const ok = u => (u && CARD_BY_UID[u] ? u : null);
-  c.crest = ok(c.crest); c.stadium = ok(c.stadium); c.mascot = ok(c.mascot);
+  c.crest = ok(c.crest); c.stadium = ok(c.stadium); c.mascot = ok(LEGACY_UIDS[c.mascot] || c.mascot);   // mascote antigo → personagem novo
   let loans = 0;
   const fix = u => {
     if (isLoanSlot(u) || (u && CARD_BY_UID[u] && !isOwned(u))) return loans++ < LOAN.maxPlayers ? LOAN_SLOT : null;

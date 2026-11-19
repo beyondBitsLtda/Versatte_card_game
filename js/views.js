@@ -358,7 +358,7 @@ export function openDetail(uid) {
     coach: () => [['Nome completo', c.full], ['Clube', t.full], ['Função', 'Técnico'], ['Nacionalidade', c.nat || '—'], ['Temporada', c.era], ['Versão', c.edition]],
     stadium: () => [['Nome oficial', c.full], ['Cidade', c.city], ['Inauguração', c.opened ?? '—'], ['Capacidade', `~${c.capacity.toLocaleString('pt-BR')}`], ['Apelido', c.nickname], ['Clube', t.name]],
     mascot: () => c.hero
-      ? [['Papel', c.role], ['Inspirado no', t.name], ['Habilidade', abilityText(c).label], ['Força', `+${c.power}`]]
+      ? [['Papel', c.role], ['Mascote', `${c.mascot || ''} · ${t.name}`], ['Habilidade', abilityText(c).label], ['Força', `+${c.power}`]]
       : [['Clube', t.name], ['Versão', c.edition], ['Habilidade', abilityText(c).label], ['Força', `+${c.power}`]],
   }[c.kind]();
   const gameBlock = () => {

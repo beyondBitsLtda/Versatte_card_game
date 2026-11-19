@@ -19,7 +19,7 @@ function packArt(col, type) {
       <div class="pk-crimp bottom"></div>
       <div class="pk-brand">VERSATTE <b>CARDS</b></div>
       <div class="pk-emblem"><img src="assets/logo-versatte.png" alt="" draggable="false"></div>
-      <div class="pk-title"><span>${l1}</span><strong>${l2}</strong></div>
+      <div class="pk-title"><span>${l1}</span><strong${col.packTitleScale ? ` style="font-size:calc(var(--pw) * ${.27 * col.packTitleScale})"` : ''}>${l2}</strong></div>
       ${col.premiumOnly ? '<div class="pk-special">EDIÇÃO ESPECIAL</div>' : ''}
       <div class="pk-badge">${premium ? icon.sparkle + ' ' : ''}${PACK_STYLE[type].badge}</div>
       <div class="pk-shine"></div>
