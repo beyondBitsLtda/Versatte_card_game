@@ -852,8 +852,8 @@ export const IMAGENS = {
   // ---------- DOOMSDAY (20 cartas: trocadilho mascote + personagem Marvel, foto do mascote do clube)
   'jf-wolverine': { src: 'assets/cartas/doomsday/doomsday-galoverine.jpg', modo: 'cobrir' },  // #01 Galoverine (Wolverine) · Linha de frente · Especial · arte em quadrinho, carta inteira
   'jf-senhor-fantastico': { src: 'assets/cartas/doomsday/doomsday-senhor-raposastico.jpg', modo: 'cobrir', y: '9%' },  // #02 Senhor Raposástico (Senhor Fantástico) · Líder dos heróis · Especial · arte em quadrinho, carta inteira
-  'jf-doutor-destino': 'assets/cartas/mascotes/masc-fla.jpg',  // #03 Urubu von Doom (Doutor Destino) · Vilão supremo · Especial
-  'jf-capitao-america': 'assets/cartas/mascotes/masc-cor.jpg',  // #04 Capitão Mosquetérica (Capitão América) · Capitão · Muito rara
+  'jf-doutor-destino': 'assets/cartas/doomsday/doomsday-urubu-von-doom.webp',  // #03 Urubu von Doom (Doutor Destino) · Vilão supremo · Especial · arte em quadrinho recortada
+  'jf-capitao-america': 'assets/cartas/doomsday/doomsday-capitao-mosqueterica.webp',  // #04 Capitão Mosquetérica (Capitão América) · Capitão · Muito rara · arte em quadrinho recortada
   'jf-homem-aranha': 'assets/cartas/mascotes/masc-bot.jpg',  // #05 Homem-Biriba (Homem-Aranha) · Herói ágil · Muito rara
   'jf-hulk': 'assets/cartas/mascotes/masc-pal.jpg',  // #06 Incrível Porcão (Hulk) · Força bruta · Muito rara
   'jf-thor': 'assets/cartas/mascotes/masc-flu.jpg',  // #07 Thorreirinho (Thor) · Guerreiro nobre · Muito rara

@@ -904,11 +904,14 @@ Teste autorizado pelo dono do projeto: imagens sem licença livre (marcadas "nã
 
 ## Rodada 4 (novembro de 2026): artes em quadrinho da DOOMSDAY
 
-Artes enviadas pela equipe do projeto em 19/11/2026, recortadas na proporção da carta (63:88) e usadas na carta inteira.
+Artes enviadas pela equipe do projeto em 19/11/2026. Galo e Raposa: recortadas na proporção da carta (63:88) e usadas na carta
+inteira. Urubu e Mosqueteiro: fundo removido (personagem recortado sobre o fundo da carta).
 Autoria e direitos não informados: confirme antes do lançamento. Os personagens (Wolverine, Senhor Fantástico/Quarteto
-Fantástico) são marcas da Marvel/Disney; a arte da raposa trazia a faixa "THE FANTASTIC FOUR PIN-UP PAGE!", removida no recorte.
+Fantástico, Doutor Destino, Capitão América) são marcas da Marvel/Disney; a arte da raposa trazia a faixa "THE FANTASTIC FOUR PIN-UP PAGE!", removida no recorte.
 
 | Carta | Arquivo | Fonte | Autor | Licença |
 |---|---|---|---|---|
 | Galoverine (Wolverine) · Especial | `doomsday/doomsday-galoverine.jpg` | Arte enviada pela equipe do projeto | não informado | não informada (somente teste) |
 | Senhor Raposástico (Senhor Fantástico) · Especial | `doomsday/doomsday-senhor-raposastico.jpg` | Arte enviada pela equipe do projeto ("Mister Cabuloso") | não informado | não informada (somente teste) |
+| Urubu von Doom (Doutor Destino) · Especial | `doomsday/doomsday-urubu-von-doom.webp` | Arte enviada pela equipe do projeto | não informado | não informada (somente teste) |
+| Capitão Mosquetérica (Capitão América) · Muito rara | `doomsday/doomsday-capitao-mosqueterica.webp` | Arte enviada pela equipe do projeto | não informado | não informada (somente teste) |
